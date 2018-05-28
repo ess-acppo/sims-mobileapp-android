@@ -73,6 +73,7 @@ MyMapType.prototype.getTile = function (coord, zoom, ownerDocument) {
     var div = ownerDocument.createElement('div');
     div.innerHTML = '<img name="" src="file:///storage/emulated/0/maps/PNG/' + zoom + "/" + coord.x + "/" + coord.y + '.jpg"/>';
     div.style.width = this.tileSize.width + 'px'; div.style.height = this.tileSize.height + 'px';
+    //
     return div;
 };
 
