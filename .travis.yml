@@ -8,7 +8,7 @@ addons:
     packages:
     - npm
 
-sudo: false
+sudo: true
 
 branches:
   only:
@@ -17,6 +17,7 @@ branches:
 install:
   - npm cache clean
   - npm install
+  - npm i npm@latest -g
   - npm install -g cordova
   - echo y | android update sdk -u --filter android-22,android-23
 
