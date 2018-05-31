@@ -7,6 +7,7 @@ addons:
   apt:
     packages:
     - npm
+    - nodejs-legacy
 
 sudo: true
 
@@ -19,6 +20,8 @@ install:
   - npm install
   - npm config set strict-ssl false
   - sudo npm i npm@latest -g
+  - which node
+  - which nodejs
   - sudo npm install -g cordova
   - echo y | android update sdk -u --filter android-22,android-23
 
