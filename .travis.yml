@@ -1,7 +1,7 @@
 language: android
 
 node_js:
-  - "8"
+  - "5.5"
 
 addons:
   apt:
@@ -22,6 +22,7 @@ install:
   - sudo npm i npm@latest -g
   - which node
   - which nodejs
+  - npm -v
   - sudo npm install -g cordova
   - echo y | android update sdk -u --filter android-22,android-23
 
