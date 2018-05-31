@@ -22,6 +22,7 @@ install:
   - sudo npm i npm@latest -g
   - which node
   - which nodejs
+  - sudo ln -s /usr/bin/nodejs /usr/bin/node
   - sudo npm install -g cordova
   - echo y | android update sdk -u --filter android-22,android-23
 
