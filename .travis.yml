@@ -9,18 +9,18 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
-    - openjdk-7-jdk
-    - lib32stdc++6
-    - lib32z1
     - npm
-env:
-  CXX=g++-4.8
-
+    
+branches:
+  only:
+  - master
+  
 install:
-  - npm install -g gulp bower cordova ionic
+  - which node
+  - which nodejs
+  - npm cache clean
   - npm install
-  - bower update
+  - npm install -g cordova
 
 before_script:
   - wget http://dl.google.com/android/android-sdk_r24.4-linux.tgz
