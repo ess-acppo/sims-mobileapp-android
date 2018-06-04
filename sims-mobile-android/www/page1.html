@@ -1,0 +1,127 @@
+﻿<div class="row col-md-12 sims dynarow sample collapsed">
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            &nbsp;
+            <i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i>
+            <i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Sample Field ID <span class="bold-red">*</span></label>
+            <input type="text" class="form-control nextid" placeholder="Sample Field ID" value="SM001" name="bsampleId">
+        </div>
+        <div class="form-group col-md-3">
+            <label>Additional Collectors</label>
+            <br />
+            <input type="checkbox" name="addlCollectors" class="minimal">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-4">
+            <label>Number Collected <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Number Collected" name="numCollected">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Linked Sample #</label>
+            <input type="text" class="form-control" placeholder="Linked Sample #" name="crossCollection">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Preliminary ID <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Preliminary ID" name="prelimID">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Latitude <span class="bold-red">*</span></label>
+            <input type="text" class="form-control samplelat" placeholder="Latitude" name="latitude">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Longitude <span class="bold-red">*</span></label>
+            <input type="text" class="form-control samplelng" placeholder="Longitude" name="longitude">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Datum</label>
+            <select class="form-control" name="datum">
+                <option>WGS84</option>
+                <option>GDA94</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <button class="btn btn-md btn-default getSampleCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Time</label>
+            <input type="text" class="form-control" placeholder="Time" name="duration">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Altitude</label>
+            <input type="text" class="form-control samplealt" placeholder="Altitude" name="altitude">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-12">
+            <label>Additional Comments</label>
+            <textarea class="form-control" rows="6" name="addlObsrvns" style="height:30px;"></textarea>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-4">
+            <label>Habit <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Habit" name="habit">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Description <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Description" name="description">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Habitat <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Habitat" name="habitat">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-4">
+            <label>Landform <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="LandForm" name="landform">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Soil/Geology <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Soil/Geology" name="soilGeology">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Abundance</label>
+            <input type="text" class="form-control" placeholder="Abundance" name="abundance">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-12">
+            <input type="checkbox" name="externalCam" class="minimal">&nbsp;&nbsp;
+            <label>Photo(s) taken using external camera</label>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-2">
+            <label>Sample Type</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="spiritSample" class="minimal">&nbsp;
+            <label>Spirit Sample</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="dnaSample" class="minimal">&nbsp;
+            <label>DNA Sample</label>
+        </div>
+        <div class="form-group col-md-4">
+            <input type="checkbox" name="otherSample" class="minimal">&nbsp;
+            <label>Other</label>&nbsp;
+            <input type="text" class="form-control hide" placeholder="Other Text" name="othText">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-12">
+            <i class="fa fa-trash text-danger pull-right removeBotSample"></i>
+        </div>
+    </div>
+</div>

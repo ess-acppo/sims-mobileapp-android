@@ -1,4 +1,87 @@
-﻿$("#clCollectors").click(function (e) {
+﻿function loadPHDefaults() {
+    // Loading Activity Defaults //
+    $.getJSON("data/activity.json", function (data) {
+        var option = $('<option />');
+        option.attr('value', data.activities.activity.metadata.name).text(data.activities.activity.metadata.name);
+        $("#form1").find('#surveillanceActivity').append(option);
+    });
+
+    // Loading sites //
+    $.getJSON("data/activity.json", function (data) {
+        $.each(data.activities.activity.metadata.sites, function (key, val) {
+            var option = $('<option />');
+            option.attr('value', val.id).text(val.name);
+            $("#form1").find('#siteCommunity').append(option);
+        });
+    });
+
+
+    // Loading Team Defaults //
+    $.getJSON("data/staff_team.json", function (data) {
+        $.each(data.staffs.staff, function (key, val) {
+            var option = $('<option />');
+            option.attr('value', val.id).text(val.displayName);
+            $("#form1").find('#observer').append(option);
+        });
+    });
+
+    // Loading speciesTaxonSyndromSamples Defaults //
+    $.getJSON("data/speciesTaxonSyndromSamples.json", function (data) {
+        speciesTaxonSyndromSamples = data.species;
+        $("#form1").find('#commonName').find('option').remove().end().append('<option value="NONE">- select -</option>');
+        $.each(data.species, function (key, val) {
+            var option = $('<option />');
+            option.attr('value', val.speciesCode).text(val.speciesName);
+            $("#form1").find('#commonName').append(option);
+        });
+    });
+
+    // Loading Body Condition Scores //
+    $.getJSON("data/body_condn_score.json", function (data) {
+        $.each(data.body_condition_scores.body_condition_score, function (key, val) {
+            var v_bcs = $(bcs);
+            v_bcs.find('input[type="radio"][name="optbodyCond"]').val(val.description);
+            v_bcs.find('.bcstext').text(val.description);
+            $("#form1").find(".body_condition_score").append(v_bcs);
+            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+        });
+    });
+
+    // Loading Syndrome Defaults //
+    $.getJSON("data/syndromes.json", function (data) {
+        syndromesData = data.syndromes;
+        $("#form1").find('#lstSyndromes').find('option').remove().end();
+        $.each(data.syndromes, function (key, val) {
+            var option = $('<option />');
+            option.attr('value', val.code).text(val.description);
+            $("#form1").find('#lstSyndromes').append(option);
+        });
+    });
+
+    // Loading fieldTest Defaults //
+    defFieldTests = '<option value="NONE">- select -</option>';
+    $.getJSON("data/fieldTests.json", function (data) {
+        fieldTestsData = data.fieldTests.fieldTest;
+        $.each(data.fieldTests.fieldTest, function (key, val) {
+            var option = '<option';
+            option = option + ' value="' + val.fieldTestCde + '">';
+            option = option + val.fieldTestName + "</option>";
+            defFieldTests = defFieldTests + option;
+        });
+    });
+
+    $.getJSON("data/activity.json", function (data) {
+        defaultSpecies = data.activities.activity.metadata.species;
+        $.each(defaultSpecies, function (key, val) {
+        });
+    });
+
+}
+
+$("#clCollectors").click(function (e) {
     $('#Collectors').find('button').removeClass('hide');
 });
 
@@ -302,6 +385,58 @@ $(document).on('click', '#addBotanySample', function (e) {
     that.insertAfter($('.samples'));
 });
 
+function loadBotanySample() {
+    samples = samples + 1;
+    var that = $(botSample);
+    that.find("input[type='checkbox']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+    that.find("input[type='radio']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+    that.find("input[name='bsampleId']").attr("id", "bsampleId_" + samples);
+    that.find("input[id='bsampleId_" + samples + "']").attr("name", "bsampleId_" + samples);
+    that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + samples);
+    that.find("input[id='addlCollectors_" + samples + "']").attr("name", "addlCollectors_" + samples);
+    that.find("input[name='numCollected']").attr("id", "numCollected_" + samples);
+    that.find("input[id='numCollected_" + samples + "']").attr("name", "numCollected_" + samples);
+    that.find("input[name='crossCollection']").attr("id", "crossCollection_" + samples);
+    that.find("input[id='crossCollection_" + samples + "']").attr("name", "crossCollection_" + samples);
+    that.find("input[name='prelimID']").attr("id", "prelimID_" + samples);
+    that.find("input[id='prelimID_" + samples + "']").attr("name", "prelimID_" + samples);
+    that.find("input[name='latitude']").attr("id", "latitude_" + samples);
+    that.find("input[id='latitude_" + samples + "']").attr("name", "latitude_" + samples);
+    that.find("input[name='longitude']").attr("id", "longitude_" + samples);
+    that.find("input[id='longitude_" + samples + "']").attr("name", "longitude_" + samples);
+    that.find("input[name='altitude']").attr("id", "altitude_" + samples);
+    that.find("input[id='altitude_" + samples + "']").attr("name", "altitude_" + samples);
+    that.find("input[name='habit']").attr("id", "habit_" + samples);
+    that.find("input[id='habit_" + samples + "']").attr("name", "habit_" + samples);
+    that.find("input[name='description']").attr("id", "description_" + samples);
+    that.find("input[id='description_" + samples + "']").attr("name", "description_" + samples);
+    that.find("input[name='habitat']").attr("id", "habitat_" + samples);
+    that.find("input[id='habitat_" + samples + "']").attr("name", "habitat_" + samples);
+    that.find("input[name='landform']").attr("id", "landform_" + samples);
+    that.find("input[id='landform_" + samples + "']").attr("name", "landform_" + samples);
+    that.find("input[name='soilGeology']").attr("id", "soilGeology_" + samples);
+    that.find("input[id='soilGeology_" + samples + "']").attr("name", "soilGeology_" + samples);
+    that.find("input[name='externalCam']").attr("id", "externalCam_" + samples);
+    that.find("input[id='externalCam_" + samples + "']").attr("name", "externalCam_" + samples);
+    that.find("input[name='spiritSample']").attr("id", "spiritSample_" + samples);
+    that.find("input[id='spiritSample_" + samples + "']").attr("name", "spiritSample_" + samples);
+    that.find("input[name='dnaSample']").attr("id", "dnaSample_" + samples);
+    that.find("input[id='dnaSample_" + samples + "']").attr("name", "dnaSample_" + samples);
+    that.find("input[name='otherSample']").attr("id", "otherSample_" + samples);
+    that.find("input[id='otherSample_" + samples + "']").attr("name", "otherSample_" + samples);
+    that.find("input[name='othText']").attr("id", "othText_" + samples);
+    that.find("input[id='othText_" + samples + "']").attr("name", "othText_" + samples);
+    that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + samples);
+    that.find("textarea[id='addlObsrvns_" + samples + "']").attr("name", "addlObsrvns_" + samples);
+    that.insertAfter($('.samples'));
+};
+
 $(document).on('click', '.removeBotSample', function (e) {
     var x = $(this);
     $.confirm({
@@ -483,13 +618,13 @@ $('input[type="checkbox"].minimal').on('ifClicked', function (event) {
     var nam = $(this).attr('name').split('-')[0];
     var idx = $(this).attr('name').split('-')[1];
     if (nam === 'weed' && $('input[type=checkbox][name=both-' + idx + ']').val() === 'on') {
-        $.growl.warning({ title: "Plant Health Rules", message: "Operation Not Allowed!", location: "tc", size: "large" });
+        $.growl.warning({ title: "Plant Health Rules", message: "Operation Not Allowed!", location: "bc", size: "large" });
         $(this).val('off');
         $(this).iCheck('uncheck');
         return;
     }
     if (nam === 'both' && $('input[type=checkbox][name=weed-' + idx + ']').val() === 'on') {
-        $.growl.warning({ title: "Plant Health Rules", message: "Operation Not Allowed!", location: "tc", size: "large" });
+        $.growl.warning({ title: "Plant Health Rules", message: "Operation Not Allowed!", location: "bc", size: "large" });
         $(this).val('off');
         $(this).iCheck('uncheck');
         return;
@@ -539,7 +674,7 @@ $(document).on('click', 'img.pp', function () {
     var ppname = that.attr("name");
     var inpname = ppname.substring(1, ppname.length);
     if (!navigator.camera) {
-        $.growl.warning({ title: "Error", message: "Camera API not supported!", location: "tc", size: "large" });
+        $.growl.warning({ title: "Error", message: "Camera API not supported!", location: "bc", size: "large" });
         return;
     }
     var options = {
@@ -559,7 +694,7 @@ $(document).on('click', 'img.pp', function () {
             //$(this, this.$el).attr('src', "data:image/png;base64," + imgData);
         },
         function onFail() {
-            $.growl.warning({ title: "Error", message: "Error taking picture'!", location: "tc", size: "large" });
+            $.growl.warning({ title: "Error", message: "Error taking picture'!", location: "bc", size: "large" });
         },
         options);
 
@@ -579,7 +714,7 @@ function getNextID(e) {
                         $("#form1").find('input[type="text"].nextid').first().val(e + pad(nextID.toString(), 4));
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "tc", size: "large" });
+                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
                 });
             }
             else {
@@ -590,11 +725,11 @@ function getNextID(e) {
                         $("#form1").find('input[type="text"].nextid').first().val(e + pad('1', 4));
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "tc", size: "large" });
+                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
                 });
             }
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while retrieving next ID. " + err.message, location: "tc", size: "large" });
+        $.growl({ title: "Application Error", message: "An error occured while retrieving next ID. " + err.message, location: "bc", size: "large" });
     });
 };

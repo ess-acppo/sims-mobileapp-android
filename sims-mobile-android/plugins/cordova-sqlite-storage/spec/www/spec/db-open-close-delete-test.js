@@ -84,7 +84,7 @@ var mytests = function() {
           return window.sqlitePlugin.openDatabase(dbopts, okcb, errorcb);
         }
 
-        it(suiteName + 'Open database with normal US-ASCII characters (no slash) & check database file name', function(done) {
+        it(suiteName + 'Open database with normal US-ASCII characters (no slash) & check internal database file name', function(done) {
           var dbName = "Test!123-456$789.db";
 
           try {
@@ -122,7 +122,7 @@ var mytests = function() {
           }
         }, MYTIMEOUT);
 
-        it(suiteName + 'Open database with EXTRA US-ASCII characters WITHOUT SLASH & check database file name - WORKING on Android/iOS/macOS/Windows', function(done) {
+        it(suiteName + 'Open database with EXTRA US-ASCII characters WITHOUT SLASH & check internal database file name - WORKING on Android/iOS/macOS/Windows', function(done) {
           var dbName = "Test @#$%^&(), '1' [] {} _-+=:;.db";
 
           try {
@@ -228,8 +228,8 @@ var mytests = function() {
           }
         }, MYTIMEOUT);
 
-        it(suiteName + 'Open database with u2028 & check database file name - Windows ONLY [Cordova BROKEN Android/iOS/macOS]', function(done) {
-          if (!isWindows) pending('SKIP for Android/macOS/iOS due to Cordova BUG');
+        it(suiteName + 'Open database with u2028 & check internal database file name on Windows ONLY [KNOWN ISSUE on Cordova for Android/iOS/...]', function(done) {
+          if (!isWindows) pending('SKIP for Android/macOS/iOS due to KNOWN CORDOVA ISSUE');
 
           var dbName = 'first\u2028second.db';
 
@@ -268,8 +268,8 @@ var mytests = function() {
           }
         }, MYTIMEOUT);
 
-        it(suiteName + 'Open database with u2029 & check database file name - Windows ONLY [BROKEN: Cordova BUG Android/iOS/macOS]', function(done) {
-          if (!isWindows) pending('SKIP for Android/macOS/iOS due to Cordova BUG');
+        it(suiteName + 'Open database with u2029 & check internal database file name on Windows ONLY [KNOWN ISSUE on Cordova for Android/iOS/...]', function(done) {
+          if (!isWindows) pending('SKIP for Android/macOS/iOS due to KNOWN CORDOVA ISSUE');
 
           var dbName = 'first\u2029second.db';
 
@@ -308,9 +308,46 @@ var mytests = function() {
           }
         }, MYTIMEOUT);
 
-        // TBD emoji (UTF-8 4 octets) [NOT RECOMMENDED]:
-        it(suiteName + 'Open database with emoji \uD83D\uDE03 (UTF-8 4 octets) & check database file name [NOT RECOMMENDED]', function(done) {
-          var dbName = 'a\uD83D\uDE03';
+        it(suiteName + 'Open database with U+0801 (3-byte Samaritan character Bit) & check internal database file name', function(done) {
+          var dbName = 'a\u0801.db';
+
+          try {
+            openDatabase({name: dbName, location: 'default'}, function(db) {
+              // EXPECTED RESULT:
+              expect(db).toBeDefined();
+              db.executeSql('PRAGMA database_list', [], function(rs) {
+                // EXPECTED RESULT:
+                expect(rs).toBeDefined();
+                expect(rs.rows).toBeDefined();
+                expect(rs.rows.length).toBe(1);
+                expect(rs.rows.item(0).name).toBe('main');
+                expect(rs.rows.item(0).file).toBeDefined();
+                expect(rs.rows.item(0).file.indexOf(dbName)).not.toBe(-1);
+
+                // Close & finish:
+                db.close(done, done);
+              }, function(error) {
+                // NOT EXPECTED:
+                expect(false).toBe(true);
+                expect(error.message).toBe('--');
+                done();
+              });
+            }, function(error) {
+              // NOT EXPECTED:
+              expect(false).toBe(true);
+              expect(error.message).toBe('--');
+              done();
+            });
+          } catch (e) {
+            // NOT EXPECTED:
+            expect(false).toBe(true);
+            expect(e.message).toBe('--');
+            done();
+          }
+        }, MYTIMEOUT);
+
+        it(suiteName + 'Open database with emoji \uD83D\uDE03 (UTF-8 4 bytes) & check internal database file name', function(done) {
+          var dbName = 'a\uD83D\uDE03.db';
 
           try {
             openDatabase({name: dbName, location: 'default'}, function(db) {
@@ -366,13 +403,15 @@ var mytests = function() {
           {label: ':', dbName: 'first:second.db'},
           {label: ';', dbName: 'first;second.db'},
           {label: "'1'", dbName: "'1'.db"},
-          // UTF-8 multiple octets:
-          {label: 'é (UTF-8 2 octets)', dbName: 'aé.db'},
-          {label: '€ (UTF-8 3 octets)', dbName: 'a€.db'},
+          // UTF-8 multiple bytes:
+          {label: '¢ (UTF-8 2 bytes)', dbName: 'a¢.db'},
+          {label: 'é (UTF-8 2 bytes)', dbName: 'aé.db'},
+          {label: '€ (UTF-8 3 bytes)', dbName: 'a€.db'},
+          // FUTURE TBD more emojis and other 4-byte UTF-8 characters
         ];
 
         additionalDatabaseNameScenarios.forEach(function(mytest) {
-          it(suiteName + 'Open database & check database file name with ' + mytest.label, function(done) {
+          it(suiteName + 'Open database & check internal database file name with ' + mytest.label, function(done) {
             var dbName = mytest.dbName;
 
             try {
@@ -430,7 +469,7 @@ var mytests = function() {
         ];
 
         unsupportedDatabaseNameScenariosWithFailureOnWindows.forEach(function(mytest) {
-          it(suiteName + 'Open database & check database file name with ' + mytest.label + ' [NOT SUPPORTED, NOT WORKING on Windows]', function(done) {
+          it(suiteName + 'Open database & check internal database file name with ' + mytest.label + ' [NOT SUPPORTED, NOT WORKING on Windows]', function(done) {
             var dbName = mytest.dbName;
 
             try {

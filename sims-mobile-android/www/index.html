@@ -80,7 +80,8 @@
                                     <th>Datum</th>
                                     <th>Id</th>
                                     <th>Status</th>
-                                    <th>Type</th>
+                                    <th>Discipline</th>
+                                    <th>obType</th>
                                 </tr>
                             </thead>
                         </table>
@@ -110,7 +111,7 @@
                             <thead>
                                 <tr>
                                     <th>SurveillanceActivity</th>
-                                    <th>Site</th>
+                                    <th>SiteCommunity</th>
                                     <th>Date</th>
                                     <th>Waypoint</th>
                                     <th>Latitude</th>
@@ -118,7 +119,8 @@
                                     <th>Datum</th>
                                     <th>Id</th>
                                     <th>Status</th>
-                                    <th>Type</th>
+                                    <th>Discipline</th>
+                                    <th>obType</th>
                                 </tr>
                             </thead>
                         </table>
@@ -164,7 +166,7 @@
                 <div class="modal-body" id="mb3">
                     <div class="row col-md-12 sims border-bottom obsForm">
                         <div class="form-group col-xs-2">
-                            <input type="radio" class="minimal" value="mo_sngObservation" name="optObs" data-id="0">
+                            <input type="radio" class="minimal" value="mo_sngObservation" name="optObs" data-id="0" data-discipline="S">
                         </div>
                         <div class="form-group col-xs-10">
                             <label>Single Opportunisitic Observation (IAH)</label>
@@ -199,7 +201,7 @@
                 <div class="modal-body" id="mb3">
                     <div class="row col-md-12 sims border-bottom obsForm">
                         <div class="form-group col-xs-2">
-                            <input type="radio" class="minimal" value="mo_sngObservation" name="optObs" data-id="0">
+                            <input type="radio" class="minimal" value="mo_sngObservation" name="optObs" data-id="0" data-discipline="S">
                         </div>
                         <div class="form-group col-xs-10">
                             <label>Single Domestic Observation</label>
@@ -207,7 +209,7 @@
                     </div>
                     <div class="row col-md-12 sims border-bottom obsForm">
                         <div class="form-group col-xs-2">
-                            <input type="radio" class="minimal" value="mo_grpObservation" name="optObs" data-id="1">
+                            <input type="radio" class="minimal" value="mo_grpObservation" name="optObs" data-id="1" data-discipline="G">
                         </div>
                         <div class="form-group col-xs-10">
                             <label>Group Observation</label>
@@ -234,7 +236,7 @@
                 <div class="modal-body" id="mb3">
                     <div class="row col-md-12 sims border-bottom obsForm">
                         <div class="form-group col-xs-2">
-                            <input type="radio" class="minimal" value="mo_BotObservation" name="optObs" data-id="2">
+                            <input type="radio" class="minimal" value="mo_BotObservation" name="optObs" data-id="2" data-discipline="B">
                         </div>
                         <div class="form-group col-xs-10">
                             <label>Botany Observation</label>
@@ -242,7 +244,7 @@
                     </div>
                     <div class="row col-md-12 sims border-bottom obsForm">
                         <div class="form-group col-xs-2">
-                            <input type="radio" class="minimal" value="mo_EntObservation" name="optObs" data-id="3">
+                            <input type="radio" class="minimal" value="mo_EntObservation" name="optObs" data-id="3" data-discipline="E">
                         </div>
                         <div class="form-group col-xs-10">
                             <label>Entomology Observation</label>
@@ -250,7 +252,7 @@
                     </div>
                     <div class="row col-md-12 sims border-bottom obsForm">
                         <div class="form-group col-xs-2">
-                            <input type="radio" class="minimal" value="mo_PatObservation" name="optObs" data-id="4">
+                            <input type="radio" class="minimal" value="mo_PatObservation" name="optObs" data-id="4" data-discipline="P">
                         </div>
                         <div class="form-group col-xs-10">
                             <label>Pathology Observation</label>
@@ -324,10 +326,10 @@
     <script type="text/javascript" src="scripts/jquery-2.2.3.min.js"></script>
     <script type="text/javascript" src="scripts/jquery-ui.min.js"></script>
     <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../Scripts/fastclick.js"></script>
+    <!--<script type="text/javascript" src="scripts/fastclick.js"></script>-->
     <script type="text/javascript" src="mapapi.js"></script>
-    <script type="text/javascript" src="AHRules.js"></script>
-    <script type="text/javascript" src="PHRules.js"></script>
+    <script type="text/javascript" src="scripts/AHRules.js"></script>
+    <script type="text/javascript" src="scripts/PHRules.js"></script>
     <script type="text/javascript" src="scripts/_init.js"></script>
     <!--<script type="text/javascript" src="scripts/geotracker.js"></script>-->
     <script type="text/javascript" src="scripts/index.js"></script>

@@ -13,14 +13,14 @@ var fieldTestsData;
 
 function loadAHDefaults() {
     // Loading Activity Defaults //
-    $.getJSON("activity.json", function (data) {
+    $.getJSON("data/activity.json", function (data) {
         var option = $('<option />');
         option.attr('value', data.activities.activity.metadata.name).text(data.activities.activity.metadata.name);
         $("#form1").find('#surveillanceActivity').append(option);
     }); 
 
     // Loading sites //
-    $.getJSON("activity.json", function (data) {
+    $.getJSON("data/activity.json", function (data) {
         $.each(data.activities.activity.metadata.sites, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.id).text(val.name);
@@ -30,7 +30,7 @@ function loadAHDefaults() {
 
 
     // Loading Team Defaults //
-    $.getJSON("staff_team.json", function (data) {
+    $.getJSON("data/staff_team.json", function (data) {
         $.each(data.staffs.staff, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.id).text(val.displayName);
@@ -39,7 +39,7 @@ function loadAHDefaults() {
     }); 
 
     // Loading speciesTaxonSyndromSamples Defaults //
-    $.getJSON("speciesTaxonSyndromSamples.json", function (data) {
+    $.getJSON("data/speciesTaxonSyndromSamples.json", function (data) {
         speciesTaxonSyndromSamples = data.species;
         $("#form1").find('#commonName').find('option').remove().end().append('<option value="NONE">- select -</option>');
         $.each(data.species, function (key, val) {
@@ -50,7 +50,7 @@ function loadAHDefaults() {
     }); 
 
     // Loading Body Condition Scores //
-    $.getJSON("body_condn_score.json", function (data) {
+    $.getJSON("data/body_condn_score.json", function (data) {
         $.each(data.body_condition_scores.body_condition_score, function (key, val) {
             var v_bcs = $(bcs);
             v_bcs.find('input[type="radio"][name="optbodyCond"]').val(val.description);
@@ -64,7 +64,7 @@ function loadAHDefaults() {
     }); 
 
     // Loading Syndrome Defaults //
-    $.getJSON("syndromes.json", function (data) {
+    $.getJSON("data/syndromes.json", function (data) {
         syndromesData = data.syndromes;
         $("#form1").find('#lstSyndromes').find('option').remove().end();
         $.each(data.syndromes, function (key, val) {
@@ -76,7 +76,7 @@ function loadAHDefaults() {
 
     // Loading fieldTest Defaults //
     defFieldTests = '<option value="NONE">- select -</option>';
-    $.getJSON("fieldTests.json", function (data) {
+    $.getJSON("data/fieldTests.json", function (data) {
         fieldTestsData = data.fieldTests.fieldTest;
         $.each(data.fieldTests.fieldTest, function (key, val) {
             var option = '<option';
@@ -86,7 +86,7 @@ function loadAHDefaults() {
         });
     }); 
 
-    $.getJSON("activity.json", function (data) {
+    $.getJSON("data/activity.json", function (data) {
         defaultSpecies = data.activities.activity.metadata.species;
         $.each(defaultSpecies, function (key, val) {
         });
@@ -598,7 +598,7 @@ function getNextAnimalID() {
                         $("#form1").find('input[type="text"].nextid').first().val(nextID);
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "tc", size: "large" });
+                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
                 });
             }
             else {
@@ -609,12 +609,12 @@ function getNextAnimalID() {
                         $("#form1").find('input[type="text"].nextid').first().val(1);
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "tc", size: "large" });
+                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
                 });
             }
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while retrieving next ID. " + err.message, location: "tc", size: "large" });
+        $.growl({ title: "Application Error", message: "An error occured while retrieving next ID. " + err.message, location: "bc", size: "large" });
     });
 };
 
@@ -880,8 +880,8 @@ $(document).on('blur', 'input[type=text][name="age"]', function (e) {
     var age = $(this).val();
     var yr = age.split(":")[0] * 1;
     var mn = age.split(":")[1] * 1;//enter months
-    if (isNaN(mn) || isNaN(yr)) { $.growl({ title: "Application Error", message: "Invalid Month!" + err.message, location: "tc", size: "large" }); return; }
-    if (mn < 1 || mn > 11) { $.growl({ title: "Application Error", message: "Invalid Month!" + err.message, location: "tc", size: "large" }); return; }
+    if (isNaN(mn) || isNaN(yr)) { $.growl({ title: "Application Error", message: "Invalid Month!" + err.message, location: "bc", size: "large" }); return; }
+    if (mn < 1 || mn > 11) { $.growl({ title: "Application Error", message: "Invalid Month!" + err.message, location: "bc", size: "large" }); return; }
     var dy = 0;
     var today = new Date();
     var dobD = today.getDate();

@@ -36,8 +36,8 @@ var fieldTests = 0;
 /* PH Initialized variables */
 var numPlants = 0;
 //var box = "<div class='box border-all bg-white collapsed-box'><div class='box-header border-bottom'><div class='row col-md-12 sims'><div class='form-group col-xs-1'><span data-toggle='tooltip' title='' class='badge bg-green' data-original-title='1'>1</span>&nbsp;<button type='button' class='btn btn-md btn-default btn-PH-red' title='Remove Plant' data-action='removePlant'><i class='fa fa-remove'></i></button><button type='button' class='btn btn-md btn-default btn-PH-blue' title='Add Plant' data-action='addPlant'><i class='fa fa-plus'></i></button></div><div class='form-group col-xs-1'><label><span class='bold-red'>*</span>PlantName</label></div><div class='form-group col-xs-2 ui-widget'><input type='text' class='form-control taxonText' name='plantName' placeholder='Plant Name'><span class='errtext hide normal-red'>Cannot be empty!</span></div><div class='form-group col-xs-1'><label><span class='bold-red'>*</span>Statistic Type</label></div><div class='form-group col-xs-1'><select class='form-control select2' name='statType' style='width: 100%;'><option selected='selected'>Statistic Type</option><option>Count</option><option>Area (m2)</option></select><span class='errtext hide normal-red'>Cannot be empty!</span></div><div class='form-group col-xs-1'><label><span class='bold-red'>*</span>Count/Area</label></div><div class='form-group col-xs-2'><div class='btn-group'><button type='button' class='btn btn-default qtyminus'><i class='fa fa-minus'></i></button><button type='button' class='btn btn-default qty' name='statTypeVal'>0</button><button type='button' class='btn btn-default qtyplus'><i class='fa fa-plus'></i></button><span class='errtext hide normal-red'>Cannot be empty!</span></div></div><div class='form-group col-xs-1'><i class='fa fa-check-circle-o fa-2x pull-right text-gray' title='Flag'></i></div><div class='form-group col-xs-1'><i class='fa fa-dot-circle-o fa-2x pull-right text-gray' title='External Device Photo'></i></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-1'>&nbsp;</div><div class='form-group col-xs-1'>&nbsp;</div><div class='form-group col-xs-1'><label class='label-x-PH'>Weed</label><input type='checkbox' name='weed' class='minimal'></div><div class='form-group col-xs-1'><label class='label-x-PH'>Both</label><input type='checkbox' name='both' class='minimal'></div><div class='form-group col-xs-2'>&nbsp;</div><div class='form-group col-xs-1'><label>Photos</label></div><div class='form-group col-xs-2'><img class='pp' src='dist/img/Plant1-1.jpeg' alt='Plant1-1'><img class='pp' src='dist/img/Plant1-2.jpeg' alt='Plant1-2'><img class='pp' src='dist/img/Plant1-3.jpeg' alt='Plant1-3'></div><div class='form-group col-xs-1'><button class='btn btn-md btn-default' disabled id='newPhoto'><i class='fa fa-camera'></i></button></div></div><div class='box-tools pull-right'><button type='button' class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-arrow-down'></i></button></div></div><div class='box-body'><div class='row col-md-12 sims'><div class='form-group col-xs-2'><label>Notes</label></div><div class='form-group col-xs-8' style='width: 63.3%'><input type='text' class='form-control' name='notes' placeholder='Notes'></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-2'><label>Latitude</label></div><div class='form-group col-xs-2'><input type='text' class='form-control' name='latitude' placeholder='Latitude'><span class='errtext hide normal-red'>Cannot be empty!</span></div><div class='form-group col-xs-1'><label>Longitude</label></div><div class='form-group col-xs-2'><input type='text' class='form-control' name='longitude' placeholder='Longitude'><span class='errtext hide normal-red'>Cannot be empty!</span></div><div class='form-group col-xs-1'><label>Datum</label></div><div class='form-group col-xs-1'><select class='form-control' name='datum'><option>WGS84</option><option>GDA94</option></select></div><div class='form-group col-xs-1'><button type='button' class='btn btn-md btn-success getCoords'><i class='fa fa-map-marker'></i></button></div></div></div></div>";
-var hostweed = '<div class="row col-md-12 hostweed collapsed"><div class="row col-md-12 sims"><div class="form-group col-sm-5"><span data-toggle="tooltip" title="" class="badge badge-success" data-original-title="1">1</span><label><span class="bold-red">*</span>PlantName</label><input type="text" class="form-control taxonText" name="plantName1" placeholder="Plant Name"></div><div class="form-group col-sm-1"><label>Count</label><br/><input type="radio" class="minimal" name="CountList1" value="Count"></div><div class="form-group col-sm-1"><label>List</label><br/><input type="radio" class="minimal" name="CountList1" value="List"></div><div class="form-group col-sm-4"><label><span class="bold-red">*</span>Statistic Type</label><select class="form-control select2" name="statType1"><option selected="selected">Statistic Type</option><option value="C">Count</option><option value="A">Area (m2)</option></select></div><div class="form-group col-sm-1"><i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i><i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>&nbsp;</div></div><div class="row col-md-12 sims"><div class="form-group col-sm-5"><label><span class="bold-red">*</span>Count/Area</label>&nbsp;<span data-toggle="tooltip" title="2" class="badge bg-grey" data-original-title="2">1</span><br /><button type="button" class="btn btn-md btn-default qtyminus"><i class="fa fa-minus"></i></button><input type="text" class="qty" name="statTypeVal1" value="0"><button type="button" class="btn btn-md btn-default qtyplus"><i class="fa fa-plus"></i></button></div><div class="form-group col-sm-3"><label>Flag</label><br/><input type="checkbox" name="earmark1" class="minimal"></div><div class="form-group col-sm-4"><label>External Photo</label><br/><input type="checkbox" name="extPhoto1" class="minimal"></div></div><div class="row col-md-12 sims"><div class="form-group col-sm-4"><label>Latitude</label><input type="text" class="form-control hostweedlat" name="latitude1" placeholder="Latitude"></div><div class="form-group col-sm-4"><label>Longitude</label><input type="text" class="form-control hostweedlng" name="longitude1" placeholder="Longitude"></div><div class="form-group col-sm-3"><label>Datum</label><select class="form-control" name="datum1"><option>WGS84</option><option>GDA94</option></select></div><div class="form-group col-sm-1"><i class="fa fa-map-marker fa-2x text-info getPlantCoords"></i></div></div><div class="row col-md-12 sims"><div class="form-group col-sm-12"><label>Notes</label><textarea class="form-control" rows="6" name="notes1" style="height:60px;"></textarea></div></div><div class="row col-md-12 sims"><div class="form-group col-sm-12"><img class="pp" src="images/plant.png" id="plantPic1"><input type="text" class="hide" id="iplantPic1" value="x"><img class="pp" src="images/plant.png" id="plantPic2"><input type="text" class="hide" id="iplantPic2" value="x"><img class="pp" src="images/plant.png" id="plantPic3"><input type="text" class="hide" id="iplantPic3" value="x"><img class="pp" src="images/plant.png" id="plantPic4"><input type="text" class="hide" id="iplantPic4" value="x"><img class="pp" src="images/plant.png" id="plantPic5"><input type="text" class="hide" id="iplantPic5" value="x"></div></div><div class="row col-md-12 sims"><div class="form-group col-sm-12"><i class="fa fa-trash text-danger removePlant" data-action="removePlant"></i></div></div></div>';
-var botSample = "<div class='row col-md-12 sims dynarow sample collapsed'><div class='row col-md-12 sims'><div class='form-group col-xs-3'><label>Sample Field ID <span class='bold-red'>*</span></label><input type='text' class='form-control nextid' placeholder='Sample Field ID' value='SM001' name='bsampleId'></div><div class='form-group col-xs-3'><label>Additional Collectors</label><br /><input type='checkbox' name='addlCollectors' class='minimal'></div><div class='pull-right'><i class='fa fa-arrow-up fa-2x pull-right text-arrows collapse hide' data-action='collapse'></i><i class='fa fa-arrow-down fa-2x pull-right expand text-arrows' data-action='expand'></i>&nbsp;</div></div><div class='row col-md-12 sims'><div class='form-group col-xs-3'><label>Number Collected <span class='bold-red'>*</span></label><input type='text' class='form-control' placeholder='Number Collected' name='numCollected'></div><div class='form-group col-xs-3'><label>Linked Sample #</label><input type='text' class='form-control' placeholder='Linked Sample #' name='crossCollection'></div><div class='form-group col-xs-3'><label>Preliminary ID <span class='bold-red'>*</span></label><input type='text' class='form-control' placeholder='Preliminary ID' name='prelimID'></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-3'><label>Latitude <span class='bold-red'>*</span></label><input type='text' class='form-control samplelat' placeholder='Latitude' name='latitude'></div><div class='form-group col-xs-3'><label>Longitude <span class='bold-red'>*</span></label><input type='text' class='form-control samplelng' placeholder='Longitude' name='longitude'></div><div class='form-group col-sm-3'><label>Datum</label><select class='form-control' name='datum'><option>WGS84</option><option>GDA94</option></select></div><div class='form-group col-xs-1'><i class='fa fa-map-marker fa-2x text-arrows getSampleCoords'></i></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-3'><label>Time</label><input type='text' class='form-control' placeholder='Time' name='duration'></div><div class='form-group col-xs-3'><label>Altitude</label><input type='text' class='form-control samplealt' placeholder='Altitude' name='altitude'></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-9'><label>Additional Comments</label><textarea class='form-control' rows='6' name='addlObsrvns' style='height:30px;'></textarea></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-3'><label>Habit <span class='bold-red'>*</span></label><input type='text' class='form-control' placeholder='Habit' name='habit'></div><div class='form-group col-xs-3'><label>Description <span class='bold-red'>*</span></label><input type='text' class='form-control' placeholder='Description' name='description'></div><div class='form-group col-xs-3'><label>Habitat <span class='bold-red'>*</span></label><input type='text' class='form-control' placeholder='Habitat' name='habitat'></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-3'><label>Landform <span class='bold-red'>*</span></label><input type='text' class='form-control' placeholder='LandForm' name='landform'></div><div class='form-group col-xs-3'><label>Soil/Geology <span class='bold-red'>*</span></label><input type='text' class='form-control' placeholder='Soil/Geology' name='soilGeology'></div><div class='form-group col-xs-3'><label>Abundance</label><input type='text' class='form-control' placeholder='Abundance' name='abundance'></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-9'><input type='checkbox' name='externalCam' class='minimal'>&nbsp;&nbsp;<label>Photo(s) taken using external camera</label></div></div><div class='row col-md-12 sims'><div class='form-group col-xs-2'><label>Sample Type</label></div><div class='form-group col-xs-3'><input type='checkbox' name='spiritSample' class='minimal'>&nbsp;<label>Spirit Sample</label></div><div class='form-group col-xs-3'><input type='checkbox' name='dnaSample' class='minimal'>&nbsp;<label>DNA Sample</label></div><div class='form-group col-xs-2'><input type='checkbox' name='otherSample' class='minimal'>&nbsp;<label>Other</label>&nbsp;<input type='text' class='form-control hide' placeholder='Other Text' name='othText'></div><div class='form-group col-xs-2'><i class='fa fa-trash text-danger pull-right removeBotSample'></i></div></div></div>";
+var hostweed = '<div class="row col-md-12 hostweed collapsed"><div class="row col-md-12 sims"><div class="form-group col-md-6">&nbsp;<i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i><i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i></div><div class="form-group col-md-6"><span data-toggle="tooltip" title="" class="badge badge-success" data-original-title="1">1</span><label><span class="bold-red">*</span>PlantName</label><input type="text" class="form-control taxonText" name="plantName1" placeholder="Plant Name"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-3"><input type="radio" class="minimal" name="CountList1" value="Count">&nbsp;<label>Count</label></div><div class="form-group col-md-3"><input type="radio" class="minimal" name="CountList1" value="List">&nbsp;<label>List</label></div><div class="form-group col-md-6"><label><span class="bold-red">*</span>Statistic Type</label><select class="form-control select2" name="PlantStatisticType1"><option selected="selected">Statistic Type</option><option value="C">Count</option><option value="A">Area (m2)</option></select></div></div><div class="row col-md-12 sims"><div class="form-group col-md-6"><label><span class="bold-red">*</span>Count/Area</label>&nbsp;<span data-toggle="tooltip" title="2" class="badge bg-grey" data-original-title="2">1</span><br /><button type="button" class="btn btn-md btn-default qtyminus"><i class="fa fa-minus"></i></button><input type="text" class="qty" name="statTypeVal1" value="0"><button type="button" class="btn btn-md btn-default qtyplus"><i class="fa fa-plus"></i></button></div><div class="form-group col-md-3"><input type="checkbox" name="earmark1" class="minimal">&nbsp;<label>Flag</label></div><div class="form-group col-md-3"><input type="checkbox" name="extPhoto1" class="minimal">&nbsp;<label>External Photo</label></div></div><div class="row col-md-12 sims"><div class="form-group col-md-6"><label>Latitude</label><input type="text" class="form-control hostweedlat" name="latitude1" placeholder="Latitude"></div><div class="form-group col-md-6"><label>Longitude</label><input type="text" class="form-control hostweedlng" name="longitude1" placeholder="Longitude"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-3"><label>Datum</label><select class="form-control" name="datum1"><option>WGS84</option><option>GDA94</option></select></div><div class="form-group col-md-3"><button class="btn btn-md btn-default getPlantCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button></div></div><div class="row col-md-12 sims"><div class="form-group col-md-12"><label>Notes</label><textarea class="form-control" rows="6" name="notes1" style="height:60px;"></textarea></div></div><div class="row col-md-12 sims"><div class="form-group col-md-12"><img class="pp" src="images/plant.png" id="plantPic1"><input type="text" class="hide" id="iplantPic1" value="x"><img class="pp" src="images/plant.png" id="plantPic2"><input type="text" class="hide" id="iplantPic2" value="x"><img class="pp" src="images/plant.png" id="plantPic3"><input type="text" class="hide" id="iplantPic3" value="x"><img class="pp" src="images/plant.png" id="plantPic4"><input type="text" class="hide" id="iplantPic4" value="x"><img class="pp" src="images/plant.png" id="plantPic5"><input type="text" class="hide" id="iplantPic5" value="x"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-12"><i class="fa fa-trash text-danger pull-right removePlant" data-action="removePlant"></i></div></div></div>';
+var botSample = '<div class="row col-md-12 sims dynarow sample collapsed"><div class="row col-md-12 sims"><div class="form-group col-md-6">&nbsp;<i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i><i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i></div><div class="form-group col-md-3"><label>Sample Field ID <span class="bold-red">*</span></label><input type="text" class="form-control nextid" placeholder="Sample Field ID" value="SM001" name="bsampleId"></div><div class="form-group col-md-3"><label>Additional Collectors</label><br /><input type="checkbox" name="addlCollectors" class="minimal"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-4"><label>Number Collected <span class="bold-red">*</span></label><input type="text" class="form-control" placeholder="Number Collected" name="numCollected"></div><div class="form-group col-md-4"><label>Linked Sample #</label><input type="text" class="form-control" placeholder="Linked Sample #" name="crossCollection"></div><div class="form-group col-md-4"><label>Preliminary ID <span class="bold-red">*</span></label><input type="text" class="form-control" placeholder="Preliminary ID" name="prelimID"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-6"><label>Latitude <span class="bold-red">*</span></label><input type="text" class="form-control samplelat" placeholder="Latitude" name="latitude"></div><div class="form-group col-md-6"><label>Longitude <span class="bold-red">*</span></label><input type="text" class="form-control samplelng" placeholder="Longitude" name="longitude"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-6"><label>Datum</label><select class="form-control" name="datum"><option>WGS84</option><option>GDA94</option></select></div><div class="form-group col-md-6"><button class="btn btn-md btn-default getSampleCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button></div></div><div class="row col-md-12 sims"><div class="form-group col-md-6"><label>Time</label><input type="text" class="form-control" placeholder="Time" name="duration"></div><div class="form-group col-md-6"><label>Altitude</label><input type="text" class="form-control samplealt" placeholder="Altitude" name="altitude"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-12"><label>Additional Comments</label><textarea class="form-control" rows="6" name="addlObsrvns" style="height:30px;"></textarea></div></div><div class="row col-md-12 sims"><div class="form-group col-md-4"><label>Habit <span class="bold-red">*</span></label><input type="text" class="form-control" placeholder="Habit" name="habit"></div><div class="form-group col-md-4"><label>Description <span class="bold-red">*</span></label><input type="text" class="form-control" placeholder="Description" name="description"></div><div class="form-group col-md-4"><label>Habitat <span class="bold-red">*</span></label><input type="text" class="form-control" placeholder="Habitat" name="habitat"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-4"><label>Landform <span class="bold-red">*</span></label><input type="text" class="form-control" placeholder="LandForm" name="landform"></div><div class="form-group col-md-4"><label>Soil/Geology <span class="bold-red">*</span></label><input type="text" class="form-control" placeholder="Soil/Geology" name="soilGeology"></div><div class="form-group col-md-4"><label>Abundance</label><input type="text" class="form-control" placeholder="Abundance" name="abundance"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-12"><input type="checkbox" name="externalCam" class="minimal">&nbsp;&nbsp;<label>Photo(s) taken using external camera</label></div></div><div class="row col-md-12 sims"><div class="form-group col-md-2"><label>Sample Type</label></div><div class="form-group col-md-3"><input type="checkbox" name="spiritSample" class="minimal">&nbsp;<label>Spirit Sample</label></div><div class="form-group col-md-3"><input type="checkbox" name="dnaSample" class="minimal">&nbsp;<label>DNA Sample</label></div><div class="form-group col-md-4"><input type="checkbox" name="otherSample" class="minimal">&nbsp;<label>Other</label>&nbsp;<input type="text" class="form-control hide" placeholder="Other Text" name="othText"></div></div><div class="row col-md-12 sims"><div class="form-group col-md-12"><i class="fa fa-trash text-danger pull-right removeBotSample"></i></div></div></div>';
 var plantName; var Idx;
 var entobox = "<div class='row col-md-12 hostweed collapsed'><div class='row col-md-12 sims'><div class='form-group col-sm-5'><span data-toggle='tooltip' title='' class='badge badge-success' data-original-title='1'>1</span><label><span class='bold-red'>*</span>Host Name</label><input type='text' class='form-control taxonText' placeholder='Host Name' name='hostName1'></div><div class='form-group col-sm-3'><label><span class='bold-red'>*</span>Statistic Type</label><select class='form-control select2' name='statType1'><option selected='selected'>Statistic Type</option><option value='C'>Count</option><option value='A'>Area (m2)</option></select></div><div class='form-group col-sm-3'><label><span class='bold-red'>*</span>Count/Area</label>&nbsp;<span data-toggle='tooltip' title='2' class='badge bg-grey' data-original-title='2'>1</span><br /><button type='button' class='btn btn-md btn-default qtyminus'><i class='fa fa-minus'></i></button><input type='text' class='qty' name='statTypeVal1' value='0'><button type='button' class='btn btn-md btn-default qtyplus'><i class='fa fa-plus'></i></button></div><div class='form-group col-sm-1'><i class='fa fa-arrow-up fa-2x pull-right text-arrows collapse hide' data-action='collapse'></i><i class='fa fa-arrow-down fa-2x pull-right expand text-arrows' data-action='expand'></i>&nbsp;</div></div><div class='row col-md-12 sims'><div class='form-group col-sm-3'><label>Flag</label><br /><input type='checkbox' name='earmark1' class='minimal'></div><div class='form-group col-sm-3'><label>External Photo</label><br /><input type='checkbox' name='extPhoto1' class='minimal'></div><div class='form-group col-sm-6'><label><span class='bold-red'>*</span>Method of Observation</label><select class='form-control' name='mob1'><option>Direct</option><option>Sweep</option><option>Beat</option><option>Dissection</option><option>Other</option></select></div></div><div class='row col-md-12 sims'><div class='form-group col-sm-12'><label>Notes</label><textarea class='form-control' rows='6' name='notes1' style='height:60px;'></textarea></div></div><div class='row col-md-12 sims bg-target entotarget'><div class='form-group col-sm-1'><i class='fa fa-plus fa-2x pull-right text-danger' data-action='addEntoTarget'></i></div><div class='form-group col-sm-7'><input type='text' name='target1' class='input-sm form-control taxonText' placeholder='Target 1'></div><div class='form-group col-sm-4'><input type='text' name='Count1' class='input-sm form-control' placeholder='Target Count'></div><div class='form-group col-sm-2'><label>Not Observed</label><br/><input type='radio' class='minimal' name='optTarget1' id='optNO' value='Not Observed' Checked></div><div class='form-group col-sm-2'><label>Present</label><br /><input type='radio' class='minimal' name='optTarget1' id='optP' value='Present'></div><div class='form-group col-sm-2'><label>Suspected</label><br /><input type='radio' class='minimal' name='optTarget1' id='optS' value='Suspected'></div><div class='form-group col-sm-2'><label>Not Done</label><br /><input type='radio' class='minimal' name='optTarget1' id='optND' value='Not Done'></div><div class='form-group col-sm-12'><label>Comments</label><br /><input type='text' name='comments1' class='input-sm form-control' placeholder='Comments'></div></div><div class='row col-md-12 sims'><div class='form-group col-sm-4'><label>Life Stage</label><select class='form-control select2' name='lifeStage1' style='width: 100%;'><option selected='selected'>Seedling</option><option>Immature</option><option>Mature</option></select></div><div class='form-group col-sm-2'><label>Fruiting</label><br /><input type='checkbox' name='hpstatus1' class='minimal'></div><div class='form-group col-sm-2'><label>Flowering</label><br /><input type='checkbox' name='hpstatus2' class='minimal'></div><div class='form-group col-sm-2'><label>Flushing</label><br /><input type='checkbox' name='hpstatus3' class='minimal'></div><div class='form-group col-sm-2'><label>Deadwood</label><br /><input type='checkbox' name='hpstatus4' class='minimal'></div></div><div class='row col-md-12 sims'><div class='form-group col-sm-4'><label>Latitude</label><input type='text' class='form-control hostweedlat' name='latitude1' placeholder='Latitude'></div><div class='form-group col-sm-4'><label>Longitude</label><input type='text' class='form-control hostweedlng' name='longitude1' placeholder='Longitude'></div><div class='form-group col-sm-3'><label>Datum</label><select class='form-control' name='datum1'><option>WGS84</option><option>GDA94</option></select></div><div class='form-group col-sm-1'><i class='fa fa-map-marker fa-2x text-info getPlantCoords'></i></div></div></div>";
 var entotarget = "<div class='row col-md-12 sims bg-target entotarget'><div class='form-group col-sm-1'><i class='fa fa-plus fa-2x pull-right text-danger' data-action='addEntoTarget'></i></div><div class='form-group col-sm-7'><input type='text' name='target1' class='input-sm form-control taxonText' placeholder='Target 1'></div><div class='form-group col-sm-4'><input type='text' name='Count1' class='input-sm form-control' placeholder='Target Count'></div><div class='form-group col-sm-2'><label>Not Observed</label><br/><input type='radio' class='minimal' name='optTarget1' id='optNO' value='Not Observed' Checked></div><div class='form-group col-sm-2'><label>Present</label><br /><input type='radio' class='minimal' name='optTarget1' id='optP' value='Present'></div><div class='form-group col-sm-2'><label>Suspected</label><br /><input type='radio' class='minimal' name='optTarget1' id='optS' value='Suspected'></div><div class='form-group col-sm-2'><label>Not Done</label><br /><input type='radio' class='minimal' name='optTarget1' id='optND' value='Not Done'></div><div class='form-group col-sm-12'><label>Comments</label><br /><input type='text' name='comments1' class='input-sm form-control' placeholder='Comments'></div></div>";
@@ -119,7 +119,7 @@ function initLoad() {
         tx.executeSql("CREATE TABLE IF NOT EXISTS seqnum (id integer primary key, attrname text, attrval int default 0)");
         tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key, settingstext text, settingsval text default 'IAH')");
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occurred while initializing the DB. " + err.message, location: "tc", size: "large" });
+        $.growl({ title: "Application Error", message: "An error occurred while initializing the DB. " + err.message, location: "bc", size: "large" });
         dbElem.className = 'btn btn-circle btn-lg btn-danger hide';
         //dbElem.innerHTML = 'db-off';
         });
@@ -134,13 +134,13 @@ function initLoad() {
                         AppMode = 'IAH';
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while setting the AppMode to IAH. " + err.message, location: "tc", size: "large" });
+                    $.growl({ title: "Application Error", message: "An error occured while setting the AppMode to IAH. " + err.message, location: "bc", size: "large" });
                 });
             };
             settings.innerHTML = AppMode;
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while retrieving next ID. " + err.message, location: "tc", size: "large" });
+        $.growl({ title: "Application Error", message: "An error occured while retrieving next ID. " + err.message, location: "bc", size: "large" });
     });
 
 
@@ -211,7 +211,7 @@ function loadMapMarkers() {
             }
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while retrieving observations. " + err.message, location: "tc", size: "large" });
+        $.growl({ title: "Application Error", message: "An error occured while retrieving observations. " + err.message, location: "bc", size: "large" });
     });
 };
 
@@ -223,7 +223,7 @@ function resetData() {
             Ok: function () {
                 $.ajax({
                     method: "GET",
-                    url: "grpObservations.json",
+                    url: "data/grpObservations.json",
                     contentType: "json",
                     success: function (data) {
                         var today = new Date();
@@ -245,7 +245,7 @@ function resetData() {
                                 //alert("Rows deleted.");
                             });
                         }, function (err) {
-                            $.growl({ title: "Application Error", message: "An error occured while deleting row from DB. " + err.message, location: "tc", size: "large" });
+                            $.growl({ title: "Application Error", message: "An error occured while deleting row from DB. " + err.message, location: "bc", size: "large" });
                         });
                         db.transaction(function (tx) {
                             tx.executeSql("INSERT INTO observations (id, filedt, data) VALUES (?,?,?)", [1, today, JSON.stringify(data)], function (tx, res) {
@@ -255,7 +255,7 @@ function resetData() {
                                 //alert("Row inserted.");
                             });
                         }, function (err) {
-                            $.growl({ title: "Application Error", message: "An error occured while inserting row to DB. " + err.message, location: "tc", size: "large" });
+                            $.growl({ title: "Application Error", message: "An error occured while inserting row to DB. " + err.message, location: "bc", size: "large" });
                             });
                         results = JSON.parse(data);
                         for (var i = 0; i < results.observations.length; i++) {
@@ -285,10 +285,10 @@ function resetData() {
                                 map.setCenter(this.position);
                             });
                         }
-                        $.growl({ title: "Application Info", message: "Data reset complete!", location: "tc", size: "large" });
+                        $.growl({ title: "Application Info", message: "Data reset complete!", location: "bc", size: "large" });
                     },
                     failure: function () {
-                        $.growl({ title: "Application Error", message: "Error!", location: "tc", size: "large" });
+                        $.growl({ title: "Application Error", message: "Error!", location: "bc", size: "large" });
 
                     }
                 });
@@ -339,7 +339,7 @@ function myLoc() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             if (position.coords.latitude < -10.713507 || position.coords.latitude > 131.756836 || position.coords.longitude < -1.48189 || position.coords.longitude > 156.124512) {
-                $.growl({ title: "Out of bounds!", message: "Location is outside map bounds!", location: "tc", size: "large" });
+                $.growl({ title: "Out of bounds!", message: "Location is outside map bounds!", location: "bc", size: "large" });
             }
             else {
                 var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
@@ -455,13 +455,16 @@ function loadData() {
                         }
                     },
                     {
-                        "data": "obType",
+                        "data": "discipline",
                         "render": function (data, type, row, meta) {
-                            if (data == 0) return "Single";
-                            if (data == 1) return "Group";
-                            if (data == 2) return "Botany";
+                            if (data == 'S') return "Single";
+                            if (data == 'G') return "Group";
+                            if (data == 'B') return "Botany";
+                            if (data == 'E') return "Entomology";
+                            if (data == 'P') return "Pathology";
                         }
-                    }
+                    },
+                    { "data": "obType" }
                 ],
                 "paging": true,
                 "lengthChange": false,
@@ -472,7 +475,7 @@ function loadData() {
             break;
         case "AH":
             data = jQuery.grep(results.observations, function (n, i) {
-                return (n.obType < 2);
+                return (n.obTyoe < 2);
             });
             table = $('#srchTable').DataTable({
                 "data": data,
@@ -497,15 +500,16 @@ function loadData() {
                         }
                     },
                     {
-                        "data": "obType",
+                        "data": "discipline",
                         "render": function (data, type, row, meta) {
-                            if (data == 0) return "Single";
-                            if (data == 1) return "Group";
-                            if (data == 2) return "Botany";
-                            if (data == 3) return "Entomology";
-                            if (data == 4) return "Pathology";
+                            if (data == 'S') return "Single";
+                            if (data == 'G') return "Group";
+                            if (data == 'B') return "Botany";
+                            if (data == 'E') return "Entomology";
+                            if (data == 'P') return "Pathology";
                         }
-                    }
+                    },
+                    { "data": "obType" }
                 ],
                 "paging": true,
                 "lengthChange": false,
@@ -542,15 +546,16 @@ function loadData() {
                         }
                     },
                     {
-                        "data": "obType",
+                        "data": "discipline",
                         "render": function (data, type, row, meta) {
-                            if (data == 0) return "Single";
-                            if (data == 1) return "Group";
-                            if (data == 2) return "Botany";
-                            if (data == 3) return "Entomology";
-                            if (data == 4) return "Pathology";
+                            if (data == 'S') return "Single";
+                            if (data == 'G') return "Group";
+                            if (data == 'B') return "Botany";
+                            if (data == 'E') return "Entomology";
+                            if (data == 'P') return "Pathology";
                         }
-                    }
+                    },
+                    { "data": "obType" }
                 ],
                 "paging": true,
                 "lengthChange": false,
@@ -562,7 +567,7 @@ function loadData() {
         default:
             data = results.observations;
     }
-    //table.column(6).visible(false);
+    table.column(10).visible(false);
 };
 
 function exportTableToCSV($table, filename) {
@@ -616,12 +621,12 @@ function exportTableToCSV($table, filename) {
                     //readFile(fileEntry);
                 };
                 fileWriter.onerror = function (e) {
-                    $.growl({ title: "Application Error", message: "Failed file read: " + e.toString(), location: "tc", size: "large" });
+                    $.growl({ title: "Application Error", message: "Failed file read: " + e.toString(), location: "bc", size: "large" });
                 };
                 fileWriter.seek(0);
                 var blob = new Blob([csv], { type: 'text/plain' });
                 fileWriter.write(blob);
-                $.growl({ title: "Application Info", message: 'File saved to Download folder.', location: "tc", size: "large" });
+                $.growl({ title: "Application Info", message: 'File saved to Download folder.', location: "bc", size: "large" });
             });
         });
     });
@@ -641,9 +646,23 @@ function loadModal(pagename) {
             $(document).find('script[id="pageScript"]').remove();
             $('#mb').load(pagename + '.html');
             t0 = performance.now();
-            loadAHDefaults();
-            if (pagename == 'mo_sngObservation' && curIdx == 0) {
-                getNextAnimalID();
+            if (pagename == 'mo_sngObservation') {
+                loadAHDefaults();
+                if (curIdx == 0) {
+                    getNextAnimalID();
+                }
+            }
+            if (pagename == 'mo_grpObservation') {
+                loadAHDefaults();
+            }
+            if (pagename == 'mo_BotObservation') {
+                loadPHDefaults();
+            }
+            if (pagename == 'mo_EntObservation') {
+                loadPHDefaults();
+            }
+            if (pagename == 'mo_PatObservation') {
+                loadPHDefaults();
             }
             samples = 0;
             fieldTests = 0;
@@ -658,7 +677,7 @@ function loadModal(pagename) {
                 var data = results.observations[curIdx - 1];
                 var px = 0;
                 console.log(JSON.stringify(data));
-                if (data.commonName != 'NONE' && curObType < 2) {
+                if (curObType < 2 && data.commonName != 'NONE') {
                     $('#form1').find("#commonName").val(data.commonName);
                     loadCommonNameData(data.commonName, data.taxon);
                 }
@@ -678,15 +697,19 @@ function loadModal(pagename) {
                             px++;
                             });
                     }
-                    if (key.startsWith("plantPic_") && value != "") {
+                    if (key.startsWith("plantPic_") && value != "x") {
                         $('#form1').find("input[type='text'][name='" + key + "']").val(value);
                         $('#form1').find("img[name='i" + key + "']").attr("src", value);
+                    }
+                    if (key.startsWith("plantPic_") && value == "x") {
+                        $('#form1').find("input[type='text'][name='" + key + "']").val(value);
+                        $('#form1').find("img[name='i" + key + "']").attr("src", 'images/plant.png');
                     }
                     if (key.startsWith("bsampleId_") && value != "") {
                         $.ajax({
                             url: "",
                             beforeSend: function (xhr) {
-                                $('#addBotanySample').trigger("click");
+                                loadBotanySample();
                             }
                         }).complete(function (e) {
                             $('#form1').find("input[type='text'][name='" + key + "']").val(value);
@@ -796,6 +819,7 @@ function loadModal(pagename) {
                 $('#form1').find("input[type='text'][name='track_id']").val(results.observations.length + 1);
                 $('#form1').find("input[type='text'][name='status']").val("0");
                 $('#form1').find("input[type='text'][name='obType']").val(curObType);
+                $('#form1').find("input[type='text'][name='discipline']").val(curDiscipline);
                 $('#form1').find("input[type='text'][name='age']").inputmask("99:99");
                 $('.nextid').text('');
             }
@@ -891,7 +915,7 @@ $(document).on('click', '#Save', function (e) {
             $.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large" });
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
+        $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
         });
     //$('#modalForm').modal('hide');
     ////clearMarkers();
@@ -915,11 +939,11 @@ $(document).on('click', '#SaveExit', function (e) {
     }
     db.transaction(function (tx) {
         tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-            $.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large" });
+            $.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large" });
             //alert("Dataset updated.");
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
+        $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
         });
     $('#modalForm').modal('hide');
     clearMarkers();
@@ -946,7 +970,7 @@ $(document).on('click', '#settings', function (e) {
                 action: function () {
                     var v_appMode = this.$content.find('.appMode').val();
                     if (!v_appMode) {
-                        $.growl({ title: "Application Error", message: "Provide a valid mode: IAH, PH, AH!", location: "tc", size: "large" });
+                        $.growl({ title: "Application Error", message: "Provide a valid mode: IAH, PH, AH!", location: "bc", size: "large" });
                         return false;
                     }
                     db.transaction(function (tx) {
@@ -954,10 +978,10 @@ $(document).on('click', '#settings', function (e) {
                             //alert("Dataset updated.");
                             AppMode = v_appMode;
                             settings.innerHTML = AppMode;
-                            $.growl({ title: 'Application Settings', message: 'Application Mode set to:' + v_appMode, location: "tc", size: "large" });
+                            $.growl({ title: 'Application Settings', message: 'Application Mode set to:' + v_appMode, location: "bc", size: "large" });
                         });
                     }, function (err) {
-                        $.growl({ title: "Application Error", message: "An error occured while updating AppMode to DB. " + err.message, location: "tc", size: "large" });
+                        $.growl({ title: "Application Error", message: "An error occured while updating AppMode to DB. " + err.message, location: "bc", size: "large" });
                     });
                 }
             },
@@ -984,7 +1008,7 @@ $(document).on('click', '#Delete', function (e) {
                         //alert("Dataset updated.");
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
+                    $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
                 });
                 $('#modalForm').modal('hide');
                 table.destroy();
@@ -1117,17 +1141,17 @@ $(document).on('click', '.sync', function (event) {
             contentType: "application/json",
             dataType: "json",
             success: function () {
-                //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
+                //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
             },
             complete: function () {
-                //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
+                //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
             },
             failure: function () {
                 $.growl.error({ message: "Sync - Failed!" });
             }
         });
     });
-    $.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
+    $.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
 });
 
 $(document).on('shown.bs.modal', '#modalPHGrid', function () {
@@ -1293,6 +1317,7 @@ $(document).on('click', '.obsForm', function (e) {
     $('.obsForm').removeClass('bg-Obs');
     $(this).addClass('bg-Obs');
     curObType = $(this).find('input[type=radio][name="optObs"]').attr('data-id');
+    curDiscipline = $(this).find('input[type=radio][name="optObs"]').attr('data-discipline');
     $(this).find('input[type="radio"].minimal').iCheck('check');
 });
 
