@@ -1,0 +1,27 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "GeoLocation_V_0_0_0"
+        },
+        "cordova-plugin-file-opener2": {
+            "PACKAGE_NAME": "SIMS Mobile"
+        },
+        "cordova-plugin-fastclick": {
+            "PACKAGE_NAME": "SIMS Mobile"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "SIMS Mobile"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "SIMS Mobile"
+        }
+    },
+    "dependent_plugins": {}
+}

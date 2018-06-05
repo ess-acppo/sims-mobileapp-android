@@ -1,0 +1,203 @@
+﻿<div class="row col-md-12 sims dynarow sample collapsed">
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            &nbsp;
+            <i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i>
+            <i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Sample Field ID <span class="bold-red">*</span></label>
+            <input type="text" class="form-control nextid" placeholder="Sample Field ID" value="SM001" name="psampleId">
+        </div>
+        <div class="form-group col-md-3">
+            <label>Additional Collectors</label>
+            <br />
+            <input type="checkbox" name="addlCollectors" class="minimal">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-4">
+            <label>Number Collected <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Number Collected" name="numCollected">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Linked Sample #</label>
+            <input type="text" class="form-control" placeholder="Linked Sample #" name="crossCollection">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Preliminary ID <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Preliminary ID" name="prelimID">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-4">
+            <label>Latitude <span class="bold-red">*</span></label>
+            <input type="text" class="form-control samplelat" placeholder="Latitude" name="latitude">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Longitude <span class="bold-red">*</span></label>
+            <input type="text" class="form-control samplelng" placeholder="Longitude" name="longitude">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Datum</label>
+            <select class="form-control" name="datum">
+                <option>WGS84</option>
+                <option>GDA94</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <button class="btn btn-md btn-default getSampleCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Time</label>
+            <input type="text" class="form-control" placeholder="Time" name="duration">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Altitude</label>
+            <input type="text" class="form-control samplealt" placeholder="Altitude" name="altitude">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-12">
+            <label>Additional Comments</label>
+            <textarea class="form-control" rows="6" name="addlObsrvns" style="height:30px;"></textarea>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Host/Other <span class="bold-red">*</span></label>
+        </div>
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" placeholder="Other Name" name="otheName">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Identified By</label>
+            <select class="form-control" name="identifiedBy">
+                <option>User 1</option>
+                <option>User 2</option>
+            </select>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Plant Part</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Leaves</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Flower</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Fruit</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Seeds</label>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Stem</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Shoot</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Root</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Branch</label>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Trunk</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Whole Plant</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <label>Soil</label>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Symptoms</label>
+            <input type="text" class="form-control" placeholder="Symptoms" name="symptoms">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Preservation Type <span class="bold-red">*</span></label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <label>Fresh</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <label>Pressed Specimen</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <label>Dessicate</label>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <label>Extract</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <label>Isolation</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <label>Other</label>
+        </div>
+        <div class="form-group col-md-3">
+            <input type="text" class="form-control" placeholder="Other Preservation Type" name="othPresType">
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-6">
+            <label>Incidence <span class="bold-red">*</span></label>
+            <select class="form-control" name="incidence">
+                <option>Incidence 1</option>
+                <option>Incidence 1</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Severity <span class="bold-red">*</span></label>
+            <select class="form-control" name="severity">
+                <option>Severity 1</option>
+                <option>Severity 1</option>
+            </select>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-12">
+            <input type="checkbox" name="externalCam" class="minimal">&nbsp;&nbsp;
+            <label>Photo(s) taken using external camera</label>
+        </div>
+    </div>
+    <div class="row col-md-12 sims">
+        <div class="form-group col-md-12">&nbsp;<i class="fa fa-trash text-danger pull-right removePathSample"></i></div>
+    </div>
+</div>
