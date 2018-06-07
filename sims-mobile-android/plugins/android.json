@@ -30,6 +30,9 @@
         },
         "cordova-plugin-appversion": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     },
     "dependent_plugins": {

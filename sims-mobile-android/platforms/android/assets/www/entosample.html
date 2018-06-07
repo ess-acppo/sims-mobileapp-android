@@ -1,10 +1,5 @@
 ﻿<div class="row col-md-12 sims dynarow sample collapsed">
     <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
-            &nbsp;
-            <i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i>
-            <i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>
-        </div>
         <div class="form-group col-md-3">
             <label>Sample Field ID <span class="bold-red">*</span></label>
             <input type="text" class="form-control nextid" placeholder="Sample Field ID" value="SM001" name="esampleId">
@@ -13,6 +8,33 @@
             <label>Additional Collectors</label>
             <br />
             <input type="checkbox" name="addlCollectors" class="minimal">
+        </div>
+        <div class="form-group col-md-6">
+            &nbsp;
+            <i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i>
+            <i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>
+        </div>
+    </div>
+    <div class="row col-md-12 sims addlCollectors hide">
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" placeholder="Collector 1" name="collector1">
+        </div>
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" placeholder="Collector 2" name="collector2">
+        </div>
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" placeholder="Collector 3" name="collector3">
+        </div>
+    </div>
+    <div class="row col-md-12 sims addlCollectors hide">
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" placeholder="Collector 4" name="collector4">
+        </div>
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" placeholder="Collector 5" name="collector5">
+        </div>
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" placeholder="Collector 6" name="collector6">
         </div>
     </div>
     <div class="row col-md-12 sims">
@@ -62,11 +84,7 @@
         </div>
         <div class="form-group col-md-4">
             <label>Collection Method</label>
-            <select class="form-control" name="collectionMethod">
-                <option>Collection Method 1</option>
-                <option>Collection Method 2</option>
-                <option>Collection Method 3</option>
-            </select>
+            <select class="form-control" name="EntoCollectionMethod"></select>
         </div>
     </div>
     <div class="row col-md-12 sims">
@@ -94,10 +112,7 @@
     <div class="row col-md-12 sims">
         <div class="form-group col-md-6">
             <label>Identified By</label>
-            <select class="form-control" name="identifiedBy">
-                <option>User 1</option>
-                <option>User 2</option>
-            </select>
+            <select class="form-control" name="identifiedBy"></select>
         </div>
     </div>
     <div class="row col-md-12 sims">
@@ -105,41 +120,41 @@
             <label>Plant Part</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="LE">&nbsp;
             <label>Leaves</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="LE">&nbsp;
             <label>Flower</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="FR">&nbsp;
             <label>Fruit</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="SE">&nbsp;
             <label>Seeds</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="ST">&nbsp;
             <label>Stem</label>
         </div>
     </div>
     <div class="row col-md-12 sims">
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="SH">&nbsp;
             <label>Shoot</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="RO">&nbsp;
             <label>Root</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="BR">&nbsp;
             <label>Branch</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="plantPart" class="minimal">&nbsp;
+            <input type="checkbox" name="plantPart" class="minimal" value="TR">&nbsp;
             <label>Trunk</label>
         </div>
     </div>
@@ -148,56 +163,47 @@
             <label>Preservation Type</label>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <input type="checkbox" name="EntoPlantPreserve" class="minimal" value="W7">&nbsp;
             <label>Wet (Ethanol 70-80%)</label>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <input type="checkbox" name="EntoPlantPreserve" class="minimal" value="W8">&nbsp;
             <label>Wet (Ethanol>80%)</label>
         </div>
-        <div class="form-group col-md-4">
-            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
-            <label>Dry</label>
+        <div class="form-group col-md-3">
+            <input type="checkbox" name="EntoPlantPreserve" class="minimal" value="RE">&nbsp;
+            <label>Rearing</label>
         </div>
     </div>
     <div class="row col-md-12 sims">
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
-            <label>Rearing</label>
+        <div class="form-group col-md-4">
+            <input type="checkbox" name="EntoPlantPreserve" class="minimal" value="DR">&nbsp;
+            <label>Dry</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <input type="checkbox" name="EntoPlantPreserve" class="minimal" value="FT">&nbsp;
             <label>FTA Card</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="preservationType" class="minimal">&nbsp;
+            <input type="checkbox" name="EntoPlantPreserve" class="minimal" value="O">&nbsp;
             <label>Other</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="text" class="form-control" placeholder="Other Preservation Type" name="othPresType">
+            <input type="text" class="form-control" placeholder="Other Preservation Type" name="othPreserveType">
         </div>
     </div>
     <div class="row col-md-12 sims">
         <div class="form-group col-md-4">
             <label>%Infested </label>
-            <select class="form-control" name="percInfested">
-                <option>Percent Infected 1</option>
-                <option>Percent Infected 1</option>
-            </select>
+            <select class="form-control" name="EntoInfestedPct"></select>
         </div>
         <div class="form-group col-md-4">
             <label>Damage Level </label>
-            <select class="form-control" name="damageLevel">
-                <option>Damage Level 1</option>
-                <option>Damage Level 1</option>
-            </select>
+            <select class="form-control" name="EntoDamageLevel"></select>
         </div>
         <div class="form-group col-md-4">
             <label>Pest Level </label>
-            <select class="form-control" name="pestLevel">
-                <option>Pest Level 1</option>
-                <option>Pest Level 2</option>
-            </select>
+            <select class="form-control" name="EntoPestLevel"></select>
         </div>
     </div>
     <div class="row col-md-12 sims">
@@ -205,19 +211,19 @@
             <label>Life Stage</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="lifeStage" class="minimal">&nbsp;
+            <input type="checkbox" name="EntoLifeStage" class="minimal" value="A">&nbsp;
             <label>Adult</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="lifeStage" class="minimal">&nbsp;
+            <input type="checkbox" name="EntoLifeStage" class="minimal" value="E">&nbsp;
             <label>Egg</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="lifeStage" class="minimal">&nbsp;
+            <input type="checkbox" name="EntoLifeStage" class="minimal" value="I">&nbsp;
             <label>Immature</label>
         </div>
         <div class="form-group col-md-3">
-            <input type="checkbox" name="lifeStage" class="minimal">&nbsp;
+            <input type="checkbox" name="EntoLifeStage" class="minimal" value="P">&nbsp;
             <label>Pupae</label>
         </div>
     </div>

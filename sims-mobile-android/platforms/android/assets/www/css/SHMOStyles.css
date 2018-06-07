@@ -36,7 +36,7 @@ body {
 }
 
     .bottomButton > .badge{
-        font-size: 8px;
+        font-size: 1.2rem;
     }
 
 .export {
@@ -124,7 +124,7 @@ body {
 }
 
     .collapsed {
-        height: 120px;
+        height: 80px;
     }
 
 
@@ -1373,4 +1373,7 @@ label {
 
 .text-arrows {
     color: #ddd;
+    position: absolute;
+    right: 5px;
+    top: 5px;
 }

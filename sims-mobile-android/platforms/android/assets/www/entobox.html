@@ -1,23 +1,20 @@
 ﻿<div class="row col-md-12 hostweed collapsed">
     <div class="row col-md-12 sims">
         <div class="form-group col-md-6">
-            &nbsp;
-            <i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i>
-            <i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>
-        </div>
-        <div class="form-group col-md-6">
             <span data-toggle="tooltip" title="" class="badge badge-success" data-original-title="1">1</span>
             <label><span class="bold-red">*</span>Host Name</label>
             <input type="text" class="form-control taxonText" placeholder="Host Name" name="hostName1">
+        </div>
+        <div class="form-group col-md-6">
+            &nbsp;
+            <i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i>
+            <i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>
         </div>
     </div>
     <div class="row col-md-12 sims">
         <div class="form-group col-md-6">
             <label><span class="bold-red">*</span>Statistic Type</label>
             <select class="form-control select2" name="PlantStatisticType1">
-                <option selected="selected">Statistic Type</option>
-                <option value="C">Count</option>
-                <option value="A">Area (m2)</option>
             </select>
         </div>
         <div class="form-group col-md-6">
@@ -39,12 +36,7 @@
         </div>
         <div class="form-group col-md-6">
             <label><span class="bold-red">*</span>Method of Observation</label>
-            <select class="form-control" name="mob1">
-                <option>Direct</option>
-                <option>Sweep</option>
-                <option>Beat</option>
-                <option>Dissection</option>
-                <option>Other</option>
+            <select class="form-control" name="PlantObservationMethod1">
             </select>
         </div>
     </div>
@@ -67,19 +59,19 @@
             <input type="text" name="Count1" class="input-sm form-control" placeholder="Target Count">
         </div>
         <div class="form-group col-md-2">
-            <input type="radio" class="minimal" name="optTarget1" id="optNO" value="Not Observed" Checked>&nbsp;
+            <input type="radio" class="minimal" name="TargetObserved1" id="optNO" value="A" Checked>&nbsp;
             <label>Not Observed</label>
         </div>
         <div class="form-group col-md-2">
-            <input type="radio" class="minimal" name="optTarget1" id="optP" value="Present">&nbsp;
+            <input type="radio" class="minimal" name="TargetObserved1" id="optP" value="P">&nbsp;
             <label>Present</label>
         </div>
         <div class="form-group col-md-2">
-            <input type="radio" class="minimal" name="optTarget1" id="optS" value="Suspected">&nbsp;
+            <input type="radio" class="minimal" name="TargetObserved1" id="optS" value="S">&nbsp;
             <label>Suspected</label>
         </div>
         <div class="form-group col-md-2">
-            <input type="radio" class="minimal" name="optTarget1" id="optND" value="Not Done">&nbsp;
+            <input type="radio" class="minimal" name="TargetObserved1" id="optND" value="N">&nbsp;
             <label>Not Done</label>
         </div>
         <div class="form-group col-md-12 border-bottom">
@@ -91,9 +83,6 @@
         <div class="form-group col-md-6">
             <label>Life Stage</label>
             <select class="form-control select2" name="lifeStage1" style="width: 100%;">
-                <option selected="selected">Seedling</option>
-                <option>Immature</option>
-                <option>Mature</option>
             </select>
         </div>
         <div class="form-group col-md-6">

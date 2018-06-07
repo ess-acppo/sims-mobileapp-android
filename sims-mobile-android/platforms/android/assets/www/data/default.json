@@ -3,7 +3,7 @@
     {
       "surveillanceActivity": "1617Q5AS_06",
       "siteCommunity": "100",
-      "Waypoint": "1234",
+      "waypoint": "1234",
       "latitude": "-10.579917",
       "longitude": "142.219391",
       "datum": "WGS84",

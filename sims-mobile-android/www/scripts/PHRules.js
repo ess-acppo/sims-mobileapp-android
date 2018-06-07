@@ -1,4 +1,16 @@
-﻿function loadPHDefaults() {
+﻿var staffData;
+var statType;
+var MoB;
+var elifeStage;
+var plifeStage;
+var eCollMethod;
+var percInfested;
+var damageLevel;
+var pestLevel;
+var incidence;
+var severity;
+
+function loadPHDefaults() {
     // Loading Activity Defaults //
     $.getJSON("data/activity.json", function (data) {
         var option = $('<option />');
@@ -15,70 +27,128 @@
         });
     });
 
-
     // Loading Team Defaults //
     $.getJSON("data/staff_team.json", function (data) {
+        staffData = '<option value="NONE">- select -</option>';
         $.each(data.staffs.staff, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.id).text(val.displayName);
             $("#form1").find('#observer').append(option);
+
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.id + '">';
+            option1 = option1 + val.displayName + "</option>";
+            staffData = staffData + option1;
         });
     });
 
-    // Loading speciesTaxonSyndromSamples Defaults //
-    $.getJSON("data/speciesTaxonSyndromSamples.json", function (data) {
-        speciesTaxonSyndromSamples = data.species;
-        $("#form1").find('#commonName').find('option').remove().end().append('<option value="NONE">- select -</option>');
-        $.each(data.species, function (key, val) {
-            var option = $('<option />');
-            option.attr('value', val.speciesCode).text(val.speciesName);
-            $("#form1").find('#commonName').append(option);
+    // Loading Plant Statistic Type //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        statType = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.PlantStatisticType, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            statType = statType + option1;
         });
     });
 
-    // Loading Body Condition Scores //
-    $.getJSON("data/body_condn_score.json", function (data) {
-        $.each(data.body_condition_scores.body_condition_score, function (key, val) {
-            var v_bcs = $(bcs);
-            v_bcs.find('input[type="radio"][name="optbodyCond"]').val(val.description);
-            v_bcs.find('.bcstext').text(val.description);
-            $("#form1").find(".body_condition_score").append(v_bcs);
-            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
-            });
+    // Loading Plant Observation Method //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        MoB = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.PlantObservationMethod, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            MoB = MoB + option1;
         });
     });
 
-    // Loading Syndrome Defaults //
-    $.getJSON("data/syndromes.json", function (data) {
-        syndromesData = data.syndromes;
-        $("#form1").find('#lstSyndromes').find('option').remove().end();
-        $.each(data.syndromes, function (key, val) {
-            var option = $('<option />');
-            option.attr('value', val.code).text(val.description);
-            $("#form1").find('#lstSyndromes').append(option);
+    // Loading Life Stage //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        elifeStage = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.EntoLifeStage, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            elifeStage = elifeStage + option1;
+        });
+    });
+    $.getJSON("data/PHDefaults.json", function (data) {
+        plifeStage = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.PlantLifeStage, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            plifeStage = plifeStage + option1;
         });
     });
 
-    // Loading fieldTest Defaults //
-    defFieldTests = '<option value="NONE">- select -</option>';
-    $.getJSON("data/fieldTests.json", function (data) {
-        fieldTestsData = data.fieldTests.fieldTest;
-        $.each(data.fieldTests.fieldTest, function (key, val) {
-            var option = '<option';
-            option = option + ' value="' + val.fieldTestCde + '">';
-            option = option + val.fieldTestName + "</option>";
-            defFieldTests = defFieldTests + option;
+    // Loading Ento Collection Method //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        eCollMethod = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.EntoCollectionMethod, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            eCollMethod = eCollMethod + option1;
         });
     });
 
-    $.getJSON("data/activity.json", function (data) {
-        defaultSpecies = data.activities.activity.metadata.species;
-        $.each(defaultSpecies, function (key, val) {
+    // Loading Ento Percentage Infested //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        percInfested = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.EntoInfestedPct, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            percInfested = percInfested + option1;
         });
     });
 
+    // Loading Ento Damage Level //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        damageLevel = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.EntoDamageLevel, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            damageLevel = damageLevel + option1;
+        });
+    });
+
+    // Loading Ento Pest Level //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        pestLevel = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.EntoPestLevel, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            pestLevel = pestLevel + option1;
+        });
+    });
+
+    // Loading Path Incidence //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        incidence = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.PathIncidence, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            incidence = incidence + option1;
+        });
+    });
+
+    // Loading Path Severity //
+    $.getJSON("data/PHDefaults.json", function (data) {
+        severity = '<option value="NONE">- select -</option>';
+        $.each(data.PlantHealthReferenceCodes.PathSeverity, function (key, val) {
+            var option1 = '<option';
+            option1 = option1 + ' value="' + val.code + '">';
+            option1 = option1 + val.desc + "</option>";
+            severity = severity + option1;
+        });
+    });
 }
 
 $("#clCollectors").click(function (e) {
@@ -121,20 +191,22 @@ $(document).on('click', "#addPlant", function () {
     that1.find("input[type='text'][name='plantName1']").attr('name', 'plantName_' + Idx);
     that1.find("select[name='statType1']").attr('name', 'statType_' + Idx);
     //that1.find("input[name='statTypeVal1']").text(0);
+    that1.find('select[name="PlantStatisticType1"]').find('option').remove().end().append($(statType));
+    that1.find("input[name='PlantStatisticType1']").attr('name', 'PlantStatisticType1_' + Idx);
     that1.find("input[name='statTypeVal1']").val(0);
     that1.find("input[name='statTypeVal1']").attr('name', 'statTypeVal_' + Idx);
     that1.find("input[type='radio'][name='CountList1']").attr('name', 'CountList_' + Idx).iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
-    that1.find("input[type='checkbox'][name='weed1']").attr('name', 'weed_' + Idx).iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue'
-    });
-    that1.find("input[type='checkbox'][name='both1']").attr('name', 'both_' + Idx).iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue'
-    });
+    //that1.find("input[type='checkbox'][name='weed1']").attr('name', 'weed_' + Idx).iCheck({
+    //    checkboxClass: 'icheckbox_square-blue',
+    //    radioClass: 'iradio_square-blue'
+    //});
+    //that1.find("input[type='checkbox'][name='both1']").attr('name', 'both_' + Idx).iCheck({
+    //    checkboxClass: 'icheckbox_square-blue',
+    //    radioClass: 'iradio_square-blue'
+    //});
     that1.find("input[type='checkbox'][name='earmark1']").attr('name', 'earmark_' + Idx).iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
@@ -177,7 +249,8 @@ $(document).on('click', "#addEntoHost", function () {
     var Idx = numEntoHosts;
     var that1 = $(entobox);
     that1.find("input[type='text'][name='hostName1']").attr('name', 'hostName_' + Idx);
-    that1.find("select[name='statType1']").attr('name', 'statType_' + Idx);
+    that1.find('select[name="PlantStatisticType1"]').find('option').remove().end().append($(statType));
+    that1.find("input[name='PlantStatisticType1']").attr('name', 'PlantStatisticType1_' + Idx);
     that1.find("input[name='statTypeVal1']").val(0);
     that1.find("input[name='statTypeVal1']").attr('name', 'statTypeVal_' + Idx);
     that1.find("input[type='checkbox'][name='earmark1']").attr('name', 'earmark_' + Idx).iCheck({
@@ -192,7 +265,8 @@ $(document).on('click', "#addEntoHost", function () {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
-    that1.find("select[name='mob1']").attr('name', 'mob_' + Idx);
+    that1.find('select[name="PlantObservationMethod1"]').find('option').remove().end().append($(MoB));
+    that1.find("select[name='PlantObservationMethod1']").attr('name', 'PlantObservationMethod_' + Idx);
     that1.find("input[type='text'][name='target1']").attr('name', 'target_' + Idx);
     that1.find("input[type='text'][name='count1']").attr('name', 'count_' + Idx);
     that1.find("input[type='checkbox'][name='optTarget1']").attr('name', 'optTarget_' + Idx).iCheck({
@@ -216,6 +290,7 @@ $(document).on('click', "#addEntoHost", function () {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
+    that1.find('select[name="lifeStage1"]').find('option').remove().end().append($(elifeStage));
     that1.find("select[name='lifeStage1']").attr('name', 'lifeStage_' + Idx);
     that1.find("textarea[name='notes1']").attr('name', 'notes_' + Idx);
     that1.find("input[type='text'][name='latitude1']").attr('name', 'latitude_' + Idx);
@@ -245,7 +320,8 @@ $(document).on('click', "#addPathHost", function () {
     var Idx = numPathHosts;
     var that1 = $(pathbox);
     that1.find("input[type='text'][name='hostName1']").attr('name', 'hostName_' + Idx);
-    that1.find("select[name='statType1']").attr('name', 'statType_' + Idx);
+    that1.find('select[name="PlantStatisticType1"]').find('option').remove().end().append($(statType));
+    that1.find("input[name='PlantStatisticType1']").attr('name', 'PlantStatisticType1_' + Idx);
     that1.find("input[name='statTypeVal1']").val(0);
     that1.find("input[name='statTypeVal1']").attr('name', 'statTypeVal_' + Idx);
     that1.find("input[type='checkbox'][name='earmark1']").attr('name', 'earmark_' + Idx).iCheck({
@@ -260,7 +336,8 @@ $(document).on('click', "#addPathHost", function () {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
-    that1.find("select[name='mob1']").attr('name', 'mob_' + Idx);
+    that1.find('select[name="PlantObservationMethod1"]').find('option').remove().end().append($(MoB));
+    that1.find("select[name='PlantObservationMethod1']").attr('name', 'PlantObservationMethod_' + Idx);
     that1.find("input[type='text'][name='target1']").attr('name', 'target_' + Idx);
     that1.find("input[type='text'][name='count1']").attr('name', 'count_' + Idx);
     that1.find("input[type='checkbox'][name='optTarget1']").attr('name', 'optTarget_' + Idx).iCheck({
@@ -268,6 +345,7 @@ $(document).on('click', "#addPathHost", function () {
         radioClass: 'iradio_square-blue'
     });
     that1.find("input[type='text'][name='comments1']").attr('name', 'comments_' + Idx);
+    that1.find('select[name="lifeStage1"]').find('option').remove().end().append($(plifeStage));
     that1.find("select[name='lifeStage1']").attr('name', 'lifeStage_' + Idx);
     that1.find("textarea[name='notes1']").attr('name', 'notes_' + Idx);
     that1.find("input[type='text'][name='latitude1']").attr('name', 'latitude_' + Idx);
@@ -343,6 +421,9 @@ $(document).on('click', '#addBotanySample', function (e) {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
+    that.find("select[name='identifiedBy']").find("option").remove().end().append($(staffData));
+    that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + samples);
+    that.find("select[id='identifiedBy_" + samples + "']").attr("name", "identifiedBy_" + samples);
     that.find("input[name='bsampleId']").attr("id", "bsampleId_" + samples);
     that.find("input[id='bsampleId_" + samples + "']").attr("name", "bsampleId_" + samples);
     that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + samples);
@@ -371,14 +452,14 @@ $(document).on('click', '#addBotanySample', function (e) {
     that.find("input[id='soilGeology_" + samples + "']").attr("name", "soilGeology_" + samples);
     that.find("input[name='externalCam']").attr("id", "externalCam_" + samples);
     that.find("input[id='externalCam_" + samples + "']").attr("name", "externalCam_" + samples);
-    that.find("input[name='spiritSample']").attr("id", "spiritSample_" + samples);
-    that.find("input[id='spiritSample_" + samples + "']").attr("name", "spiritSample_" + samples);
-    that.find("input[name='dnaSample']").attr("id", "dnaSample_" + samples);
-    that.find("input[id='dnaSample_" + samples + "']").attr("name", "dnaSample_" + samples);
-    that.find("input[name='otherSample']").attr("id", "otherSample_" + samples);
-    that.find("input[id='otherSample_" + samples + "']").attr("name", "otherSample_" + samples);
-    that.find("input[name='othText']").attr("id", "othText_" + samples);
-    that.find("input[id='othText_" + samples + "']").attr("name", "othText_" + samples);
+    that.find("input[name='BotPlantPreserve-SP']").attr("id", "BotPlantPreserve-SP_" + samples);
+    that.find("input[id='BotPlantPreserve-SP_" + samples + "']").attr("name", "BotPlantPreserve-SP_" + samples);
+    that.find("input[name='BotPlantPreserve-DN']").attr("id", "BotPlantPreserve-DN_" + samples);
+    that.find("input[id='BotPlantPreserve-DN_" + samples + "']").attr("name", "BotPlantPreserve-DN_" + samples);
+    that.find("input[name='BotPlantPreserve-O']").attr("id", "BotPlantPreserve-O_" + samples);
+    that.find("input[id='BotPlantPreserve-O_" + samples + "']").attr("name", "BotPlantPreserve-O_" + samples);
+    that.find("input[name='BotPlantPreserverOtherText']").attr("id", "BotPlantPreserverOtherText_" + samples);
+    that.find("input[id='BotPlantPreserverOtherText_" + samples + "']").attr("name", "BotPlantPreserverOtherText_" + samples);
     that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + samples);
     that.find("textarea[id='addlObsrvns_" + samples + "']").attr("name", "addlObsrvns_" + samples);
     that.find("input.nextid").val(getNextID("SM"));
@@ -396,6 +477,9 @@ function loadBotanySample() {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
+    that.find('select[name="identifiedBy"]').find('option').remove().end().append($(staffData));
+    that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + samples);
+    that.find("select[id='identifiedBy_" + samples + "']").attr("name", "identifiedBy_" + samples);
     that.find("input[name='bsampleId']").attr("id", "bsampleId_" + samples);
     that.find("input[id='bsampleId_" + samples + "']").attr("name", "bsampleId_" + samples);
     that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + samples);
@@ -424,14 +508,14 @@ function loadBotanySample() {
     that.find("input[id='soilGeology_" + samples + "']").attr("name", "soilGeology_" + samples);
     that.find("input[name='externalCam']").attr("id", "externalCam_" + samples);
     that.find("input[id='externalCam_" + samples + "']").attr("name", "externalCam_" + samples);
-    that.find("input[name='spiritSample']").attr("id", "spiritSample_" + samples);
-    that.find("input[id='spiritSample_" + samples + "']").attr("name", "spiritSample_" + samples);
-    that.find("input[name='dnaSample']").attr("id", "dnaSample_" + samples);
-    that.find("input[id='dnaSample_" + samples + "']").attr("name", "dnaSample_" + samples);
-    that.find("input[name='otherSample']").attr("id", "otherSample_" + samples);
-    that.find("input[id='otherSample_" + samples + "']").attr("name", "otherSample_" + samples);
-    that.find("input[name='othText']").attr("id", "othText_" + samples);
-    that.find("input[id='othText_" + samples + "']").attr("name", "othText_" + samples);
+    that.find("input[name='BotPlantPreserve-SP']").attr("id", "BotPlantPreserve-SP_" + samples);
+    that.find("input[id='BotPlantPreserve-SP_" + samples + "']").attr("name", "BotPlantPreserve-SP_" + samples);
+    that.find("input[name='BotPlantPreserve-DN']").attr("id", "BotPlantPreserve-DN_" + samples);
+    that.find("input[id='BotPlantPreserve-DN_" + samples + "']").attr("name", "BotPlantPreserve-DN_" + samples);
+    that.find("input[name='BotPlantPreserve-O']").attr("id", "BotPlantPreserve-O_" + samples);
+    that.find("input[id='BotPlantPreserve-O_" + samples + "']").attr("name", "BotPlantPreserve-O_" + samples);
+    that.find("input[name='BotPlantPreserverOtherText']").attr("id", "BotPlantPreserverOtherText_" + samples);
+    that.find("input[id='BotPlantPreserverOtherText_" + samples + "']").attr("name", "BotPlantPreserverOtherText_" + samples);
     that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + samples);
     that.find("textarea[id='addlObsrvns_" + samples + "']").attr("name", "addlObsrvns_" + samples);
     that.insertAfter($('.samples'));
@@ -465,6 +549,69 @@ $(document).on('click', '#addEntoSample', function (e) {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
+    that.find('select[name="identifiedBy"]').find('option').remove().end().append($(staffData));
+    that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + samples);
+    that.find("select[id='identifiedBy_" + samples + "']").attr("name", "identifiedBy_" + samples);
+    that.find("input[name='esampleId']").attr("id", "esampleId_" + samples);
+    that.find("input[id='esampleId_" + samples + "']").attr("name", "esampleId_" + samples);
+    that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + samples);
+    that.find("input[id='addlCollectors_" + samples + "']").attr("name", "addlCollectors_" + samples);
+    that.find("input[name='numCollected']").attr("id", "numCollected_" + samples);
+    that.find("input[id='numCollected_" + samples + "']").attr("name", "numCollected_" + samples);
+    that.find("input[name='crossCollection']").attr("id", "crossCollection_" + samples);
+    that.find("input[id='crossCollection_" + samples + "']").attr("name", "crossCollection_" + samples);
+    that.find("input[name='prelimID']").attr("id", "prelimID_" + samples);
+    that.find("input[id='prelimID_" + samples + "']").attr("name", "prelimID_" + samples);
+    that.find("input[name='latitude']").attr("id", "latitude_" + samples);
+    that.find("input[id='latitude_" + samples + "']").attr("name", "latitude_" + samples);
+    that.find("input[name='longitude']").attr("id", "longitude_" + samples);
+    that.find("input[id='longitude_" + samples + "']").attr("name", "longitude_" + samples);
+    that.find("input[name='duration']").attr("id", "duration_" + samples);
+    that.find("input[id='duration_" + samples + "']").attr("name", "duration_" + samples);
+    that.find("input[name='altitude']").attr("id", "altitude_" + samples);
+    that.find("input[id='altitude_" + samples + "']").attr("name", "altitude_" + samples);
+    that.find("select[name='EntoCollectionMethod']").attr("id", "EntoCollectionMethod_" + samples);
+    that.find("select[id='EntoCollectionMethod_" + samples + "']").attr("name", "EntoCollectionMethod_" + samples);
+    that.find("input[name='habit']").attr("id", "habit_" + samples);
+    that.find("input[id='habit_" + samples + "']").attr("name", "habit_" + samples);
+    that.find("input[name='description']").attr("id", "description_" + samples);
+    that.find("input[id='description_" + samples + "']").attr("name", "description_" + samples);
+    that.find("input[name='habitat']").attr("id", "habitat_" + samples);
+    that.find("input[id='habitat_" + samples + "']").attr("name", "habitat_" + samples);
+    that.find("input[name='landform']").attr("id", "landform_" + samples);
+    that.find("input[id='landform_" + samples + "']").attr("name", "landform_" + samples);
+    that.find("input[name='soilGeology']").attr("id", "soilGeology_" + samples);
+    that.find("input[id='soilGeology_" + samples + "']").attr("name", "soilGeology_" + samples);
+    that.find("input[name='externalCam']").attr("id", "externalCam_" + samples);
+    that.find("input[id='externalCam_" + samples + "']").attr("name", "externalCam_" + samples);
+    that.find("input[name='spiritSample']").attr("id", "spiritSample_" + samples);
+    that.find("input[id='spiritSample_" + samples + "']").attr("name", "spiritSample_" + samples);
+    that.find("input[name='dnaSample']").attr("id", "dnaSample_" + samples);
+    that.find("input[id='dnaSample_" + samples + "']").attr("name", "dnaSample_" + samples);
+    that.find("input[name='otherSample']").attr("id", "otherSample_" + samples);
+    that.find("input[id='otherSample_" + samples + "']").attr("name", "otherSample_" + samples);
+    that.find("input[name='othText']").attr("id", "othText_" + samples);
+    that.find("input[id='othText_" + samples + "']").attr("name", "othText_" + samples);
+    that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + samples);
+    that.find("textarea[id='addlObsrvns_" + samples + "']").attr("name", "addlObsrvns_" + samples);
+    that.find("input.nextid").val(getNextID("SM"));
+    that.insertAfter($('.samples'));
+});
+
+function loadEntoSample() {
+    samples = samples + 1;
+    var that = $(entosample);
+    that.find("input[type='checkbox']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+    that.find("input[type='radio']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+    that.find('select[name="identifiedBy"]').find('option').remove().end().append($(staffData));
+    that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + samples);
+    that.find("select[id='identifiedBy_" + samples + "']").attr("name", "identifiedBy_" + samples);
     that.find("input[name='esampleId']").attr("id", "esampleId_" + samples);
     that.find("input[id='esampleId_" + samples + "']").attr("name", "esampleId_" + samples);
     that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + samples);
@@ -507,9 +654,8 @@ $(document).on('click', '#addEntoSample', function (e) {
     that.find("input[id='othText_" + samples + "']").attr("name", "othText_" + samples);
     that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + samples);
     that.find("textarea[id='addlObsrvns_" + samples + "']").attr("name", "addlObsrvns_" + samples);
-    that.find("input.nextid").val(getNextID("SM"));
     that.insertAfter($('.samples'));
-});
+};
 
 $(document).on('click', '.removeEntoSample', function (e) {
     var x = $(this);
@@ -539,8 +685,8 @@ $(document).on('click', '#addPathSample', function (e) {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
-    that.find("input[name='bsampleId']").attr("id", "psampleId_" + samples);
-    that.find("input[id='bsampleId_" + samples + "']").attr("name", "psampleId_" + samples);
+    that.find("input[name='psampleId']").attr("id", "psampleId_" + samples);
+    that.find("input[id='psampleId_" + samples + "']").attr("name", "psampleId_" + samples);
     that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + samples);
     that.find("input[id='addlCollectors_" + samples + "']").attr("name", "addlCollectors_" + samples);
     that.find("input[name='numCollected']").attr("id", "numCollected_" + samples);
@@ -580,6 +726,58 @@ $(document).on('click', '#addPathSample', function (e) {
     that.find("input.nextid").val(getNextID("SM"));
     that.insertAfter($('.samples'));
 });
+
+function loadPathSample() {
+    samples = samples + 1;
+    var that = $(pathsample);
+    that.find("input[type='checkbox']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+    that.find("input[type='radio']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+    that.find("input[name='psampleId']").attr("id", "psampleId_" + samples);
+    that.find("input[id='psampleId_" + samples + "']").attr("name", "psampleId_" + samples);
+    that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + samples);
+    that.find("input[id='addlCollectors_" + samples + "']").attr("name", "addlCollectors_" + samples);
+    that.find("input[name='numCollected']").attr("id", "numCollected_" + samples);
+    that.find("input[id='numCollected_" + samples + "']").attr("name", "numCollected_" + samples);
+    that.find("input[name='crossCollection']").attr("id", "crossCollection_" + samples);
+    that.find("input[id='crossCollection_" + samples + "']").attr("name", "crossCollection_" + samples);
+    that.find("input[name='prelimID']").attr("id", "prelimID_" + samples);
+    that.find("input[id='prelimID_" + samples + "']").attr("name", "prelimID_" + samples);
+    that.find("input[name='latitude']").attr("id", "latitude_" + samples);
+    that.find("input[id='latitude_" + samples + "']").attr("name", "latitude_" + samples);
+    that.find("input[name='longitude']").attr("id", "longitude_" + samples);
+    that.find("input[id='longitude_" + samples + "']").attr("name", "longitude_" + samples);
+    that.find("input[name='altitude']").attr("id", "altitude_" + samples);
+    that.find("input[id='altitude_" + samples + "']").attr("name", "altitude_" + samples);
+    that.find("input[name='habit']").attr("id", "habit_" + samples);
+    that.find("input[id='habit_" + samples + "']").attr("name", "habit_" + samples);
+    that.find("input[name='description']").attr("id", "description_" + samples);
+    that.find("input[id='description_" + samples + "']").attr("name", "description_" + samples);
+    that.find("input[name='habitat']").attr("id", "habitat_" + samples);
+    that.find("input[id='habitat_" + samples + "']").attr("name", "habitat_" + samples);
+    that.find("input[name='landform']").attr("id", "landform_" + samples);
+    that.find("input[id='landform_" + samples + "']").attr("name", "landform_" + samples);
+    that.find("input[name='soilGeology']").attr("id", "soilGeology_" + samples);
+    that.find("input[id='soilGeology_" + samples + "']").attr("name", "soilGeology_" + samples);
+    that.find("input[name='externalCam']").attr("id", "externalCam_" + samples);
+    that.find("input[id='externalCam_" + samples + "']").attr("name", "externalCam_" + samples);
+    that.find("input[name='spiritSample']").attr("id", "spiritSample_" + samples);
+    that.find("input[id='spiritSample_" + samples + "']").attr("name", "spiritSample_" + samples);
+    that.find("input[name='dnaSample']").attr("id", "dnaSample_" + samples);
+    that.find("input[id='dnaSample_" + samples + "']").attr("name", "dnaSample_" + samples);
+    that.find("input[name='otherSample']").attr("id", "otherSample_" + samples);
+    that.find("input[id='otherSample_" + samples + "']").attr("name", "otherSample_" + samples);
+    that.find("input[name='othText']").attr("id", "othText_" + samples);
+    that.find("input[id='othText_" + samples + "']").attr("name", "othText_" + samples);
+    that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + samples);
+    that.find("textarea[id='addlObsrvns_" + samples + "']").attr("name", "addlObsrvns_" + samples);
+    that.insertAfter($('.samples'));
+}
 
 $(document).on('click', '.removePathSample', function (e) {
     var x = $(this);
