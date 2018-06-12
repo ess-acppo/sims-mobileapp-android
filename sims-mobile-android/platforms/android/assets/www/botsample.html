@@ -51,11 +51,11 @@
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Latitude <span class="bold-red">*</span></label>
-            <input type="text" class="form-control samplelat" placeholder="Latitude" name="latitude">
+            <input type="text" class="form-control samplelat" placeholder="Latitude" name="latitude" readonly>
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Longitude <span class="bold-red">*</span></label>
-            <input type="text" class="form-control samplelng" placeholder="Longitude" name="longitude">
+            <input type="text" class="form-control samplelng" placeholder="Longitude" name="longitude" readonly>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
@@ -77,7 +77,7 @@
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Altitude</label>
-            <input type="text" class="form-control samplealt" placeholder="Altitude" name="altitude">
+            <input type="text" class="form-control samplealt" placeholder="Altitude" name="altitude" readonly>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
@@ -121,12 +121,6 @@
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="checkbox" name="externalCam" class="minimal">&nbsp;&nbsp;
-            <label>Photo(s) taken using external camera</label>
-        </div>
-    </div>
-    <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-2">
             <label>Preservation Type</label>
         </div>
@@ -142,6 +136,12 @@
             <input type="checkbox" name="BotPlantPreserve-O" class="minimal" data-attr="BotPlantPreserve" data-code="O" data-desc="Other" data-seq="3">&nbsp;
             <label>Other</label>&nbsp;
             <input type="text" class="form-control hide" placeholder="Other Text" name="BotPlantPreserverOtherText">
+        </div>
+    </div>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-12 col-sm-12">
+            <input type="checkbox" name="externalCam" class="minimal">&nbsp;&nbsp;
+            <label>Photo(s) taken using external camera</label>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">

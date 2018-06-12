@@ -1,197 +1,233 @@
-﻿<div class="row col-md-12 sims dynarow sample collapsed">
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
-            &nbsp;
-            <i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i>
-            <i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>
-        </div>
-        <div class="form-group col-md-3">
+﻿<div class="row  col-md-12 col-sm-12 sims dynarow sample collapsed">
+    <i class="fa fa-arrow-circle-up fa-3x text-arrows collapse hide" data-action="collapse"></i>
+    <i class="fa fa-arrow-circle-down fa-3x expand text-arrows" data-action="expand"></i>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-3 col-sm-3">
             <label>Sample Field ID <span class="bold-red">*</span></label>
             <input type="text" class="form-control nextid" placeholder="Sample Field ID" value="SM001" name="psampleId">
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group  col-md-3 col-sm-3">
             <label>Additional Collectors</label>
             <br />
             <input type="checkbox" name="addlCollectors" class="minimal">
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-4">
+    <div class="row  col-md-12 col-sm-12 sims addlCollectors hide">
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="text" class="form-control" placeholder="Collector 1" name="collector1">
+        </div>
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="text" class="form-control" placeholder="Collector 2" name="collector2">
+        </div>
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="text" class="form-control" placeholder="Collector 3" name="collector3">
+        </div>
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims addlCollectors hide">
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="text" class="form-control" placeholder="Collector 4" name="collector4">
+        </div>
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="text" class="form-control" placeholder="Collector 5" name="collector5">
+        </div>
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="text" class="form-control" placeholder="Collector 6" name="collector6">
+        </div>
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-4 col-sm-4">
             <label>Number Collected <span class="bold-red">*</span></label>
             <input type="text" class="form-control" placeholder="Number Collected" name="numCollected">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group  col-md-4 col-sm-4">
             <label>Linked Sample #</label>
             <input type="text" class="form-control" placeholder="Linked Sample #" name="crossCollection">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group  col-md-4 col-sm-4">
             <label>Preliminary ID <span class="bold-red">*</span></label>
             <input type="text" class="form-control" placeholder="Preliminary ID" name="prelimID">
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-4">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-4 col-sm-4">
             <label>Latitude <span class="bold-red">*</span></label>
-            <input type="text" class="form-control samplelat" placeholder="Latitude" name="latitude">
+            <input type="text" class="form-control samplelat" placeholder="Latitude" name="latitude" readonly>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group  col-md-4 col-sm-4">
             <label>Longitude <span class="bold-red">*</span></label>
-            <input type="text" class="form-control samplelng" placeholder="Longitude" name="longitude">
+            <input type="text" class="form-control samplelng" placeholder="Longitude" name="longitude" readonly>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-4 col-sm-4">
             <label>Datum</label>
             <select class="form-control" name="datum">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group  col-md-4 col-sm-4">
             <button class="btn btn-md btn-default getSampleCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
             <label>Time</label>
             <input type="text" class="form-control" placeholder="Time" name="duration">
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group  col-md-6 col-sm-6">
             <label>Altitude</label>
-            <input type="text" class="form-control samplealt" placeholder="Altitude" name="altitude">
+            <input type="text" class="form-control samplealt" placeholder="Altitude" name="altitude" readonly>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-12">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-12 col-sm-12">
             <label>Additional Comments</label>
             <textarea class="form-control" rows="6" name="addlObsrvns" style="height:30px;"></textarea>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
             <label>Host/Other <span class="bold-red">*</span></label>
         </div>
-        <div class="form-group col-md-6">
-            <input type="text" class="form-control" placeholder="Other Name" name="otheName">
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-4 col-sm-4">
+            <input type="radio" name="hostother" class="minimal" value="host">&nbsp;
+            <label>Host</label>
         </div>
-        <div class="form-group col-md-6">
-            <label>Identified By</label>
-            <select class="form-control" name="identifiedBy">
-            </select>
+        <div class="form-group col-md-4 col-sm-4">
+            <input type="radio" name="hostother" class="minimal" value="other">&nbsp;
+            <label>Other</label>
+        </div>
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="text" class="form-control" placeholder="Other Name" name="otherName">
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
+            <label>Identified By</label>
+            <select class="form-control" name="identifiedBy"></select>
+        </div>
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
             <label>Plant Part</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="LE">&nbsp;
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-LE" class="minimal" value="LE">&nbsp;
             <label>Leaves</label>
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group  col-md-3 col-sm-3">
             <input type="checkbox" name="PathPlantPart" class="minimal" value="FL">&nbsp;
             <label>Flower</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="FR">&nbsp;
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-FR" class="minimal" value="FR">&nbsp;
             <label>Fruit</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="SE">&nbsp;
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-SE" class="minimal" value="SE">&nbsp;
             <label>Seeds</label>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="ST">&nbsp;
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-ST" class="minimal" value="ST">&nbsp;
             <label>Stem</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="SH">&nbsp;
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-SH" class="minimal" value="SH">&nbsp;
             <label>Shoot</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="RO">&nbsp;
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-RO" class="minimal" value="RO">&nbsp;
             <label>Root</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="BR">&nbsp;
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-BR" class="minimal" value="BR">&nbsp;
             <label>Branch</label>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="TR">&nbsp;
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-TR" class="minimal" value="TR">&nbsp;
             <label>Trunk</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="WP">&nbsp;
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-WP" class="minimal" value="WP">&nbsp;
             <label>Whole Plant</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPart" class="minimal" value="SO">&nbsp;
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="PathPlantPart-SO" class="minimal" value="SO">&nbsp;
             <label>Soil</label>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-12 col-sm-12">
             <label>Symptoms</label>
             <input type="text" class="form-control" placeholder="Symptoms" name="symptoms">
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
             <label>Preservation Type <span class="bold-red">*</span></label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPreserve" class="minimal" value="FR">&nbsp;
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="checkbox" name="PathPlantPreserve-FR" class="minimal" value="FR">&nbsp;
             <label>Fresh</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPreserve" class="minimal" value="PR">&nbsp;
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="checkbox" name="PathPlantPreserve-PR" class="minimal" value="PR">&nbsp;
             <label>Pressed Specimen</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPreserve" class="minimal" value="DE">&nbsp;
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="checkbox" name="PathPlantPreserve-DE" class="minimal" value="DE">&nbsp;
             <label>Dessicate</label>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPreserve" class="minimal" value="EX">&nbsp;
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="checkbox" name="PathPlantPreserve-EX" class="minimal" value="EX">&nbsp;
             <label>Extract</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPreserve" class="minimal" value="IS">&nbsp;
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="checkbox" name="PathPlantPreserve-IS" class="minimal" value="IS">&nbsp;
             <label>Isolation</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="PathPlantPreserve" class="minimal" value="O">&nbsp;
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-4 col-sm-4">
+            <input type="checkbox" name="PathPlantPreserve-O" class="minimal" value="O">&nbsp;
             <label>Other</label>
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group  col-md-4 col-sm-4">
             <input type="text" class="form-control" placeholder="Other Preservation Type" name="othPreserveType">
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
             <label>Incidence <span class="bold-red">*</span></label>
-            <select class="form-control" name="PathIncidence">
-            </select>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Severity <span class="bold-red">*</span></label>
-            <select class="form-control" name="PathSeverity">
-            </select>
+            <select class="form-control" name="PathIncidence"></select>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-12">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
+            <label>Severity <span class="bold-red">*</span></label>
+            <select class="form-control" name="PathSeverity"></select>
+        </div>
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-12 col-sm-12">
             <input type="checkbox" name="externalCam" class="minimal">&nbsp;&nbsp;
             <label>Photo(s) taken using external camera</label>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-12">&nbsp;<i class="fa fa-trash text-danger pull-right removePathSample"></i></div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-12 col-sm-12">&nbsp;<i class="fa fa-trash fa-2x text-danger pull-right removePathSample"></i></div>
     </div>
 </div>

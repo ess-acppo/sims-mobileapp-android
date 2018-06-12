@@ -1,0 +1,112 @@
+{
+  "SubmittedByStaffId": 2,
+  "SurvActivityId": 3,
+  "SiteId": 4,
+  "ObservationDate": "2018-06-05",
+  "ObservationStaffId": 5,
+  "WaypointNumber": 12,
+  "DurationMinsCount": 6,
+  "ObservWhereGpsDatumId": "WGS84",
+  "ObservationWhereWktClob": "POINT (140 -12)",
+  "AltitudeNo": 7,
+  "AdditionalObserverTab": [
+    {
+      "ObserverNo": 1,
+      "AdditionalObserverName": "Glen Morris"
+    },
+    {
+      "ObserverNo": 2,
+      "AdditionalObserverName": "Charles Tran"
+    }
+  ],
+  "PlantObsTab": [
+    {
+      "PlantDisciplineCode": "P",
+      "PlantTaxonId": 123456,
+      "PlantTaxonText": "host name",
+      "HostStatCount": 5,
+      "HostStatAreaNo": 4,
+      "CheckFutureSurveyFlag": "N",
+      "ExternalPhotoExistFlag": "N",
+      "PlantObsMethodCode": "D",
+      "CommentText": "no comment",
+      "PlantLifeStgCode": "S",
+      "PlantStatusFruitingFlag": "N",
+      "PlantStatusFloweringFlag": "N",
+      "PlantStatusFlushing_Flag": "N",
+      "PlantStatusDeadWood_Flag": "N",
+      "GpsDatumId": "WGS84",
+      "LocationPointWktClob": "POINT (140 -12)",
+      "PlantObsTargetTab": [
+        {
+          "TargetTaxonId": 12345,
+          "TargetTaxonText": "target taxon name",
+          "TargetCount": 987,
+          "TargetObservedCode": "P",
+          "CommentText": "no comment here"
+        }
+      ],
+      "PlantObsAttachmentTab": [
+
+      ]
+    }
+  ],
+  "PlantSampleTab": [
+    {
+      "PlantDisciplineCode": "B",
+      "SampleFieldLabelText": "thissamplelabel",
+      "CollectedSampleCount": 1,
+      "LinkedSampleFieldLabelText": "anothersamplelabel",
+      "PrelimTaxonId": 45678,
+      "PrelimTaxonText": "a taxon name",
+      "GpsDatumId": "WGS84",
+      "SamplePointWktClob": "POINT (140 -12)",
+      "CollectedDatetime": "2018-06-05T12:34",
+      "CollectedAltitudeNo": 23,
+      "CommentText": "no comment here",
+      "AdditionalCollectorTab": [
+        1,
+        2
+      ],
+      "HabitText": "habit text",
+      "DetailedDescriptionText": "detailed desc text",
+      "HabitatText": "habitat text",
+      "LandformText": "landform text",
+      "SoilGeologyText": "soil geology text",
+      "AbundanceText": "abundance text",
+      "ExternalPhotoExistFlag": "N",
+      "PlantPreservationTab": [
+        "FR",
+        "EX",
+        "O"
+      ],
+      "PlantPreservOtherText": "burnt it also",
+      "HostFlag": "Y",
+      "HostTaxonId": 456789,
+      "HostTaxonText": "a taxon name in here",
+      "HostIdentifiedUserId": 76,
+      "EntoCollMethodCode": "D",
+      "PlantPartTab": [
+        "LE",
+        "FL",
+        "BR"
+      ],
+      "EntoInfestedPctCode": "4",
+      "EntoDamageLevelCode": "H",
+      "EntoPestLevelCode": "M",
+      "EntoLifeStgTab": [
+        "A",
+        "E"
+      ],
+      "PathSymptomsText": "looks pretty sick",
+      "PathIncidCode": "L",
+      "PathSevCode": "H",
+      "SampleAttachmentTab": [
+
+      ]
+    }
+  ],
+  "ObsAttachedmentTab": [
+
+  ]
+}

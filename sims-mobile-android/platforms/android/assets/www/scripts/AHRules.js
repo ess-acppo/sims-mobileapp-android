@@ -910,3 +910,193 @@ $(document).on('click', '#bsInfo', function () {
         });
     });
 });
+
+function loadModal(pagename) {
+    var t0, t1;
+    $.ajax({
+        url: "",
+        beforeSend: function (xhr) {
+            $('#modalForm .overlay').removeClass('hide');
+            $('#modalForm .modal-body').addClass('hide');
+            $('#modalForm .modal-footer').addClass('hide');
+            $('#mb').empty();
+            $('#mt').empty();
+            $('#mt2').empty();
+            $(document).find('script[id="pageScript"]').remove();
+            $('#mb').load(pagename + '.html');
+            t0 = performance.now();
+            if (pagename == 'mo_sngObservation') {
+                loadAHDefaults();
+                if (curIdx == 0) {
+                    getNextAnimalID();
+                }
+            }
+            if (pagename == 'mo_grpObservation') {
+                loadAHDefaults();
+            }
+            if (pagename == 'mo_BotObservation') {
+                loadPHDefaults();
+            }
+            if (pagename == 'mo_EntObservation') {
+                loadPHDefaults();
+            }
+            if (pagename == 'mo_PatObservation') {
+                loadPHDefaults();
+            }
+            //samples = 0;
+            bsamples = 0;
+            esamples = 0;
+            psamples = 0;
+            //fieldTests = 0;
+            numPlants = 0;
+            numEntoHosts = 0;
+            numEntoTargets = 0;
+            numPathHosts = 0;
+            numPathTargets = 0;
+        }
+    })
+        .complete(function (e) {
+            $('#form1').find("input[type=text], textarea").val("");
+            $('#form1').find("input[type='checkbox'].minimal").iCheck('uncheck');
+            $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
+            if (curIdx > 0) {
+                var data = results.observations[curIdx - 1];
+                var px = 0;
+                console.log(JSON.stringify(data));
+                if (curObType < 2 && data.commonName != 'NONE') {
+                    $('#form1').find("#commonName").val(data.commonName);
+                    loadCommonNameData(data.commonName, data.taxon);
+                }
+                //console.time('load Modal');
+                $.each(data, function (key, value) {
+                    //console.time('load Modal 1');
+                    if (key.startsWith("sampleId_") && value > 0) {
+                        $.ajax({
+                            url: "",
+                            beforeSend: function (xhr) {
+                                $('#addSample').trigger("click");
+                            }
+                        }).complete(function (e) {
+                            $('#form1').find("input[type='text'][name='" + key + "']").val(value);
+                        });
+                    }
+                    console.timeEnd('load Modal 1');
+                    console.time('load Modal 2');
+                    if (key.startsWith("sampleType_") && value != "") {
+                        $.ajax({
+                            url: "",
+                            beforeSend: function (xhr) {
+                                $('#form1').find("select[name='" + key + "']").val(value);
+                                loadPathogens($('#form1').find("select[name='" + key + "']"));
+                            }
+                        }).complete(function (e) {
+                            $('#form1').find("select[name='" + key + "']").val(value);
+                        });
+                    }
+                    console.timeEnd('load Modal 2');
+                    console.time('load Modal 3');
+                    if (key.startsWith("ftId_") && value > 0) {
+                        $.ajax({
+                            url: "",
+                            beforeSend: function (xhr) {
+                                $('#addFieldTest').trigger("click");
+                            }
+                        }).complete(function (e) {
+                            $('#form1').find("input[type='text'][name='" + key + "']").val(value);
+                        });
+                    }
+                    console.timeEnd('load Modal 3');
+                    console.time('load Modal 4');
+                    if (key.startsWith("fieldTest_") && value != "") {
+                        $.ajax({
+                            url: "",
+                            beforeSend: function (xhr) {
+                                $('#form1').find("select[name='" + key + "']").val(value);
+                                loadDiseases($('#form1').find("select[name='" + key + "']"));
+                            }
+                        }).complete(function (e) {
+                            $('#form1').find("select[name='" + key + "']").val(value);
+                        });
+                    }
+                    console.timeEnd('load Modal 4');
+                    console.time('load Modal 5');
+                    if (key == "extObs" && value == "on") {
+                        $('#form1').find("input[name='extObserver']").removeClass('hide');
+                        $('#form1').find("input[type='checkbox'][name='extObs']").iCheck('check');
+                    }
+                    if (key == "extObs" && value == "off") {
+                        $('#form1').find("input[name='extObserver']").addClass('hide');
+                        $('#form1').find("input[type='checkbox'][name='extObs']").iCheck('uncheck');
+                    }
+                    if (key == "pmConducted" && value == "Yes") {
+                        $('#tabPM').removeClass('hide');
+                    }
+                    if (key == "pmConducted" && value == "No") {
+                        $('#tabPM').addClass('hide');
+                    }
+                    if (key.startsWith("pSampleId_") && value > 0) {
+                        $('#addPreSelectedSample').addClass('hide');
+                        $('.preSelectedSample').removeClass('hide');
+                    }
+                    if (key.startsWith("pFtId_") && value > 0) {
+                        $('#addPreSelectedFieldTest').addClass('hide');
+                        $('.preSelectedFieldTest').removeClass('hide');
+                    }
+                    if (key.startsWith("plantPic_") && value != "") {
+                        $('#form1').find("img[name='" + key + "']").attr("src", "images/" + value);
+                    }
+                    if (key.startsWith("statTypeVal_")) {
+                        $('#form1').find("input[type='button'][name='" + key + "']").prop('value', value);
+                    }
+                    //console.timeEnd('load Modal 5');
+                    //console.time('load Modal 6');
+                    $('#form1').find("input[type='text'][name='" + key + "']").val(value);
+                    $('#form1').find("input[type='checkbox'][name='" + key + "']").val(value);
+                    $('#form1').find("input[type='checkbox'][name='" + key + "'][value='on']").iCheck('check');
+                    $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                    //$('#form1').find("input[type='radio'][name='" + key + "']").val(value);
+                    $('#form1').find("select[name='" + key + "']").val(value);
+                    $('#form1').find("textarea[name='" + key + "']").val(value);
+                    //console.timeEnd('load Modal 6');
+                });
+                $('#form1').find("input[type='text'][name='id']").val(curIdx);
+                $('#form1').find("input[type='text'][name='track_id']").val(curIdx);
+                $('#form1').find("input[type='text'][name='age']").inputmask("99:99");
+                $('.nextid').text('');
+                //console.timeEnd('load Modal');
+            }
+            else {
+                var today = new Date();
+                $('#form1').find("input[type='text'][name='latitude']").val(curLat.toFixed(5));
+                $('#form1').find("input[type='text'][name='longitude']").val(curLng.toFixed(5));
+                getAltitude();
+                $('#form1').find("input[type='text'][name='sDate']").val(today);
+                $('#form1').find("input[type='text'][name='id']").val(results.observations.length + 1);
+                $('#form1').find("input[type='text'][name='track_id']").val(results.observations.length + 1);
+                $('#form1').find("input[type='text'][name='status']").val("0");
+                $('#form1').find("input[type='text'][name='obType']").val(curObType);
+                $('#form1').find("input[type='text'][name='discipline']").val(curDiscipline);
+                $('#form1').find("input[type='text'][name='age']").inputmask("99:99");
+                $('.nextid').text('');
+            }
+        }).done(function () {
+            $('#modalForm .overlay').addClass('hide');
+            $('#modalForm .modal-body').removeClass('hide');
+            $('#modalForm .modal-footer').removeClass('hide');
+            t1 = performance.now();
+            $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
+        });
+};
+
+$(document).on('ifClicked', 'input[type="radio"].minimal', function (event) {
+    //alert(event.type + ' callback');
+    event.preventDefault();
+    $('#form1').find("input[type='radio'][name='" + $(this).attr('name') + "']").val($(this).parent('div').next().text());
+});
+
+$(document).on('change', 'input:radio', function (e) {
+    e.preventDefault();
+    if ($(this).is(":checked")) {
+        $('#form1').find("input[type='radio'][name='" + $(this).attr('name') + "']").val($(this).next().text());
+    }
+});

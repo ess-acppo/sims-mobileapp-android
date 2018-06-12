@@ -1,23 +1,19 @@
-﻿<div class="row col-md-12 hostweed collapsed">
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+﻿<div class="row col-md-12 col-sm-12 entobox collapsed">
+    <i class="fa fa-arrow-circle-up fa-3x text-arrows collapse hide" data-action="collapse"></i>
+    <i class="fa fa-arrow-circle-down fa-3x expand text-arrows" data-action="expand"></i>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
             <span data-toggle="tooltip" title="" class="badge badge-success" data-original-title="1">1</span>
             <label><span class="bold-red">*</span>Host Name</label>
-            <input type="text" class="form-control taxonText" placeholder="Host Name" name="hostName1">
-        </div>
-        <div class="form-group col-md-6">
-            &nbsp;
-            <i class="fa fa-arrow-up fa-2x pull-right text-arrows collapse hide" data-action="collapse"></i>
-            <i class="fa fa-arrow-down fa-2x pull-right expand text-arrows" data-action="expand"></i>
+            <input type="text" class="form-control taxonText" placeholder="Host Name" name="ehostName1">
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Statistic Type</label>
-            <select class="form-control select2" name="PlantStatisticType1">
-            </select>
+            <select class="form-control select2" name="PlantStatisticType1"></select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Count/Area</label>&nbsp;<span data-toggle="tooltip" title="2" class="badge bg-grey" data-original-title="2">1</span>
             <br />
             <button type="button" class="btn btn-md btn-default qtyminus"><i class="fa fa-minus"></i></button>
@@ -25,7 +21,7 @@
             <button type="button" class="btn btn-md btn-default qtyplus"><i class="fa fa-plus"></i></button>
         </div>
     </div>
-    <div class="row col-md-12 sims">
+    <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-3">
             <input type="checkbox" name="earmark1" class="minimal">&nbsp;
             <label>Flag</label>
@@ -34,102 +30,120 @@
             <input type="checkbox" name="extPhoto1" class="minimal">&nbsp;
             <label>External Photo</label>
         </div>
-        <div class="form-group col-md-6">
+    </div>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Method of Observation</label>
-            <select class="form-control" name="PlantObservationMethod1">
-            </select>
+            <select class="form-control" name="PlantObservationMethod1"></select>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-12">
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
             <label>Notes</label>
             <textarea class="form-control" rows="6" name="notes1" style="height:60px;"></textarea>
         </div>
     </div>
-    <div class="row col-md-12 sims bg-target entotarget">
+    <div class="row col-md-12 col-sm-12 sims bg-target entotarget">
         <div class="form-group col-md-1">
             &nbsp;
-            <i class="fa fa-trash text-danger" data-action="removeEntoTarget"></i>
-            <i class="fa fa-plus fa-2x pull-right text-danger" data-action="addEntoTarget"></i>
+            <i class="fa fa-plus fa-2x text-info" data-action="addEntoTarget"></i>
         </div>
-        <div class="form-group col-md-11">
-            <input type="text" name="target1" class="input-sm form-control taxonText" placeholder="Target 1">
+        <div class="form-group col-md-6 col-sm-6">
+            <input type="text" name="entoTarget1" class="input-sm form-control taxonText" placeholder="Target 1">
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6 col-sm-6">
             <input type="text" name="Count1" class="input-sm form-control" placeholder="Target Count">
         </div>
-        <div class="form-group col-md-2">
-            <input type="radio" class="minimal" name="TargetObserved1" id="optNO" value="A" Checked>&nbsp;
+        <div class="form-group col-md-6 col-sm-6">
+            <input type="radio" class="minimal" name="TargetObserved1" id="optA" value="A" Checked>&nbsp;
             <label>Not Observed</label>
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-6 col-sm-6">
             <input type="radio" class="minimal" name="TargetObserved1" id="optP" value="P">&nbsp;
             <label>Present</label>
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-6 col-sm-6">
             <input type="radio" class="minimal" name="TargetObserved1" id="optS" value="S">&nbsp;
             <label>Suspected</label>
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-6 col-sm-6">
             <input type="radio" class="minimal" name="TargetObserved1" id="optND" value="N">&nbsp;
             <label>Not Done</label>
         </div>
-        <div class="form-group col-md-12 border-bottom">
+        <div class="form-group col-md-12 col-sm-12">
             <label>Comments</label>
             <input type="text" name="comments1" class="input-sm form-control" placeholder="Comments">
         </div>
-    </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
-            <label>Life Stage</label>
-            <select class="form-control select2" name="lifeStage1" style="width: 100%;">
-            </select>
+        <div class="form-group col-md-12 col-sm-12 border-bottom-dark">
+            <i class="fa fa-trash fa-2x text-danger pull-right" data-action="removeEntoTarget"></i>
         </div>
-        <div class="form-group col-md-6">
+    </div>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
+            <label>Life Stage</label>
+            <select class="form-control select2" name="lifeStage1" style="width: 100%;"></select>
+        </div>
+    </div>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
             <label>Host Plant Status</label>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-2">
-            <input type="checkbox" name="hpstatus1" class="minimal">&nbsp;
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-3 col-sm-3">
+            <input type="checkbox" name="hpstatus-FR" class="minimal" value="FR">&nbsp;
             <label>Fruiting</label>
         </div>
-        <div class="form-group col-md-2">
-            <input type="checkbox" name="hpstatus2" class="minimal">&nbsp;
+        <div class="form-group col-md-3 col-sm-3">
+            <input type="checkbox" name="hpstatus-FL" class="minimal" value="FL">&nbsp;
             <label>Flowering</label>
         </div>
-        <div class="form-group col-md-2">
-            <input type="checkbox" name="hpstatus3" class="minimal">&nbsp;
+        <div class="form-group col-md-3 col-sm-3">
+            <input type="checkbox" name="hpstatus-FU" class="minimal" value="FU">&nbsp;
             <label>Flushing</label>
         </div>
-        <div class="form-group col-md-2">
-            <input type="checkbox" name="hpstatus4" class="minimal">&nbsp;
+        <div class="form-group col-md-3 col-sm-3">
+            <input type="checkbox" name="hpstatus-DE" class="minimal" value="DE">&nbsp;
             <label>Deadwood</label>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
             <label>Latitude</label>
-            <input type="text" class="form-control hostweedlat" name="latitude1" placeholder="Latitude">
-        </div>
-        <div class="form-group col-md-6">
-            <label>Longitude</label>
-            <input type="text" class="form-control hostweedlng" name="longitude1" placeholder="Longitude">
+            <input type="text" class="form-control entolat" name="latitude1" placeholder="Latitude" readonly>
         </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-6">
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
+            <label>Longitude</label>
+            <input type="text" class="form-control entolng" name="longitude1" placeholder="Longitude" readonly>
+        </div>
+    </div>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
             <label>Datum</label>
             <select class="form-control" name="datum1">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>
         </div>
+        <div class="form-group col-md-3">
+            <button class="btn btn-md btn-default getEntoHostCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button>
+        </div>
     </div>
-    <div class="row col-md-12 sims">
-        <div class="form-group col-md-12">
-            &nbsp;
-            <i class="fa fa-trash text-danger pull-right getPlantCoords"></i>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-12 col-sm-12">
+            <img class="pp" src="images/plant.png" id="plantPic1">
+            <input type="text" class="hide" id="iplantPic1" value="x"><img class="pp" src="images/plant.png" id="plantPic2">
+            <input type="text" class="hide" id="iplantPic2" value="x"><img class="pp" src="images/plant.png" id="plantPic3">
+            <input type="text" class="hide" id="iplantPic3" value="x"><img class="pp" src="images/plant.png" id="plantPic4">
+            <input type="text" class="hide" id="iplantPic4" value="x"><img class="pp" src="images/plant.png" id="plantPic5">
+            <input type="text" class="hide" id="iplantPic5" value="x">
+        </div>
+    </div>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-12 col-sm-12">
+            <i class="fa fa-trash text-danger fa-2x pull-right removeEntoHost" data-action="removeEntoHost"></i>
         </div>
     </div>
 </div>
