@@ -1100,3 +1100,114 @@ $(document).on('change', 'input:radio', function (e) {
         $('#form1').find("input[type='radio'][name='" + $(this).attr('name') + "']").val($(this).next().text());
     }
 });
+
+$('input[type="checkbox"].minimal').on('ifClicked', function (event) {
+    //alert(event.type + ' callback');
+    event.preventDefault();
+    var nam = $(this).attr('name').split('-')[0];
+    var idx = $(this).attr('name').split('-')[1];
+    if (nam === 'weed' && $('input[type=checkbox][name=both-' + idx + ']').val() === 'on') {
+        $.growl.warning({ title: "Plant Health Rules", message: "Operation Not Allowed!", location: "bc", size: "large" });
+        $(this).val('off');
+        $(this).iCheck('uncheck');
+        return;
+    }
+    if (nam === 'both' && $('input[type=checkbox][name=weed-' + idx + ']').val() === 'on') {
+        $.growl.warning({ title: "Plant Health Rules", message: "Operation Not Allowed!", location: "bc", size: "large" });
+        $(this).val('off');
+        $(this).iCheck('uncheck');
+        return;
+    }
+    $(this).val('on');
+});
+
+$(document).on('ifChecked', 'input[type="checkbox"].minimal', function (event) {
+    //alert(event.type + ' callback');
+    if ($(this).attr('name') === 'extObs') {
+        $('input[name="extObserver"').removeClass('hide');
+    };
+    if ($(this).attr('name').startsWith('ftInvalid')) {
+        $(this).closest('.row').find('.diseases').empty();
+        $(this).closest('.row').find('select').val("NONE");
+    };
+    $(this).val('on');
+});
+
+$(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event) {
+    //alert(event.type + ' callback');
+    if ($(this).attr('name') === 'extObs') {
+        $('input[name="extObserver"').addClass('hide');
+    };
+    $(this).val('off');
+});
+
+$(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
+    //alert(event.type + ' callback');
+    if ($(this).attr('name') === 'optSyndromes' && $(this).val() === 'Yes') {
+        $('.addedSyndrome').removeClass('hide');
+        $('.addedSyndrome').next('div').removeClass('hide');
+    };
+    if ($(this).attr('name') === 'optSyndromes' && $(this).val() === 'No') {
+        $('.addedSyndrome').addClass('hide');
+        $('.addedSyndrome').next('div').addClass('hide');
+    };
+    if ($(this).attr('name') === 'optObs') {
+        $('.obsForm').removeClass('bg-Obs');
+        $(this).closest('.obsForm').addClass('bg-Obs');
+        curObType = $(this).attr('data-id');
+    };
+    if ($(this).attr('name') == 'optWounds' && $(this).val() == 'Yes') {
+        $('.addMaggotSamples').removeClass('hide');
+        $('.addMaggotSamples').next('div').removeClass('hide');
+    };
+    if ($(this).attr('name') == 'optWounds' && $(this).val() == 'No') {
+        $('.addMaggotSamples').addClass('hide');
+        $('.addMaggotSamples').next('div').addClass('hide');
+    };
+    if ($(this).attr('name') == 'pmConducted' && $(this).val() == 'Yes') {
+        $('#tabPM').removeClass('hide');
+    };
+    if ($(this).attr('name') == 'pmConducted' && $(this).val() == 'No') {
+        $('#tabPM').addClass('hide');
+    };
+    //if ($(this).attr('name') == 'optINT' && $(this).val() == 'Yes') {
+    //    $('#divINT').removeClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optINT' && $(this).val() == 'No') {
+    //    $('#divINT').addClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optNEC' && $(this).val() == 'Yes') {
+    //    $('#divNEC').removeClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optNEC' && $(this).val() == 'No') {
+    //    $('#divNEC').addClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optTHO' && $(this).val() == 'Yes') {
+    //    $('#divTHO').removeClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optTHO' && $(this).val() == 'No') {
+    //    $('#divTHO').addClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optABD' && $(this).val() == 'Yes') {
+    //    $('#divABD').removeClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optABD' && $(this).val() == 'No') {
+    //    $('#divABD').addClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optMUS' && $(this).val() == 'Yes') {
+    //    $('#divMUS').removeClass('hide');
+    //};
+    //if ($(this).attr('name') == 'optMUS' && $(this).val() == 'No') {
+    //    $('#divMUS').addClass('hide');
+    //};
+    if ($(this).attr('name') == 'optMaggots' && $(this).val() == 'Yes') {
+        $('#addMaggotSample').removeClass('hide');
+        $('.maggotSamplePlus').removeClass('hide');
+        $('.maggotSample').removeClass('hide');
+    };
+    if ($(this).attr('name') == 'optMaggots' && $(this).val() == 'No') {
+        $('#addMaggotSample').addClass('hide');
+        $('.maggotSamplePlus').addClass('hide');
+        $('.maggotSample').addClass('hide');
+    };
+});

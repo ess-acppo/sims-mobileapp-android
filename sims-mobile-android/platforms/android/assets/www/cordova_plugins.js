@@ -1,18 +1,12 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "id": "cordova-plugin-geolocation.geolocation",
-        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-        "pluginId": "cordova-plugin-geolocation",
+        "id": "cordova-plugin-appversion.RareloopAppVersion",
+        "file": "plugins/cordova-plugin-appversion/www/app-version.js",
+        "pluginId": "cordova-plugin-appversion",
         "clobbers": [
-            "navigator.geolocation"
+            "AppVersion"
         ]
-    },
-    {
-        "id": "cordova-plugin-geolocation.PositionError",
-        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-        "pluginId": "cordova-plugin-geolocation",
-        "runs": true
     },
     {
         "id": "cordova-plugin-camera.Camera",
@@ -44,14 +38,6 @@ module.exports = [
         "pluginId": "cordova-plugin-camera",
         "clobbers": [
             "CameraPopoverHandle"
-        ]
-    },
-    {
-        "id": "cordova-sqlite-storage.SQLitePlugin",
-        "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
-        "pluginId": "cordova-sqlite-storage",
-        "clobbers": [
-            "SQLitePlugin"
         ]
     },
     {
@@ -236,20 +222,26 @@ module.exports = [
         "runs": true
     },
     {
-        "id": "cordova-plugin-splashscreen.SplashScreen",
-        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-        "pluginId": "cordova-plugin-splashscreen",
+        "id": "cordova-plugin-file-opener2.FileOpener2",
+        "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
+        "pluginId": "cordova-plugin-file-opener2",
         "clobbers": [
-            "navigator.splashscreen"
+            "cordova.plugins.fileOpener2"
         ]
     },
     {
-        "id": "cordova-plugin-appversion.RareloopAppVersion",
-        "file": "plugins/cordova-plugin-appversion/www/app-version.js",
-        "pluginId": "cordova-plugin-appversion",
+        "id": "cordova-plugin-geolocation.geolocation",
+        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+        "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
-            "AppVersion"
+            "navigator.geolocation"
         ]
+    },
+    {
+        "id": "cordova-plugin-geolocation.PositionError",
+        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+        "pluginId": "cordova-plugin-geolocation",
+        "runs": true
     },
     {
         "id": "cordova-plugin-network-information.network",
@@ -267,21 +259,38 @@ module.exports = [
         "clobbers": [
             "Connection"
         ]
+    },
+    {
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
+        "id": "cordova-sqlite-storage.SQLitePlugin",
+        "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+        "pluginId": "cordova-sqlite-storage",
+        "clobbers": [
+            "SQLitePlugin"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-whitelist": "1.2.2",
+    "cordova-plugin-appversion": "1.0.0",
     "cordova-plugin-compat": "1.2.0",
-    "cordova-plugin-geolocation": "2.4.3",
     "cordova-plugin-camera": "2.4.1",
-    "cordova-sqlite-storage": "2.3.2",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-file": "4.3.3",
+    "cordova-plugin-file-opener2": "2.0.19",
+    "cordova-plugin-geolocation": "2.4.3",
+    "cordova-plugin-network-information": "2.0.1",
     "cordova-plugin-splashscreen": "5.0.2",
-    "cordova-plugin-appversion": "1.0.0",
-    "cordova-plugin-network-information": "2.0.1"
+    "cordova-plugin-whitelist": "1.2.2",
+    "cordova-sqlite-storage": "2.3.2"
 };
 // BOTTOM OF METADATA
 });

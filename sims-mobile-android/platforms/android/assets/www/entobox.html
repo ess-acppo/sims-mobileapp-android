@@ -1,78 +1,87 @@
 ﻿<div class="row col-md-12 col-sm-12 entobox collapsed">
     <i class="fa fa-arrow-circle-up fa-3x text-arrows collapse hide" data-action="collapse"></i>
     <i class="fa fa-arrow-circle-down fa-3x expand text-arrows" data-action="expand"></i>
-    <div class="row col-md-12 col-sm-12 sims">
-        <div class="form-group col-md-6 col-sm-6">
-            <span data-toggle="tooltip" title="" class="badge badge-success" data-original-title="1">1</span>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-2 col-sm-2">
+            <span data-toggle="tooltip" title="" class="badge badge-success badge-host" data-original-title="1">1</span>
+            <label><span class="bold-red">*</span>Taxon ID</label>
+            <input type="text" class="form-control" placeholder="Host Name" name="PlantTaxonId">
+        </div>
+        <div class="form-group  col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Host Name</label>
-            <input type="text" class="form-control taxonText" placeholder="Host Name" name="ehostName1">
+            <input type="text" class="form-control" placeholder="Host Name" name="PlantTaxonText">
         </div>
     </div>
-    <div class="row col-md-12 col-sm-12 sims">
-        <div class="form-group col-md-6 col-sm-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Statistic Type</label>
-            <select class="form-control select2" name="PlantStatisticType1"></select>
+            <select class="form-control select2" name="PlantStatisticType"></select>
         </div>
-        <div class="form-group col-md-6 col-sm-6">
+        <div class="form-group  col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Count/Area</label>&nbsp;<span data-toggle="tooltip" title="2" class="badge bg-grey" data-original-title="2">1</span>
             <br />
             <button type="button" class="btn btn-md btn-default qtyminus"><i class="fa fa-minus"></i></button>
-            <input type="text" class="qty" name="statTypeVal1" value="0">
+            <input type="number" class="qty" name="HostStatCount" value="0">
+            <input type="number" class="qty" name="HostStatAreaNo" value="0">
             <button type="button" class="btn btn-md btn-default qtyplus"><i class="fa fa-plus"></i></button>
         </div>
     </div>
-    <div class="row col-md-12 col-sm-12 sims">
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="earmark1" class="minimal">&nbsp;
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="CheckFutureSurveyFlag" class="minimal">&nbsp;
             <label>Flag</label>
         </div>
-        <div class="form-group col-md-3">
-            <input type="checkbox" name="extPhoto1" class="minimal">&nbsp;
+        <div class="form-group  col-md-3 col-sm-3">
+            <input type="checkbox" name="ExternalPhotoExistFlag" class="minimal">&nbsp;
             <label>External Photo</label>
         </div>
     </div>
-    <div class="row col-md-12 col-sm-12 sims">
-        <div class="form-group col-md-6 col-sm-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Method of Observation</label>
-            <select class="form-control" name="PlantObservationMethod1"></select>
+            <select class="form-control" name="PlantObsMethodCode"></select>
         </div>
     </div>
-    <div class="row col-md-12 col-sm-12 sims">
-        <div class="form-group col-md-6 col-sm-6">
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
             <label>Notes</label>
-            <textarea class="form-control" rows="6" name="notes1" style="height:60px;"></textarea>
+            <textarea class="form-control" rows="6" name="CommentText" style="height:60px;"></textarea>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims bg-target entotarget">
-        <div class="form-group col-md-1">
-            &nbsp;
-            <i class="fa fa-plus fa-2x text-info" data-action="addEntoTarget"></i>
+        <i class="fa fa-plus fa-2x text-arrows text-info" data-action="addEntoTarget"></i>
+        <div class="form-group col-md-2 col-sm-2">
+            <span data-toggle="tooltip" title="" class="badge badge-success badge-target" data-original-title="1">1</span>
+            <label>Target Taxon Id</label>
+            <input type="text" name="TargetTaxonId" class="input-sm form-control" placeholder="Target Taxon ID">
         </div>
         <div class="form-group col-md-6 col-sm-6">
-            <input type="text" name="entoTarget1" class="input-sm form-control taxonText" placeholder="Target 1">
+            <label>Target Taxon Name</label>
+            <input type="text" name="TargetTaxonText" class="input-sm form-control" placeholder="Target Taxon Text">
         </div>
-        <div class="form-group col-md-6 col-sm-6">
-            <input type="text" name="Count1" class="input-sm form-control" placeholder="Target Count">
+        <div class="form-group col-md-2 col-sm-2">
+            <label>Target Count</label>
+            <input type="text" name="TargetCount" class="input-sm form-control" placeholder="Target Count">
         </div>
-        <div class="form-group col-md-6 col-sm-6">
-            <input type="radio" class="minimal" name="TargetObserved1" id="optA" value="A" Checked>&nbsp;
+        <div class="form-group col-md-3 col-sm-3">
+            <input type="radio" class="minimal" name="TargetObservedCode" id="optA" value="A">&nbsp;
             <label>Not Observed</label>
         </div>
-        <div class="form-group col-md-6 col-sm-6">
-            <input type="radio" class="minimal" name="TargetObserved1" id="optP" value="P">&nbsp;
+        <div class="form-group col-md-3 col-sm-3">
+            <input type="radio" class="minimal" name="TargetObservedCode" id="optP" value="P">&nbsp;
             <label>Present</label>
         </div>
-        <div class="form-group col-md-6 col-sm-6">
-            <input type="radio" class="minimal" name="TargetObserved1" id="optS" value="S">&nbsp;
+        <div class="form-group col-md-3 col-sm-3">
+            <input type="radio" class="minimal" name="TargetObservedCode" id="optS" value="S">&nbsp;
             <label>Suspected</label>
         </div>
-        <div class="form-group col-md-6 col-sm-6">
-            <input type="radio" class="minimal" name="TargetObserved1" id="optND" value="N">&nbsp;
+        <div class="form-group col-md-3 col-sm-3">
+            <input type="radio" class="minimal" name="TargetObservedCode" id="optND" value="N">&nbsp;
             <label>Not Done</label>
         </div>
         <div class="form-group col-md-12 col-sm-12">
             <label>Comments</label>
-            <input type="text" name="comments1" class="input-sm form-control" placeholder="Comments">
+            <input type="text" name="CommentText" class="input-sm form-control" placeholder="Comments">
         </div>
         <div class="form-group col-md-12 col-sm-12 border-bottom-dark">
             <i class="fa fa-trash fa-2x text-danger pull-right" data-action="removeEntoTarget"></i>
@@ -81,7 +90,7 @@
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Life Stage</label>
-            <select class="form-control select2" name="lifeStage1" style="width: 100%;"></select>
+            <select class="form-control select2" name="PlantLifeStgCode" style="width: 100%;"></select>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
@@ -91,38 +100,44 @@
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-3 col-sm-3">
-            <input type="checkbox" name="hpstatus-FR" class="minimal" value="FR">&nbsp;
+            <input type="checkbox" name="PlantStatusFruitingFlag" class="minimal" value="FR">&nbsp;
             <label>Fruiting</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="checkbox" name="hpstatus-FL" class="minimal" value="FL">&nbsp;
+            <input type="checkbox" name="PlantStatusFloweringFlag" class="minimal" value="FL">&nbsp;
             <label>Flowering</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="checkbox" name="hpstatus-FU" class="minimal" value="FU">&nbsp;
+            <input type="checkbox" name="PlantStatusFlushing_Flag" class="minimal" value="FU">&nbsp;
             <label>Flushing</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="checkbox" name="hpstatus-DE" class="minimal" value="DE">&nbsp;
+            <input type="checkbox" name="PlantStatusDeadWood_Flag" class="minimal" value="DE">&nbsp;
             <label>Deadwood</label>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Latitude</label>
-            <input type="text" class="form-control entolat" name="latitude1" placeholder="Latitude" readonly>
+            <input type="number" class="form-control entolat" name="Latitude" placeholder="Latitude" readonly>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Longitude</label>
-            <input type="text" class="form-control entolng" name="longitude1" placeholder="Longitude" readonly>
+            <input type="number" class="form-control entolng" name="Longitude" placeholder="Longitude" readonly>
+        </div>
+    </div>
+    <div class="row  col-md-12 col-sm-12 sims">
+        <div class="form-group  col-md-6 col-sm-6">
+            <label>Point WKT<span class="bold-red">*</span></label>
+            <input type="text" class="form-control" readonly name="LocationPointWktClob">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Datum</label>
-            <select class="form-control" name="datum1">
+            <select class="form-control" name="GpsDatumId">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>

@@ -7,16 +7,10 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.cordova.myapp8e8489"
-        },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "io.cordova.myapp8e8489"
+        "cordova-plugin-appversion": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
         },
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "io.cordova.myapp8e8489"
-        },
-        "cordova-sqlite-storage": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
         "cordova-plugin-device": {
@@ -25,19 +19,28 @@
         "cordova-plugin-file": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
-        },
-        "cordova-plugin-appversion": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
         "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-sqlite-storage": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "io.cordova.myapp8e8489"
+            "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-file-opener2": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     }
 }

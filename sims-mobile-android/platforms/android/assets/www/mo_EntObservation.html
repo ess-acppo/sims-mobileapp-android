@@ -27,96 +27,102 @@
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">*</span>Activity</label>
-                                <select class="form-control" name="surveillanceActivity" id="surveillanceActivity"></select>
+                                <label>Activity<span class="bold-red">*</span></label>
+                                <select class="form-control" id="SurvActivityId" name="SurvActivityId"></select>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">*</span>Site</label>
-                                <select class="form-control" name="siteCommunity" id="siteCommunity"></select>
+                                <label>Site<span class="bold-red">*</span></label>
+                                <select class="form-control" id="SiteId" name="SiteId"></select>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
                                 <label>Waypoint</label>
-                                <input type="text" class="form-control" placeholder="waypoint" name="waypoint">
+                                <input type="number" class="form-control" placeholder="Waypoint" name="WaypointNumber">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">*</span>Observation Date</label>
-                                <input type="text" class="form-control datetimepicker" placeholder="Date" name="obsDate">
+                                <label>Observation Date<span class="bold-red">*</span></label>
+                                <input class="form-control" type="date" placeholder="Observation Date" name="ObservationDate">
                                 <i class="fa fa-calendar form-control-feedback"></i>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
                                 <label><span class="bold-red">*</span>Observer</label>
-                                <select class="form-control" name="observer" id="observer"></select>
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims indentLeft">
-                            <div class="form-group  col-md-6 col-sm-6 bg-gray-blue">
-                                <input type="checkbox" class="minimal" name="addlObs">&nbsp;Additional Observers
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 1" name="observer1">
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 2" name="observer2">
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 3" name="observer3">
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 4" name="observer4">
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 5" name="observer5">
+                                <select class="form-control" id="ObservationStaffId" name="ObservationStaffId"></select>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">*</span>Duration</label>
-                                <input type="text" class="form-control" placeholder="(HH:MM)" name="duration">
+                                <input type="checkbox" class="minimal" name="AdditionalObserverTab">&nbsp;<label>Additional Observers</label>
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <input type="text" class="form-control" placeholder="Observer 1" data-seq="1" name="AdditionalObserverName">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <input type="text" class="form-control" placeholder="Observer 2" data-seq="2" name="AdditionalObserverName">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <input type="text" class="form-control" placeholder="Observer 3" data-seq="3" name="AdditionalObserverName">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <input type="text" class="form-control" placeholder="Observer 4" data-seq="4" name="AdditionalObserverName">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <input type="text" class="form-control" placeholder="Observer 5" data-seq="5" name="AdditionalObserverName">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">*</span>Latitude</label>
-                                <input type="text" class="form-control obslat" placeholder="Latitude" name="latitude" readonly>
+                                <label>Duration<span class="bold-red">*</span></label>
+                                <input type="number" class="form-control" placeholder="Duration" name="DurationMinsCount">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">*</span>Longitude</label>
-                                <input type="text" class="form-control obslng" placeholder="Longitude" name="longitude" readonly>
+                                <label>Latitude<span class="bold-red">*</span></label>
+                                <input type="number" class="form-control obslat" placeholder="Latitude" readonly name="Latitude">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">*</span>Datum</label>
-                                <select class="form-control" name="datum">
+                                <label>Longitude<span class="bold-red">*</span></label>
+                                <input type="number" class="form-control obslng" placeholder="Longitude" readonly name="Longitude">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <label>Point WKT<span class="bold-red">*</span></label>
+                                <input type="text" class="form-control" readonly name="ObservationWhereWktClob">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <label>Datum<span class="bold-red">*</span></label>
+                                <select class="form-control" name="ObservWhereGpsDatumId">
                                     <option>WGS84</option>
                                     <option>GDA94</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label>Altitude</label>
-                                <input type="text" class="form-control obsalt" placeholder="Altitude" name="altitude" readonly>
+                                <input type="number" class="form-control obsalt" placeholder="Altitude" readonly name="AltitudeNo">
                             </div>
                         </div>
                     </div>
@@ -125,33 +131,33 @@
                             <div class="form-group  col-md-12 col-sm-12">
                                 <i class="fa fa-plus fa-2x pull-right text-info" id="addEntoHost"></i>&nbsp;
                                 <div class="btn-group pull-right glossary" style="margin-right:5px;">
-                                    <button class="btn btn-sm btn-info active" id="all">All</button>
-                                    <button class="btn btn-sm btn-info hide" id="a">A</button>
-                                    <button class="btn btn-sm btn-info hide" id="b">B</button>
-                                    <button class="btn btn-sm btn-info hide" id="c">C</button>
-                                    <button class="btn btn-sm btn-info hide" id="d">D</button>
-                                    <button class="btn btn-sm btn-info hide" id="e">E</button>
-                                    <button class="btn btn-sm btn-info hide" id="f">F</button>
-                                    <button class="btn btn-sm btn-info hide" id="g">G</button>
-                                    <button class="btn btn-sm btn-info hide" id="h">H</button>
-                                    <button class="btn btn-sm btn-info hide" id="i">I</button>
-                                    <button class="btn btn-sm btn-info hide" id="j">J</button>
-                                    <button class="btn btn-sm btn-info hide" id="k">K</button>
-                                    <button class="btn btn-sm btn-info hide" id="l">L</button>
-                                    <button class="btn btn-sm btn-info hide" id="m">M</button>
-                                    <button class="btn btn-sm btn-info hide" id="n">N</button>
-                                    <button class="btn btn-sm btn-info hide" id="o">O</button>
-                                    <button class="btn btn-sm btn-info hide" id="p">P</button>
-                                    <button class="btn btn-sm btn-info hide" id="q">Q</button>
-                                    <button class="btn btn-sm btn-info hide" id="r">R</button>
-                                    <button class="btn btn-sm btn-info hide" id="s">S</button>
-                                    <button class="btn btn-sm btn-info hide" id="t">T</button>
-                                    <button class="btn btn-sm btn-info hide" id="u">U</button>
-                                    <button class="btn btn-sm btn-info hide" id="v">V</button>
-                                    <button class="btn btn-sm btn-info hide" id="w">W</button>
-                                    <button class="btn btn-sm btn-info hide" id="x">X</button>
-                                    <button class="btn btn-sm btn-info hide" id="y">Y</button>
-                                    <button class="btn btn-sm btn-info hide" id="z">Z</button>
+                                    <button class="btn btn-sm btn-default active" id="all">All</button>
+                                    <button class="btn btn-sm btn-default hide" id="a">A</button>
+                                    <button class="btn btn-sm btn-default hide" id="b">B</button>
+                                    <button class="btn btn-sm btn-default hide" id="c">C</button>
+                                    <button class="btn btn-sm btn-default hide" id="d">D</button>
+                                    <button class="btn btn-sm btn-default hide" id="e">E</button>
+                                    <button class="btn btn-sm btn-default hide" id="f">F</button>
+                                    <button class="btn btn-sm btn-default hide" id="g">G</button>
+                                    <button class="btn btn-sm btn-default hide" id="h">H</button>
+                                    <button class="btn btn-sm btn-default hide" id="i">I</button>
+                                    <button class="btn btn-sm btn-default hide" id="j">J</button>
+                                    <button class="btn btn-sm btn-default hide" id="k">K</button>
+                                    <button class="btn btn-sm btn-default hide" id="l">L</button>
+                                    <button class="btn btn-sm btn-default hide" id="m">M</button>
+                                    <button class="btn btn-sm btn-default hide" id="n">N</button>
+                                    <button class="btn btn-sm btn-default hide" id="o">O</button>
+                                    <button class="btn btn-sm btn-default hide" id="p">P</button>
+                                    <button class="btn btn-sm btn-default hide" id="q">Q</button>
+                                    <button class="btn btn-sm btn-default hide" id="r">R</button>
+                                    <button class="btn btn-sm btn-default hide" id="s">S</button>
+                                    <button class="btn btn-sm btn-default hide" id="t">T</button>
+                                    <button class="btn btn-sm btn-default hide" id="u">U</button>
+                                    <button class="btn btn-sm btn-default hide" id="v">V</button>
+                                    <button class="btn btn-sm btn-default hide" id="w">W</button>
+                                    <button class="btn btn-sm btn-default hide" id="x">X</button>
+                                    <button class="btn btn-sm btn-default hide" id="y">Y</button>
+                                    <button class="btn btn-sm btn-default hide" id="z">Z</button>
                                 </div>
                                 <span data-toggle='tooltip' class='badge bg-green pull-right' data-original-title='3' style="margin-right:10px;" id="numEntoHosts"></span>
                                 <h4>Observations</h4>
@@ -178,19 +184,19 @@
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-3 col-sm-3">
                                 <label>ID</label>
-                                <input type="text" class="form-control" name="id" readonly />
+                                <input type="number" class="form-control" readonly name="id" />
                             </div>
                             <div class="form-group  col-md-3 col-sm-3">
                                 <label>Status</label>
-                                <input type="text" class="form-control" name="status" readonly />
-                            </div>
-                            <div class="form-group  col-md-3 col-sm-3">
-                                <label>Type</label>
-                                <input type="text" class="form-control" name="obType" value="3" readonly />
+                                <input type="number" class="form-control" readonly name="status" />
                             </div>
                             <div class="form-group  col-md-3 col-sm-3">
                                 <label>Discipline</label>
-                                <input type="text" class="form-control" name="discipline" value="E" readonly />
+                                <input type="text" class="form-control" value="E" readonly name="PlantDisciplineCode" />
+                            </div>
+                            <div class="form-group  col-md-3 col-sm-3">
+                                <label>Submitting Staff ID</label>
+                                <input type="number" class="form-control" value="200201" readonly name="SubmittedByStaffId" />
                             </div>
                         </div>
                     </div>
