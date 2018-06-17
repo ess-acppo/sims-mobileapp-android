@@ -4,12 +4,12 @@
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-4 col-sm-4">
             <label>Sample Field ID <span class="bold-red">*</span></label>
-            <input type="text" class="form-control nextid" placeholder="Sample Field ID" value="SM001" name="bsampleId">
+            <input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText" readonly>
         </div>
         <div class="form-group col-md-7">
             <label>Additional Collectors</label>
             <br />
-            <input type="checkbox" name="addlCollectors" class="minimal">
+            <input type="checkbox" name="AdditionalCollectorTab" class="minimal">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims addlCollectors hide">
@@ -35,89 +35,99 @@
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
-        <div class="form-group col-md-4 col-sm-4">
+        <div class="form-group col-md-6 col-sm-6">
             <label>Number Collected <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Number Collected" name="numCollected">
+            <input type="text" class="form-control" placeholder="Number Collected" name="CollectedSampleCount">
         </div>
-        <div class="form-group col-md-4 col-sm-4">
+        <div class="form-group col-md-6 col-sm-6">
             <label>Linked Sample #</label>
-            <input type="text" class="form-control" placeholder="Linked Sample #" name="crossCollection">
+            <input type="text" class="form-control" placeholder="Linked Sample #" name="LinkedSampleFieldLabelText">
         </div>
-        <div class="form-group col-md-4 col-sm-4">
-            <label>Preliminary ID <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Preliminary ID" name="prelimID">
+    </div>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-6 col-sm-6">
+            <label>Preliminary Taxon ID <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonId">
+        </div>
+        <div class="form-group col-md-6 col-sm-6">
+            <label>Preliminary Taxon Text <span class="bold-red">*</span></label>
+            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonText">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Latitude <span class="bold-red">*</span></label>
-            <input type="text" class="form-control samplelat" placeholder="Latitude" name="latitude" readonly>
+            <input type="number" class="form-control samplelat" placeholder="Latitude" name="latitude" readonly>
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Longitude <span class="bold-red">*</span></label>
-            <input type="text" class="form-control samplelng" placeholder="Longitude" name="longitude" readonly>
+            <input type="number" class="form-control samplelng" placeholder="Longitude" name="longitude" readonly>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
-        <div class="form-group col-md-6 col-sm-6">
+        <div class="form-group  col-md-6 col-sm-6">
+            <label>Point WKT<span class="bold-red">*</span></label>
+            <input type="text" class="form-control" readonly name="LocationPointWktClob">
+        </div>
+        <div class="form-group col-md-3 col-sm-3">
             <label>Datum</label>
-            <select class="form-control" name="datum">
+            <select class="form-control" name="GpsDatumId">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>
         </div>
-        <div class="form-group col-md-6 col-sm-6">
+        <div class="form-group col-md-3 col-sm-3">
             <button class="btn btn-md btn-default getSampleCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Time</label>
-            <input type="text" class="form-control" placeholder="Time" name="duration">
+            <input type="text" class="form-control" placeholder="Time" name="CollectedDatetime">
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Altitude</label>
-            <input type="text" class="form-control samplealt" placeholder="Altitude" name="altitude" readonly>
+            <input type="text" class="form-control samplealt" placeholder="Altitude" name="CollectedAltitudeNo" readonly>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-12 col-sm-12">
             <label>Additional Comments</label>
-            <textarea class="form-control" rows="6" name="addlObsrvns" style="height:60px;"></textarea>
+            <textarea class="form-control" rows="6" name="CommentText" style="height:60px;"></textarea>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Identified By</label>
-            <select class="form-control" name="identifiedBy"></select>
+            <select class="form-control" name="HostIdentifiedUserId"></select>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-4 col-sm-4">
             <label>Habit <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Habit" name="habit">
+            <input type="text" class="form-control" placeholder="Habit" name="HabitText">
         </div>
         <div class="form-group col-md-4 col-sm-4">
             <label>Description <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Description" name="description">
+            <input type="text" class="form-control" placeholder="Description" name="DetailedDescriptionText">
         </div>
         <div class="form-group col-md-4 col-sm-4">
             <label>Habitat <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Habitat" name="habitat">
+            <input type="text" class="form-control" placeholder="Habitat" name="HabitatText">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-4 col-sm-4">
             <label>Landform <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="LandForm" name="landform">
+            <input type="text" class="form-control" placeholder="LandForm" name="LandformText">
         </div>
         <div class="form-group col-md-4 col-sm-4">
             <label>Soil/Geology <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Soil/Geology" name="soilGeology">
+            <input type="text" class="form-control" placeholder="Soil/Geology" name="SoilGeologyText">
         </div>
         <div class="form-group col-md-4 col-sm-4">
             <label>Abundance</label>
-            <input type="text" class="form-control" placeholder="Abundance" name="abundance">
+            <input type="text" class="form-control" placeholder="Abundance" name="AbundanceText">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
@@ -125,22 +135,22 @@
             <label>Preservation Type</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="checkbox" name="BotPlantPreserve-SP" class="minimal" data-attr="BotPlantPreserve" data-code="SP" data-desc="Spirit Sample" data-seq="1">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-SP" class="minimal" data-attr="PlantPreservationTab" data-code="SP" data-desc="Spirit Sample" data-seq="1">&nbsp;
             <label>Spirit Sample</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="checkbox" name="BotPlantPreserve-DN" class="minimal" data-attr="BotPlantPreserve" data-code="DN" data-desc="DNA Sample" data-seq="2">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-DN" class="minimal" data-attr="PlantPreservationTab" data-code="DN" data-desc="DNA Sample" data-seq="2">&nbsp;
             <label>DNA Sample</label>
         </div>
         <div class="form-group col-md-4 col-sm-4">
-            <input type="checkbox" name="BotPlantPreserve-O" class="minimal" data-attr="BotPlantPreserve" data-code="O" data-desc="Other" data-seq="3">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-O" class="minimal" data-attr="PlantPreservationTab" data-code="O" data-desc="Other" data-seq="3">&nbsp;
             <label>Other</label>&nbsp;
             <input type="text" class="form-control hide" placeholder="Other Text" name="BotPlantPreserverOtherText">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-12 col-sm-12">
-            <input type="checkbox" name="externalCam" class="minimal">&nbsp;&nbsp;
+            <input type="checkbox" name="ExternalPhotoExistFlag" class="minimal">&nbsp;&nbsp;
             <label>Photo(s) taken using external camera</label>
         </div>
     </div>

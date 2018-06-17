@@ -80,7 +80,7 @@
       ],
       "PlantSampleTab": [
         {
-          "SampleFieldLabelText": "thissamplelabel",
+          "SampleFieldLabelText": "SM00001",
           "CollectedSampleCount": 1,
           "LinkedSampleFieldLabelText": "anothersamplelabel",
           "PrelimTaxonId": 45678,
@@ -103,7 +103,7 @@
           "HostFlag": "Y",
           "HostTaxonId": 456789,
           "HostTaxonText": "a taxon name in here",
-          "HostIdentifiedUserId": 76,
+          "HostIdentifiedUserId": 6,
           "EntoCollMethodCode": "D",
           "PlantPartTab": [ "LE", "FL", "BR" ],
           "EntoInfestedPctCode": "4",
@@ -214,7 +214,7 @@
       ],
       "PlantSampleTab": [
         {
-          "SampleFieldLabelText": "thissamplelabel",
+          "SampleFieldLabelText": "SM00002",
           "CollectedSampleCount": 1,
           "LinkedSampleFieldLabelText": "anothersamplelabel",
           "PrelimTaxonId": 45678,
@@ -237,7 +237,7 @@
           "HostFlag": "Y",
           "HostTaxonId": 456789,
           "HostTaxonText": "a taxon name in here",
-          "HostIdentifiedUserId": 76,
+          "HostIdentifiedUserId": 281,
           "EntoCollMethodCode": "D",
           "PlantPartTab": [ "LE", "FL", "BR" ],
           "EntoInfestedPctCode": "4",
@@ -334,7 +334,7 @@
       ],
       "PlantSampleTab": [
         {
-          "SampleFieldLabelText": "thissamplelabel",
+          "SampleFieldLabelText": "SM00003",
           "CollectedSampleCount": 1,
           "LinkedSampleFieldLabelText": "anothersamplelabel",
           "PrelimTaxonId": 45678,
@@ -357,7 +357,7 @@
           "HostFlag": "Y",
           "HostTaxonId": 456789,
           "HostTaxonText": "a taxon name in here",
-          "HostIdentifiedUserId": 76,
+          "HostIdentifiedUserId": 282,
           "EntoCollMethodCode": "D",
           "PlantPartTab": [ "LE", "FL", "BR" ],
           "EntoInfestedPctCode": "4",
