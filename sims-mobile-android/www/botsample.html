@@ -4,74 +4,74 @@
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-4 col-sm-4">
             <label>Sample Field ID <span class="bold-red">*</span></label>
-            <input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText" readonly>
+            <input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText" readonly data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-7">
             <label>Additional Collectors</label>
             <br />
-            <input type="checkbox" name="AdditionalCollectorTab" class="minimal">
+            <input type="checkbox" name="AdditionalCollectorTab" data-section="PlantSampleTab" class="minimal">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims addlCollectors hide">
         <div class="form-group col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 1" name="collector1">
+            <input type="text" class="form-control" placeholder="Collector 1" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 2" name="collector2">
+            <input type="text" class="form-control" placeholder="Collector 2" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 3" name="collector3">
+            <input type="text" class="form-control" placeholder="Collector 3" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims addlCollectors hide">
         <div class="form-group col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 4" name="collector4">
+            <input type="text" class="form-control" placeholder="Collector 4" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 5" name="collector5">
+            <input type="text" class="form-control" placeholder="Collector 5" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 6" name="collector6">
+            <input type="text" class="form-control" placeholder="Collector 6" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Number Collected <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Number Collected" name="CollectedSampleCount">
+            <input type="text" class="form-control" placeholder="Number Collected" name="CollectedSampleCount" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Linked Sample #</label>
-            <input type="text" class="form-control" placeholder="Linked Sample #" name="LinkedSampleFieldLabelText">
+            <input type="text" class="form-control" placeholder="Linked Sample #" name="LinkedSampleFieldLabelText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Preliminary Taxon ID <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonId">
+            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonId" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Preliminary Taxon Text <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonText">
+            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Latitude <span class="bold-red">*</span></label>
-            <input type="number" class="form-control samplelat" placeholder="Latitude" name="latitude" readonly>
+            <input type="number" class="form-control samplelat" placeholder="Latitude" name="Latitude" readonly data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Longitude <span class="bold-red">*</span></label>
-            <input type="number" class="form-control samplelng" placeholder="Longitude" name="longitude" readonly>
+            <input type="number" class="form-control samplelng" placeholder="Longitude" name="Longitude" readonly data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Point WKT<span class="bold-red">*</span></label>
-            <input type="text" class="form-control" readonly name="SamplePointWktClob">
+            <input type="text" class="form-control" readonly name="SamplePointWktClob" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-3 col-sm-3">
             <label>Datum</label>
-            <select class="form-control" name="GpsDatumId">
+            <select class="form-control" name="GpsDatumId" data-section="PlantSampleTab">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>
@@ -83,51 +83,51 @@
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Time</label>
-            <input type="text" class="form-control" placeholder="Time" name="CollectedDatetime">
+            <input type="text" class="form-control" placeholder="Time" name="CollectedDatetime" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Altitude</label>
-            <input type="text" class="form-control samplealt" placeholder="Altitude" name="CollectedAltitudeNo" readonly>
+            <input type="text" class="form-control samplealt" placeholder="Altitude" name="CollectedAltitudeNo" readonly data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-12 col-sm-12">
             <label>Additional Comments</label>
-            <textarea class="form-control" rows="6" name="CommentText" style="height:60px;"></textarea>
+            <textarea class="form-control" rows="6" name="CommentText" style="height:60px;" data-section="PlantSampleTab"></textarea>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Identified By</label>
-            <select class="form-control" name="HostIdentifiedUserId"></select>
+            <select class="form-control" name="HostIdentifiedUserId" data-section="PlantSampleTab"></select>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-4 col-sm-4">
             <label>Habit <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Habit" name="HabitText">
+            <input type="text" class="form-control" placeholder="Habit" name="HabitText" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-4 col-sm-4">
             <label>Description <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Description" name="DetailedDescriptionText">
+            <input type="text" class="form-control" placeholder="Description" name="DetailedDescriptionText" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-4 col-sm-4">
             <label>Habitat <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Habitat" name="HabitatText">
+            <input type="text" class="form-control" placeholder="Habitat" name="HabitatText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-4 col-sm-4">
             <label>Landform <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="LandForm" name="LandformText">
+            <input type="text" class="form-control" placeholder="LandForm" name="LandformText" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-4 col-sm-4">
             <label>Soil/Geology <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Soil/Geology" name="SoilGeologyText">
+            <input type="text" class="form-control" placeholder="Soil/Geology" name="SoilGeologyText" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-4 col-sm-4">
             <label>Abundance</label>
-            <input type="text" class="form-control" placeholder="Abundance" name="AbundanceText">
+            <input type="text" class="form-control" placeholder="Abundance" name="AbundanceText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
@@ -135,23 +135,33 @@
             <label>Preservation Type</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPreservationTab-SP" class="minimal" data-attr="PlantPreservationTab" data-code="SP" data-desc="Spirit Sample" data-seq="1">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-SP" class="minimal" data-attr="PlantPreservationTab" data-code="SP" data-desc="Spirit Sample" data-seq="1" data-section="PlantSampleTab">&nbsp;
             <label>Spirit Sample</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPreservationTab-DN" class="minimal" data-attr="PlantPreservationTab" data-code="DN" data-desc="DNA Sample" data-seq="2">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-DN" class="minimal" data-attr="PlantPreservationTab" data-code="DN" data-desc="DNA Sample" data-seq="2" data-section="PlantSampleTab">&nbsp;
             <label>DNA Sample</label>
         </div>
         <div class="form-group col-md-4 col-sm-4">
-            <input type="checkbox" name="PlantPreservationTab-O" class="minimal" data-attr="PlantPreservationTab" data-code="O" data-desc="Other" data-seq="3">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-O" class="minimal" data-attr="PlantPreservationTab" data-code="O" data-desc="Other" data-seq="3" data-section="PlantSampleTab">&nbsp;
             <label>Other</label>&nbsp;
-            <input type="text" class="form-control hide" placeholder="Other Text" name="BotPlantPreserverOtherText">
+            <input type="text" class="form-control hide" placeholder="Other Text" name="BotPlantPreserverOtherText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-12 col-sm-12">
-            <input type="checkbox" name="ExternalPhotoExistFlag" class="minimal">&nbsp;&nbsp;
+            <input type="checkbox" name="ExternalPhotoExistFlag" class="minimal" data-section="PlantSampleTab">&nbsp;&nbsp;
             <label>Photo(s) taken using external camera</label>
+        </div>
+    </div>
+    <div class="row col-md-12 col-sm-12 sims">
+        <div class="form-group col-md-12 col-sm-12">
+            <img class="pp" src="images/plant.png" id="plantPic1">
+            <input type="text" class="hide" id="iplantPic1" name="SampleAttachment1" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic2">
+            <input type="text" class="hide" id="iplantPic2" name="SampleAttachment2" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic3">
+            <input type="text" class="hide" id="iplantPic3" name="SampleAttachment3" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic4">
+            <input type="text" class="hide" id="iplantPic4" name="SampleAttachment4" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic5">
+            <input type="text" class="hide" id="iplantPic5" name="SampleAttachment5" value="" data-section="SampleAttachmentTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">

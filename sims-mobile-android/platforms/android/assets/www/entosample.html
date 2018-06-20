@@ -4,74 +4,74 @@
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-3 col-sm-3">
             <label>Sample Field ID <span class="bold-red">*</span></label>
-            <input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText" readonly>
+            <input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText" readonly data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-3 col-sm-3">
             <label>Additional Collectors</label>
             <br />
-            <input type="checkbox" name="AdditionalCollectorTab" class="minimal">
+            <input type="checkbox" name="AdditionalCollectorTab" class="minimal" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims addlCollectors hide">
         <div class="form-group  col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 1" name="collector1">
+            <input type="text" class="form-control" placeholder="Collector 1" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 2" name="collector2">
+            <input type="text" class="form-control" placeholder="Collector 2" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 3" name="collector3">
+            <input type="text" class="form-control" placeholder="Collector 3" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims addlCollectors hide">
         <div class="form-group  col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 4" name="collector4">
+            <input type="text" class="form-control" placeholder="Collector 4" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 5" name="collector5">
+            <input type="text" class="form-control" placeholder="Collector 5" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-4 col-sm-4">
-            <input type="text" class="form-control" placeholder="Collector 6" name="collector6">
+            <input type="text" class="form-control" placeholder="Collector 6" name="AdditionalCollectorName" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Number Collected <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Number Collected" name="CollectedSampleCount">
+            <input type="text" class="form-control" placeholder="Number Collected" name="CollectedSampleCount" data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-6 col-sm-6">
             <label>Linked Sample #</label>
-            <input type="text" class="form-control" placeholder="Linked Sample #" name="LinkedSampleFieldLabelText">
+            <input type="text" class="form-control" placeholder="Linked Sample #" name="LinkedSampleFieldLabelText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Preliminary ID <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonId">
+            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonId" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Preliminary Taxon Text <span class="bold-red">*</span></label>
-            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonText">
+            <input type="text" class="form-control" placeholder="Preliminary ID" name="PrelimTaxonText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group col-md-6 col-sm-6">
             <label>Latitude <span class="bold-red">*</span></label>
-            <input type="number" class="form-control samplelat" placeholder="Latitude" name="latitude" readonly>
+            <input type="number" class="form-control samplelat" placeholder="Latitude" name="Latitude" readonly data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Longitude <span class="bold-red">*</span></label>
-            <input type="number" class="form-control samplelng" placeholder="Longitude" name="longitude" readonly>
+            <input type="number" class="form-control samplelng" placeholder="Longitude" name="Longitude" readonly data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Point WKT<span class="bold-red">*</span></label>
-            <input type="text" class="form-control" readonly name="LocationPointWktClob">
+            <input type="text" class="form-control" readonly name="SamplePointWktClob" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-3 col-sm-3">
             <label>Datum</label>
-            <select class="form-control" name="GpsDatumId">
+            <select class="form-control" name="GpsDatumId" data-section="PlantSampleTab">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>
@@ -83,21 +83,21 @@
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-4 col-sm-4">
             <label>Time</label>
-            <input type="text" class="form-control" placeholder="Time" name="CollectedDatetime">
+            <input type="text" class="form-control" placeholder="Time" name="CollectedDatetime" data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-4 col-sm-4">
             <label>Altitude</label>
-            <input type="text" class="form-control samplealt" placeholder="Altitude" name="CollectedAltitudeNo" readonly>
+            <input type="text" class="form-control samplealt" placeholder="Altitude" name="CollectedAltitudeNo" readonly data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-4 col-sm-4">
             <label>Collection Method</label>
-            <select class="form-control" name="EntoCollMethodCode"></select>
+            <select class="form-control" name="EntoCollMethodCode" data-section="PlantSampleTab"></select>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-12 col-sm-12">
             <label>Additional Comments</label>
-            <textarea class="form-control" rows="6" name="CommentText" style="height:30px;"></textarea>
+            <textarea class="form-control" rows="6" name="CommentText" style="height:30px;" data-section="PlantSampleTab"></textarea>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
@@ -107,26 +107,26 @@
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group col-md-3 col-sm-3">
-            <input type="radio" name="HostFlag" class="minimal" value="host">&nbsp;
+            <input type="radio" name="HostFlag" class="minimal" value="Y" data-section="PlantSampleTab">&nbsp;
             <label>Host</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="radio" name="HostFlag" class="minimal" value="other">&nbsp;
+            <input type="radio" name="HostFlag" class="minimal" value="N" data-section="PlantSampleTab">&nbsp;
             <label>Other</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
             <label>Host/Other Taxon Id</label>
-            <input type="text" class="form-control" placeholder="Other Name" name="HostTaxonId">
+            <input type="text" class="form-control" placeholder="Other Name" name="HostTaxonId" data-section="PlantSampleTab">
         </div>
         <div class="form-group  col-md-3 col-sm-3">
             <label>Host/Other Taxon Text</label>
-            <input type="text" class="form-control" placeholder="Other Name" name="HostTaxonText">
+            <input type="text" class="form-control" placeholder="Other Name" name="HostTaxonText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-4 col-sm-4">
             <label>Identified By</label>
-            <select class="form-control" name="HostIdentifiedUserId"></select>
+            <select class="form-control" name="HostIdentifiedUserId" data-section="PlantSampleTab"></select>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
@@ -136,43 +136,43 @@
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-LE" class="minimal" value="LE">&nbsp;
+            <input type="checkbox" name="PlantPartTab-LE" class="minimal" value="LE" data-section="PlantSampleTab">&nbsp;
             <label>Leaves</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-FL" class="minimal" value="FL">&nbsp;
+            <input type="checkbox" name="PlantPartTab-FL" class="minimal" value="FL" data-section="PlantSampleTab">&nbsp;
             <label>Flower</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-FR" class="minimal" value="FR">&nbsp;
+            <input type="checkbox" name="PlantPartTab-FR" class="minimal" value="FR" data-section="PlantSampleTab">&nbsp;
             <label>Fruit</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-SE" class="minimal" value="SE">&nbsp;
+            <input type="checkbox" name="PlantPartTab-SE" class="minimal" value="SE" data-section="PlantSampleTab">&nbsp;
             <label>Seeds</label>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-ST" class="minimal" value="ST">&nbsp;
+            <input type="checkbox" name="PlantPartTab-ST" class="minimal" value="ST" data-section="PlantSampleTab">&nbsp;
             <label>Stem</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-SH" class="minimal" value="SH">&nbsp;
+            <input type="checkbox" name="PlantPartTab-SH" class="minimal" value="SH" data-section="PlantSampleTab">&nbsp;
             <label>Shoot</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-RO" class="minimal" value="RO">&nbsp;
+            <input type="checkbox" name="PlantPartTab-RO" class="minimal" value="RO" data-section="PlantSampleTab">&nbsp;
             <label>Root</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-BR" class="minimal" value="BR">&nbsp;
+            <input type="checkbox" name="PlantPartTab-BR" class="minimal" value="BR" data-section="PlantSampleTab">&nbsp;
             <label>Branch</label>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPartTab-TR" class="minimal" value="TR">&nbsp;
+            <input type="checkbox" name="PlantPartTab-TR" class="minimal" value="TR" data-section="PlantSampleTab">&nbsp;
             <label>Trunk</label>
         </div>
     </div>
@@ -183,47 +183,47 @@
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPreservationTab-W7" class="minimal" value="W7">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-W7" class="minimal" value="W7" data-section="PlantSampleTab">&nbsp;
             <label>Wet (Ethanol 70-80%)</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPreservationTab-W8" class="minimal" value="W8">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-W8" class="minimal" value="W8" data-section="PlantSampleTab">&nbsp;
             <label>Wet (Ethanol>80%)</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPreservationTab-RE" class="minimal" value="RE">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-RE" class="minimal" value="RE" data-section="PlantSampleTab">&nbsp;
             <label>Rearing</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPreservationTab-DR" class="minimal" value="DR">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-DR" class="minimal" value="DR" data-section="PlantSampleTab">&nbsp;
             <label>Dry</label>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPreservationTab-FT" class="minimal" value="FT">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-FT" class="minimal" value="FT" data-section="PlantSampleTab">&nbsp;
             <label>FTA Card</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="PlantPreservationTab-O" class="minimal" value="O">&nbsp;
+            <input type="checkbox" name="PlantPreservationTab-O" class="minimal" value="O" data-section="PlantSampleTab">&nbsp;
             <label>Other</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="text" class="form-control" placeholder="Other Preservation Type" name="PlantPreservOtherText">
+            <input type="text" class="form-control" placeholder="Other Preservation Type" name="PlantPreservOtherText" data-section="PlantSampleTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-4 col-sm-4">
             <label>%Infested </label>
-            <select class="form-control" name="EntoInfestedPctCode"></select>
+            <select class="form-control" name="EntoInfestedPctCode" data-section="PlantSampleTab"></select>
         </div>
         <div class="form-group  col-md-4 col-sm-4">
             <label>Damage Level </label>
-            <select class="form-control" name="EntoDamageLevelCode"></select>
+            <select class="form-control" name="EntoDamageLevelCode" data-section="PlantSampleTab"></select>
         </div>
         <div class="form-group  col-md-4 col-sm-4">
             <label>Pest Level </label>
-            <select class="form-control" name="EntoPestLevelCode"></select>
+            <select class="form-control" name="EntoPestLevelCode" data-section="PlantSampleTab"></select>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
@@ -233,25 +233,25 @@
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="EntoLifeStgTab-A" class="minimal" value="A">&nbsp;
+            <input type="checkbox" name="EntoLifeStgTab-A" class="minimal" value="A" data-section="PlantSampleTab">&nbsp;
             <label>Adult</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="EntoLifeStgTab-E" class="minimal" value="E">&nbsp;
+            <input type="checkbox" name="EntoLifeStgTab-E" class="minimal" value="E" data-section="PlantSampleTab">&nbsp;
             <label>Egg</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="EntoLifeStgTab-I" class="minimal" value="I">&nbsp;
+            <input type="checkbox" name="EntoLifeStgTab-I" class="minimal" value="I" data-section="PlantSampleTab">&nbsp;
             <label>Immature</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="EntoLifeStgTab-P" class="minimal" value="P">&nbsp;
+            <input type="checkbox" name="EntoLifeStgTab-P" class="minimal" value="P" data-section="PlantSampleTab">&nbsp;
             <label>Pupae</label>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-12 col-sm-12">
-            <input type="checkbox" name="ExternalPhotoExistFlag" class="minimal">&nbsp;&nbsp;
+            <input type="checkbox" name="ExternalPhotoExistFlag" class="minimal" data-section="PlantSampleTab">&nbsp;&nbsp;
             <label>Photo(s) taken using external camera</label>
         </div>
     </div>

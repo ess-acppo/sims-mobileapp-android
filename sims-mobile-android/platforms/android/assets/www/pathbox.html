@@ -5,47 +5,47 @@
         <div class="form-group  col-md-2 col-sm-2">
             <span data-toggle="tooltip" title="" class="badge badge-success badge-host" data-original-title="1">1</span>
             <label><span class="bold-red">*</span>Taxon ID</label>
-            <input type="text" class="form-control" placeholder="Taxon ID" name="PlantTaxonId">
+            <input type="text" class="form-control" placeholder="Taxon ID" name="PlantTaxonId" data-section="PlantObsTab">
         </div>
         <div class="form-group  col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Host Name</label>
-            <input type="text" class="form-control" placeholder="Taxon Text" name="PlantTaxonText">
+            <input type="text" class="form-control" placeholder="Taxon Text" name="PlantTaxonText" data-section="PlantObsTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Statistic Type</label>
-            <select class="form-control select2" name="PlantStatisticType"></select>
+            <select class="form-control select2" name="PlantStatisticType" data-section="PlantObsTab"></select>
         </div>
         <div class="form-group  col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Count/Area</label>&nbsp;<span data-toggle="tooltip" title="2" class="badge bg-grey" data-original-title="2">1</span>
             <br />
             <button type="button" class="btn btn-md btn-default qtyminus"><i class="fa fa-minus"></i></button>
-            <input type="number" class="qty" name="HostStatCount" value="0">
-            <input type="number" class="qty" name="HostStatAreaNo" value="0">
+            <input type="number" class="qty" name="HostStatCount" value="0" data-section="PlantObsTab">
+            <input type="number" class="qty" name="HostStatAreaNo" value="0" data-section="PlantObsTab">
             <button type="button" class="btn btn-md btn-default qtyplus"><i class="fa fa-plus"></i></button>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="CheckFutureSurveyFlag" class="minimal">&nbsp;
+            <input type="checkbox" name="CheckFutureSurveyFlag" class="minimal" data-section="PlantObsTab">&nbsp;
             <label>Flag</label>
         </div>
         <div class="form-group  col-md-3 col-sm-3">
-            <input type="checkbox" name="ExternalPhotoExistFlag" class="minimal">&nbsp;
+            <input type="checkbox" name="ExternalPhotoExistFlag" class="minimal" data-section="PlantObsTab">&nbsp;
             <label>External Photo</label>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label><span class="bold-red">*</span>Method of Observation</label>
-            <select class="form-control" name="PlantObsMethodCode"></select>
+            <select class="form-control" name="PlantObsMethodCode" data-section="PlantObsTab"></select>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Notes</label>
-            <textarea class="form-control" rows="6" name="CommentText" style="height:60px;"></textarea>
+            <textarea class="form-control" rows="6" name="CommentText" style="height:60px;" data-section="PlantObsTab"></textarea>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims bg-target pathtarget">
@@ -53,35 +53,35 @@
         <div class="form-group col-md-2 col-sm-2">
             <span data-toggle="tooltip" title="" class="badge badge-success badge-target" data-original-title="1">1</span>
             <label>Target Taxon ID</label>
-            <input type="text" name="TargetTaxonId" class="input-sm form-control" placeholder="Target Taxon ID">
+            <input type="text" name="TargetTaxonId" class="input-sm form-control" placeholder="Target Taxon ID" data-section="PlantObsTargetTab">
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label>Target Taxon Name</label>
-            <input type="text" name="TargetTaxonText" class="input-sm form-control" placeholder="Target Taxon Text">
+            <input type="text" name="TargetTaxonText" class="input-sm form-control" placeholder="Target Taxon Text" data-section="PlantObsTargetTab">
         </div>
         <div class="form-group col-md-2 col-sm-2">
             <label>Target Count</label>
-            <input type="text" name="TargetCount" class="input-sm form-control" placeholder="Target Count">
+            <input type="text" name="TargetCount" class="input-sm form-control" placeholder="Target Count" data-section="PlantObsTargetTab">
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="radio" class="minimal" name="TargetObservedCode" id="optA" value="A">&nbsp;
+            <input type="radio" class="minimal" name="TargetObservedCode" id="optA" value="A" data-section="PlantObsTargetTab">&nbsp;
             <label>Not Observed</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="radio" class="minimal" name="TargetObservedCode" id="optP" value="P">&nbsp;
+            <input type="radio" class="minimal" name="TargetObservedCode" id="optP" value="P" data-section="PlantObsTargetTab">&nbsp;
             <label>Present</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="radio" class="minimal" name="TargetObservedCode" id="optS" value="S">&nbsp;
+            <input type="radio" class="minimal" name="TargetObservedCode" id="optS" value="S" data-section="PlantObsTargetTab">&nbsp;
             <label>Suspected</label>
         </div>
         <div class="form-group col-md-3 col-sm-3">
-            <input type="radio" class="minimal" name="TargetObservedCode" id="optND" value="N">&nbsp;
+            <input type="radio" class="minimal" name="TargetObservedCode" id="optND" value="N" data-section="PlantObsTargetTab">&nbsp;
             <label>Not Done</label>
         </div>
         <div class="form-group col-md-12 col-sm-12">
             <label>Comments</label>
-            <input type="text" name="CommentText" class="input-sm form-control" placeholder="Comments">
+            <input type="text" name="CommentText" class="input-sm form-control" placeholder="Comments" data-section="PlantObsTargetTab">
         </div>
         <div class="form-group col-md-12 col-sm-12 border-bottom-dark">
             <i class="fa fa-trash fa-2x text-danger pull-right" data-action="removePathTarget"></i>
@@ -90,31 +90,31 @@
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Life Stage</label>
-            <select class="form-control select2" name="PlantLifeStgCode" style="width: 100%;"></select>
+            <select class="form-control select2" name="PlantLifeStgCode" style="width: 100%;" data-section="PlantObsTab"></select>
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Latitude</label>
-            <input type="number" class="form-control pathlat" name="Latitude" placeholder="Latitude" readonly>
+            <input type="number" class="form-control pathlat" name="Latitude" placeholder="Latitude" readonly data-section="PlantObsTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Longitude</label>
-            <input type="number" class="form-control pathlng" name="Longitude" placeholder="Longitude" readonly>
+            <input type="number" class="form-control pathlng" name="Longitude" placeholder="Longitude" readonly data-section="PlantObsTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Point WKT<span class="bold-red">*</span></label>
-            <input type="text" class="form-control" readonly name="LocationPointWktClob">
+            <input type="text" class="form-control" readonly name="LocationPointWktClob" data-section="PlantObsTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12 sims">
         <div class="form-group  col-md-6 col-sm-6">
             <label>Datum</label>
-            <select class="form-control" name="GpsDatumId">
+            <select class="form-control" name="GpsDatumId" data-section="PlantObsTab">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>
@@ -126,11 +126,11 @@
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-12 col-sm-12">
             <img class="pp" src="images/plant.png" id="plantPic1">
-            <input type="text" class="hide" id="iplantPic1" value="x"><img class="pp" src="images/plant.png" id="plantPic2">
-            <input type="text" class="hide" id="iplantPic2" value="x"><img class="pp" src="images/plant.png" id="plantPic3">
-            <input type="text" class="hide" id="iplantPic3" value="x"><img class="pp" src="images/plant.png" id="plantPic4">
-            <input type="text" class="hide" id="iplantPic4" value="x"><img class="pp" src="images/plant.png" id="plantPic5">
-            <input type="text" class="hide" id="iplantPic5" value="x">
+            <input type="text" class="hide" id="iplantPic1" value="x" data-section="PlantObsAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic2">
+            <input type="text" class="hide" id="iplantPic2" value="x" data-section="PlantObsAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic3">
+            <input type="text" class="hide" id="iplantPic3" value="x" data-section="PlantObsAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic4">
+            <input type="text" class="hide" id="iplantPic4" value="x" data-section="PlantObsAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic5">
+            <input type="text" class="hide" id="iplantPic5" value="x" data-section="PlantObsAttachmentTab">
         </div>
     </div>
     <div class="row  col-md-12 col-sm-12  col-md-12 col-sm-12 sims">

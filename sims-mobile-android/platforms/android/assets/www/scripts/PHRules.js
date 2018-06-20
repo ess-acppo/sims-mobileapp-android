@@ -31,12 +31,13 @@ function loadPHDefaults() {
 
     // Loading Team Defaults //
     $.getJSON("data/staff_team.json", function (data) {
-        staffData = '<option value="NONE">- select -</option>';
         $.each(data.staffs.staff, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.id).text(val.displayName);
             $("#form1").find('#ObservationStaffId').append(option);
-
+        });
+        staffData = '<option value="NONE">- select -</option>';
+        $.each(data.staffs.staff, function (key, val) {
             var option1 = '<option';
             option1 = option1 + ' value="' + val.id + '">';
             option1 = option1 + val.displayName + "</option>";
@@ -190,6 +191,15 @@ $(document).on('click', "#addPlant", function () {
     that1.find('select[name="PlantLifeStgCode"]').find('option').remove().end().append($(plifeStage));
     that1.find('select[name="PlantObsMethodCode"]').find('option').remove().end().append($(MoB));
     that1.find("input[type='radio'][name='CountList']").attr('name', 'CountList-' + Idx);
+    that1.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
     //that1.find("input[type='text'][name='plantName1']").attr('name', 'plantName_' + Idx);
     //that1.find("select[name='statType1']").attr('name', 'statType_' + Idx);
     ////that1.find("input[name='statTypeVal1']").text(0);
@@ -232,7 +242,28 @@ $(document).on('click', "#addEntoHost", function () {
     that1.find('select[name="PlantStatisticType"]').find('option').remove().end().append($(statType));
     that1.find('select[name="PlantLifeStgCode"]').find('option').remove().end().append($(plifeStage));
     that1.find('select[name="PlantObsMethodCode"]').find('option').remove().end().append($(MoB));
-    that1.find("input[type='radio'][name='TargetObservedCode']").attr('name', 'TargetObservedCode-' + Idx);
+    //that1.find("input[type='radio'][name='TargetObservedCode']").attr('name', 'TargetObservedCode-' + Idx);
+    that1.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('.entotarget input').each(function () {
+        var x = $(this).attr('name').split("_")[0];
+        $(this).attr('name', x + '_' + Idx + '_T');
+    })
+    that1.find('.entotarget select').each(function () {
+        var x = $(this).attr('name').split("_")[0];
+        $(this).attr('name', x + '_' + Idx + '_T');
+    })
+    that1.find('.entotarget textarea').each(function () {
+        var x = $(this).attr('name').split("_")[0];
+        $(this).attr('name', x + '_' + Idx + '_T');
+    })
     //that1.find("input[type='text'][name='ehostName1']").attr('name', 'ehostName_' + Idx);
     //that1.find('select[name="PlantStatisticType1"]').find('option').remove().end().append($(statType));
     //that1.find("select[name='PlantStatisticType1']").attr('name', 'PlantStatisticType_' + Idx);
@@ -273,7 +304,16 @@ $(document).on('click', "[data-action=addEntoTarget]", function () {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
-    that1.find("input[type='radio'][name='TargetObservedCode']").attr('name', 'TargetObservedCode-' + Idx);
+    //that1.find("input[type='radio'][name='TargetObservedCode']").attr('name', 'TargetObservedCode-' + Idx);
+    that1.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_T');
+    })
+    that1.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_T');
+    })
+    that1.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_T');
+    })
     //that1.find("input[type='text'][name='entoTarget1']").attr('name', 'entoTarget_' + Idx);
     //that1.find("input[type='text'][name='Count1']").attr('name', 'Count_' + Idx);
     //that1.find("input[type='radio'][name='TargetObserved1']").attr('name', 'TargetObserved_' + Idx);
@@ -295,7 +335,28 @@ $(document).on('click', "#addPathHost", function () {
     that1.find('select[name="PlantStatisticType"]').find('option').remove().end().append($(statType));
     that1.find('select[name="PlantLifeStgCode"]').find('option').remove().end().append($(plifeStage));
     that1.find('select[name="PlantObsMethodCode"]').find('option').remove().end().append($(MoB));
-    that1.find("input[type='radio'][name='TargetObservedCode']").attr('name', 'TargetObservedCode-' + Idx);
+    //that1.find("input[type='radio'][name='TargetObservedCode']").attr('name', 'TargetObservedCode-' + Idx);
+    that1.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('.pathtarget input').each(function () {
+        var x = $(this).attr('name').split("_")[0];
+        $(this).attr('name', x + '_' + Idx + '_T');
+    })
+    that1.find('.pathtarget select').each(function () {
+        var x = $(this).attr('name').split("_")[0];
+        $(this).attr('name', x + '_' + Idx + '_T');
+    })
+    that1.find('.pathtarget textarea').each(function () {
+        var x = $(this).attr('name').split("_")[0];
+        $(this).attr('name', x + '_' + Idx + '_T');
+    })
     //that1.find("input[type='text'][name='phostName1']").attr('name', 'phostName_' + Idx);
     //that1.find("select[name='PlantStatisticType1']").attr('name', 'PlantStatisticType_' + Idx);
     //that1.find("input[name='statTypeVal1']").val(0);
@@ -329,7 +390,16 @@ $(document).on('click', "[data-action=addPathTarget]", function () {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
-    that1.find("input[type='radio'][name='TargetObservedCode']").attr('name', 'TargetObservedCode-' + Idx);
+    //that1.find("input[type='radio'][name='TargetObservedCode']").attr('name', 'TargetObservedCode-' + Idx);
+    that1.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_T');
+    })
+    that1.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_T');
+    })
+    that1.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_T');
+    })
     //that1.find("input[type='text'][name='pathTarget1']").attr('name', 'pathTarget_' + Idx);
     //that1.find("input[type='text'][name='Count1']").attr('name', 'count_' + Idx);
     //that1.find("input[type='checkbox'][name='TargetObserved1']").attr('name', 'TargetObserved_' + Idx);
@@ -471,47 +541,15 @@ $(document).on('click', '#addBotanySample', function (e) {
         radioClass: 'iradio_square-blue'
     });
     that.find('select[name="HostIdentifiedUserId"]').find('option').remove().end().append($(staffData));
-    //that.find("select[name='identifiedBy']").find("option").remove().end().append($(staffData));
-    //that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + bsamples);
-    //that.find("select[id='identifiedBy_" + bsamples + "']").attr("name", "identifiedBy_" + bsamples);
-    //that.find("input[name='bsampleId']").attr("id", "bsampleId_" + bsamples);
-    //that.find("input[id='bsampleId_" + bsamples + "']").attr("name", "bsampleId_" + bsamples);
-    //that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + bsamples);
-    //that.find("input[id='addlCollectors_" + bsamples + "']").attr("name", "addlCollectors_" + bsamples);
-    //that.find("input[name='numCollected']").attr("id", "numCollected_" + bsamples);
-    //that.find("input[id='numCollected_" + bsamples + "']").attr("name", "numCollected_" + bsamples);
-    //that.find("input[name='crossCollection']").attr("id", "crossCollection_" + bsamples);
-    //that.find("input[id='crossCollection_" + bsamples + "']").attr("name", "crossCollection_" + bsamples);
-    //that.find("input[name='prelimID']").attr("id", "prelimID_" + bsamples);
-    //that.find("input[id='prelimID_" + bsamples + "']").attr("name", "prelimID_" + bsamples);
-    //that.find("input[name='latitude']").attr("id", "latitude_" + bsamples);
-    //that.find("input[id='latitude_" + bsamples + "']").attr("name", "latitude_" + bsamples);
-    //that.find("input[name='longitude']").attr("id", "longitude_" + bsamples);
-    //that.find("input[id='longitude_" + bsamples + "']").attr("name", "longitude_" + bsamples);
-    //that.find("input[name='altitude']").attr("id", "altitude_" + bsamples);
-    //that.find("input[id='altitude_" + bsamples + "']").attr("name", "altitude_" + bsamples);
-    //that.find("input[name='habit']").attr("id", "habit_" + bsamples);
-    //that.find("input[id='habit_" + bsamples + "']").attr("name", "habit_" + bsamples);
-    //that.find("input[name='description']").attr("id", "description_" + bsamples);
-    //that.find("input[id='description_" + bsamples + "']").attr("name", "description_" + bsamples);
-    //that.find("input[name='habitat']").attr("id", "habitat_" + bsamples);
-    //that.find("input[id='habitat_" + bsamples + "']").attr("name", "habitat_" + bsamples);
-    //that.find("input[name='landform']").attr("id", "landform_" + bsamples);
-    //that.find("input[id='landform_" + bsamples + "']").attr("name", "landform_" + bsamples);
-    //that.find("input[name='soilGeology']").attr("id", "soilGeology_" + bsamples);
-    //that.find("input[id='soilGeology_" + bsamples + "']").attr("name", "soilGeology_" + bsamples);
-    //that.find("input[name='externalCam']").attr("id", "externalCam_" + bsamples);
-    //that.find("input[id='externalCam_" + bsamples + "']").attr("name", "externalCam_" + bsamples);
-    //that.find("input[name='BotPlantPreserve-SP']").attr("id", "BotPlantPreserve-SP_" + bsamples);
-    //that.find("input[id='BotPlantPreserve-SP_" + bsamples + "']").attr("name", "BotPlantPreserve-SP_" + bsamples);
-    //that.find("input[name='BotPlantPreserve-DN']").attr("id", "BotPlantPreserve-DN_" + bsamples);
-    //that.find("input[id='BotPlantPreserve-DN_" + bsamples + "']").attr("name", "BotPlantPreserve-DN_" + bsamples);
-    //that.find("input[name='BotPlantPreserve-O']").attr("id", "BotPlantPreserve-O_" + bsamples);
-    //that.find("input[id='BotPlantPreserve-O_" + bsamples + "']").attr("name", "BotPlantPreserve-O_" + bsamples);
-    //that.find("input[name='BotPlantPreserverOtherText']").attr("id", "BotPlantPreserverOtherText_" + bsamples);
-    //that.find("input[id='BotPlantPreserverOtherText_" + bsamples + "']").attr("name", "BotPlantPreserverOtherText_" + bsamples);
-    //that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + bsamples);
-    //that.find("textarea[id='addlObsrvns_" + bsamples + "']").attr("name", "addlObsrvns_" + bsamples);
+    that.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
+    })
+    that.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
+    })
+    that.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
+    })
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
@@ -530,47 +568,15 @@ function loadBotanySample() {
         radioClass: 'iradio_square-blue'
     });
     that.find('select[name="HostIdentifiedUserId"]').find('option').remove().end().append($(staffData));
-    //that.find('select[name="identifiedBy"]').find('option').remove().end().append($(staffData));
-    //that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + bsamples);
-    //that.find("select[id='identifiedBy_" + bsamples + "']").attr("name", "identifiedBy_" + bsamples);
-    //that.find("input[name='bsampleId']").attr("id", "bsampleId_" + bsamples);
-    //that.find("input[id='bsampleId_" + bsamples + "']").attr("name", "bsampleId_" + bsamples);
-    //that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + bsamples);
-    //that.find("input[id='addlCollectors_" + bsamples + "']").attr("name", "addlCollectors_" + bsamples);
-    //that.find("input[name='numCollected']").attr("id", "numCollected_" + bsamples);
-    //that.find("input[id='numCollected_" + bsamples + "']").attr("name", "numCollected_" + bsamples);
-    //that.find("input[name='crossCollection']").attr("id", "crossCollection_" + bsamples);
-    //that.find("input[id='crossCollection_" + bsamples + "']").attr("name", "crossCollection_" + bsamples);
-    //that.find("input[name='prelimID']").attr("id", "prelimID_" + bsamples);
-    //that.find("input[id='prelimID_" + bsamples + "']").attr("name", "prelimID_" + bsamples);
-    //that.find("input[name='latitude']").attr("id", "latitude_" + bsamples);
-    //that.find("input[id='latitude_" + bsamples + "']").attr("name", "latitude_" + bsamples);
-    //that.find("input[name='longitude']").attr("id", "longitude_" + bsamples);
-    //that.find("input[id='longitude_" + bsamples + "']").attr("name", "longitude_" + bsamples);
-    //that.find("input[name='altitude']").attr("id", "altitude_" + bsamples);
-    //that.find("input[id='altitude_" + bsamples + "']").attr("name", "altitude_" + bsamples);
-    //that.find("input[name='habit']").attr("id", "habit_" + bsamples);
-    //that.find("input[id='habit_" + bsamples + "']").attr("name", "habit_" + bsamples);
-    //that.find("input[name='description']").attr("id", "description_" + bsamples);
-    //that.find("input[id='description_" + bsamples + "']").attr("name", "description_" + bsamples);
-    //that.find("input[name='habitat']").attr("id", "habitat_" + bsamples);
-    //that.find("input[id='habitat_" + bsamples + "']").attr("name", "habitat_" + bsamples);
-    //that.find("input[name='landform']").attr("id", "landform_" + bsamples);
-    //that.find("input[id='landform_" + bsamples + "']").attr("name", "landform_" + bsamples);
-    //that.find("input[name='soilGeology']").attr("id", "soilGeology_" + bsamples);
-    //that.find("input[id='soilGeology_" + bsamples + "']").attr("name", "soilGeology_" + bsamples);
-    //that.find("input[name='externalCam']").attr("id", "externalCam_" + bsamples);
-    //that.find("input[id='externalCam_" + bsamples + "']").attr("name", "externalCam_" + bsamples);
-    //that.find("input[name='BotPlantPreserve-SP']").attr("id", "BotPlantPreserve-SP_" + bsamples);
-    //that.find("input[id='BotPlantPreserve-SP_" + bsamples + "']").attr("name", "BotPlantPreserve-SP_" + bsamples);
-    //that.find("input[name='BotPlantPreserve-DN']").attr("id", "BotPlantPreserve-DN_" + bsamples);
-    //that.find("input[id='BotPlantPreserve-DN_" + bsamples + "']").attr("name", "BotPlantPreserve-DN_" + bsamples);
-    //that.find("input[name='BotPlantPreserve-O']").attr("id", "BotPlantPreserve-O_" + bsamples);
-    //that.find("input[id='BotPlantPreserve-O_" + bsamples + "']").attr("name", "BotPlantPreserve-O_" + bsamples);
-    //that.find("input[name='BotPlantPreserverOtherText']").attr("id", "BotPlantPreserverOtherText_" + bsamples);
-    //that.find("input[id='BotPlantPreserverOtherText_" + bsamples + "']").attr("name", "BotPlantPreserverOtherText_" + bsamples);
-    //that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + bsamples);
-    //that.find("textarea[id='addlObsrvns_" + bsamples + "']").attr("name", "addlObsrvns_" + bsamples);
+    that.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
+    })
+    that.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
+    })
+    that.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
+    })
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.insertAfter($('.samples'));
@@ -609,55 +615,15 @@ $(document).on('click', '#addEntoSample', function (e) {
     that.find('select[name="EntoInfestedPctCode"]').find('option').remove().end().append($(percInfested));
     that.find('select[name="EntoDamageLevelCode"]').find('option').remove().end().append($(damageLevel));
     that.find('select[name="EntoPestLevelCode"]').find('option').remove().end().append($(pestLevel));
-    //that.find('select[name="identifiedBy"]').find('option').remove().end().append($(staffData));
-    //that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + esamples);
-    //that.find("select[id='identifiedBy_" + esamples + "']").attr("name", "identifiedBy_" + esamples);
-    //that.find("input[name='esampleId']").attr("id", "esampleId_" + esamples);
-    //that.find("input[id='esampleId_" + esamples + "']").attr("name", "esampleId_" + esamples);
-    //that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + esamples);
-    //that.find("input[id='addlCollectors_" + esamples + "']").attr("name", "addlCollectors_" + esamples);
-    //that.find("input[name='numCollected']").attr("id", "numCollected_" + esamples);
-    //that.find("input[id='numCollected_" + esamples + "']").attr("name", "numCollected_" + esamples);
-    //that.find("input[name='crossCollection']").attr("id", "crossCollection_" + esamples);
-    //that.find("input[id='crossCollection_" + esamples + "']").attr("name", "crossCollection_" + esamples);
-    //that.find("input[name='prelimID']").attr("id", "prelimID_" + esamples);
-    //that.find("input[id='prelimID_" + esamples + "']").attr("name", "prelimID_" + esamples);
-    //that.find("input[name='latitude']").attr("id", "latitude_" + esamples);
-    //that.find("input[id='latitude_" + esamples + "']").attr("name", "latitude_" + esamples);
-    //that.find("input[name='longitude']").attr("id", "longitude_" + esamples);
-    //that.find("input[id='longitude_" + esamples + "']").attr("name", "longitude_" + esamples);
-    //that.find("input[name='duration']").attr("id", "duration_" + esamples);
-    //that.find("input[id='duration_" + esamples + "']").attr("name", "duration_" + esamples);
-    //that.find("input[name='altitude']").attr("id", "altitude_" + esamples);
-    //that.find("input[id='altitude_" + esamples + "']").attr("name", "altitude_" + esamples);
-    //that.find('select[name="EntoCollectionMethod"]').find('option').remove().end().append($(eCollMethod));
-    //that.find("select[name='EntoCollectionMethod']").attr("id", "EntoCollectionMethod_" + esamples);
-    //that.find("select[id='EntoCollectionMethod_" + esamples + "']").attr("name", "EntoCollectionMethod_" + esamples);
-    //that.find("input[name='hostother']").attr("id", "hostother_" + esamples);
-    //that.find("input[id='hostother_" + esamples + "']").attr("name", "hostother_" + esamples);
-    //that.find("input[name='othername']").attr("id", "othername_" + esamples);
-    //that.find("input[id='othername_" + esamples + "']").attr("name", "othername_" + esamples);
-    //that.find("input[name='plantPart']").attr("id", "plantPart_" + esamples);
-    //that.find("input[id='plantPart_" + esamples + "']").attr("name", "plantPart_" + esamples);
-    //that.find("input[name='EntoPlantPreserve']").attr("id", "EntoPlantPreserve_" + esamples);
-    //that.find("input[id='EntoPlantPreserve_" + esamples + "']").attr("name", "EntoPlantPreserve_" + esamples);
-    //that.find("input[name='othPreserveType']").attr("id", "othPreserveType_" + esamples);
-    //that.find("input[id='othPreserveType_" + esamples + "']").attr("name", "othPreserveType_" + esamples);
-    //that.find('select[name="EntoInfestedPct"]').find('option').remove().end().append($(percInfested));
-    //that.find("select[name='EntoInfestedPct']").attr("id", "EntoInfestedPct_" + esamples);
-    //that.find("select[id='EntoInfestedPct_" + esamples + "']").attr("name", "EntoInfestedPct_" + esamples);
-    //that.find('select[name="EntoDamageLevel"]').find('option').remove().end().append($(damageLevel));
-    //that.find("select[name='EntoDamageLevel']").attr("id", "EntoDamageLevel_" + esamples);
-    //that.find("select[id='EntoDamageLevel_" + esamples + "']").attr("name", "EntoDamageLevel_" + esamples);
-    //that.find('select[name="EntoPestLevel"]').find('option').remove().end().append($(pestLevel));
-    //that.find("select[name='EntoPestLevel']").attr("id", "EntoPestLevel_" + esamples);
-    //that.find("select[id='EntoPestLevel_" + esamples + "']").attr("name", "EntoPestLevel_" + esamples);
-    //that.find("input[name='EntoLifeStage']").attr("id", "EntoLifeStage_" + esamples);
-    //that.find("input[id='EntoLifeStage_" + esamples + "']").attr("name", "EntoLifeStage_" + esamples);
-    //that.find("input[name='externalCam']").attr("id", "externalCam_" + esamples);
-    //that.find("input[id='externalCam_" + esamples + "']").attr("name", "externalCam_" + esamples);
-    //that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + esamples);
-    //that.find("textarea[id='addlObsrvns_" + esamples + "']").attr("name", "addlObsrvns_" + esamples);
+    that.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
+    })
+    that.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
+    })
+    that.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
+    })
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
@@ -680,55 +646,15 @@ function loadEntoSample() {
     that.find('select[name="EntoInfestedPctCode"]').find('option').remove().end().append($(percInfested));
     that.find('select[name="EntoDamageLevelCode"]').find('option').remove().end().append($(damageLevel));
     that.find('select[name="EntoPestLevelCode"]').find('option').remove().end().append($(pestLevel));
-    //that.find('select[name="identifiedBy"]').find('option').remove().end().append($(staffData));
-    //that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + esamples);
-    //that.find("select[id='identifiedBy_" + esamples + "']").attr("name", "identifiedBy_" + esamples);
-    //that.find("input[name='esampleId']").attr("id", "esampleId_" + esamples);
-    //that.find("input[id='esampleId_" + esamples + "']").attr("name", "esampleId_" + esamples);
-    //that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + esamples);
-    //that.find("input[id='addlCollectors_" + esamples + "']").attr("name", "addlCollectors_" + esamples);
-    //that.find("input[name='numCollected']").attr("id", "numCollected_" + esamples);
-    //that.find("input[id='numCollected_" + esamples + "']").attr("name", "numCollected_" + esamples);
-    //that.find("input[name='crossCollection']").attr("id", "crossCollection_" + esamples);
-    //that.find("input[id='crossCollection_" + esamples + "']").attr("name", "crossCollection_" + esamples);
-    //that.find("input[name='prelimID']").attr("id", "prelimID_" + esamples);
-    //that.find("input[id='prelimID_" + esamples + "']").attr("name", "prelimID_" + esamples);
-    //that.find("input[name='latitude']").attr("id", "latitude_" + esamples);
-    //that.find("input[id='latitude_" + esamples + "']").attr("name", "latitude_" + esamples);
-    //that.find("input[name='longitude']").attr("id", "longitude_" + esamples);
-    //that.find("input[id='longitude_" + esamples + "']").attr("name", "longitude_" + esamples);
-    //that.find("input[name='duration']").attr("id", "duration_" + esamples);
-    //that.find("input[id='duration_" + esamples + "']").attr("name", "duration_" + esamples);
-    //that.find("input[name='altitude']").attr("id", "altitude_" + esamples);
-    //that.find("input[id='altitude_" + esamples + "']").attr("name", "altitude_" + esamples);
-    //that.find('select[name="EntoCollectionMethod"]').find('option').remove().end().append($(eCollMethod));
-    //that.find("select[name='EntoCollectionMethod']").attr("id", "EntoCollectionMethod_" + esamples);
-    //that.find("select[id='EntoCollectionMethod_" + esamples + "']").attr("name", "EntoCollectionMethod_" + esamples);
-    //that.find("input[name='hostother']").attr("id", "hostother_" + esamples);
-    //that.find("input[id='hostother_" + esamples + "']").attr("name", "hostother_" + esamples);
-    //that.find("input[name='othername']").attr("id", "othername_" + esamples);
-    //that.find("input[id='othername_" + esamples + "']").attr("name", "othername_" + esamples);
-    //that.find("input[name='plantPart']").attr("id", "plantPart_" + esamples);
-    //that.find("input[id='plantPart_" + esamples + "']").attr("name", "plantPart_" + esamples);
-    //that.find("input[name='EntoPlantPreserve']").attr("id", "EntoPlantPreserve_" + esamples);
-    //that.find("input[id='EntoPlantPreserve_" + esamples + "']").attr("name", "EntoPlantPreserve_" + esamples);
-    //that.find("input[name='othPreserveType']").attr("id", "othPreserveType_" + esamples);
-    //that.find("input[id='othPreserveType_" + esamples + "']").attr("name", "othPreserveType_" + esamples);
-    //that.find('select[name="EntoInfestedPct"]').find('option').remove().end().append($(percInfested));
-    //that.find("select[name='EntoInfestedPct']").attr("id", "EntoInfestedPct_" + esamples);
-    //that.find("select[id='EntoInfestedPct_" + esamples + "']").attr("name", "EntoInfestedPct_" + esamples);
-    //that.find('select[name="EntoDamageLevel"]').find('option').remove().end().append($(damageLevel));
-    //that.find("select[name='EntoDamageLevel']").attr("id", "EntoDamageLevel_" + esamples);
-    //that.find("select[id='EntoDamageLevel_" + esamples + "']").attr("name", "EntoDamageLevel_" + esamples);
-    //that.find('select[name="EntoPestLevel"]').find('option').remove().end().append($(pestLevel));
-    //that.find("select[name='EntoPestLevel']").attr("id", "EntoPestLevel_" + esamples);
-    //that.find("select[id='EntoPestLevel_" + esamples + "']").attr("name", "EntoPestLevel_" + esamples);
-    //that.find("input[name='EntoLifeStage']").attr("id", "EntoLifeStage_" + esamples);
-    //that.find("input[id='EntoLifeStage_" + esamples + "']").attr("name", "EntoLifeStage_" + esamples);
-    //that.find("input[name='externalCam']").attr("id", "externalCam_" + esamples);
-    //that.find("input[id='externalCam_" + esamples + "']").attr("name", "externalCam_" + esamples);
-    //that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + esamples);
-    //that.find("textarea[id='addlObsrvns_" + esamples + "']").attr("name", "addlObsrvns_" + esamples);
+    that.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
+    })
+    that.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
+    })
+    that.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
+    })
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.insertAfter($('.samples'));
@@ -765,46 +691,16 @@ $(document).on('click', '#addPathSample', function (e) {
     that.find('select[name="HostIdentifiedUserId"]').find('option').remove().end().append($(staffData));
     that.find('select[name="PathIncidCode"]').find('option').remove().end().append($(incidence));
     that.find('select[name="PathSevCode"]').find('option').remove().end().append($(severity));
-    //that.find('select[name="identifiedBy"]').find('option').remove().end().append($(staffData));
-    //that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + psamples);
-    //that.find("select[id='identifiedBy_" + psamples + "']").attr("name", "identifiedBy_" + psamples);
-    //that.find("input[name='psampleId']").attr("id", "psampleId_" + psamples);
-    //that.find("input[id='psampleId_" + psamples + "']").attr("name", "psampleId_" + psamples);
-    //that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + psamples);
-    //that.find("input[id='addlCollectors_" + psamples + "']").attr("name", "addlCollectors_" + psamples);
-    //that.find("input[name='numCollected']").attr("id", "numCollected_" + psamples);
-    //that.find("input[id='numCollected_" + psamples + "']").attr("name", "numCollected_" + psamples);
-    //that.find("input[name='crossCollection']").attr("id", "crossCollection_" + psamples);
-    //that.find("input[id='crossCollection_" + psamples + "']").attr("name", "crossCollection_" + psamples);
-    //that.find("input[name='prelimID']").attr("id", "prelimID_" + psamples);
-    //that.find("input[id='prelimID_" + psamples + "']").attr("name", "prelimID_" + psamples);
-    //that.find("input[name='latitude']").attr("id", "latitude_" + psamples);
-    //that.find("input[id='latitude_" + psamples + "']").attr("name", "latitude_" + psamples);
-    //that.find("input[name='longitude']").attr("id", "longitude_" + psamples);
-    //that.find("input[id='longitude_" + psamples + "']").attr("name", "longitude_" + psamples);
-    //that.find("input[name='altitude']").attr("id", "altitude_" + psamples);
-    //that.find("input[id='altitude_" + psamples + "']").attr("name", "altitude_" + psamples);
-    //that.find("input[name='hostother']").attr("id", "hostother_" + psamples);
-    //that.find("input[id='hostother_" + psamples + "']").attr("name", "hostother_" + psamples);
-    //that.find("input[name='othername']").attr("id", "othername_" + psamples);
-    //that.find("input[id='othername_" + psamples + "']").attr("name", "othername_" + psamples);
-    //that.find("input[name='PathPlantPart']").attr("id", "PathPlantPart_" + psamples);
-    //that.find("input[id='PathPlantPart_" + psamples + "']").attr("name", "PathPlantPart_" + psamples);
-    //that.find("input[name='PathPlantPreserve']").attr("id", "PathPlantPreserve_" + psamples);
-    //that.find("input[id='PathPlantPreserve_" + psamples + "']").attr("name", "PathPlantPreserve_" + psamples);
-    //that.find("input[name='othPreserveType']").attr("id", "othPreserveType_" + psamples);
-    //that.find("input[id='othPreserveType_" + psamples + "']").attr("name", "othPreserveType_" + psamples);
-    //that.find('select[name="PathIncidence"]').find('option').remove().end().append($(incidence));
-    //that.find("select[name='PathIncidence']").attr("id", "PathIncidence_" + psamples);
-    //that.find("select[id='PathIncidence_" + psamples + "']").attr("name", "PathIncidence_" + psamples);
-    //that.find('select[name="PathSeverity"]').find('option').remove().end().append($(severity));
-    //that.find("select[name='PathSeverity']").attr("id", "PathSeverity_" + psamples);
-    //that.find("select[id='PathSeverity_" + psamples + "']").attr("name", "PathSeverity_" + psamples);
-    //that.find("input[name='externalCam']").attr("id", "externalCam_" + psamples);
-    //that.find("input[id='externalCam_" + psamples + "']").attr("name", "externalCam_" + psamples);
-    //that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + psamples);
-    //that.find("textarea[id='addlObsrvns_" + psamples + "']").attr("name", "addlObsrvns_" + psamples);
-    that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
+    that.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
+    })
+    that.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
+    })
+    that.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
+    })
+    //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
     that.insertAfter($('.samples'));
@@ -824,41 +720,16 @@ function loadPathSample() {
     that.find('select[name="HostIdentifiedUserId"]').find('option').remove().end().append($(staffData));
     that.find('select[name="PathIncidCode"]').find('option').remove().end().append($(incidence));
     that.find('select[name="PathSevCode"]').find('option').remove().end().append($(severity));
-    //that.find("select[name='identifiedBy']").attr("id", "identifiedBy_" + psamples);
-    //that.find("select[id='identifiedBy_" + psamples + "']").attr("name", "identifiedBy_" + psamples);
-    //that.find("input[name='psampleId']").attr("id", "psampleId_" + psamples);
-    //that.find("input[id='psampleId_" + psamples + "']").attr("name", "psampleId_" + psamples);
-    //that.find("input[name='addlCollectors']").attr("id", "addlCollectors_" + psamples);
-    //that.find("input[id='addlCollectors_" + psamples + "']").attr("name", "addlCollectors_" + psamples);
-    //that.find("input[name='numCollected']").attr("id", "numCollected_" + psamples);
-    //that.find("input[id='numCollected_" + psamples + "']").attr("name", "numCollected_" + psamples);
-    //that.find("input[name='crossCollection']").attr("id", "crossCollection_" + psamples);
-    //that.find("input[id='crossCollection_" + psamples + "']").attr("name", "crossCollection_" + psamples);
-    //that.find("input[name='prelimID']").attr("id", "prelimID_" + psamples);
-    //that.find("input[id='prelimID_" + psamples + "']").attr("name", "prelimID_" + psamples);
-    //that.find("input[name='latitude']").attr("id", "latitude_" + psamples);
-    //that.find("input[id='latitude_" + psamples + "']").attr("name", "latitude_" + psamples);
-    //that.find("input[name='longitude']").attr("id", "longitude_" + psamples);
-    //that.find("input[id='longitude_" + psamples + "']").attr("name", "longitude_" + psamples);
-    //that.find("input[name='altitude']").attr("id", "altitude_" + psamples);
-    //that.find("input[id='altitude_" + psamples + "']").attr("name", "altitude_" + psamples);
-    //that.find("input[name='hostother']").attr("id", "hostother_" + psamples);
-    //that.find("input[id='hostother_" + psamples + "']").attr("name", "hostother_" + psamples);
-    //that.find("input[name='othername']").attr("id", "othername_" + psamples);
-    //that.find("input[id='othername_" + psamples + "']").attr("name", "othername_" + psamples);
-    //that.find("input[name='PathPlantPart']").attr("id", "PathPlantPart_" + psamples);
-    //that.find("input[id='PathPlantPart_" + psamples + "']").attr("name", "PathPlantPart_" + psamples);
-    //that.find("input[name='othPreserveType']").attr("id", "othPreserveType_" + psamples);
-    //that.find("input[id='othPreserveType_" + psamples + "']").attr("name", "othPreserveType_" + psamples);
-    //that.find("select[name='PathIncidence']").attr("id", "PathIncidence_" + psamples);
-    //that.find("select[id='PathIncidence_" + psamples + "']").attr("name", "PathIncidence_" + psamples);
-    //that.find("select[name='PathSeverity']").attr("id", "PathSeverity_" + psamples);
-    //that.find("select[id='PathSeverity_" + psamples + "']").attr("name", "PathSeverity_" + psamples);
-    //that.find("input[name='externalCam']").attr("id", "externalCam_" + psamples);
-    //that.find("input[id='externalCam_" + psamples + "']").attr("name", "externalCam_" + psamples);
-    //that.find("textarea[name='addlObsrvns']").attr("id", "addlObsrvns_" + psamples);
-    //that.find("textarea[id='addlObsrvns_" + psamples + "']").attr("name", "addlObsrvns_" + psamples);
-    that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
+    that.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
+    })
+    that.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
+    })
+    that.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
+    })
+    //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.insertAfter($('.samples'));
 }
@@ -905,7 +776,7 @@ $(document).on('ifChecked', 'input[type="checkbox"].minimal', function (event) {
     if ($(this).attr('name') === 'AdditionalObserverTab') {
         $('.addlObserver').removeClass('hide');
     };
-    if ($(this).attr('name').startsWith('addlCollectors')) {
+    if ($(this).attr('name') === 'AdditionalCollectorTab') {
         $('.addlCollectors').removeClass('hide');
     };
     $(this).val('Y');
@@ -916,7 +787,7 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
     if ($(this).attr('name') === 'AdditionalObserverTab') {
         $('.addlObserver').addClass('hide');
     };
-    if ($(this).attr('name').startsWith('addlCollectors')) {
+    if ($(this).attr('name') === 'AdditionalCollectorTab') {
         $('.addlCollectors').addClass('hide');
     };
     $(this).val('N');
@@ -1145,8 +1016,14 @@ function loadModal(pagename) {
                     }
                     if (key == "AdditionalObserverTab" && value.length > 0) {
                         $('#form1').find("input[type='checkbox'][name='AdditionalObserverTab']").iCheck('check');
+                        addlObservers = '<option value="NONE">- select -</option>';
                         $.each(value, function (key1, value1) {
-                            $('#form1').find("input[type='text'][name='AdditionalObserverName']").eq(key1).val(value1.AdditionalObserverName);
+                            //$('#form1').find("input[type='text'][name='AdditionalObserverName']").eq(key1).val(value1.AdditionalObserverName);
+                            $('#form1').find("input[type='text'][name='AdditionalObserverName" + value1.ObserverNo + "']").val(value1.AdditionalObserverName);
+                            var option1 = '<option';
+                            option1 = option1 + ' value="' + value1.observerNo + '">';
+                            option1 = option1 + value1.AdditionalObserverName + "</option>";
+                            addlObservers = addlObservers + option1;
                         });
                     }
                     if (key == "PlantObsTab" && curDiscipline == "B" && value.length > 0) {
@@ -1192,28 +1069,6 @@ function loadModal(pagename) {
                                     $('div.hostweed').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("select[name='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("textarea[name='" + key2 + "']").val(value2);
-                                    if (key2 == "PlantSampleTab") {
-                                        $.each(value2, function (key3, value3) {
-                                            $.ajax({
-                                                url: "",
-                                                beforeSend: function (xhr) {
-                                                    loadBotanySample();
-                                                }
-                                            }).complete(function (e) {
-                                                $.each(value3, function (key4, value4) {
-                                                    $('div.botsample').eq(key3).find("input[type='text'][name='" + key4 + "']").val(value4);
-                                                    $('div.botsample').eq(key3).find("input[type='date'][name='" + key4 + "']").val(value4);
-                                                    $('div.botsample').eq(key3).find("input[type='number'][name='" + key4 + "']").val(value4);
-                                                    $('div.botsample').eq(key3).find("input[type='checkbox'][name='" + key4 + "']").val(value4);
-                                                    $('div.botsample').eq(key3).find("input[type='checkbox'][name='" + key4 + "'][value='on']").iCheck('check');
-                                                    $('div.botsample').eq(key3).find("input[type='radio'][name^='" + key4 + "'][value='" + value4 + "']").iCheck('check');
-                                                    $('div.botsample').eq(key3).find("input[type='radio'][name^='" + key4 + "']").val(value4);
-                                                    $('div.botsample').eq(key3).find("select[name='" + key4 + "']").val(value4);
-                                                    $('div.botsample').eq(key3).find("textarea[name='" + key4 + "']").val(value4);
-                                                });
-                                            });
-                                        });
-                                    }
                                 });
                             });
                         });
@@ -1281,27 +1136,6 @@ function loadModal(pagename) {
                                             });
                                         });
                                     }
-                                    if (key2 == "PlantSampleTab") {
-                                        $.each(value2, function (key3, value3) {
-                                            $.ajax({
-                                                url: "",
-                                                beforeSend: function (xhr) {
-                                                    loadEntoSample();
-                                                }
-                                            }).complete(function (e) {
-                                                $.each(value3, function (key4, value4) {
-                                                    $('div.entosample').eq(key3).find("input[type='text'][name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("input[type='date'][name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("input[type='number'][name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("input[type='checkbox'][name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("input[type='checkbox'][name='" + key4 + "'][value='on']").iCheck('check');
-                                                    $('div.entosample').eq(key3).find("input[type='radio'][name^='" + key4 + "'][value='" + value4 + "']").iCheck('check');
-                                                    $('div.entosample').eq(key3).find("input[type='radio'][name^='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("select[name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("textarea[name='" + key4 + "']").val(value4);                                                });
-                                            });
-                                        });
-                                    }
                                 });
                             });
                         });
@@ -1320,31 +1154,31 @@ function loadModal(pagename) {
                                         $('div.glossary').find('#' + value2.substring(0, 1).toLowerCase()).removeClass('hide');
                                     }
                                     if (key2 == "HostStatCount" && value2 > 0) {
-                                        $('div.pathbox').eq(key1).find("select[name='PlantStatisticType']").val('C');
-                                        $('div.pathbox').eq(key1).find("input[type='number'][name='HostStatAreaNo']").addClass('hide');
-                                        $('div.pathbox').eq(key1).find("input[type='number'][name='HostStatCount']").removeClass('hide');
+                                        $('div.pathbox').eq(key1).find("select[name^='PlantStatisticType']").val('C');
+                                        $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatAreaNo']").addClass('hide');
+                                        $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatCount']").removeClass('hide');
                                     }
                                     if (key2 == "HostStatAreaNo" && value2 > 0) {
-                                        $('div.pathbox').eq(key1).find("select[name='PlantStatisticType']").val('A');
-                                        $('div.pathbox').eq(key1).find("input[type='number'][name='HostStatCount']").addClass('hide');
-                                        $('div.pathbox').eq(key1).find("input[type='number'][name='HostStatAreaNo']").removeClass('hide');
+                                        $('div.pathbox').eq(key1).find("select[name^='PlantStatisticType']").val('A');
+                                        $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatCount']").addClass('hide');
+                                        $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatAreaNo']").removeClass('hide');
                                     }
                                     if (key2 == "LocationPointWktClob") {
                                         var wkt = new Wkt.Wkt();
                                         wkt.read(value2);
                                         wkt.toObject();
-                                        $('div.pathbox').eq(key1).find("input[type='number'][name='Longitude']").val(wkt.toJson().coordinates[0]);
-                                        $('div.pathbox').eq(key1).find("input[type='number'][name='Latitude']").val(wkt.toJson().coordinates[1]);
+                                        $('div.pathbox').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
+                                        $('div.pathbox').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
                                     }
-                                    $('div.pathbox').eq(key1).find("input[type='text'][name='" + key2 + "']").val(value2);
-                                    $('div.pathbox').eq(key1).find("input[type='date'][name='" + key2 + "']").val(value2);
-                                    $('div.pathbox').eq(key1).find("input[type='number'][name='" + key2 + "']").val(value2);
-                                    $('div.pathbox').eq(key1).find("input[type='checkbox'][name='" + key2 + "']").val(value2);
-                                    $('div.pathbox').eq(key1).find("input[type='checkbox'][name='" + key2 + "'][value='Y']").iCheck('check');
+                                    $('div.pathbox').eq(key1).find("input[type='text'][name^='" + key2 + "']").val(value2);
+                                    $('div.pathbox').eq(key1).find("input[type='date'][name^='" + key2 + "']").val(value2);
+                                    $('div.pathbox').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
+                                    $('div.pathbox').eq(key1).find("input[type='checkbox'][name^='" + key2 + "']").val(value2);
+                                    $('div.pathbox').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='Y']").iCheck('check');
                                     $('div.pathbox').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
                                     $('div.pathbox').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
-                                    $('div.pathbox').eq(key1).find("select[name='" + key2 + "']").val(value2);
-                                    $('div.pathbox').eq(key1).find("textarea[name='" + key2 + "']").val(value2);
+                                    $('div.pathbox').eq(key1).find("select[name^='" + key2 + "']").val(value2);
+                                    $('div.pathbox').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
                                     if (key2 == "PlantObsTargetTab") {
                                         $.each(value2, function (key3, value3) {
                                             $.ajax({
@@ -1356,37 +1190,16 @@ function loadModal(pagename) {
                                                 }
                                             }).complete(function (e) {
                                                 $.each(value3, function (key4, value4) {
-                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='text'][name='" + key4 + "']").val(value4);
-                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='date'][name='" + key4 + "']").val(value4);
-                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='number'][name='" + key4 + "']").val(value4);
-                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='checkbox'][name='" + key4 + "']").val(value4);
-                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='checkbox'][name='" + key4 + "'][value='on']").iCheck('check');
+                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='text'][name^='" + key4 + "']").val(value4);
+                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='date'][name^='" + key4 + "']").val(value4);
+                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='number'][name^='" + key4 + "']").val(value4);
+                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='checkbox'][name^='" + key4 + "']").val(value4);
+                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='checkbox'][name^='" + key4 + "'][value='on']").iCheck('check');
                                                     $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='radio'][name^='" + key4 + "'][value='" + value4 + "']").iCheck('check');
                                                     $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='radio'][name^='" + key4 + "']").val(value4);
-                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("select[name='" + key4 + "']").val(value4);
-                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("textarea[name='" + key4 + "']").val(value4);
+                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("select[name^='" + key4 + "']").val(value4);
+                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("textarea[name^='" + key4 + "']").val(value4);
                                                 });
-                                            });
-                                        });
-                                    }
-                                    if (key2 == "PlantSampleTab") {
-                                        $.each(value2, function (key3, value3) {
-                                            $.ajax({
-                                                url: "",
-                                                beforeSend: function (xhr) {
-                                                    loadPathSample();
-                                                }
-                                            }).complete(function (e) {
-                                                $.each(value3, function (key4, value4) {
-                                                    $('div.entosample').eq(key3).find("input[type='text'][name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("input[type='date'][name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("input[type='number'][name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("input[type='checkbox'][name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("input[type='checkbox'][name='" + key4 + "'][value='on']").iCheck('check');
-                                                    $('div.entosample').eq(key3).find("input[type='radio'][name^='" + key4 + "'][value='" + value4 + "']").iCheck('check');
-                                                    $('div.entosample').eq(key3).find("input[type='radio'][name^='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("select[name='" + key4 + "']").val(value4);
-                                                    $('div.entosample').eq(key3).find("textarea[name='" + key4 + "']").val(value4);                                                    });
                                             });
                                         });
                                     }
@@ -1403,15 +1216,38 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    $('div.sample').eq(key1).find("input[type='text'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='date'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='number'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name='" + key2 + "'][value='on']").iCheck('check');
+                                    if (key2 == "SamplePointWktClob") {
+                                        var wkt = new Wkt.Wkt();
+                                        wkt.read(value2);
+                                        wkt.toObject();
+                                        $('div.sample').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
+                                        $('div.sample').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
+                                    }
+                                    if (key2 == "AdditionalCollectorTab" && value2.length > 0) {
+                                        $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='text'][name^='AdditionalCollectorName']").eq(key1).val(value3[key3]);
+                                        });
+                                    }
+                                    if (key2 == "PlantPreservationTab" && value2.length > 0) {
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
+                                        });
+                                    }
+                                    if (key2 == "PlantPartTab" && value2.length > 0) {
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
+                                        });
+                                    }
+                                    $('div.sample').eq(key1).find("input[type='text'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='date'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='on']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("select[name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("textarea[name='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
                                 });
                             });
                         });
@@ -1425,15 +1261,43 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    $('div.sample').eq(key1).find("input[type='text'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='date'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='number'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name='" + key2 + "'][value='on']").iCheck('check');
+                                    if (key2 == "SamplePointWktClob") {
+                                        var wkt = new Wkt.Wkt();
+                                        wkt.read(value2);
+                                        wkt.toObject();
+                                        $('div.sample').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
+                                        $('div.sample').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
+                                    }
+                                    if (key2 == "AdditionalCollectorTab" && value2.length > 0) {
+                                        $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='text'][name^='AdditionalCollectorName']").eq(key1).val(value3[key3]);
+                                        });
+                                    }
+                                    if (key2 == "PlantPreservationTab" && value2.length > 0) {
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
+                                        });
+                                    }
+                                    if (key2 == "PlantPartTab" && value2.length > 0) {
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
+                                        });
+                                    }
+                                    if (key2 == "EntoLifeStgTab" && value2.length > 0) {
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
+                                        });
+                                    }
+                                    $('div.sample').eq(key1).find("input[type='text'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='date'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='on']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("select[name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("textarea[name='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
                                 });
                             });
                         });
@@ -1447,15 +1311,38 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    $('div.sample').eq(key1).find("input[type='text'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='date'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='number'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name='" + key2 + "'][value='on']").iCheck('check');
+                                    if (key2 == "SamplePointWktClob") {
+                                        var wkt = new Wkt.Wkt();
+                                        wkt.read(value2);
+                                        wkt.toObject();
+                                        $('div.sample').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
+                                        $('div.sample').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
+                                    }
+                                    if (key2 == "AdditionalCollectorTab" && value2.length > 0) {
+                                        $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='text'][name^='AdditionalCollectorName']").eq(key1).val(value3[key3]);
+                                        });
+                                    }
+                                    if (key2 == "PlantPreservationTab" && value2.length > 0) {
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
+                                        });
+                                    }
+                                    if (key2 == "PlantPartTab" && value2.length > 0) {
+                                        $.each(value2, function (key3, value3) {
+                                            $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
+                                        });
+                                    }
+                                    $('div.sample').eq(key1).find("input[type='text'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='date'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='on']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("select[name='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("textarea[name='" + key2 + "']").val(value2);
+                                    $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2); 
+                                    $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
                                 });
                             });
                         });
@@ -1468,36 +1355,6 @@ function loadModal(pagename) {
                         $('#form1').find("input[type='text'][name='" + key + "']").val(value);
                         $('#form1').find("img[name='i" + key + "']").attr("src", 'images/plant.png');
                     }
-                    //if (key.startsWith("bsampleId_") && value != "") {
-                    //    $.ajax({
-                    //        url: "",
-                    //        beforeSend: function (xhr) {
-                    //            loadBotanySample();
-                    //        }
-                    //    }).complete(function (e) {
-                    //        $('#form1').find("input[type='text'][name='" + key + "']").val(value);
-                    //    });
-                    //}
-                    //if (key.startsWith("esampleId_") && value != "") {
-                    //    $.ajax({
-                    //        url: "",
-                    //        beforeSend: function (xhr) {
-                    //            loadEntoSample();
-                    //        }
-                    //    }).complete(function (e) {
-                    //        $('#form1').find("input[type='text'][name='" + key + "']").val(value);
-                    //    });
-                    //}
-                    //if (key.startsWith("psampleId_") && value != "") {
-                    //    $.ajax({
-                    //        url: "",
-                    //        beforeSend: function (xhr) {
-                    //            loadPathSample();
-                    //        }
-                    //    }).complete(function (e) {
-                    //        $('#form1').find("input[type='text'][name='" + key + "']").val(value);
-                    //    });
-                    //}
                     //if (key.startsWith("plantPic_") && value != "") {
                     //    $('#form1').find("img[name='" + key + "']").attr("src", "images/" + value);
                     //}
@@ -1532,12 +1389,12 @@ function loadModal(pagename) {
                     mm = '0' + mm
                 }
                 today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString();
-                $('#form1').find("input[type='number'][name='Latitude']").val(curLat.toFixed(5));
-                $('#form1').find("input[type='number'][name='Longitude']").val(curLng.toFixed(5));
-                $('#form1').find("input[type='text'][name='ObservationWhereWktClob']").val(curWkt);
+                $('#form1').find("input[type='number'][name^='Latitude']").val(curLat.toFixed(5));
+                $('#form1').find("input[type='number'][name^='Longitude']").val(curLng.toFixed(5));
+                $('#form1').find("input[type='text'][name^='ObservationWhereWktClob']").val(curWkt);
                 getAltitude();
-                $('#form1').find("input[type='date'][name='ObservationDate']").val(today);
-                $('#form1').find("input[type='number'][name='DurationMinsCount']").val("0");
+                $('#form1').find("input[type='date'][name^='ObservationDate']").val(today);
+                $('#form1').find("input[type='number'][name^='DurationMinsCount']").val("0");
                 $('#form1').find("input[type='number'][name='id']").val(results.observations.length + 1);
                 //$('#form1').find("input[type='text'][name='track_id']").val(results.observations.length + 1);
                 $('#form1').find("input[type='number'][name='status']").val("0");
@@ -1564,16 +1421,16 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
     };
     if ($(this).attr('name').startsWith('CountList') && $(this).val() === 'Count') {
         var that = $(this).parentsUntil('.hostweed').parent().find('div.countArea');
-        that.find("input[type='number'][name='HostStatAreaNo']").val(HostStatAreaNo);
-        that.find("input[type='number'][name='HostStatCount']").val(HostStatCount);
+        that.find("input[type='number'][name^='HostStatAreaNo']").val(HostStatAreaNo);
+        that.find("input[type='number'][name^='HostStatCount']").val(HostStatCount);
         that.removeClass('hide');
     };
     if ($(this).attr('name').startsWith('CountList') && $(this).val() === 'List') {
         var that = $(this).parentsUntil('.hostweed').parent().find('div.countArea');
-        HostStatAreaNo = that.find("input[type='number'][name='HostStatAreaNo']").val();
-        HostStatCount = that.find("input[type='number'][name='HostStatCount']").val();
-        that.find("input[type='number'][name='HostStatAreaNo']").val("0");
-        that.find("input[type='number'][name='HostStatCount']").val("0");
+        HostStatAreaNo = that.find("input[type='number'][name^='HostStatAreaNo']").val();
+        HostStatCount = that.find("input[type='number'][name^='HostStatCount']").val();
+        that.find("input[type='number'][name^='HostStatAreaNo']").val("0");
+        that.find("input[type='number'][name^='HostStatCount']").val("0");
         that.addClass('hide');
     };
 });
@@ -1581,11 +1438,155 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
 $(document).on('change', 'select[name="PlantStatisticType"]', function () {
     var str = $(this).val();
     if (str == 'C') {
-        $(this).closest('.pathbox').find("input[type='number'][name='HostStatAreaNo']").addClass('hide');
-        $(this).closest('.pathbox').find("input[type='number'][name='HostStatCount']").removeClass('hide');
+        $(this).closest('.pathbox').find("input[type='number'][name^='HostStatAreaNo']").addClass('hide');
+        $(this).closest('.pathbox').find("input[type='number'][name^='HostStatCount']").removeClass('hide');
     }
     if (str == 'A') {
-        $(this).closest('.pathbox').find("input[type='number'][name='HostStatAreaNo']").removeClass('hide');
-        $(this).closest('.pathbox').find("input[type='number'][name='HostStatCount']").addClass('hide');
+        $(this).closest('.pathbox').find("input[type='number'][name^='HostStatAreaNo']").removeClass('hide');
+        $(this).closest('.pathbox').find("input[type='number'][name^='HostStatCount']").addClass('hide');
     }
 });
+
+function objectifyPHForm(formArray) {//serialize data function
+    var observation = {
+        "SubmittedByStaffId": 0,
+        "SurvActivityId": 0,
+        "SiteId": 0,
+        "PlantDisciplineCode": "",
+        "ObservationDate": "",
+        "ObservationStaffId": 0,
+        "WaypointNumber": 0,
+        "DurationMinsCount": 0,
+        "ObservWhereGpsDatumId": "",
+        "ObservationWhereWktClob": "",
+        "AltitudeNo": 0,
+        "AdditionalObserverTab": [],
+        "PlantObsTab": [],
+        "PlantSampleTab":  [],
+        "ObsAttachmentTab": [],
+        "id": 1,
+        "status": 0
+    };
+    for (var i = 0; i < formArray.length; i++) {
+        if (formArray[i]['name'].length > 0) {
+            var fname = formArray[i]['name'].split("_")[0];
+            var fnum = formArray[i]['name'].split("_")[1];
+            var ftype = formArray[i]['name'].split("_")[2];
+
+            if (formArray[i]['name'].startsWith('Latitude')) { continue; }
+            if (formArray[i]['name'].startsWith('Longitude')) { continue; }
+            if (formArray[i]['name'].startsWith('AdditionalObserverTab')) { continue; }
+            if (formArray[i]['name'].startsWith('AdditionalObserverName') && formArray[i]['value'] == "") {    
+                continue;
+            }
+            if (formArray[i]['name'].startsWith('AdditionalObserverName') && formArray[i]['value'] != "") {
+                var x = formArray[i]['name'].substr(formArray[i]['name'].length - 1);
+                var observer = { "ObserverNo": "", "AdditionalObserverName": "" };
+                observer.ObserverNo = x;
+                observer.AdditionalObserverName = formArray[i]['value'];
+                observation.AdditionalObserverTab.push(observer);
+                continue;           
+            }
+            if (ftype == 'H' && fname != 'GpsDatumId') {
+                if (fname == 'PlantTaxonId') {
+                    var vPlantObsTab = {
+                        "PlantTaxonId": 0,
+                        "PlantTaxonText": "",
+                        "HostStatCount": 0,
+                        "HostStatAreaNo": 0,
+                        "CheckFutureSurveyFlag": "",
+                        "ExternalPhotoExistFlag": "",
+                        "PlantObsMethodCode": "",
+                        "CommentText": "",
+                        "PlantLifeStgCode": "",
+                        "PlantStatusFruitingFlag": "",
+                        "PlantStatusFloweringFlag": "",
+                        "PlantStatusFlushing_Flag": "",
+                        "PlantStatusDeadWood_Flag": "",
+                        "GpsDatumId": "",
+                        "LocationPointWktClob": "",
+                        "PlantObsTargetTab": [],
+                        "PlantObsAttachmentTab": []
+                    };
+                }
+                vPlantObsTab[fname] = formArray[i]['value'];
+                continue;
+            } 
+            if (ftype == 'T' && fname != 'CommentText') {
+                if (fname == 'TargetTaxonId') {
+                    var vPlantObsTargetTab = {
+                        "TargetTaxonId": 0,
+                        "TargetTaxonText": "",
+                        "TargetCount": 0,
+                        "TargetObservedCode": "",
+                        "CommentText": ""
+                    };
+                }
+                vPlantObsTargetTab[fname] = formArray[i]['value'];
+                continue;
+            }
+            if (ftype == 'T' && fname == 'CommentText') {
+                vPlantObsTargetTab[fname] = formArray[i]['value'];
+                vPlantObsTab.PlantObsTargetTab.push(vPlantObsTargetTab);
+                continue;
+            }
+            if (ftype == 'H' && fname == 'GpsDatumId') {
+                vPlantObsTab[fname] = formArray[i]['value'];
+                observation.PlantObsTab.push(vPlantObsTab);
+                continue;
+            }
+            if (ftype == 'S' && fname != 'ExternalPhotoExistFlag') {
+                if (fname == 'SampleFieldLabelText') {
+                    var vPlantSampleTab = {
+                        "SampleFieldLabelText": "",
+                        "CollectedSampleCount": 0,
+                        "LinkedSampleFieldLabelText": "",
+                        "PrelimTaxonId": 0,
+                        "PrelimTaxonText": "",
+                        "GpsDatumId": "",
+                        "SamplePointWktClob": "",
+                        "CollectedDatetime": "",
+                        "CollectedAltitudeNo": 0,
+                        "CommentText": "",
+                        "HabitText": "",
+                        "DetailedDescriptionText": "",
+                        "HabitatText": "",
+                        "LandformText": "",
+                        "SoilGeologyText": "",
+                        "AbundanceText": "",
+                        "ExternalPhotoExistFlag": "",
+                        "PlantPreservOtherText": "",
+                        "HostFlag": "",
+                        "HostTaxonId": 0,
+                        "HostTaxonText": "",
+                        "HostIdentifiedUserId": "",
+                        "EntoCollMethodCode": "",
+                        "EntoInfestedPctCode": "",
+                        "EntoDamageLevelCode": "",
+                        "EntoPestLevelCode": "",
+                        "PathSymptomsText": "",
+                        "PathIncidCode": "",
+                        "PathSevCode": "",
+                        "AdditionalCollectorTab": [],
+                        "PlantPreservationTab": [],
+                        "PlantPartTab": [],
+                        "EntoLifeStgTab": [],
+                        "SampleAttachmentTab": []
+                    };
+                }
+                vPlantSampleTab[fname] = formArray[i]['value'];
+                continue;
+            }
+            if (ftype == 'S' && fname == 'ExternalPhotoExistFlag') {
+                vPlantSampleTab[fname] = formArray[i]['value'];
+                observation.PlantSampleTab.push(vPlantSampleTab);
+                continue;
+            }           
+            //if (formArray[i]['name'] === 'PlantTaxonId_0') { alert(i) } //54 85
+            //if (formArray[i]['name'] === 'GpsDatumId_0') { alert(i) } //55 96
+            ////if (formArray[i]['name'] === 'CommentText' && $('[data-section]').eq(i).data('section') == 'PlantObsTargetTab') { alert(i) } //66 54
+            observation[formArray[i]['name']] = formArray[i]['value'];
+        }
+    }
+    return observation;
+}
