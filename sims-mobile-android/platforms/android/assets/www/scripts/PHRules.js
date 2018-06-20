@@ -776,7 +776,7 @@ $(document).on('ifChecked', 'input[type="checkbox"].minimal', function (event) {
     if ($(this).attr('name') === 'AdditionalObserverTab') {
         $('.addlObserver').removeClass('hide');
     };
-    if ($(this).attr('name') === 'AdditionalCollectorTab') {
+    if ($(this).attr('name').startsWith('AdditionalCollectorTab')) {
         $('.addlCollectors').removeClass('hide');
     };
     $(this).val('Y');
@@ -787,7 +787,7 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
     if ($(this).attr('name') === 'AdditionalObserverTab') {
         $('.addlObserver').addClass('hide');
     };
-    if ($(this).attr('name') === 'AdditionalCollectorTab') {
+    if ($(this).attr('name').startsWith('AdditionalCollectorTab')) {
         $('.addlCollectors').addClass('hide');
     };
     $(this).val('N');
@@ -1021,7 +1021,7 @@ function loadModal(pagename) {
                             //$('#form1').find("input[type='text'][name='AdditionalObserverName']").eq(key1).val(value1.AdditionalObserverName);
                             $('#form1').find("input[type='text'][name='AdditionalObserverName" + value1.ObserverNo + "']").val(value1.AdditionalObserverName);
                             var option1 = '<option';
-                            option1 = option1 + ' value="' + value1.observerNo + '">';
+                            option1 = option1 + ' value="' + value1.ObserverNo + '">';
                             option1 = option1 + value1.AdditionalObserverName + "</option>";
                             addlObservers = addlObservers + option1;
                         });
@@ -1225,8 +1225,9 @@ function loadModal(pagename) {
                                     }
                                     if (key2 == "AdditionalCollectorTab" && value2.length > 0) {
                                         $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
+                                        $('div.sample').eq(key1).find('select[name^="AdditionalCollectorName"]').find('option').remove().end().append($(addlObservers)).val('NONE');
                                         $.each(value2, function (key3, value3) {
-                                            $('div.sample').eq(key1).find("input[type='text'][name^='AdditionalCollectorName']").eq(key1).val(value3[key3]);
+                                            $('div.sample').eq(key1).find("select[name^='AdditionalCollectorName']").eq(key3).val(value3);
                                         });
                                     }
                                     if (key2 == "PlantPreservationTab" && value2.length > 0) {
@@ -1270,8 +1271,9 @@ function loadModal(pagename) {
                                     }
                                     if (key2 == "AdditionalCollectorTab" && value2.length > 0) {
                                         $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
+                                        $('div.sample').eq(key1).find('select[name^="AdditionalCollectorName"]').find('option').remove().end().append($(addlObservers)).val('NONE');
                                         $.each(value2, function (key3, value3) {
-                                            $('div.sample').eq(key1).find("input[type='text'][name^='AdditionalCollectorName']").eq(key1).val(value3[key3]);
+                                            $('div.sample').eq(key1).find("select[name^='AdditionalCollectorName']").eq(key3).val(value3);
                                         });
                                     }
                                     if (key2 == "PlantPreservationTab" && value2.length > 0) {
@@ -1320,8 +1322,9 @@ function loadModal(pagename) {
                                     }
                                     if (key2 == "AdditionalCollectorTab" && value2.length > 0) {
                                         $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
+                                        $('div.sample').eq(key1).find('select[name^="AdditionalCollectorName"]').find('option').remove().end().append($(addlObservers)).val('NONE');
                                         $.each(value2, function (key3, value3) {
-                                            $('div.sample').eq(key1).find("input[type='text'][name^='AdditionalCollectorName']").eq(key1).val(value3[key3]);
+                                            $('div.sample').eq(key1).find("select[name^='AdditionalCollectorName']").eq(key3).val(value3);
                                         });
                                     }
                                     if (key2 == "PlantPreservationTab" && value2.length > 0) {
@@ -1468,11 +1471,9 @@ function objectifyPHForm(formArray) {//serialize data function
         "status": 0
     };
     for (var i = 0; i < formArray.length; i++) {
-        if (formArray[i]['name'].length > 0) {
-            var fname = formArray[i]['name'].split("_")[0];
-            var fnum = formArray[i]['name'].split("_")[1];
-            var ftype = formArray[i]['name'].split("_")[2];
-
+        if (formArray[i]['name'].length > 0) {     
+            if (formArray[i]['name'].startsWith('AdditionalCollectorTab')) { continue; }
+            if (formArray[i]['name'].startsWith('PlantStatisticType')) { continue; }
             if (formArray[i]['name'].startsWith('Latitude')) { continue; }
             if (formArray[i]['name'].startsWith('Longitude')) { continue; }
             if (formArray[i]['name'].startsWith('AdditionalObserverTab')) { continue; }
@@ -1487,6 +1488,11 @@ function objectifyPHForm(formArray) {//serialize data function
                 observation.AdditionalObserverTab.push(observer);
                 continue;           
             }
+
+            var fname = formArray[i]['name'].split("_")[0];
+            var fnum = formArray[i]['name'].split("_")[1];
+            var ftype = formArray[i]['name'].split("_")[2];    
+
             if (ftype == 'H' && fname != 'GpsDatumId') {
                 if (fname == 'PlantTaxonId') {
                     var vPlantObsTab = {
@@ -1506,8 +1512,17 @@ function objectifyPHForm(formArray) {//serialize data function
                         "GpsDatumId": "",
                         "LocationPointWktClob": "",
                         "PlantObsTargetTab": [],
-                        "PlantObsAttachmentTab": []
+                        "PlantObsAttachmentTab": [{
+                            "PlantObsAttachment1": "",
+                            "PlantObsAttachment2": "",
+                            "PlantObsAttachment3": "",
+                            "PlantObsAttachment4": "",
+                            "PlantObsAttachment5": ""}]
                     };
+                }
+                if (fname.startsWith('PlantObsAttachment')) {
+                    vPlantObsTab.PlantObsAttachmentTab[fname] = formArray[i]['value'];
+                    continue;
                 }
                 vPlantObsTab[fname] = formArray[i]['value'];
                 continue;
@@ -1571,8 +1586,51 @@ function objectifyPHForm(formArray) {//serialize data function
                         "PlantPreservationTab": [],
                         "PlantPartTab": [],
                         "EntoLifeStgTab": [],
-                        "SampleAttachmentTab": []
+                        "SampleAttachmentTab": [{
+                            "SampleAttachment1": "",
+                            "SampleAttachment2": "",
+                            "SampleAttachment3": "",
+                            "SampleAttachment4": "",
+                            "SampleAttachment5": ""}]
                     };
+                }
+                if (fname.startsWith('AdditionalCollectorName') && formArray[i]['value'] == 'NONE') {
+                    continue;
+                }
+                if (fname.startsWith('AdditionalCollectorName') && formArray[i]['value'] != 'NONE') {
+                    vPlantSampleTab.AdditionalCollectorTab.push(formArray[i]['value']);
+                    continue;
+                }
+                if (fname.startsWith('PlantPartTab') && formArray[i]['value'] != 'Y') {
+                    continue;
+                }
+                if (fname.startsWith('PlantPartTab') && formArray[i]['value'] == 'Y') {
+                    var vPlantpart = formArray[i]['name'].split("_")[0];
+                    vPlantpart = vPlantpart.split("-")[1];
+                    vPlantSampleTab.PlantPartTab.push(vPlantpart);
+                    continue;
+                }
+                if (fname.startsWith('PlantPreservationTab') && formArray[i]['value'] != 'Y') {
+                    continue;
+                }
+                if (fname.startsWith('PlantPreservationTab') && formArray[i]['value'] == 'Y') {
+                    var vPlantPreservation = formArray[i]['name'].split("_")[0];
+                    vPlantPreservation = vPlantPreservation.split("-")[1];
+                    vPlantSampleTab.PlantPreservationTab.push(vPlantPreservation);
+                    continue;
+                }
+                if (fname.startsWith('EntoLifeStgTab') && formArray[i]['value'] != 'Y') {
+                    continue;
+                }
+                if (fname.startsWith('EntoLifeStgTab') && formArray[i]['value'] == 'Y') {
+                    var vEntoLifeStgTab = formArray[i]['name'].split("_")[0];
+                    vEntoLifeStgTab = vEntoLifeStgTab.split("-")[1];
+                    vPlantSampleTab.EntoLifeStgTab.push(vEntoLifeStgTab);
+                    continue;
+                }
+                if (fname.startsWith('SampleAttachment')) {
+                    vPlantSampleTab.SampleAttachmentTab[fname] = formArray[i]['value'];
+                    continue;
                 }
                 vPlantSampleTab[fname] = formArray[i]['value'];
                 continue;
@@ -1582,9 +1640,6 @@ function objectifyPHForm(formArray) {//serialize data function
                 observation.PlantSampleTab.push(vPlantSampleTab);
                 continue;
             }           
-            //if (formArray[i]['name'] === 'PlantTaxonId_0') { alert(i) } //54 85
-            //if (formArray[i]['name'] === 'GpsDatumId_0') { alert(i) } //55 96
-            ////if (formArray[i]['name'] === 'CommentText' && $('[data-section]').eq(i).data('section') == 'PlantObsTargetTab') { alert(i) } //66 54
             observation[formArray[i]['name']] = formArray[i]['value'];
         }
     }
