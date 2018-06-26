@@ -33,6 +33,12 @@
         },
         "cordova-sqlite-storage": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-zip": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     },
     "dependent_plugins": {

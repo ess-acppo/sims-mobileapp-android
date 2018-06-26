@@ -57,6 +57,16 @@
                         {
                             "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"io.sqlc.SQLitePlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
+                            "count": 1
+                        }
+                    ],
+                    "/widget": [
+                        {
+                            "xml": "<feature name=\"Zip\"><param name=\"android-package\" value=\"org.apache.cordova.Zip\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -66,7 +76,7 @@
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 2
+                            "count": 3
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
@@ -137,6 +147,12 @@
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
         "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-zip": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     },
@@ -417,6 +433,30 @@
             "clobbers": [
                 "SQLitePlugin"
             ]
+        },
+        {
+            "id": "cordova-plugin-zip.Zip",
+            "file": "plugins/cordova-plugin-zip/zip.js",
+            "pluginId": "cordova-plugin-zip",
+            "clobbers": [
+                "zip"
+            ]
+        },
+        {
+            "id": "cordova-plugin-file-transfer.FileTransferError",
+            "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
+            "pluginId": "cordova-plugin-file-transfer",
+            "clobbers": [
+                "window.FileTransferError"
+            ]
+        },
+        {
+            "id": "cordova-plugin-file-transfer.FileTransfer",
+            "file": "plugins/cordova-plugin-file-transfer/www/FileTransfer.js",
+            "pluginId": "cordova-plugin-file-transfer",
+            "clobbers": [
+                "window.FileTransfer"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -430,6 +470,8 @@
         "cordova-plugin-network-information": "2.0.1",
         "cordova-plugin-splashscreen": "5.0.2",
         "cordova-plugin-whitelist": "1.2.2",
-        "cordova-sqlite-storage": "2.3.2"
+        "cordova-sqlite-storage": "2.3.2",
+        "cordova-plugin-zip": "3.1.0",
+        "cordova-plugin-file-transfer": "1.7.1"
     }
 }

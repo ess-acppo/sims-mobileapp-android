@@ -309,20 +309,36 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="modalSettings" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-remove text-default"></i></span></button>
+                    <span class="modal-title" id="mt5"></span>
+                    <div class="overlay hide">
+                        <center><b>Loading ...</b></center>
+                    </div>
+                </div>
+                <div class="modal-body" id="mb5">
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="text-info pull-left" data-dismiss="modal" aria-label="Close">Cancel</a>&nbsp;
+                    <button class="btn btn-circle btn-lg btn-warning" id="SaveSettingsExit"><i class="fa fa-save fa-2x"></i><span class="badge sscript"><i class="fa fa-remove"></i></span></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <div id="map"></div>
     <div class="topButton">
         <button id="settings" class="btn btn-circle btn-lg btn-warning"><i class="fa fa-cog fa-2x"></i></button>
         <button id="CSV" class="btn btn-circle btn-lg btn-warning" onclick="downloadCSV()"><i class="fa fa-tasks fa-2x"></i></button>
-        <button id="dbready" class="btn btn-circle btn-lg btn-success"><i class="fa fa-database fa-2x"></i></button>
-        <button id="status" class="btn btn-circle btn-lg btn-success"><i class="fa fa-wifi fa-2x"></i></button>
-        <button id="zoomlevel" class="btn btn-circle btn-lg btn-warning"><i class="fa fa-search-plus fa-2x"></i></button>
-        <!--<button id="reload" class="btn btn-circle btn-lg btn-warning" onclick="clearMarkers(); loadMapMarkers();"><i class="fa fa-cloud-upload"></i></button>-->
-        <button id="reset" class="btn btn-circle btn-lg btn-warning" onclick="resetData()"><i class="fa fa-power-off fa-2x"></i></button>
         <button id="init" class="btn btn-circle btn-lg btn-warning" onclick="myLoc()"><i class="fa fa-map-marker fa-2x"></i></button>
     </div>
     <div class="bottomButton">
-        <span class="badge badge-info" id="AppMode"></span>
-        <span class="badge badge-info" id="AppVersion"></span>
+        <span class="label label-success" id="status"></span>
+        <span class="label label-info" id="zoomlevel"></span>
+        <span class="label label-info" id="AppMode"></span>
+        <span class="label label-info" id="AppVersion"></span>
     </div>
     <script type="text/javascript" src="scripts/jquery-2.2.3.min.js"></script>
     <script type="text/javascript" src="scripts/jquery-ui.min.js"></script>

@@ -11,6 +11,7 @@
         // Handle the Cordova pause and resume events
         document.addEventListener( 'pause', onPause.bind( this ), false );
         document.addEventListener('resume', onResume.bind(this), false);
+        document.addEventListener('deviceready', initLoad, false);
         FastClick.attach(document.body);
         var appVer = document.getElementById('AppVersion');
         appVer.innerHTML = 'Version ' + AppVersion.version;
