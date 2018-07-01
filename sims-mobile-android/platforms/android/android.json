@@ -116,9 +116,6 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-appversion": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
-        },
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
@@ -154,18 +151,13 @@
         },
         "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-appversion": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     },
     "dependent_plugins": {},
     "modules": [
-        {
-            "id": "cordova-plugin-appversion.RareloopAppVersion",
-            "file": "plugins/cordova-plugin-appversion/www/app-version.js",
-            "pluginId": "cordova-plugin-appversion",
-            "clobbers": [
-                "AppVersion"
-            ]
-        },
         {
             "id": "cordova-plugin-camera.Camera",
             "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
@@ -457,10 +449,17 @@
             "clobbers": [
                 "window.FileTransfer"
             ]
+        },
+        {
+            "id": "cordova-plugin-appversion.RareloopAppVersion",
+            "file": "plugins/cordova-plugin-appversion/www/app-version.js",
+            "pluginId": "cordova-plugin-appversion",
+            "clobbers": [
+                "AppVersion"
+            ]
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-appversion": "1.0.0",
         "cordova-plugin-compat": "1.2.0",
         "cordova-plugin-camera": "2.4.1",
         "cordova-plugin-device": "2.0.2",
@@ -472,6 +471,7 @@
         "cordova-plugin-whitelist": "1.2.2",
         "cordova-sqlite-storage": "2.3.2",
         "cordova-plugin-zip": "3.1.0",
-        "cordova-plugin-file-transfer": "1.7.1"
+        "cordova-plugin-file-transfer": "1.7.1",
+        "cordova-plugin-appversion": "1.0.0"
     }
 }

@@ -26,33 +26,33 @@
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Activity<span class="bold-red">*</span></label>
-                                <select class="form-control" id="SurvActivityId" name="SurvActivityId" data-name="Observation"></select>
+                                <label>Activity<span class="bold-red">&nbsp;*</span></label>
+                                <select class="form-control" id="SurvActivityId" name="SurvActivityId_M_N" min="0" max="99999999" maxlength="8" data-section="Observation"></select>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Site<span class="bold-red">*</span></label>
-                                <select class="form-control" id="SiteId" name="SiteId" data-section="Observation"></select>
+                                <label>Site<span class="bold-red">&nbsp;*</span></label>
+                                <select class="form-control" id="SiteId" name="SiteId_O_N" min="0" max="99999999" maxlength="8"  data-section="Observation"></select>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
                                 <label>Waypoint</label>
-                                <input type="number" class="form-control" placeholder="Waypoint" name="WaypointNumber" data-section="Observation">
+                                <input type="number" class="form-control" placeholder="Waypoint" name="WaypointNumber_O_N"  min="0" max="99999" maxlength="5" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Observation Date<span class="bold-red">*</span></label>
-                                <input class="form-control" type="date" placeholder="Observation Date" name="ObservationDate" data-section="Observation">
+                                <label>Observation Date<span class="bold-red">&nbsp;*</span></label>
+                                <input class="form-control" type="date" placeholder="Observation Date" name="ObservationDate_M_D" maxlength="10" data-section="Observation">
                                 <i class="fa fa-calendar form-control-feedback"></i>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">*</span>Observer</label>
-                                <select class="form-control" id="ObservationStaffId" name="ObservationStaffId" data-section="Observation"></select>
+                                <label><span class="bold-red">&nbsp;*</span>Observer</label>
+                                <select class="form-control" id="ObservationStaffId" name="ObservationStaffId_M_N" data-section="Observation"></select>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
@@ -62,57 +62,57 @@
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 1" name="AdditionalObserverName1" data-section="Observation">
+                                <input type="text" class="form-control" placeholder="Observer 1" name="AdditionalObserverName1_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 2" name="AdditionalObserverName2" data-section="Observation">
+                                <input type="text" class="form-control" placeholder="Observer 2" name="AdditionalObserverName2_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 3" name="AdditionalObserverName3" data-section="Observation">
+                                <input type="text" class="form-control" placeholder="Observer 3" name="AdditionalObserverName3_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 4" name="AdditionalObserverName4" data-section="Observation">
+                                <input type="text" class="form-control" placeholder="Observer 4" name="AdditionalObserverName4_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Observer 5" name="AdditionalObserverName5" data-section="Observation">
+                                <input type="text" class="form-control" placeholder="Observer 5" name="AdditionalObserverName5_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Duration<span class="bold-red">*</span></label>
-                                <input type="number" class="form-control" placeholder="Duration" name="DurationMinsCount" data-section="Observation">
+                                <label>Duration<span class="bold-red">&nbsp;*</span></label>
+                                <input type="number" class="form-control" placeholder="Duration" name="DurationMinsCount_O_N" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Latitude<span class="bold-red">*</span></label>
+                                <label>Latitude<span class="bold-red">&nbsp;*</span></label>
                                 <input type="number" class="form-control obslat" placeholder="Latitude" readonly name="Latitude" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Longitude<span class="bold-red">*</span></label>
+                                <label>Longitude<span class="bold-red">&nbsp;*</span></label>
                                 <input type="number" class="form-control obslng" placeholder="Longitude" readonly name="Longitude" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Point WKT<span class="bold-red">*</span></label>
-                                <input type="text" class="form-control" readonly name="ObservationWhereWktClob" data-section="Observation">
+                                <label>Point WKT<span class="bold-red">&nbsp;*</span></label>
+                                <input type="text" class="form-control" readonly name="ObservationWhereWktClob_M_S" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Datum<span class="bold-red">*</span></label>
-                                <select class="form-control" name="ObservWhereGpsDatumId" data-section="Observation">
+                                <label>Datum<span class="bold-red">&nbsp;*</span></label>
+                                <select class="form-control" name="ObservWhereGpsDatumId_M_S" data-section="Observation">
                                     <option>WGS84</option>
                                     <option>GDA94</option>
                                 </select>
@@ -121,7 +121,7 @@
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group col-md-6 col-sm-6">
                                 <label>Altitude</label>
-                                <input type="number" class="form-control obsalt" placeholder="Altitude" readonly name="AltitudeNo" data-section="Observation">
+                                <input type="number" class="form-control obsalt" placeholder="Altitude" readonly name="AltitudeNo_O_N"  min="0" max="9999" maxlength="4" data-section="Observation">
                             </div>
                         </div>
                     </div>
@@ -183,19 +183,19 @@
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-3 col-sm-3">
                                 <label>ID</label>
-                                <input type="number" class="form-control" readonly  name="id" data-section="Observation"/>
+                                <input type="number" class="form-control" readonly  name="id_M_N" data-section="Observation"/>
                             </div>
                             <div class="form-group  col-md-3 col-sm-3">
                                 <label>Status</label>
-                                <input type="number" class="form-control" readonly  name="status" data-section="Observation"/>
+                                <input type="number" class="form-control" readonly  name="status_M_N" data-section="Observation"/>
                             </div>
                             <div class="form-group  col-md-3 col-sm-3">
                                 <label>Discipline</label>
-                                <input type="text" class="form-control" value="B" readonly  name="PlantDisciplineCode" data-section="Observation"/>
+                                <input type="text" class="form-control" value="B" readonly  name="PlantDisciplineCode_M_S" data-section="Observation"/>
                             </div>
                             <div class="form-group  col-md-3 col-sm-3">
                                 <label>Submitting Staff ID</label>
-                                <input type="number" class="form-control" value="200201" readonly  name="SubmittedByStaffId" data-section="Observation"/>
+                                <input type="number" class="form-control" value="200201" readonly  name="SubmittedByStaffId_M_N" data-section="Observation"/>
                             </div>
                         </div>
                     </div>
