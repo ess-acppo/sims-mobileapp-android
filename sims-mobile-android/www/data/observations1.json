@@ -293,7 +293,7 @@
           ],
           "PlantTaxonId_M_N_0_H": "123455",
           "PlantTaxonText_M_S_0_H": "host name - 1",
-          "HostStatCount_M_N_0_H": "5",
+          "HostStatCount_M_N_0_H": "0",
           "HostStatAreaNo_M_N_0_H": "0",
           "CheckFutureSurveyFlag_O_S_0_H": "N",
           "ExternalPhotoExistFlag_O_S_0_H": "N",

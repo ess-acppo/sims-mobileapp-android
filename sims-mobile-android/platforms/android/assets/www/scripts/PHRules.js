@@ -11,6 +11,11 @@ var incidence;
 var severity;
 var HostStatCount;
 var HostStatAreaNo;
+var vError = 0;
+var vErrDescription = [];
+var vFailed = false;
+var HostStatCountFlag = 0;
+var HostStatAreaFlag = 0;
 
 function loadPHDefaults() {
     // Loading Activity Defaults //
@@ -728,7 +733,7 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
 $(document).on('click', '.getPlantCoords', function (e) {
     var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
     var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
-    var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');  
+    var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             xlat.val(position.coords.latitude);
@@ -747,7 +752,7 @@ $(document).on('click', '.getPlantCoords', function (e) {
 $(document).on('click', '.getEntoHostCoords', function (e) {
     var xlat = $(this).closest('.entobox').find('input.entolat');
     var xlng = $(this).closest('.entobox').find('input.entolng');
-    var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');  
+    var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             xlat.val(position.coords.latitude);
@@ -766,7 +771,7 @@ $(document).on('click', '.getEntoHostCoords', function (e) {
 $(document).on('click', '.getPathHostCoords', function (e) {
     var xlat = $(this).closest('.pathbox').find('input.pathlat');
     var xlng = $(this).closest('.pathbox').find('input.pathlng');
-    var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');  
+    var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             xlat.val(position.coords.latitude);
@@ -805,7 +810,7 @@ $(document).on('click', '.getSampleCoords', function (e) {
     var xlat = $(this).closest('.sample').find('input.samplelat');
     var xlng = $(this).closest('.sample').find('input.samplelng');
     var xalt = $(this).closest('.sample').find('input.samplealt');
-    var xwkt = $(this).closest('.sample').find('input[name^="SamplePointWktClob"]');  
+    var xwkt = $(this).closest('.sample').find('input[name^="SamplePointWktClob"]');
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             xlat.val(position.coords.latitude);
@@ -838,7 +843,7 @@ $(document).on('click', 'img.pp', function () {
         encodingType: 1,     // 0=JPG 1=PNG
         targetWidth: 640,
         targetHeight: 480,
-        saveToPhotoAlbum:true
+        saveToPhotoAlbum: true
     };
 
     navigator.camera.getPicture(
@@ -1135,7 +1140,7 @@ function loadModal(pagename) {
                                         });
                                     }
                                 });
-                            });                           
+                            });
                         });
                     }
                     if (key == "PlantSampleTab" && curDiscipline == "B" && value.length > 0) {
@@ -1237,7 +1242,7 @@ function loadModal(pagename) {
                     }
                     if (key == "PlantSampleTab" && curDiscipline == "P" && value.length > 0) {
                         $.each(value, function (key1, value1) {
-                             $.ajax({
+                            $.ajax({
                                 url: "",
                                 beforeSend: function (xhr) {
                                     loadPathSample();
@@ -1275,7 +1280,7 @@ function loadModal(pagename) {
                                     $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='on']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2); 
+                                    $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
                                 });
                             });
@@ -1534,17 +1539,21 @@ function objectifyPHFormforSave(formArray) {
 }
 
 function objectifyPHFormforSubmit(data) {//serialize data function
-    var jsonStr = JSON.stringify(data);
+    var modData = JSON.parse(JSON.stringify(data));
+    var jsonStr = JSON.stringify(modData);
     jsonStr = jsonStr.replace(/_O_N_\d_T/g, '').replace(/_M_S_\d_T/g, '').replace(/_O_S_\d_T/g, '').replace(/_M_N_\d_H/g, '').replace(/_M_S_\d_H/g, '').replace(/_O_S_\d_H/g, '').replace(/_O_N_\d_H/g, '');
     jsonStr = jsonStr.replace(/_M_S_\d_S/g, '').replace(/_O_N_\d_S/g, '').replace(/_M_S_\d_S/g, '').replace(/_M_D_\d_S/g, '').replace(/_O_S_\d_S/g, '');
     jsonStr = jsonStr.replace(/_M_N/g, '').replace(/_O_N/g, '').replace(/_M_D/g, '').replace(/_M_S/g, '');
-    return JSON.parse(jsonStr);
+    var jsonData = JSON.parse(jsonStr);
+    delete jsonData.status_M_N;
+    return jsonData;
 }
 
 function Iterate(data) {
-    $.each(data, function (index, value) {
+    var modData = JSON.parse(JSON.stringify(data));
+    delete modData.status_M_N;
+    $.each(modData, function (index, value) {
         if (typeof value == 'object') {
-            //alert("Object " + index);
             Iterate(value);
         }
         else {
@@ -1555,20 +1564,36 @@ function Iterate(data) {
                 var fNSD = index.split("_")[2];
                 var fnum = index.split("_")[3];
                 var ftype = index.split("_")[4];
-                if (fMOC == 'M' && fNSD == 'S' && value == '') {
-                    console.log(index + ' field cannot be NULL in row#:' + data.id);
-                    $.growl.warning({ title: "Submit Error", message: index + ' field cannot be NULL in row#:' + data.id_M_N, location: "bc", size: "large" });
+                if (fname == 'HostStatCount' && value == 0) { HostStatCountFlag = 1; }
+                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1) {
+                    console.log('HostStatCount and Area fields - both cannot be NULL');
+                    vError = 1;
+                    vErrDescription.push('HostStatCount and Area fields - both cannot be NULL');
+                    vFailed = true;
                     return false;
-                } else if (fMOC == 'M' && fNSD == 'N' && value == null) {
-                    console.log(index + ' field cannot be NULL in row#:' + data.id);
-                    $.growl.warning({ title: "Submit Error", message: index + ' field cannot be NULL in row#:' + data.id_M_N, location: "bc", size: "large" });
+                }
+                if (fMOC == 'M' && fNSD == 'S' && value == '') {
+                    console.log(index + ' field cannot be NULL');
+                    vError = 1;
+                    vErrDescription.push(index + ' field cannot be NULL');
+                    vFailed = true;
+                    return false;
+                }
+                if (fMOC == 'M' && fNSD == 'N' && value == 0) {
+                    if (fname == 'HostStatCount') return true;
+                    if (fname == 'HostStatAreaNo') return true;
+                    console.log(index + ' field cannot be NULL');
+                    vError = 1;
+                    vErrDescription.push(index + ' field cannot be NULL');
+                    vFailed = true;
                     return false;
                 }
             }
-            //$('#results').append("<strong>" + index + "</strong> :- " + value + "<br/><br/>");
         }
     });
-    return true;
+    if (vFailed == true) {
+        return { "vError": vError, "vErrDescription": vErrDescription.join('<br/>') };
+    } else { return { "vError": 0, "vErrDescription": "" }; }
 };
 
 //function objectifyPHFormforSubmit(formArray) {//serialize data function

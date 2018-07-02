@@ -1011,33 +1011,46 @@ $(document).on('click', '.export', function (event) {
 
 $(document).on('click', '.sync', function (event) {
     var success = true;
+    var rowsFailed = [];
+    var rowsFailedErr = [];
+    var rowsSuccess = [];
     $.each(results.observations, function (index, value) {
-        if (Iterate(value) == true) {
+        vError = 0;
+        vErrDescription = [];
+        vFailed = false;
+        HostStatCountFlag = 0;
+        HostStatAreaFlag = 0;
+        var rowid = value.id_M_N;
+        var result = Iterate(value);
+        if (result.vError == 0) {
             console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value))));
+            rowsSuccess.push(rowid);
+            //$.ajax({
+            //    method: "POST",
+            //    url: "http://ec2-52-65-97-167.ap-southeast-2.compute.amazonaws.com:8081/gateway/grpObservations/add",
+            //    data: JSON.stringify(value),
+            //    contentType: "application/json",
+            //    dataType: "json",
+            //    success: function () {
+            //        //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
+            //    },
+            //    complete: function () {
+            //        //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
+            //    },
+            //    failure: function () {
+            //        $.growl.error({ message: "Sync - Failed!" });
+            //    }
+            //});
         }
         else {
-            $.growl({ title: "Submit Failed!", message: "Check your console log.", location: "bc", size: "large" });
+            rowsFailed.push(rowid);
+            rowsFailedErr.push(result.vErrDescription);
             success = false;
             return false;
         }
-        //$.ajax({
-        //    method: "POST",
-        //    url: "http://ec2-52-65-97-167.ap-southeast-2.compute.amazonaws.com:8081/gateway/grpObservations/add",
-        //    data: JSON.stringify(value),
-        //    contentType: "application/json",
-        //    dataType: "json",
-        //    success: function () {
-        //        //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
-        //    },
-        //    complete: function () {
-        //        //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
-        //    },
-        //    failure: function () {
-        //        $.growl.error({ message: "Sync - Failed!" });
-        //    }
-        //});
     });
-    if (success == true) { $.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" }) };
+    if (success == true) { $.growl({ title: "Submit Observations", message: "Success! Observations " + rowsSuccess.join(',') + " synced to cloud.", location: "tc", size: "large", fixed: "true" }) }
+    else { $.growl({ title: "Submit Observations", message: "Submit Failed for rows:" + rowsFailed.join(',') + "<br/>Errors:<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });}
 });
 
 $(document).on('shown.bs.modal', '#modalPHGrid', function () {
