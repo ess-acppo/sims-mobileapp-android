@@ -277,6 +277,14 @@ module.exports = [
         ]
     },
     {
+        "id": "cordova-plugin-appversion.RareloopAppVersion",
+        "file": "plugins/cordova-plugin-appversion/www/app-version.js",
+        "pluginId": "cordova-plugin-appversion",
+        "clobbers": [
+            "AppVersion"
+        ]
+    },
+    {
         "id": "cordova-plugin-file-transfer.FileTransferError",
         "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
         "pluginId": "cordova-plugin-file-transfer",
@@ -290,14 +298,6 @@ module.exports = [
         "pluginId": "cordova-plugin-file-transfer",
         "clobbers": [
             "window.FileTransfer"
-        ]
-    },
-    {
-        "id": "cordova-plugin-appversion.RareloopAppVersion",
-        "file": "plugins/cordova-plugin-appversion/www/app-version.js",
-        "pluginId": "cordova-plugin-appversion",
-        "clobbers": [
-            "AppVersion"
         ]
     }
 ];
@@ -315,8 +315,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.2",
     "cordova-sqlite-storage": "2.3.2",
     "cordova-plugin-zip": "3.1.0",
-    "cordova-plugin-file-transfer": "1.7.1",
-    "cordova-plugin-appversion": "1.0.0"
+    "cordova-plugin-appversion": "1.0.0",
+    "cordova-plugin-file-transfer": "1.7.1"
 };
 // BOTTOM OF METADATA
 });

@@ -76,7 +76,7 @@
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 3
+                            "count": 2
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
@@ -149,10 +149,10 @@
         "cordova-plugin-zip": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
-        "cordova-plugin-file-transfer": {
+        "cordova-plugin-appversion": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
-        "cordova-plugin-appversion": {
+        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     },
@@ -435,6 +435,14 @@
             ]
         },
         {
+            "id": "cordova-plugin-appversion.RareloopAppVersion",
+            "file": "plugins/cordova-plugin-appversion/www/app-version.js",
+            "pluginId": "cordova-plugin-appversion",
+            "clobbers": [
+                "AppVersion"
+            ]
+        },
+        {
             "id": "cordova-plugin-file-transfer.FileTransferError",
             "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
             "pluginId": "cordova-plugin-file-transfer",
@@ -448,14 +456,6 @@
             "pluginId": "cordova-plugin-file-transfer",
             "clobbers": [
                 "window.FileTransfer"
-            ]
-        },
-        {
-            "id": "cordova-plugin-appversion.RareloopAppVersion",
-            "file": "plugins/cordova-plugin-appversion/www/app-version.js",
-            "pluginId": "cordova-plugin-appversion",
-            "clobbers": [
-                "AppVersion"
             ]
         }
     ],
@@ -471,7 +471,7 @@
         "cordova-plugin-whitelist": "1.2.2",
         "cordova-sqlite-storage": "2.3.2",
         "cordova-plugin-zip": "3.1.0",
-        "cordova-plugin-file-transfer": "1.7.1",
-        "cordova-plugin-appversion": "1.0.0"
+        "cordova-plugin-appversion": "1.0.0",
+        "cordova-plugin-file-transfer": "1.7.1"
     }
 }

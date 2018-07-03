@@ -466,6 +466,17 @@ $(document).on('click', "[data-action=collapse]", function () {
 });
 
 $(document).on('click', '#addBotanySample', function (e) {
+    if (bsamples > 1) {
+        var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
+        var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
+        var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
+        var samplePrelimID = $('div.sample').first().find('input[name^="PrelimTaxonText"]').val();
+        var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
+        if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
+            $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large"});
+            return;
+        }
+    }
     bsamples = bsamples + 1;
     var that = $(botSample);
     that.find("input[type='checkbox']").iCheck({
@@ -536,6 +547,17 @@ $(document).on('click', '.removeBotSample', function (e) {
 });
 
 $(document).on('click', '#addEntoSample', function (e) {
+    if (esamples > 1) {
+        var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
+        var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
+        var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
+        var samplePrelimID = $('div.sample').first().find('input[name^="PrelimTaxonText"]').val();
+        var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
+        if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
+            $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
+            return;
+        }
+    }
     esamples = esamples + 1;
     var that = $(entosample);
     that.find("input[type='checkbox']").iCheck({
@@ -614,6 +636,17 @@ $(document).on('click', '.removeEntoSample', function (e) {
 });
 
 $(document).on('click', '#addPathSample', function (e) {
+    if (psamples > 1) {
+        var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
+        var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
+        var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
+        var samplePrelimID = $('div.sample').first().find('input[name^="PrelimTaxonText"]').val();
+        var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
+        if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
+            $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
+            return;
+        }
+    }
     psamples = psamples + 1;
     var that = $(pathsample);
     that.find("input[type='checkbox']").iCheck({
@@ -1833,41 +1866,34 @@ function guid() {
 }
 
 $(document).on('click', '#downloadPNGMaps', function (e) {
-    //e.preventDefault();
     var url2 = 'http://sprinq.com.au/files/PNG.zip';
     var filename = "PNG.zip";
-    window.requestFileSystem(window.PERSISTENT, 5 * 1024 * 1024, function (fs) {
-        //console.log('file system open: ' + fs.name);
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url2, true);
-        xhr.responseType = 'blob';
-        xhr.onloadend = function () {
-            if (this.status == 200) {
-                var blob = new Blob([this.response], { type: "octet/stream" });
-                fs.root.getFile(filename, { create: true, exclusive: false }, function (fileEntry) {
-                    writeFile(fileEntry, blob);
-                }, function (e) {
-                    console.log("Failed file save: " + e.toString());
-                });
-            }
-        };
-        xhr.send();
-    });
+    var fileTransfer = new FileTransfer();
+    var fileURL = 'file:///storage/emulated/0/maps/' + filename;
+    $('.overlay').removeClass('hide');
+    $('.modal-body').addClass('hide');
+    $('.modal-footer').addClass('hide');
+    $('.progText').text("Download in progress ...");
+    fileTransfer.download(
+        url2,
+        fileURL,
+        function (entry) {
+            //console.log("Successful download...");
+            //console.log("download complete: " + entry.toURL());
+            $('.progText').text("Download complete ...");
+            $('.progText').text("Extracting Zip file ...");
+            processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+            $('.progText').text("Done ...");
+        },
+        function (error) {
+            $('.progText').text(error.source);
+            //console.log("download error source " + error.source);
+            //console.log("download error target " + error.target);
+            //console.log("upload error code" + error.code);
+        },
+        null, {}
+    );
 });
-
-function writeFile(fileEntry, dataObj, isAppend) {
-    fileEntry.createWriter(function (fileWriter) {
-        fileWriter.onwriteend = function () {
-            //console.log("Successful file write...");
-            //processZip("ms-appdata:///local/PNG.zip", cordova.file.dataDirectory);
-            processZip(fileEntry.toURL() + "PNG.zip", cordova.file.dataDirectory);
-        };
-        fileWriter.onerror = function (e) {
-            console.log("Failed file write: " + e.toString());
-        };
-        fileWriter.write(dataObj);
-    });
-}
 
 function processZip(zipSource, destination) {
     // Handle the progress event
@@ -1879,10 +1905,15 @@ function processZip(zipSource, destination) {
     // Proceed to unzip the file
     window.zip.unzip(zipSource, destination, (status) => {
         if (status == 0) {
-            console.log("Files succesfully decompressed");
+            //console.log("Files succesfully decompressed");
+            $('.overlay').addClass('hide');
+            $('.modal-body').removeClass('hide');
+            $('.modal-footer').removeClass('hide');
+            $('#PNGMapsText').text('Download successful!');
         }
         if (status == -1) {
-            console.error("Oops, cannot decompress files");
+            //console.error("Oops, cannot decompress files");
+            $('#PNGMapsText').text("Oops, cannot decompress files");
         }
     }, progressHandler);
 }
