@@ -35,7 +35,7 @@ body {
     z-index: 10;
 }
 
-    .bottomButton > .badge{
+    .bottomButton > .badge {
         font-size: 1.2rem;
     }
 
@@ -50,9 +50,12 @@ body {
 
 /* Modal Dialogs START */
 .modal-header {
-    background-color: steelblue;
-    color:#fff;
+    color: #333;
     font-weight: bold;
+}
+
+.modal-content {
+    border-radius: 0px;
 }
 
 #modalGrid .modal-body, #modalPHGrid .modal-body {
@@ -87,9 +90,9 @@ body {
     z-index: 103;
 }
 
-    #modalGrid .modal-body {
-        overflow-x: scroll;
-    }
+#modalGrid .modal-body {
+    overflow-x: scroll;
+}
 
 #modalMap .modal-dialog {
     z-index: 304;
@@ -109,6 +112,10 @@ body {
     margin-left: 5px;
 }
 
+.modal-body form {
+    margin-right: -20px;
+}
+
 .hostweed, .entobox, .pathbox {
     margin: 5px;
     border: 2px solid #eee;
@@ -123,9 +130,9 @@ body {
     overflow-y: hidden;
 }
 
-    .collapsed {
-        height: 80px;
-    }
+.collapsed {
+    height: 80px;
+}
 
 
 @media (min-width: 768px) {
@@ -287,13 +294,13 @@ body {
 }
 
 .first {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    /*border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;*/
 }
 
 .last {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    /*border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;*/
 }
 
 .middle {
@@ -490,10 +497,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin-right: 3px;
 }
 
-.form-group img.pp {
-    width: 12%;
-    margin-right: 3px;
-}
+    .form-group img.pp {
+        width: 12%;
+        margin-right: 3px;
+    }
 
 .item img {
     width: 100%;
@@ -1239,7 +1246,7 @@ div.dataTables_filter {
     margin: 0;
 }
 
-.border-bottom{
+.border-bottom {
     border-bottom: 1px solid #f1f0f0;
     margin: 0;
 }
@@ -1377,4 +1384,8 @@ label {
     right: 5px;
     top: 5px;
     cursor: pointer;
+}
+
+.mxr-5 {
+    margin-right: 5px;
 }

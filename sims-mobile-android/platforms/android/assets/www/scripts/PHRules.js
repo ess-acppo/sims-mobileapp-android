@@ -205,6 +205,9 @@ $(document).on('click', "#addPlant", function () {
     that1.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
     })
+    that1.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
     that1.find('select').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
     })
@@ -230,6 +233,9 @@ $(document).on('click', "#addEntoHost", function () {
     that1.find('select[name^="PlantLifeStgCode"]').find('option').remove().end().append($(plifeStage));
     that1.find('select[name^="PlantObsMethodCode"]').find('option').remove().end().append($(MoB));
     that1.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('img').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
     })
     that1.find('select').each(function () {
@@ -294,6 +300,9 @@ $(document).on('click', "#addPathHost", function () {
     that1.find('select[name^="PlantLifeStgCode"]').find('option').remove().end().append($(plifeStage));
     that1.find('select[name^="PlantObsMethodCode"]').find('option').remove().end().append($(MoB));
     that1.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    })
+    that1.find('img').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
     })
     that1.find('select').each(function () {
@@ -766,7 +775,7 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
 $(document).on('click', '.getPlantCoords', function (e) {
     var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
     var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
-    var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
+    var xwkt = $(this).closest('.hostweed').find('input[name^="LocationPointWktClob"]');
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             xlat.val(position.coords.latitude);
@@ -785,7 +794,7 @@ $(document).on('click', '.getPlantCoords', function (e) {
 $(document).on('click', '.getEntoHostCoords', function (e) {
     var xlat = $(this).closest('.entobox').find('input.entolat');
     var xlng = $(this).closest('.entobox').find('input.entolng');
-    var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
+    var xwkt = $(this).closest('.entobox').find('input[name^="LocationPointWktClob"]');
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             xlat.val(position.coords.latitude);
@@ -864,7 +873,7 @@ $(document).on('click', '.getSampleCoords', function (e) {
 $(document).on('click', 'img.pp', function () {
     var that = $(this);
     var ppname = that.attr("name");
-    var inpname = ppname.substring(1, ppname.length);
+    var inpname = that.attr("name").substr(1, that.attr("name").length - 1);
     if (!navigator.camera) {
         $.growl.warning({ title: "Error", message: "Camera API not supported!", location: "bc", size: "large" });
         return;
@@ -873,17 +882,16 @@ $(document).on('click', 'img.pp', function () {
         quality: 50,
         destinationType: Camera.DestinationType.FILE_URI,
         sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Album
-        encodingType: 1,     // 0=JPG 1=PNG
+        encodingType: 0,     // 0=JPG 1=PNG
         targetWidth: 640,
         targetHeight: 480,
-        saveToPhotoAlbum: true
+        saveToPhotoAlbum: false
     };
 
     navigator.camera.getPicture(
-        function onSuccess(imgURI) {
-            $("#form1").find("input[type=text][name='" + inpname + "']").val(imgURI);
+        function onSuccess(imgURI) {        
             that.attr("src", imgURI);
-            //$(this, this.$el).attr('src', "data:image/png;base64," + imgData);
+            $("#form1").find('input:hidden[name=' + inpname + ']').val(imgURI);
         },
         function onFail() {
             $.growl.warning({ title: "Error", message: "Error taking picture'!", location: "bc", size: "large" });
@@ -1028,7 +1036,7 @@ function loadModal(pagename) {
                                         wkt.toObject();
                                         $('div.hostweed').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
                                         $('div.hostweed').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
-                                    }
+                                    }                                   
                                     $('div.hostweed').eq(key1).find("input[type='text'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("input[type='date'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
@@ -1038,6 +1046,19 @@ function loadModal(pagename) {
                                     $('div.hostweed').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
+                                    if (key2 == "PlantObsAttachmentTab") {
+                                        $.each(value2, function (key3, value3) {
+                                            var pKey = key3 + 1;
+                                            if (value3.AttachmentPath != "") {
+                                                $('div.hostweed').eq(key1).find("input:hidden[name^='PlantObsAttachment" + pKey + "']").val(value3.AttachmentPath);
+                                                $('div.hostweed').eq(key1).find("img[name^='iPlantObsAttachment" + pKey + "']").attr("src", value3.AttachmentPath);
+                                            }
+                                            if (value3.AttachmentPath == "") {
+                                                $('div.hostweed').eq(key1).find("input:hidden[name^='PlantObsAttachment" + pKey + "']").val("");
+                                                $('div.hostweed').eq(key1).find("img[name^='iPlantObsAttachment" + pKey + "']").attr("src", "images/plant.png");
+                                            }
+                                        });
+                                    }
                                 });
                             });
                         });
@@ -1105,6 +1126,19 @@ function loadModal(pagename) {
                                             });
                                         });
                                     }
+                                    if (key2 == "PlantObsAttachmentTab") {
+                                        $.each(value2, function (key3, value3) {
+                                            var pKey = key3 + 1;
+                                            if (value3.AttachmentPath != "") {
+                                                $('div.hostweed').eq(key1).find("input:hidden[name^='PlantObsAttachment" + pKey + "']").val(value3.AttachmentPath);
+                                                $('div.hostweed').eq(key1).find("img[name^='iPlantObsAttachment" + pKey + "']").attr("src", value3.AttachmentPath);
+                                            }
+                                            if (value3.AttachmentPath == "") {
+                                                $('div.hostweed').eq(key1).find("input:hidden[name^='PlantObsAttachment" + pKey + "']").val("");
+                                                $('div.hostweed').eq(key1).find("img[name^='iPlantObsAttachment" + pKey + "']").attr("src", "images/plant.png");
+                                            }
+                                        });
+                                    }
                                 });
                             });
                         });
@@ -1170,6 +1204,19 @@ function loadModal(pagename) {
                                                     $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("textarea[name^='" + key4 + "']").val(value4);
                                                 });
                                             });
+                                        });
+                                    }
+                                    if (key2 == "PlantObsAttachmentTab") {
+                                        $.each(value2, function (key3, value3) {
+                                            var pKey = key3 + 1;
+                                            if (value3.AttachmentPath != "") {
+                                                $('div.hostweed').eq(key1).find("input:hidden[name^='PlantObsAttachment" + pKey + "']").val(value3.AttachmentPath);
+                                                $('div.hostweed').eq(key1).find("img[name^='iPlantObsAttachment" + pKey + "']").attr("src", value3.AttachmentPath);
+                                            }
+                                            if (value3.AttachmentPath == "") {
+                                                $('div.hostweed').eq(key1).find("input:hidden[name^='PlantObsAttachment" + pKey + "']").val("");
+                                                $('div.hostweed').eq(key1).find("img[name^='iPlantObsAttachment" + pKey + "']").attr("src", "images/plant.png");
+                                            }
                                         });
                                     }
                                 });
@@ -1319,14 +1366,6 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key.startsWith("plantPic_") && value != "x") {
-                        $('#form1').find("input[type='text'][name='" + key + "']").val(value);
-                        $('#form1').find("img[name='i" + key + "']").attr("src", value);
-                    }
-                    if (key.startsWith("plantPic_") && value == "x") {
-                        $('#form1').find("input[type='text'][name='" + key + "']").val(value);
-                        $('#form1').find("img[name='i" + key + "']").attr("src", 'images/plant.png');
-                    }
                     //if (key.startsWith("plantPic_") && value != "") {
                     //    $('#form1').find("img[name='" + key + "']").attr("src", "images/" + value);
                     //}
@@ -1361,6 +1400,7 @@ function loadModal(pagename) {
                     mm = '0' + mm
                 }
                 today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString();
+                $('#form1').find('select[id="ObservationStaffId"]').find('option').remove().end().append($(staffData));
                 $('#form1').find("input[type='number'][name^='Latitude']").val(curLat.toFixed(5));
                 $('#form1').find("input[type='number'][name^='Longitude']").val(curLng.toFixed(5));
                 $('#form1').find("input[type='text'][name^='ObservationWhereWktClob']").val(curWkt);
@@ -1880,6 +1920,7 @@ $(document).on('click', '#downloadPNGMaps', function (e) {
         function (entry) {
             //console.log("Successful download...");
             //console.log("download complete: " + entry.toURL());
+            $('.progText').text("Download complete ...");
             $('.progText').text("Extracting Zip file ...");
             processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
             $('.progText').text("Done ...");

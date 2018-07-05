@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.simsmobile" version="1.2706.2018" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.simsmobile" version="1.407.2018" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
   <name>SIMS Mobile</name>
   <description>A Project that uses Apache Cordova to help you build an app that targets multiple mobile platforms: Android, iOS, and the Windows Universal Platform.</description>
   <author href="http://cordova.io" email="dev@cordova.apache.org">Raj Jonnalagedda</author>
@@ -16,8 +16,13 @@
   <allow-intent href="sms:*" />
   <allow-intent href="mailto:*" />
   <allow-intent href="geo:*" />
+  <allow-intent href="file://*/*" />
+  <allow-navigation href="file://*/*" />
   <platform name="android">
     <allow-intent href="market:*" />
+    <allow-intent href="file://*/*" />
+    <access origin="file://*/*" />
+    <allow-navigation href="file://*/*" />
   </platform>
   <platform name="ios">
     <allow-intent href="itms:*" />
