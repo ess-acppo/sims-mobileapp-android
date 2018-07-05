@@ -31,6 +31,7 @@ var esamples = 0;
 var psamples = 0;
 var addlObservers;
 var AppMode = 'PH';
+var resizeId;
 /* AH Initialized variables */
 //var species = '<div class="row col-md-12 sims dynarow"><div class="form-group col-xs-2"><input type="text" class="form-control speciesText"/></div><div class="form-group col-xs-2"><label>Taxon Name<span class="bold-red">*</span></label></div><div class="form-group col-xs-2"><input type="text" class="form-control taxonText" placeholder="Taxon Name" name="taxonName"></div><div class="form-group col-xs-3" ><label>Number in Group<span class="bold-red">*</span></label></div><div class="form-group col-xs-1"><input type="text" class="form-control" placeholder="#" name="Number"></div><div class="form-group col-xs-1"><button type="button" class="btn btn-danger btn-circle btn-xs pull-right removeSpecies"><i class="fa fa-times-circle fa-2x"></i></button></div></div>';
 //var fieldtest = '<div class="row col-md-12 sims dynarow fieldtest"><div class="form-group col-xs-12"><label class="ftName">Field Test 1</label><i class="fa fa-times-circle fa-2x text-default removeFieldTest pull-right"></i></div><div class="form-group col-xs-6"><label>Fieldtest Name<span class="bold-red">*</span></label><input type="text" class="form-control hide" placeholder="Field Test ID" name="ftId"/><select class="form-control" name="fieldTest"></select></div><div class="form-group col-xs-6"><label>&nbsp;</label><br/><input type="checkbox" name="ftInvalid" class="minimal"><label>Invalid</label></div><div class="row col-xs-12 diseases indentLeft"></div><div class="form-group col-xs-11"><label>Field Test Comment</label><input type="text" class="form-control" name="ftComment"/></div></div>';
@@ -80,41 +81,24 @@ MyMapType.prototype.getTile = function (coord, zoom, ownerDocument) {
     return div;
 };
 
-/* Disable on Android & Enable on Windows
-
-mapDiv = document.getElementById("map");
-var hammertime = new Hammer(mapDiv);
-hammertime.get('pinch').set({ enable: true });
-hammertime.on("pinch", function (ev) {
-    console.log(ev.scale);
-    if (ev.scale > 1.05) { map.setZoom(curZoom + 1); }
-    if (ev.scale < 0.95) { map.setZoom(curZoom - 1); }
-});
-hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-hammertime.get('swipe').set({ enable: false });
-//hammertime.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
-// we want to recognize this simulatenous, so a quadrupletap will be detected even while a tap has been recognized.
-//hammertime.get('doubletap').recognizeWith('singletap');
-// we only want to trigger a tap, when we don't have detected a doubletap
-//hammertime.get('singletap').requireFailure('doubletap');
-//hammertime.on("doubletap", function (ev) {
-//    map.setZoom(curZoom + 1);
-//});
-//hammertime.on("press", function (ev) {
-//    map.setZoom(curZoom - 1);
-//}); */
-
 setInterval(function () {
     statusElem.className = navigator.onLine ? 'label label-success' : 'label label-info';
     statusElem.innerHTML = navigator.onLine ? 'online' : 'offline';
 }, 1000);
 
 function initLoad() {
+    //Invoke Authentication functionality ---------------
+    initAuth();
+    $('#modalAuth').modal();
+    return;
+    //OTP functionality ends -----------------
+
     //Invoke OTP functionality ---------------
     //initVerify();
     //$('#modalVerify').modal();
     //return;
     //OTP functionality ends -----------------
+
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
@@ -1097,6 +1081,18 @@ $(document).ready(function () {
         radioClass: 'iradio_square-blue'
     });
 });
+
+$(window).resize(function () {
+    clearTimeout(resizeId);
+    resizeId = setTimeout(doneResizing, 500);
+});
+
+function doneResizing() {
+    $('.modal-body').height($(window).height() / 1.46);
+    if (window.innerHeight > window.innerWidth) {
+        $('.overlay').height($(window).height() / 1.56);
+    } else { $('.overlay').height($(window).height() / 2); }
+}
 
 $(document).on('click', '.obsForm', function (e) {
     $('.obsForm').removeClass('bg-Obs');

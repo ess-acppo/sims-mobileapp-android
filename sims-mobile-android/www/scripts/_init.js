@@ -81,41 +81,24 @@ MyMapType.prototype.getTile = function (coord, zoom, ownerDocument) {
     return div;
 };
 
-/* Disable on Android & Enable on Windows
-
-mapDiv = document.getElementById("map");
-var hammertime = new Hammer(mapDiv);
-hammertime.get('pinch').set({ enable: true });
-hammertime.on("pinch", function (ev) {
-    console.log(ev.scale);
-    if (ev.scale > 1.05) { map.setZoom(curZoom + 1); }
-    if (ev.scale < 0.95) { map.setZoom(curZoom - 1); }
-});
-hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-hammertime.get('swipe').set({ enable: false });
-//hammertime.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
-// we want to recognize this simulatenous, so a quadrupletap will be detected even while a tap has been recognized.
-//hammertime.get('doubletap').recognizeWith('singletap');
-// we only want to trigger a tap, when we don't have detected a doubletap
-//hammertime.get('singletap').requireFailure('doubletap');
-//hammertime.on("doubletap", function (ev) {
-//    map.setZoom(curZoom + 1);
-//});
-//hammertime.on("press", function (ev) {
-//    map.setZoom(curZoom - 1);
-//}); */
-
 setInterval(function () {
     statusElem.className = navigator.onLine ? 'label label-success' : 'label label-info';
     statusElem.innerHTML = navigator.onLine ? 'online' : 'offline';
 }, 1000);
 
 function initLoad() {
+    //Invoke Authentication functionality ---------------
+    initAuth();
+    $('#modalAuth').modal();
+    return;
+    //OTP functionality ends -----------------
+
     //Invoke OTP functionality ---------------
     //initVerify();
     //$('#modalVerify').modal();
     //return;
     //OTP functionality ends -----------------
+
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!

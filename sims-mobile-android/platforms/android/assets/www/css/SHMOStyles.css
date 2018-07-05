@@ -1385,3 +1385,7 @@ label {
     top: 5px;
     cursor: pointer;
 }
+
+.mxr-5 {
+    margin-right: 5px;
+}
