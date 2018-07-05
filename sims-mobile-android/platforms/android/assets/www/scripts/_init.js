@@ -86,7 +86,7 @@ setInterval(function () {
     statusElem.innerHTML = navigator.onLine ? 'online' : 'offline';
 }, 1000);
 
-function initLoad() {
+function initApp() {
     //Invoke Authentication functionality ---------------
     initAuth();
     $('#modalAuth').modal();
@@ -98,7 +98,9 @@ function initLoad() {
     //$('#modalVerify').modal();
     //return;
     //OTP functionality ends -----------------
+}
 
+function initLoad() {
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!

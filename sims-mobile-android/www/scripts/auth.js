@@ -105,8 +105,8 @@ function initAuth() {
         .addEventListener('click', function () {
             var unameValue = document.querySelector('.auth-username').value;
             var pwdValue = document.querySelector('.auth-username').value;
-            //var isValid = otplib.authenticator.check(inputValue, secret);
-            isValid = true;
+            var isValid = authenticate(unameValue, pwdValue);
+
             var text = document.querySelector('.auth-result .text');
             var icon = document.querySelector('.auth-result .fa');
 
@@ -124,6 +124,10 @@ function initAuth() {
             text.innerHTML = 'Login Failed!';
         });
 };
+
+function authenticate(x, y) {
+    return true;
+}
 
 //createSecret2();
 //initVerify();
