@@ -1,5 +1,5 @@
 ﻿var mapPath = "file:///storage/emulated/0/maps/PNG/";
-var emptyTilePath = "maps/empty.jpg"; ;
+var emptyTilePath = "maps/empty.png"; ;
 var infoWindow;
 var zoomlevel = document.getElementById('zoomlevel');
 var settings = document.getElementById('AppMode');
@@ -72,11 +72,11 @@ MyMapType.prototype.getTile = function (coord, zoom, ownerDocument) {
     zoomlevel.innerHTML = 'zoom: ' + zoom;
     curZoom = zoom;
     var div = ownerDocument.createElement('div');
-    var image = $('<img name="" src="' + mapPath + zoom + "/" + coord.x + "/" + coord.y + '.jpg"/>');
+    var image = $('<img name="" src="' + mapPath + zoom + "/" + coord.x + "/" + coord.y + '.png"/>');
     image.error(function () {
         div.innerHTML = '<img name="" src="' + emptyTilePath + '"/>';
     });
-    div.innerHTML = '<img name="" src="' + mapPath + zoom + "/" + coord.x + "/" + coord.y + '.jpg"/>';
+    div.innerHTML = '<img name="" src="' + mapPath + zoom + "/" + coord.x + "/" + coord.y + '.png"/>';
     div.style.width = this.tileSize.width + 'px'; div.style.height = this.tileSize.height + 'px';
     return div;
 };
@@ -86,11 +86,11 @@ setInterval(function () {
     statusElem.innerHTML = navigator.onLine ? 'online' : 'offline';
 }, 1000);
 
-function initApp() {
+function initLoad() {
     //Invoke Authentication functionality ---------------
     initAuth();
     $('#modalAuth').modal();
-    return;
+    //return;
     //OTP functionality ends -----------------
 
     //Invoke OTP functionality ---------------
@@ -98,9 +98,6 @@ function initApp() {
     //$('#modalVerify').modal();
     //return;
     //OTP functionality ends -----------------
-}
-
-function initLoad() {
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!

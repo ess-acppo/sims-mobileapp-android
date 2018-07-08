@@ -123,4 +123,5 @@
   <plugin name="cordova-plugin-appversion" spec="~1.0.0" />
   <preference name="AndroidPersistentFileLocation" value="Compatibility" />
   <plugin name="cordova-plugin-file-transfer" spec="~1.7.1" />
+  <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
 </widget>

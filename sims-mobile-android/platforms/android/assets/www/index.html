@@ -321,25 +321,28 @@
                         <!-- /.login-logo -->
                         <div class="login-box-body" style="margin-top:30px;">
                             <div class="col-md-12">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     &nbsp;
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group input-group-lg">
-                                        <input class="form-control auth-username" placeholder="username" maxlength="40" value="" type="email">
-                                    </div>
-                                    <div class="form-group input-group-lg">
-                                        <input class=" form-control auth-password" placeholder="password" maxlength="40" value="" type="password">
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-md btn-warning auth-send" type="submit">Login</button>
-                                    </div>
-                                    <div class="auth-result text-center">
-                                        <i class="fa"></i>
-                                        <span class="text"></span>
-                                    </div>
+                                <div class="col-md-6">
+                                    <form role="form" id="form4">
+                                        <div class="form-group input-group-lg">
+                                            <input type="hidden" name="grant_type" id="grant_type" value="password">
+                                            <input class="form-control auth-username" name="username" id="username" placeholder="username" maxlength="40" value="" type="email">
+                                        </div>
+                                        <div class="form-group input-group-lg">
+                                            <input class=" form-control auth-password" name="password" id="password" placeholder="password" maxlength="40" value="" type="password">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-md btn-warning auth-send" type="button">Login</button>
+                                        </div>
+                                        <div class="auth-result text-center">
+                                            <i class="fa"></i>
+                                            <span class="text"></span>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     &nbsp;
                                 </div>
                             </div>
@@ -347,11 +350,11 @@
                         <!-- /.login-box-body -->
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="border: 0px;">
                     <div class="row col-lg-12 sims">
                         <div class="col-lg-3">&nbsp;</div>
                         <div class="col-lg-6" style="text-align:center;">
-                            <label>Department of Agriculture and Water Resources.</label>
+                            <label>Copyright &copy; 2018 Department of Agriculture and Water Resources.</label>
                         </div>
                         <div class="col-lg-3">&nbsp;</div>
                     </div>

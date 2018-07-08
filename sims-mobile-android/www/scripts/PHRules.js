@@ -980,7 +980,7 @@ function loadModal(pagename) {
             $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
             if (curIdx != -1) {
                 var data = results.observations[curIdx - 1];
-                console.log(JSON.stringify(data));
+                //console.log(JSON.stringify(data));
                 //console.time('load Modal');
                 $.each(data, function (key, value) {
                     //console.time('load Modal 1');
@@ -1639,14 +1639,14 @@ function Iterate(data) {
                 var ftype = index.split("_")[4];
                 if (fname == 'HostStatCount' && value == 0) { HostStatCountFlag = 1; }
                 if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1) {
-                    console.log('HostStatCount and Area fields - both cannot be NULL');
+                    //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push('HostStatCount and Area fields - both cannot be NULL');
                     vFailed = true;
                     return false;
                 }
                 if (fMOC == 'M' && fNSD == 'S' && value == '') {
-                    console.log(index + ' field cannot be NULL');
+                    //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push(index + ' field cannot be NULL');
                     vFailed = true;
@@ -1655,7 +1655,7 @@ function Iterate(data) {
                 if (fMOC == 'M' && fNSD == 'N' && value == 0) {
                     if (fname == 'HostStatCount') return true;
                     if (fname == 'HostStatAreaNo') return true;
-                    console.log(index + ' field cannot be NULL');
+                    //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push(index + ' field cannot be NULL');
                     vFailed = true;
@@ -1914,25 +1914,30 @@ $(document).on('click', '#downloadPNGMaps', function (e) {
     $('.modal-body').addClass('hide');
     $('.modal-footer').addClass('hide');
     $('.progText').text("Download in progress ...");
-    fileTransfer.download(
-        url2,
-        fileURL,
-        function (entry) {
-            //console.log("Successful download...");
-            //console.log("download complete: " + entry.toURL());
-            $('.progText').text("Download complete ...");
-            $('.progText').text("Extracting Zip file ...");
-            processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
-            $('.progText').text("Done ...");
-        },
-        function (error) {
-            $('.progText').text(error.source);
-            //console.log("download error source " + error.source);
-            //console.log("download error target " + error.target);
-            //console.log("upload error code" + error.code);
-        },
-        null, {}
-    );
+    if (checkIfFileExists("PNG.zip") == 0) {
+        fileTransfer.download(
+            url2,
+            fileURL,
+            function (entry) {
+                //console.log("Successful download...");
+                //console.log("download complete: " + entry.toURL());
+                //$('.progText').text("Download complete ...");
+                $('.progText').text("Extracting Zip file ...");
+                processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+                //$('.progText').text("Done ...");
+            },
+            function (error) {
+                $('.progText').text(error.source);
+                //console.log("download error source " + error.source);
+                //console.log("download error target " + error.target);
+                //console.log("upload error code" + error.code);
+            },
+            null, {}
+        );
+    } else {
+        $('.progText').text("Extracting Zip file ...");
+        processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+    }
 });
 
 function processZip(zipSource, destination) {
@@ -1940,7 +1945,8 @@ function processZip(zipSource, destination) {
     var progressHandler = function (progressEvent) {
         var percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
         // Display progress in the console : 8% ...
-        console.log(percent + "%");
+        //console.log(percent + "%");
+        $('.progText').text("Extracting Zip file ..." + percent + "%");
     };
     // Proceed to unzip the file
     window.zip.unzip(zipSource, destination, (status) => {
@@ -1956,4 +1962,21 @@ function processZip(zipSource, destination) {
             $('#PNGMapsText').text("Oops, cannot decompress files");
         }
     }, progressHandler);
+}
+
+function checkIfFileExists(path) {
+    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "/maps/", function (fileSystem) {
+        fileSystem.getFile(path, { create: false }, fileExists, fileDoesNotExist);
+    }, getFSFail); //of requestFileSystem
+}
+function fileExists(fileEntry) {
+    alert("File " + fileEntry.fullPath + " exists!");
+    return 1;
+}
+function fileDoesNotExist() {
+    alert("file does not exist");
+    return 0;
+}
+function getFSFail(evt) {
+    console.log(evt.target.error.code);
 }
