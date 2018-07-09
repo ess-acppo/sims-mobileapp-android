@@ -1923,7 +1923,8 @@ $(document).on('click', '#downloadPNGMaps', function (e) {
                 //console.log("download complete: " + entry.toURL());
                 //$('.progText').text("Download complete ...");
                 $('.progText').text("Extracting Zip file ...");
-                processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+                //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+                processZip(fileURL, 'file:///storage/emulated/0/maps/');
                 //$('.progText').text("Done ...");
             },
             function (error) {
@@ -1936,7 +1937,8 @@ $(document).on('click', '#downloadPNGMaps', function (e) {
         );
     } else {
         $('.progText').text("Extracting Zip file ...");
-        processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+        //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+        processZip(fileURL, 'file:///storage/emulated/0/maps/');
     }
 });
 

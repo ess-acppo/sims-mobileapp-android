@@ -1914,26 +1914,32 @@ $(document).on('click', '#downloadPNGMaps', function (e) {
     $('.modal-body').addClass('hide');
     $('.modal-footer').addClass('hide');
     $('.progText').text("Download in progress ...");
-    checkIfFileExists("PNG.zip");
-    //fileTransfer.download(
-    //    url2,
-    //    fileURL,
-    //    function (entry) {
-    //        //console.log("Successful download...");
-    //        //console.log("download complete: " + entry.toURL());
-    //        //$('.progText').text("Download complete ...");
-    //        $('.progText').text("Extracting Zip file ...");
-    //        processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
-    //        //$('.progText').text("Done ...");
-    //    },
-    //    function (error) {
-    //        $('.progText').text(error.source);
-    //        //console.log("download error source " + error.source);
-    //        //console.log("download error target " + error.target);
-    //        //console.log("upload error code" + error.code);
-    //    },
-    //    null, {}
-    //);
+    if (checkIfFileExists("PNG.zip") == 0) {
+        fileTransfer.download(
+            url2,
+            fileURL,
+            function (entry) {
+                //console.log("Successful download...");
+                //console.log("download complete: " + entry.toURL());
+                //$('.progText').text("Download complete ...");
+                $('.progText').text("Extracting Zip file ...");
+                //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+                processZip(fileURL, 'file:///storage/emulated/0/maps/');
+                //$('.progText').text("Done ...");
+            },
+            function (error) {
+                $('.progText').text(error.source);
+                //console.log("download error source " + error.source);
+                //console.log("download error target " + error.target);
+                //console.log("upload error code" + error.code);
+            },
+            null, {}
+        );
+    } else {
+        $('.progText').text("Extracting Zip file ...");
+        //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
+        processZip(fileURL, 'file:///storage/emulated/0/maps/');
+    }
 });
 
 function processZip(zipSource, destination) {
