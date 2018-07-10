@@ -942,21 +942,19 @@ $(document).on('ifClicked', 'input[type="radio"].minimal', function (event) {
     }
 });
 
-//$(document).on('change', 'input:radio', function (e) {
-//    e.preventDefault();
-//    if ($(this).is(":checked") && $(this).data('validate') != 'N') {
-//        $('#form1').find("input[type='radio'][name='" + $(this).attr('name') + "']").val($(this).val());
-//    }
-//});
+$(document).on('change', 'input:radio', function (e) {
+    e.preventDefault();
+    if ($(this).is(":checked") && $(this).data('validate') != 'N') {
+        $('#form1').find("input[type='radio'][name^='" + $(this).attr('name') + "']").val($(this).val());
+    }
+});
 
 function loadModal(pagename) {
     var t0, t1;
     $.ajax({
         url: "",
         beforeSend: function (xhr) {
-            $('#modalForm .overlay').removeClass('hide');
-            $('#modalForm .modal-body').addClass('hide');
-            $('#modalForm .modal-footer').addClass('hide');
+            $('#modalProgress').modal();
             $('#mb').empty();
             $('#mt').empty();
             $('#mt2').empty();
@@ -1012,7 +1010,7 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    if (key2.startsWith("PlantTaxonText")) {
+                                    if (key2.startsWith("PlantTaxonText") && value2.length > 0) {
                                         $('div.hostweed').eq(key1).addClass(value2.substring(0, 1).toLowerCase());
                                         $('div.glossary').find('#' + value2.substring(0, 1).toLowerCase()).removeClass('hide');
                                     }
@@ -1030,7 +1028,7 @@ function loadModal(pagename) {
                                         $('div.hostweed').eq(key1).find("div.countArea").removeClass('hide');
                                         $('div.hostweed').eq(key1).find("input[type='radio'][name^='CountList'][value='Count']").iCheck('check');
                                     }
-                                    if (key2.startsWith("LocationPointWktClob")) {
+                                    if (key2.startsWith("LocationPointWktClob") && value2.length > 0) {
                                         var wkt = new Wkt.Wkt();
                                         wkt.read(value2);
                                         wkt.toObject();
@@ -1043,7 +1041,7 @@ function loadModal(pagename) {
                                     $('div.hostweed').eq(key1).find("input[type='checkbox'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='Y']").iCheck('check');
                                     $('div.hostweed').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
-                                    $('div.hostweed').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
+                                    $('div.hostweed').eq(key1).find("input:not([name^='CountList'])[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
                                     if (key2 == "PlantObsAttachmentTab") {
@@ -1072,7 +1070,7 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    if (key2.startsWith("PlantTaxonText")) {
+                                    if (key2.startsWith("PlantTaxonText") && value2.length > 0) {
                                         $('div.entobox').eq(key1).addClass(value2.substring(0, 1).toLowerCase());
                                         $('div.glossary').find('#' + value2.substring(0, 1).toLowerCase()).removeClass('hide');
                                     }
@@ -1086,7 +1084,7 @@ function loadModal(pagename) {
                                         $('div.entobox').eq(key1).find("input[type='number'][name^='HostStatCount']").addClass('hide');
                                         $('div.entobox').eq(key1).find("input[type='number'][name^='HostStatAreaNo']").removeClass('hide');
                                     }
-                                    if (key2.startsWith("LocationPointWktClob")) {
+                                    if (key2.startsWith("LocationPointWktClob") && value2.length > 0) {
                                         var wkt = new Wkt.Wkt();
                                         wkt.read(value2);
                                         wkt.toObject();
@@ -1152,7 +1150,7 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    if (key2.startsWith("PlantTaxonText")) {
+                                    if (key2.startsWith("PlantTaxonText") && value2.length > 0) {
                                         $('div.pathbox').eq(key1).addClass(value2.substring(0, 1).toLowerCase());
                                         $('div.glossary').find('#' + value2.substring(0, 1).toLowerCase()).removeClass('hide');
                                     }
@@ -1166,7 +1164,7 @@ function loadModal(pagename) {
                                         $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatCount']").addClass('hide');
                                         $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatAreaNo']").removeClass('hide');
                                     }
-                                    if (key2.startsWith("LocationPointWktClob")) {
+                                    if (key2.startsWith("LocationPointWktClob") && value2.length > 0) {
                                         var wkt = new Wkt.Wkt();
                                         wkt.read(value2);
                                         wkt.toObject();
@@ -1415,9 +1413,7 @@ function loadModal(pagename) {
                 $('.nextid').text('');
             }
         }).done(function () {
-            $('#modalForm .overlay').addClass('hide');
-            $('#modalForm .modal-body').removeClass('hide');
-            $('#modalForm .modal-footer').removeClass('hide');
+            $('#modalProgress').modal('hide');
             t1 = performance.now();
             $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
         });
@@ -1905,40 +1901,54 @@ function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-$(document).on('click', '#downloadPNGMaps', function (e) {
-    var url2 = 'http://sprinq.com.au/files/PNG.zip';
-    var filename = "PNG.zip";
+$(document).on('click', '#SaveSettingsExit', function (e) {
+    var v_appMode = $('#form3').find('#appMode').val();
+    if (!v_appMode) {
+        $.growl({ title: "Application Error", message: "Provide a valid mode: IAH, PH, AH!", location: "bc", size: "large" });
+        return false;
+    }
+    if (v_appMode != AppMode) {
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE settings SET settingsval = ? WHERE settingstext = ?", [v_appMode, "AppMode"], function (tx, res) {
+                //alert("Dataset updated.");
+                AppMode = v_appMode;
+                settings.innerHTML = AppMode;
+                $.growl({ title: 'Application Settings', message: 'Application Mode set to:' + v_appMode, location: "bc", size: "large" });
+                $('#modalSettings').modal('hide');
+            });
+        }, function (err) {
+            $.growl({ title: "Application Error", message: "An error occured while updating AppMode to DB. " + err.message, location: "bc", size: "large" });
+        });
+    } else { $('#modalSettings').modal('hide'); }
+});
+
+$(document).on('click', 'a.downloadMaps', function (e) {
+    var url2 = $('#form3').find("input[name='optMaps']:checked").data("url");
+    var filename = $('#form3').find("input[name='optMaps']:checked").data("filename");
+    var fileURL = cordova.file.externalRootDirectory + "maps/" +  filename;
     var fileTransfer = new FileTransfer();
-    var fileURL = 'file:///storage/emulated/0/maps/' + filename;
-    $('.overlay').removeClass('hide');
-    $('.modal-body').addClass('hide');
-    $('.modal-footer').addClass('hide');
-    $('.progText').text("Download in progress ...");
-    if (checkIfFileExists("PNG.zip") == 0) {
+    $('#modalProgress').modal();
+    $('#mb6 .progText').text("Download in progress ...");
+    if (checkIfFileExists(filename) == 0) {
         fileTransfer.download(
             url2,
             fileURL,
             function (entry) {
                 //console.log("Successful download...");
-                //console.log("download complete: " + entry.toURL());
-                //$('.progText').text("Download complete ...");
-                $('.progText').text("Extracting Zip file ...");
+                $('#mb6 .progText').text("Download complete ...");
+                $('#mb6 .progText').text("Extracting Zip file ...");
                 //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
-                processZip(fileURL, 'file:///storage/emulated/0/maps/');
-                //$('.progText').text("Done ...");
+                processZip(fileURL, 'file:///storage/emulated/0/maps');
             },
             function (error) {
-                $('.progText').text(error.source);
-                //console.log("download error source " + error.source);
-                //console.log("download error target " + error.target);
-                //console.log("upload error code" + error.code);
+                $('#mb6 .progText').text(error.source);
             },
             null, {}
         );
     } else {
-        $('.progText').text("Extracting Zip file ...");
+        $('#mb6 .progText').text("Extracting Zip file ...");
         //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
-        processZip(fileURL, 'file:///storage/emulated/0/maps/');
+        processZip(fileURL, 'file:///storage/emulated/0/maps');
     }
 });
 
@@ -1948,20 +1958,18 @@ function processZip(zipSource, destination) {
         var percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
         // Display progress in the console : 8% ...
         //console.log(percent + "%");
-        $('.progText').text("Extracting Zip file ..." + percent + "%");
+        $('#mb6 .progText').text("Extracting Zip file. This may take a while! ..." + percent + "%");
     };
     // Proceed to unzip the file
     window.zip.unzip(zipSource, destination, (status) => {
         if (status == 0) {
             //console.log("Files succesfully decompressed");
-            $('.overlay').addClass('hide');
-            $('.modal-body').removeClass('hide');
-            $('.modal-footer').removeClass('hide');
-            $('#PNGMapsText').text('Download successful!');
+            $('#modalProgress').modal('hide');
+            $.growl({ title: "Download Maps", message: "Maps downloaded successfully.", location: "bc", size: "large" });
         }
         if (status == -1) {
             //console.error("Oops, cannot decompress files");
-            $('#PNGMapsText').text("Oops, cannot decompress files");
+            $.growl({ title: "Download Maps", message: "Failed extracting zip file.", location: "bc", size: "large" });
         }
     }, progressHandler);
 }
@@ -1972,11 +1980,11 @@ function checkIfFileExists(path) {
     }, getFSFail); //of requestFileSystem
 }
 function fileExists(fileEntry) {
-    alert("File " + fileEntry.fullPath + " exists!");
+    //alert("File " + fileEntry.fullPath + " exists!");
     return 1;
 }
 function fileDoesNotExist() {
-    alert("file does not exist");
+    //alert("file does not exist");
     return 0;
 }
 function getFSFail(evt) {

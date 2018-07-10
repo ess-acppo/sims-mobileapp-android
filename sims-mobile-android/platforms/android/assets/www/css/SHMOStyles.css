@@ -102,6 +102,20 @@ body {
     z-index: 305;
 }
 
+#modalProgress .modal-dialog {
+    width: 50%;
+    z-index: 350;
+    top: 20%;
+    text-align: center;
+}
+
+#modalProgress .modal-content {
+    z-index: 350;
+    height: 100px;
+    border: 0px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.2);
+}
+
 #mb3 {
     padding: 0;
     margin-right: 0;
@@ -386,7 +400,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         background-color: black;
         color: #ffffff;
         border-bottom: 0 solid transparent;
-        font-family: 'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif;
         -webkit-font-smoothing: antialiased;
         font-size: 24px;
         width: auto;
@@ -468,7 +481,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size: 12px;
     padding-right: 10px;
     padding-left: 5px;
-    font-family: 'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
     font-weight: 400;
 }
@@ -851,26 +863,6 @@ table.dataTable {
 }
 /* All cols together*/
 
-#paper {
-    width: 99.8%;
-    height: 320px;
-    border: 1px solid #ccc;
-    position: relative;
-    user-select: none;
-    background: url('../img/map.png');
-}
-
-.rect {
-    position: absolute;
-    border: 2px solid rgba(199, 25, 9, 0.64);
-    -webkit-user-select: none; /* Chrome all / Safari all */
-    -moz-user-select: none; /* Firefox all */
-    -ms-user-select: none; /* IE 10+ */
-    /* No support for these yet, use at own risk */
-    -o-user-select: none;
-    user-select: none;
-}
-
 hr {
     border-top: 1px solid #939393;
 }
@@ -891,217 +883,6 @@ hr {
     font-size: 11px;
     padding: 5px;
 }
-
-#control-reviewbar {
-    right: 0px;
-    top: 0px;
-    width: 30px;
-    height: 30px;
-    max-height: 30px;
-    max-width: 30px;
-    border: 5px solid red;
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    text-align: center;
-    position: fixed;
-    z-index: 1200;
-    background-color: red;
-    opacity: 0.95;
-    color: #fff;
-}
-
-#collapse-reviewbar {
-    right: 10px;
-    top: 2px;
-    width: 30px;
-    height: 30px;
-    max-height: 30px;
-    max-width: 30px;
-    text-align: center;
-    position: fixed;
-    z-index: 1150;
-    background-color: transparent;
-    opacity: 0.95;
-    color: #fff;
-}
-
-.reviewbar {
-    background-color: #1d1d1d;
-    opacity: 0.98;
-    border-left: 5px solid red;
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-height: 100%;
-    width: 4px;
-    z-index: 1100;
-    -webkit-transition: -webkit-transform .3s ease-in-out,width .3s ease-in-out;
-    -moz-transition: -moz-transform .3s ease-in-out,width .3s ease-in-out;
-    -o-transition: -o-transform .3s ease-in-out,width .3s ease-in-out;
-    transition: transform .3s ease-in-out,width .3s ease-in-out;
-    overflow-x: hidden;
-    overflow-y: auto;
-    color: #fff;
-    font-size: 12px;
-}
-
-    .reviewbar .overlay, .overlay-wrapper .overlay {
-        z-index: 50;
-        background: rgba(29,29,29,0.7);
-        border-radius: 3px;
-    }
-
-    .reviewbar > .overlay, .overlay-wrapper > .overlay, .reviewbar > .loading-img, .overlay-wrapper > .loading-img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .reviewbar .overlay > .fa, .overlay-wrapper .overlay > .fa {
-        position: absolute;
-        top: 25%;
-        left: 50%;
-        margin-left: -15px;
-        margin-top: -15px;
-        color: #000;
-        font-size: 30px;
-    }
-
-    .reviewbar > .row {
-        margin: 7px;
-    }
-
-        .reviewbar > .row:first-of-type {
-            margin-top: 20px;
-            margin-bottom: 5px;
-        }
-
-        .reviewbar > .row > .col-md-10 > .form-control {
-            height: 50px;
-            background-color: #fff;
-        }
-
-    .reviewbar h4 {
-        color: #fff;
-        font-size: 14px;
-    }
-
-    .reviewbar ul {
-        font-size: 12px;
-        border: 1px solid Orange;
-        border-radius: 2px;
-        background-color: orange;
-    }
-
-        .reviewbar ul > li > a {
-            color: #fff;
-        }
-
-    .reviewbar #newComment {
-        background-color: #464646;
-        border: 1px solid #383838;
-        color: lightgray;
-    }
-
-    .reviewbar #controls {
-        background-color: #464646;
-        border: 1px solid #383838;
-        color: lightgray;
-    }
-
-#reviewPad {
-    width: 98%;
-    overflow: auto;
-    font-size: 11px;
-    font-style: italic;
-    margin-top: 10px;
-    padding: 5px;
-    color: cadetblue;
-}
-
-    #reviewPad > .box {
-        background-color: #383838;
-        padding: 6px;
-        margin: 3px;
-        border-radius: 0px;
-        font-size: 12px;
-        margin-bottom: 4px;
-        border: 0;
-        border-left: 2px solid Orange;
-        width: 100%;
-    }
-
-        #reviewPad > .box > .box-header {
-            border-bottom: 0px;
-            color: cadetblue;
-        }
-
-            #reviewPad > .box > .box-header > .comment > .col-md-1 {
-                padding-left: 0px;
-                padding-right: 0px;
-                width: 5%;
-            }
-
-            #reviewPad > .box > .box-header > .comment > .col-md-11 {
-                padding-left: 0px;
-                padding-right: 0px;
-                width: 94%;
-            }
-
-            #reviewPad > .box > .box-header > .comment > .col-md-1 > .fa {
-                margin-left: 5px;
-                font-size: 15px;
-                color: Orange;
-                cursor: pointer;
-                margin-top: 3px;
-            }
-
-            #reviewPad > .box > .box-header > .comment > .col-md-11 > #comment, #newReply {
-                width: 100%;
-                background-color: #464646;
-                border: 1px solid #383838;
-                color: lightgray;
-            }
-
-        #reviewPad > .box > .box-body > .reply {
-            background-color: #383838;
-            padding: 6px;
-            margin: 3px;
-            width: 98%;
-            float: right;
-            border-radius: 0px;
-            font-size: 12px;
-            margin-bottom: 4px;
-            border-left: 2px solid Orange;
-        }
-
-            #reviewPad > .box > .box-body > .reply > .col-md-1 {
-                padding-left: 0px;
-                padding-right: 0px;
-                width: 5%;
-            }
-
-            #reviewPad > .box > .box-body > .reply > .col-md-11 {
-                padding-left: 0px;
-                padding-right: 0px;
-                width: 94%;
-            }
-
-            #reviewPad > .box > .box-body > .reply > .col-md-1 > .fa {
-                margin-left: 5px;
-                font-size: 15px;
-                color: Orange;
-                cursor: pointer;
-                margin-top: 3px;
-            }
-
-            #reviewPad > .box > .box-body > .reply > .col-md-8 > .rep {
-                width: 100%;
-                color: lightgray;
-            }
 
 .btn-circle {
     width: 30px;
@@ -1243,12 +1024,10 @@ div.dataTables_filter {
 
 .border-bottom-dark {
     border-bottom: 1px solid #414042;
-    margin: 0;
 }
 
 .border-bottom {
     border-bottom: 1px solid #f1f0f0;
-    margin: 0;
 }
 
 .collapsed-box {
@@ -1337,7 +1116,7 @@ label {
 }
 
 .bg-Obs {
-    background-color: #ffeaea;
+    background-color: #ebf6ff;
 }
 
 .bg-gray-blue label, .bg-gray-blue-last label {
@@ -1388,4 +1167,8 @@ label {
 
 .mxr-5 {
     margin-right: 5px;
+}
+
+.p-3 {
+    padding: 20px;
 }

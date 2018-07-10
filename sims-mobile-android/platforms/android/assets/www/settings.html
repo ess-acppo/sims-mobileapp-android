@@ -4,38 +4,52 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="first middle active fat">
-                        <a href="#tab_MS" data-toggle="tab"><i class="fa fa-map fa-2x"></i></a>
+                        <a href="#tab_MS" data-toggle="tab"><i class="fa fa-map fa-2x mxr-5"></i>Maps</i></a>
                     </li>
                     <li class="last fat">
-                        <a href="#tab_AS" data-toggle="tab"><i class="fa fa-cog fa-2x"></i></a>
+                        <a href="#tab_AS" data-toggle="tab"><i class="fa fa-cog fa-2x mxr-5"></i>App</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_MS">
-                        <div class="row col-md-12 sims">
-                            <div class="form-group col-md-12">
-                                <h4>Maps Settings</h4>
+                        <div class="row col-md-12 sims border-bottom obsForm">
+                            <div class="form-group col-md-8 col-sm-8">
+                                <h5>Australia Street Maps</h5>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <input type="radio" class="minimal" value="AU" name="optMaps" data-id="0" data-url="http://sprinq.com.au/files/AU.zip" data-filename="AU.zip">
+                                <small>Set as Active</small>
+                                <a href="#" class="btn btn-sm btn-default downloadMaps">Download</a>
                             </div>
                         </div>
-                        <div class="row col-md-12 sims">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <a href="#" id="downloadPNGMaps" class="btn btn-md btn-info">Download PNG Maps</a>
-                                <label id="PNGMapsText"></label>
+                        <div class="row col-md-12 sims border-bottom obsForm">
+                            <div class="form-group col-md-8 col-sm-8">
+                                <h5>Papua New Guinea Street Maps</h5>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <input type="radio" class="minimal" value="PNG" name="optMaps" data-id="1" data-url="http://sprinq.com.au/files/PNG.zip" data-filename="PNG.zip">
+                                <small>Set as Active</small>
+                                <a href="#" class="btn btn-sm btn-default downloadMaps">Download</a>
+                            </div>
+                        </div>
+                        <div class="row col-md-12 sims border-bottom obsForm">
+                            <div class="form-group col-md-8 col-sm-8">
+                                <h5>East Timor Street Maps</h5>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <input type="radio" class="minimal" value="ET" name="optMaps" data-id="2" data-url="http://sprinq.com.au/files/ET.zip" data-filename="ET.zip">
+                                <small>Set as Active</small>
+                                <a href="#" class="btn btn-sm btn-default downloadMaps">Download</a>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab_AS">
                         <div class="row col-md-12 sims">
-                            <div class="form-group col-md-12">
-                                <h4>Application Settings</h4>
+                            <div class="form-group col-md-4 col-sm-4">
+                                <h5>Application Mode</h5>
                             </div>
-                        </div>
-                        <div class="row col-md-12 sims">
-                            <div class="form-group col-md-3 col-sm-3">
-                                <label>Application Mode is currently set to</label>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-6">
-                                <select class="appMode form-control">
+                            <div class="form-group input-group-lg col-md-4 col-sm-4">
+                                <select class="form-control" id="appMode">
                                     <option value=IAH>International Animal Health (IAH)</option>
                                     <option value=AH>Animal Health (AH)</option>
                                     <option value=PH>Plant Health (PH)</option>
@@ -43,11 +57,11 @@
                             </div>
                         </div>
                         <div class="row col-md-12 sims">
-                            <div class="form-group col-md-3 col-sm-3">
-                                <label>Data Reset</label>
+                            <div class="form-group input-group-lg col-md-4 col-sm-4">
+                                <h5>Data Reset</h5>
                             </div>
-                            <div class="form-group col-md-6 col-sm-6">
-                                <i class="fa fa-power-off fa-2x btnResetData"></i>
+                            <div class="form-group col-md-8 col-sm-8">
+                                <a href="#" class="btn btn-sm btn-default btnResetData"><i class="fa fa-power-off"></i>&nbsp;Reset</a>
                             </div>
                         </div>
                     </div>

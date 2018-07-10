@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src *; img-src * data: gap: 'unsafe-eval'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: ms-appdata: https://ssl.gstatic.com 'unsafe-eval'; img-src * data: gap: ms-appdata: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
     <title>SIMS</title>
     <link href="favicon.ico" rel="icon" type="image/x-icon" />
     <link rel="stylesheet" href="css/jquery-ui.css">
@@ -164,18 +164,18 @@
                 </div>
                 <div class="modal-body" id="mb3">
                     <div class="row col-md-12 sims border-bottom obsForm">
-                        <div class="form-group col-xs-2">
+                        <div class="form-group col-md-2 col-sm-2">
                             <input type="radio" class="minimal" value="mo_sngObservation" name="optObs" data-id="0" data-discipline="S">
                         </div>
-                        <div class="form-group col-xs-10">
-                            <label>Single Opportunisitic Observation (IAH)</label>
+                        <div class="form-group col-md-10 col-sm-10">
+                            <h5>Single Opportunisitic Observation (IAH)</h5>
                         </div>
                     </div>
                     <!--<div class="row col-md-12 sims border-bottom obsForm">
-                        <div class="form-group col-xs-2">
+                        <div class="form-group col-md-2">
                             <input type="radio" class="minimal" value="mo_grpObservation" name="optObs" data-id="1">
                         </div>
-                        <div class="form-group col-xs-10">
+                        <div class="form-group col-md-10">
                             <label>Group Observation</label>
                         </div>
                     </div>-->
@@ -199,19 +199,19 @@
                 </div>
                 <div class="modal-body" id="mb3">
                     <div class="row col-md-12 sims border-bottom obsForm">
-                        <div class="form-group col-xs-2">
+                        <div class="form-group col-md-2 col-sm-2">
                             <input type="radio" class="minimal" value="mo_sngObservation" name="optObs" data-id="0" data-discipline="S">
                         </div>
-                        <div class="form-group col-xs-10">
-                            <label>Single Domestic Observation</label>
+                        <div class="form-group col-md-10 col-sm-10">
+                            <h5>Single Domestic Observation</h5>
                         </div>
                     </div>
                     <div class="row col-md-12 sims border-bottom obsForm">
-                        <div class="form-group col-xs-2">
+                        <div class="form-group col-md-2 col-sm-2">
                             <input type="radio" class="minimal" value="mo_grpObservation" name="optObs" data-id="1" data-discipline="G">
                         </div>
-                        <div class="form-group col-xs-10">
-                            <label>Group Observation</label>
+                        <div class="form-group col-md-10 col-sm-10">
+                            <h5>Group Observation</h5>
                         </div>
                     </div>
                 </div>
@@ -234,27 +234,27 @@
                 </div>
                 <div class="modal-body" id="mb3">
                     <div class="row col-md-12 sims border-bottom obsForm">
-                        <div class="form-group col-xs-2">
+                        <div class="form-group col-md-2 col-sm-2 text-center">
                             <input type="radio" class="minimal" value="mo_BotObservation" name="optObs" data-id="2" data-discipline="B">
                         </div>
-                        <div class="form-group col-xs-10">
-                            <label>Botany Observation</label>
+                        <div class="form-group col-md-10 col-sm-10">
+                            <h5>Botany Observation</h5>
                         </div>
                     </div>
                     <div class="row col-md-12 sims border-bottom obsForm">
-                        <div class="form-group col-xs-2">
+                        <div class="form-group col-md-2 col-sm-2 text-center">
                             <input type="radio" class="minimal" value="mo_EntObservation" name="optObs" data-id="3" data-discipline="E">
                         </div>
-                        <div class="form-group col-xs-10">
-                            <label>Entomology Observation</label>
+                        <div class="form-group col-md-10 col-sm-10">
+                            <h5>Entomology Observation</h5>
                         </div>
                     </div>
                     <div class="row col-md-12 sims border-bottom obsForm">
-                        <div class="form-group col-xs-2">
+                        <div class="form-group col-md-2 col-sm-2 text-center">
                             <input type="radio" class="minimal" value="mo_PatObservation" name="optObs" data-id="4" data-discipline="P">
                         </div>
-                        <div class="form-group col-xs-10">
-                            <label>Pathology Observation</label>
+                        <div class="form-group col-md-10 col-sm-10">
+                            <h5>Pathology Observation</h5>
                         </div>
                     </div>
                 </div>
@@ -273,18 +273,18 @@
                         <br /><br />
                     </div>
                     <div class="row col-md-12 sims">
-                        <div class="col-xs-3">&nbsp;</div>
-                        <div class="col-xs-6" style="text-align:center;">
+                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-6" style="text-align:center;">
                             <img src="images/icon-96-xhdpi.png" />
                         </div>
-                        <div class="col-xs-3">&nbsp;</div>
+                        <div class="col-md-3">&nbsp;</div>
                     </div>
                     <div class="row col-md-12 sims">
                         <br /><br /><br />
                     </div>
                     <div class="row col-md-12 sims">
-                        <div class="col-xs-3">&nbsp;</div>
-                        <div class="col-xs-6" style="text-align:center;">
+                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-6" style="text-align:center;">
                             <input class="otp-verify-input"
                                    placeholder="000000"
                                    maxlength="6"
@@ -295,16 +295,16 @@
                                 <span class='text'></span>
                             </div>
                         </div>
-                        <div class="col-xs-3">&nbsp;</div>
+                        <div class="col-md-3">&nbsp;</div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="row col-md-12 sims">
-                        <div class="col-xs-3">&nbsp;</div>
-                        <div class="col-xs-6" style="text-align:center;">
-                            <label>Department of Agriculture and Water Resources.</label>
+                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-6" style="text-align:center;">
+                            <h6>Department of Agriculture and Water Resources.</h6>
                         </div>
-                        <div class="col-xs-3">&nbsp;</div>
+                        <div class="col-md-3">&nbsp;</div>
                     </div>
                 </div>
             </div><!-- /.modal-content -->
@@ -354,7 +354,7 @@
                     <div class="row col-lg-12 sims">
                         <div class="col-lg-3">&nbsp;</div>
                         <div class="col-lg-6" style="text-align:center;">
-                            <label>Copyright &copy; 2018 Department of Agriculture and Water Resources.</label>
+                            <h6>Copyright &copy; 2018 Department of Agriculture and Water Resources.</h6>
                         </div>
                         <div class="col-lg-3">&nbsp;</div>
                     </div>
@@ -372,11 +372,21 @@
                         <span class="progText">Loading...</span>
                     </div>
                 </div>
-                <div class="modal-body" id="mb5">
+                <div class="modal-body" id="mb5" style="overflow-x:hidden">
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="text-info pull-left" data-dismiss="modal" aria-label="Close">Cancel</a>&nbsp;
                     <button class="btn btn-circle btn-lg btn-warning" id="SaveSettingsExit"><i class="fa fa-save fa-2x"></i><span class="badge sscript"><i class="fa fa-remove"></i></span></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="modalProgress" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="mb6">
+                    <i class="fa fa-spinner fa-spin fa-2x text-default mxr-5"></i>
+                    <span class="progText">Loading...</span>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -386,6 +396,8 @@
         <button id="settings" class="btn btn-circle btn-lg btn-warning"><i class="fa fa-cog fa-2x"></i></button>
         <button id="CSV" class="btn btn-circle btn-lg btn-warning" onclick="downloadCSV()"><i class="fa fa-tasks fa-2x"></i></button>
         <button id="init" class="btn btn-circle btn-lg btn-warning" onclick="myLoc()"><i class="fa fa-map-marker fa-2x"></i></button>
+        <button id="zplus" class="btn btn-circle btn-lg btn-warning"><i class="fa fa-plus fa-2x"></i></button>
+        <button id="zminus" class="btn btn-circle btn-lg btn-warning"><i class="fa fa-minus fa-2x"></i></button>
     </div>
     <div class="bottomButton">
         <span class="label label-success" id="status"></span>
@@ -397,7 +409,6 @@
     <script type="text/javascript" src="scripts/jquery-ui.min.js"></script>
     <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="scripts/fastclick.js"></script>
-    <!--Disable on Android, Enable on Windows <script type="text/javascript" src="scripts/hammer.min.js"></script>-->
     <script type="text/javascript" src="mapapi.js"></script>
     <!--<script type="text/javascript" src="scripts/AHRules.js"></script>-->
     <script type="text/javascript" src="scripts/PHRules.js"></script>

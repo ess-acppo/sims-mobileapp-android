@@ -766,57 +766,11 @@ $(document).on('click', '#SaveExit', function (e) {
     }
 });
 
-//$(document).on('click', '#settings', function (e) {
-//    $.confirm({
-//        title: 'App Settings!',
-//        content: '' +
-//        '<form action="" class="formName">' +
-//        '<div class="form-group">' +
-//        '<label>Application Mode is currently set to:</label>' +
-//        '<select class="appMode form-control"><option value=IAH>International Animal Health (IAH)</option><option value=AH>Animal Health (AH)</option><option value=PH>Plant Health (PH)</option></select>' +
-//        '</div>' +
-//        '</form>',
-//        buttons: {
-//            formSubmit: {
-//                text: 'Submit',
-//                btnClass: 'btn-blue',
-//                action: function () {
-//                    var v_appMode = this.$content.find('.appMode').val();
-//                    if (!v_appMode) {
-//                        $.growl({ title: "Application Error", message: "Provide a valid mode: IAH, PH, AH!", location: "bc", size: "large" });
-//                        return false;
-//                    }
-//                    db.transaction(function (tx) {
-//                        tx.executeSql("UPDATE settings SET settingsval = ? WHERE settingstext = ?", [v_appMode, "AppMode"], function (tx, res) {
-//                            //alert("Dataset updated.");
-//                            AppMode = v_appMode;
-//                            settings.innerHTML = AppMode;
-//                            $.growl({ title: 'Application Settings', message: 'Application Mode set to:' + v_appMode, location: "bc", size: "large" });
-//                        });
-//                    }, function (err) {
-//                        $.growl({ title: "Application Error", message: "An error occured while updating AppMode to DB. " + err.message, location: "bc", size: "large" });
-//                    });
-//                }
-//            },
-//            cancel: function () {
-//                //close
-//            }
-//        },
-//        onContentReady: function () {
-//            // bind to events
-//            this.$content.find('.appMode').val(AppMode);
-//        }
-//    });
-//});
-
-
 $(document).on('click', '#settings', function (e) {
     $.ajax({
         url: "",
         beforeSend: function (xhr) {
-            $('#modalSettings .overlay').removeClass('hide');
-            $('#modalSettings .modal-body').addClass('hide');
-            $('#modalSettings .modal-footer').addClass('hide');
+            $('#modalProgress').modal();
             $('#mb5').empty();
             $('#mt5').empty();
             $(document).find('script[id="pageScript"]').remove();
@@ -825,35 +779,12 @@ $(document).on('click', '#settings', function (e) {
         }
     })
         .complete(function (e) {
-            $('#mb5').find('.appMode').val(AppMode);
+            $('#mb5').find('#appMode').val(AppMode);
         }).done(function () {
-            $('#modalSettings .overlay').addClass('hide');
-            $('#modalSettings .modal-body').removeClass('hide');
-            $('#modalSettings .modal-footer').removeClass('hide');
+            $('#modalProgress').modal('hide');
         });
     $('#modalSettings').modal();
 });
-
-$(document).on('click', '#SaveSettingsExit', function (e) {
-    var v_appMode = $('#form1').find('.appMode').val();
-    if (!v_appMode) {
-        $.growl({ title: "Application Error", message: "Provide a valid mode: IAH, PH, AH!", location: "bc", size: "large" });
-        return false;
-    }
-    db.transaction(function (tx) {
-        tx.executeSql("UPDATE settings SET settingsval = ? WHERE settingstext = ?", [v_appMode, "AppMode"], function (tx, res) {
-            //alert("Dataset updated.");
-            AppMode = v_appMode;
-            settings.innerHTML = AppMode;
-            $.growl({ title: 'Application Settings', message: 'Application Mode set to:' + v_appMode, location: "bc", size: "large" });
-        });
-    }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while updating AppMode to DB. " + err.message, location: "bc", size: "large" });
-    });
-});
-
-function downloadPNGMaps() {
-}
 
 $(document).on('click', '#Delete', function (e) {
     $.confirm({
@@ -898,9 +829,7 @@ $(document).on('click', '#srchTable tbody tr', function () {
         url: "",
         beforeSend: function (xhr) {
             t0 = performance.now();
-            $('.overlay').removeClass('hide');
-            $('.modal-body').addClass('hide');
-            $('.modal-footer').addClass('hide');
+            $('#modalProgress').modal();
         }
     })
         .complete(function (data) {
@@ -925,9 +854,7 @@ $(document).on('click', '#srchTable tbody tr', function () {
             $('#modalForm').css('z-index', zi + 100);
             $('#modalForm').modal();
         }).done(function () {
-            $('.overlay').addClass('hide');
-            $('.modal-body').removeClass('hide');
-            $('.modal-footer').removeClass('hide');
+            $('#modalProgress').modal('hide');
             $('#modalGrid').modal('hide');
             t1 = performance.now();
             $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
@@ -950,9 +877,7 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
         url: "",
         beforeSend: function (xhr) {
             t0 = performance.now();
-            $('.overlay').removeClass('hide');
-            $('.modal-body').addClass('hide');
-            $('.modal-footer').addClass('hide');
+            $('#modalProgress').modal();
         }
     })
         .complete(function (data) {
@@ -977,9 +902,7 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
             $('#modalForm').css('z-index', zi + 100);
             $('#modalForm').modal();
         }).done(function () {
-            $('.overlay').addClass('hide');
-            $('.modal-body').removeClass('hide');
-            $('.modal-footer').removeClass('hide');
+            $('#modalProgress').modal('hide');
             $('#modalPHGrid').modal('hide');
             t1 = performance.now();
             $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
@@ -1063,9 +986,6 @@ $(document).on('hidden.bs.modal', '#modalForm', function () {
 
 $(document).ready(function () {
     $('.modal-body').height($(window).height() / 1.46);
-    if (window.innerHeight > window.innerWidth) {
-        $('.overlay').height($(window).height() / 1.56);
-    } else { $('.overlay').height($(window).height() / 2); }
     $('.datetimepicker').datetimepicker({
         format: 'd-MMM-YYYY hh:mm Z',
         defaultDate: Date.now()
@@ -1088,9 +1008,6 @@ $(window).resize(function () {
 
 function doneResizing() {
     $('.modal-body').height($(window).height() / 1.46);
-    if (window.innerHeight > window.innerWidth) {
-        $('.overlay').height($(window).height() / 1.56);
-    } else { $('.overlay').height($(window).height() / 2); }
 }
 
 $(document).on('click', '.obsForm', function (e) {
