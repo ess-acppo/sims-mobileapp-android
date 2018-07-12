@@ -1936,7 +1936,7 @@ $(document).on('click', 'a.downloadMaps', function (e) {
             function (entry) {
                 //console.log("Successful download...");
                 $('#mb6 .progText').text("Download complete ...");
-                $('#mb6 .progText').text("Extracting Zip file ...");
+                $('#mb6 .progText').text("Extracting Zip file. This might take a while ...");
                 //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
                 processZip(fileURL, 'file:///storage/emulated/0/maps');
             },

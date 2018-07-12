@@ -1,0 +1,68 @@
+{
+  "settings": {
+    "mapSets": [
+      {
+        "mapsetID": 1,
+        "mapSetName": "Australia Street Maps",
+        "downloadPath": "http://sprinq.com.au/files/AU.zip",
+        "mapPath": "file:///storage/emulated/0/maps/AU/",
+        "emptyTilePath": "maps/empty.png",
+        "startZoom": 7,
+        "endZoom": 13,
+        "activeFlag": 0
+      },
+      {
+        "mapsetID": 2,
+        "mapSetName": "Papua New Guinea Street Maps",
+        "downloadPath": "http://sprinq.com.au/files/PNG.zip",
+        "mapPath": "file:///storage/emulated/0/maps/PNG/",
+        "emptyTilePath": "maps/empty.png",
+        "startZoom": 7,
+        "endZoom": 13,
+        "activeFlag": 1
+      },
+      {
+        "mapsetID": 3,
+        "mapSetName": "East Timor Street Maps",
+        "downloadPath": "http://sprinq.com.au/files/ET.zip",
+        "mapPath": "file:///storage/emulated/0/maps/ET/",
+        "emptyTilePath": "maps/empty.png",
+        "startZoom": 7,
+        "endZoom": 13,
+        "activeFlag": 0
+      }
+    ],
+    "device": {
+      "ownerId": "1",
+      "ownerName": "Raj Jonnalagedda",
+      "ownerRole": "Botanist",
+      "samplePrefix": "RJ",
+      "sampleStartNumber": 0
+    },
+    "logging": {
+      "allowLogging": 1,
+      "allowView": 1,
+      "allowDownload": 1,
+      "downloadPath": ""
+    },
+    "auth": {
+      "authenticated": 0,
+      "authURL": "",
+      "currentToken": "",
+      "currentTokenExpiryDateTime": "",
+      "lastLoggedInUser": "",
+      "lastLoggedInDateTime": "",
+      "useOTP": 1,
+      "currentOTP": 1234,
+      "currentOTPExpiryDateTime": "",
+      "lastOTPUser": "",
+      "lastOTPDateTime": "",
+      "otpReset": 0,
+      "signedOut": 0
+    },
+    "app": {
+      "dataReset": 0,
+      "appMode": "PH"
+    }
+  }
+}
