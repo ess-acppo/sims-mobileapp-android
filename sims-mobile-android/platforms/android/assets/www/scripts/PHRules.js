@@ -475,7 +475,7 @@ $(document).on('click', "[data-action=collapse]", function () {
 });
 
 $(document).on('click', '#addBotanySample', function (e) {
-    if (bsamples > 1) {
+    if (bsamples > 0) {
         var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
         var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
         var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
@@ -509,7 +509,7 @@ $(document).on('click', '#addBotanySample', function (e) {
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
-    that.insertAfter($('.samples'));
+    $('#samples').append(that);
 });
 
 function loadBotanySample() {
@@ -535,7 +535,7 @@ function loadBotanySample() {
     })
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
-    that.insertAfter($('.samples'));
+    $('#samples').append(that);
 };
 
 $(document).on('click', '.removeBotSample', function (e) {
@@ -556,7 +556,7 @@ $(document).on('click', '.removeBotSample', function (e) {
 });
 
 $(document).on('click', '#addEntoSample', function (e) {
-    if (esamples > 1) {
+    if (esamples > 0) {
         var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
         var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
         var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
@@ -594,7 +594,7 @@ $(document).on('click', '#addEntoSample', function (e) {
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
-    that.insertAfter($('.samples'));
+    $('#samples').append(that);
 });
 
 function loadEntoSample() {
@@ -624,7 +624,7 @@ function loadEntoSample() {
     })
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
-    that.insertAfter($('.samples'));
+    $('#samples').append(that);
 };
 
 $(document).on('click', '.removeEntoSample', function (e) {
@@ -645,7 +645,7 @@ $(document).on('click', '.removeEntoSample', function (e) {
 });
 
 $(document).on('click', '#addPathSample', function (e) {
-    if (psamples > 1) {
+    if (psamples > 0) {
         var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
         var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
         var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
@@ -681,7 +681,7 @@ $(document).on('click', '#addPathSample', function (e) {
     //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
-    that.insertAfter($('.samples'));
+    $('#samples').append(that);
 });
 
 function loadPathSample() {
@@ -709,7 +709,7 @@ function loadPathSample() {
     })
     //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
-    that.insertAfter($('.samples'));
+    $('#samples').append(that);
 }
 
 $(document).on('click', '.removePathSample', function (e) {
@@ -769,6 +769,25 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
         $('.addlCollectors').addClass('hide');
     };
     $(this).val('N');
+});
+
+$(document).on('click', '.getCoords', function (e) {
+    var xlat = $('#form1').find('input.obslat');
+    var xlng = $('#form1').find('input.obslng');
+    var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            xlat.val(position.coords.latitude);
+            xlng.val(position.coords.longitude);
+            xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+        }, function () {
+            handleLocationError(true);
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false);
+    };
+    e.preventDefault();
 });
 
 
@@ -903,34 +922,16 @@ $(document).on('click', 'img.pp', function () {
 
 function getNextID(e) {
     //Read from DB
+    var nextID = resSettings.settings.device.currentSampleNumber + 1;
+    resSettings.settings.device.currentSampleNumber = nextID;
     db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM seqnum WHERE id = ? and attrname = ?", [1, 'sampleid'], function (tx, res) {
-            if (res.rows && res.rows.length > 0) {
-                var nextID = res.rows.item(0).attrval + 1;
-                db.transaction(function (tx) {
-                    tx.executeSql("UPDATE seqnum set attrval = ? where id = ?", [nextID, 1], function (tx, res) {
-                        //alert("Row inserted.");
-                        //return e + pad(nextID.toString(), 4);
-                        $("#form1").find('input[type="text"].nextid').first().val(e + pad(nextID.toString(), 6));
-                    });
-                }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
-                });
-            }
-            else {
-                db.transaction(function (tx) {
-                    tx.executeSql("INSERT INTO seqnum (id, attrname, attrval) VALUES (?,?,?)", [1, 'sampleid', 1], function (tx, res) {
-                        //alert("Row inserted.");
-                        //return e + pad('1', 4);
-                        $("#form1").find('input[type="text"].nextid').first().val(e + pad('1', 6));
-                    });
-                }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
-                });
-            }
+        tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
+            //alert("Row inserted.");
+            //return e + pad(nextID.toString(), 4);
+            $("#form1").find('input[type="text"].nextid').last().val(e + pad(nextID.toString(), 6));
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while retrieving next ID. " + err.message, location: "bc", size: "large" });
+        $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
     });
 };
 
@@ -961,7 +962,6 @@ function loadModal(pagename) {
             $(document).find('script[id="pageScript"]').remove();
             $('#mb').load(pagename + '.html');
             t0 = performance.now();
-            loadPHDefaults();
             bsamples = 0;
             esamples = 0;
             psamples = 0;
@@ -973,10 +973,11 @@ function loadModal(pagename) {
         }
     })
         .complete(function (e) {
-            $('#form1').find("input[type=text], textarea").val("");
+            $('#form1').find("input[type=text],input[type=date],input[type=number], textarea").val("");
             $('#form1').find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
             $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
-            if (curIdx != -1) {
+            loadPHDefaults();
+            if (curIdx > -1) {
                 var data = results.observations[curIdx - 1];
                 //console.log(JSON.stringify(data));
                 //console.time('load Modal');
@@ -1399,10 +1400,12 @@ function loadModal(pagename) {
                 }
                 today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString();
                 $('#form1').find('select[id="ObservationStaffId"]').find('option').remove().end().append($(staffData));
-                $('#form1').find("input[type='number'][name^='Latitude']").val(curLat.toFixed(5));
-                $('#form1').find("input[type='number'][name^='Longitude']").val(curLng.toFixed(5));
-                $('#form1').find("input[type='text'][name^='ObservationWhereWktClob']").val(curWkt);
-                getAltitude();
+                if (curIdx == -1) {
+                    $('#form1').find("input[type='number'][name^='Latitude']").val(curLat.toFixed(5));
+                    $('#form1').find("input[type='number'][name^='Longitude']").val(curLng.toFixed(5));
+                    $('#form1').find("input[type='text'][name^='ObservationWhereWktClob']").val(curWkt);
+                    getAltitude();
+                }
                 $('#form1').find("input[type='date'][name^='ObservationDate']").val(today);
                 $('#form1').find("input[type='number'][name^='DurationMinsCount']").val("0");
                 $('#form1').find("input[type='number'][name^='id']").val(results.observations.length + 1);
@@ -1546,10 +1549,10 @@ function objectifyPHFormforSave(formArray) {
                         "SampleAttachmentTab": []
                     };
                 }
-                if (fname.startsWith('AdditionalCollectorName') && formArray[i]['value'] == 'NONE') {
+                if (fname.startsWith('AdditionalCollectorName') && (formArray[i]['value'] == 'NONE' || formArray[i]['value'] == '')) {
                     continue;
                 }
-                if (fname.startsWith('AdditionalCollectorName') && formArray[i]['value'] != 'NONE') {
+                if (fname.startsWith('AdditionalCollectorName') && (formArray[i]['value'] != 'NONE' || formArray[i]['value'] != '')) {
                     vPlantSampleTab.AdditionalCollectorTab.push(formArray[i]['value']);
                     continue;
                 }
@@ -1665,216 +1668,6 @@ function Iterate(data) {
     } else { return { "vError": 0, "vErrDescription": "" }; }
 };
 
-//function objectifyPHFormforSubmit(formArray) {//serialize data function
-//    var addlObserver = 1;
-//    var obsAttachment = 1;
-//    var sampleAttachment = 1;
-//    var observation = {
-//        "SubmittedByStaffId": 0,
-//        "SurvActivityId": 0,
-//        "SiteId": 0,
-//        "PlantDisciplineCode": "",
-//        "ObservationDate": "",
-//        "ObservationStaffId": 0,
-//        "WaypointNumber": 0,
-//        "DurationMinsCount": 0,
-//        "ObservWhereGpsDatumId": "",
-//        "ObservationWhereWktClob": "",
-//        "AltitudeNo": 0,
-//        "AdditionalObserverTab": [],
-//        "PlantObsTab": [],
-//        "PlantSampleTab":  [],
-//        "ObsAttachmentTab": [],
-//        "id": 1,
-//        "status": 0
-//    };
-//    for (var i = 0; i < formArray.length; i++) {
-//        if (formArray[i]['name'].length > 0) {     
-//            if (formArray[i]['name'].startsWith('AdditionalCollectorTab')) { continue; }
-//            if (formArray[i]['name'].startsWith('PlantStatisticType')) { continue; }
-//            if (formArray[i]['name'].startsWith('Latitude')) { continue; }
-//            if (formArray[i]['name'].startsWith('Longitude')) { continue; }
-//            if (formArray[i]['name'].startsWith('AdditionalObserverTab')) { continue; }
-//            if (formArray[i]['name'].startsWith('AdditionalObserverName') && formArray[i]['value'] == "") {    
-//                continue;
-//            }
-//            var fname = formArray[i]['name'].split("_")[0];
-//            var fMOC = formArray[i]['name'].split("_")[1];
-//            var fNSD = formArray[i]['name'].split("_")[2];
-//            var fnum = formArray[i]['name'].split("_")[3];
-//            var ftype = formArray[i]['name'].split("_")[4];
-
-//            //if (fMOC = 'M' && formArray[i]['value'] == null) {
-//            //    return false;
-//            //} 
-
-//            if (formArray[i]['name'].startsWith('AdditionalObserverName') && formArray[i]['value'] != "") {
-//                //var x = formArray[i]['name'].substr(formArray[i]['name'].length - 1);
-//                var observer = { "ObserverNo": "", "AdditionalObserverName": "" };
-//                observer.ObserverNo = addlObserver;
-//                observer.AdditionalObserverName = formArray[i]['value'];
-//                observation.AdditionalObserverTab.push(observer);
-//                addlObserver++;
-//                continue;
-//            }
-
-//            if (ftype == 'H' && fname != 'GpsDatumId') {
-//                if (fname == 'PlantTaxonId') {
-//                    var vPlantObsTab = {
-//                        "PlantTaxonId": 0,
-//                        "PlantTaxonText": "",
-//                        "HostStatCount": 0,
-//                        "HostStatAreaNo": 0,
-//                        "CheckFutureSurveyFlag": "",
-//                        "ExternalPhotoExistFlag": "",
-//                        "PlantObsMethodCode": "",
-//                        "CommentText": "",
-//                        "PlantLifeStgCode": "",
-//                        "PlantStatusFruitingFlag": "",
-//                        "PlantStatusFloweringFlag": "",
-//                        "PlantStatusFlushingFlag": "",
-//                        "PlantStatusDeadWoodFlag": "",
-//                        "GpsDatumId": "",
-//                        "LocationPointWktClob": "",
-//                        "PlantObsTargetTab": [],
-//                        "PlantObsAttachmentTab": []
-//                    };
-//                }
-//                if (fname.startsWith('PlantObsAttachment')) {
-//                    //var x = fname.substr(fname.length - 1);
-//                    var attachment = { "AttachmentNo": "", "AttachmentPath": "" };
-//                    attachment.AttachmentNo = obsAttachment;
-//                    attachment.AttachmentPath = formArray[i]['value'];
-//                    vPlantObsTab.PlantObsAttachmentTab.push(attachment);
-//                    obsAttachment++;
-//                    continue;
-//                }
-//                vPlantObsTab[fname] = formArray[i]['value'];
-//                continue;
-//            } 
-//            if (ftype == 'T' && fname != 'CommentText') {
-//                if (fname == 'TargetTaxonId') {
-//                    var vPlantObsTargetTab = {
-//                        "TargetTaxonId": 0,
-//                        "TargetTaxonText": "",
-//                        "TargetCount": 0,
-//                        "TargetObservedCode": "",
-//                        "CommentText": ""
-//                    };
-//                }
-//                vPlantObsTargetTab[fname] = formArray[i]['value'];
-//                continue;
-//            }
-//            if (ftype == 'T' && fname == 'CommentText') {
-//                vPlantObsTargetTab[fname] = formArray[i]['value'];
-//                vPlantObsTab.PlantObsTargetTab.push(vPlantObsTargetTab);
-//                continue;
-//            }
-//            if (ftype == 'H' && fname == 'GpsDatumId') {
-//                vPlantObsTab[fname] = formArray[i]['value'];
-//                observation.PlantObsTab.push(vPlantObsTab);
-//                continue;
-//            }
-//            if (ftype == 'S' && fname != 'ExternalPhotoExistFlag') {
-//                if (fname == 'SampleFieldLabelText') {
-//                    var vPlantSampleTab = {
-//                        "SampleFieldLabelText": "",
-//                        "CollectedSampleCount": 0,
-//                        "LinkedSampleFieldLabelText": "",
-//                        "PrelimTaxonId": 0,
-//                        "PrelimTaxonText": "",
-//                        "GpsDatumId": "",
-//                        "SamplePointWktClob": "",
-//                        "CollectedDatetime": "",
-//                        "CollectedAltitudeNo": 0,
-//                        "CommentText": "",
-//                        "HabitText": "",
-//                        "DetailedDescriptionText": "",
-//                        "HabitatText": "",
-//                        "LandformText": "",
-//                        "SoilGeologyText": "",
-//                        "AbundanceText": "",
-//                        "ExternalPhotoExistFlag": "",
-//                        "PlantPreservOtherText": "",
-//                        "HostFlag": "",
-//                        "HostTaxonId": 0,
-//                        "HostTaxonText": "",
-//                        "HostIdentifiedUserId": "",
-//                        "EntoCollMethodCode": "",
-//                        "EntoInfestedPctCode": "",
-//                        "EntoDamageLevelCode": "",
-//                        "EntoPestLevelCode": "",
-//                        "PathSymptomsText": "",
-//                        "PathIncidCode": "",
-//                        "PathSevCode": "",
-//                        "AdditionalCollectorTab": [],
-//                        "PlantPreservationTab": [],
-//                        "PlantPartTab": [],
-//                        "EntoLifeStgTab": [],
-//                        "SampleAttachmentTab": []
-//                    };
-//                }
-//                if (fname.startsWith('AdditionalCollectorName') && formArray[i]['value'] == 'NONE') {
-//                    continue;
-//                }
-//                if (fname.startsWith('AdditionalCollectorName') && formArray[i]['value'] != 'NONE') {
-//                    vPlantSampleTab.AdditionalCollectorTab.push(formArray[i]['value']);
-//                    continue;
-//                }
-//                if (fname.startsWith('PlantPartTab') && formArray[i]['value'] != 'Y') {
-//                    continue;
-//                }
-//                if (fname.startsWith('PlantPartTab') && formArray[i]['value'] == 'Y') {
-//                    var vPlantpart = fname.split("_")[0];
-//                    vPlantpart = vPlantpart.split("-")[1];
-//                    vPlantSampleTab.PlantPartTab.push(vPlantpart);
-//                    continue;
-//                }
-//                if (fname.startsWith('PlantPreservationTab') && formArray[i]['value'] != 'Y') {
-//                    continue;
-//                }
-//                if (fname.startsWith('PlantPreservationTab') && formArray[i]['value'] == 'Y') {
-//                    var vPlantPreservation = fname.split("_")[0];
-//                    vPlantPreservation = vPlantPreservation.split("-")[1];
-//                    vPlantSampleTab.PlantPreservationTab.push(vPlantPreservation);
-//                    continue;
-//                }
-//                if (fname.startsWith('EntoLifeStgTab') && formArray[i]['value'] != 'Y') {
-//                    continue;
-//                }
-//                if (fname.startsWith('EntoLifeStgTab') && formArray[i]['value'] == 'Y') {
-//                    var vEntoLifeStgTab = fname.split("_")[0];
-//                    vEntoLifeStgTab = vEntoLifeStgTab.split("-")[1];
-//                    vPlantSampleTab.EntoLifeStgTab.push(vEntoLifeStgTab);
-//                    continue;
-//                }
-//                if (fname.startsWith('SampleAttachment')) {
-//                    //var x = fname.substr(fname.length - 1);
-//                    var attachment = { "AttachmentNo": "", "AttachmentPath": "" };
-//                    attachment.AttachmentNo = sampleAttachment;
-//                    attachment.AttachmentPath = formArray[i]['value'];
-//                    vPlantSampleTab.SampleAttachmentTab.push(attachment);
-//                    sampleAttachment++;
-//                    continue;
-//                }
-//                vPlantSampleTab[fname] = formArray[i]['value'];
-//                continue;
-//            }
-//            if (ftype == 'S' && fname == 'ExternalPhotoExistFlag') {
-//                vPlantSampleTab[fname] = formArray[i]['value'];
-//                observation.PlantSampleTab.push(vPlantSampleTab);
-//                continue;
-//            }       
-//            //alert(formArray[i]['name'] + ':' + formArray[i]['value']);
-//            if (fNSD == 'N') {
-//                observation[fname] = Number(formArray[i]['value']);
-//            }
-//            else { observation[fname] = formArray[i]['value'];}           
-//        }
-//    }
-//    return observation;
-//}
-
 function SubmitRecord(formArray) {//serialize data function
     var guid1 = guid();
     var obsWrapper = {
@@ -1936,7 +1729,7 @@ $(document).on('click', 'a.downloadMaps', function (e) {
             function (entry) {
                 //console.log("Successful download...");
                 $('#mb6 .progText').text("Download complete ...");
-                $('#mb6 .progText').text("Extracting Zip file ...");
+                $('#mb6 .progText').text("Extracting Zip file. This might take a while ...");
                 //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
                 processZip(fileURL, 'file:///storage/emulated/0/maps');
             },

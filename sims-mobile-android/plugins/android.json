@@ -39,6 +39,9 @@
         },
         "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     },
     "dependent_plugins": {

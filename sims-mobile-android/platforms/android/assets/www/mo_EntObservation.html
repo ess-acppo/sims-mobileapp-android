@@ -4,16 +4,16 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="first middle active fat">
-                        <a href="#tab_0" data-toggle="tab"><i class="fa fa-search fa-2x mxr-5"></i>Site Visit Details</a>
+                        <a href="#tab_0" data-toggle="tab"><i class="fa fa-search mxr-5"></i>Site Visit Details</a>
                     </li>
                     <li class="middle fat">
-                        <a href="#tab_1" data-toggle="tab"><i class="fa fa-leaf fa-2x mxr-5"></i>Observations</a>
+                        <a href="#tab_1" data-toggle="tab"><i class="fa fa-leaf mxr-5"></i>Observations</a>
                     </li>
                     <li class="middle fat">
-                        <a href="#tab_2" data-toggle="tab"><i class="fa fa-thermometer-4 fa-2x mxr-5"></i>Samples</a>
+                        <a href="#tab_2" data-toggle="tab"><i class="fa fa-flask mxr-5"></i>Samples</a>
                     </li>
                     <li class="last fat">
-                        <a href="#tab_3" data-toggle="tab"><i class="fa fa-paperclip fa-2x mxr-5"></i>Attachments</a>
+                        <a href="#tab_3" data-toggle="tab"><i class="fa fa-paperclip mxr-5"></i>Attachments</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -26,13 +26,13 @@
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Activity<span class="bold-red">&nbsp;*</span></label>
+                                <label><span class="bold-red">*&nbsp;</span>Activity</label>
                                 <select class="form-control" id="SurvActivityId" name="SurvActivityId_M_N" min="0" max="99999999" maxlength="8" data-section="Observation"></select>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Site<span class="bold-red">&nbsp;*</span></label>
+                                <label><span class="bold-red">*&nbsp;</span>Site</label>
                                 <select class="form-control" id="SiteId" name="SiteId_O_N" min="0" max="99999999" maxlength="8" data-section="Observation"></select>
                             </div>
                         </div>
@@ -44,15 +44,57 @@
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label>Observation Date<span class="bold-red">&nbsp;*</span></label>
+                                <label><span class="bold-red">*&nbsp;</span>Observation Date</label>
                                 <input class="form-control" type="date" placeholder="Observation Date" name="ObservationDate_M_D" maxlength="10" data-section="Observation">
                                 <i class="fa fa-calendar form-control-feedback"></i>
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-6 col-sm-6">
-                                <label><span class="bold-red">&nbsp;*</span>Observer</label>
+                                <label><span class="bold-red">*&nbsp;</span>Observer</label>
                                 <select class="form-control" id="ObservationStaffId" name="ObservationStaffId_M_N" data-section="Observation"></select>
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <label><span class="bold-red">*&nbsp;</span>Duration</label>
+                                <input type="number" class="form-control" placeholder="HH:MM" name="DurationMinsCount_O_N" min="0" max="99999" maxlength="5" data-section="Observation">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <label><span class="bold-red">*&nbsp;</span>Latitude</label>
+                                <input type="number" class="form-control obslat" placeholder="Latitude" readonly name="Latitude">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <label><span class="bold-red">*&nbsp;</span>Longitude</label>
+                                <input type="number" class="form-control obslng" placeholder="Longitude" readonly name="Longitude">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <label><span class="bold-red">*&nbsp;</span>Point WKT</label>
+                                <input type="text" class="form-control" readonly name="ObservationWhereWktClob_M_S" data-section="Observation">
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims">
+                            <div class="form-group  col-md-6 col-sm-6">
+                                <label><span class="bold-red">*&nbsp;</span>Datum</label>
+                                <select class="form-control" name="ObservWhereGpsDatumId_M_S" data-section="Observation">
+                                    <option>WGS84</option>
+                                    <option>GDA94</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3">
+                                <button class="btn btn-md btn-default getCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button>
+                            </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims">
+                            <div class="form-group col-md-6 col-sm-6">
+                                <label>Altitude</label>
+                                <input type="number" class="form-control obsalt" placeholder="Altitude" readonly name="AltitudeNo_O_N" min="0" max="9999" maxlength="4" data-section="Observation">
                             </div>
                         </div>
                         <div class="row  col-md-12 col-sm-12 sims">
@@ -85,50 +127,11 @@
                                 <input type="text" class="form-control" placeholder="Observer 5" name="AdditionalObserverName5_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <label>Duration<span class="bold-red">&nbsp;*</span></label>
-                                <input type="number" class="form-control" placeholder="Duration" name="DurationMinsCount_O_N" min="0" max="99999" maxlength="5" data-section="Observation">
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <label>Latitude<span class="bold-red">&nbsp;*</span></label>
-                                <input type="number" class="form-control obslat" placeholder="Latitude" readonly name="Latitude">
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <label>Longitude<span class="bold-red">&nbsp;*</span></label>
-                                <input type="number" class="form-control obslng" placeholder="Longitude" readonly name="Longitude">
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <label>Point WKT<span class="bold-red">&nbsp;*</span></label>
-                                <input type="text" class="form-control" readonly name="ObservationWhereWktClob_M_S" data-section="Observation">
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
-                                <label>Datum<span class="bold-red">&nbsp;*</span></label>
-                                <select class="form-control" name="ObservWhereGpsDatumId_M_S" data-section="Observation">
-                                    <option>WGS84</option>
-                                    <option>GDA94</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group col-md-6 col-sm-6">
-                                <label>Altitude</label>
-                                <input type="number" class="form-control obsalt" placeholder="Altitude" readonly name="AltitudeNo_O_N" min="0" max="9999" maxlength="4" data-section="Observation">
-                            </div>
-                        </div>
                     </div>
                     <div class="tab-pane" id="tab_1">
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-12 col-sm-12">
-                                <i class="fa fa-plus fa-2x pull-right text-info" id="addEntoHost"></i>&nbsp;
+                                <button type="button" class="btn btn-sm btn-default pull-right" id="addEntoHost"><i class="fa fa-plus"></i>&nbsp;Add Host</button>
                                 <div class="btn-group pull-right glossary" style="margin-right:5px;">
                                     <button class="btn btn-sm btn-default active" id="all">All</button>
                                     <button class="btn btn-sm btn-default hide" id="a">A</button>
@@ -166,17 +169,19 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="tab_2">
-                        <div class="row  col-md-12 col-sm-12 sims samples">
+                        <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-12 col-sm-12">
-                                <i class="fa fa-plus fa-2x pull-right text-info" id="addEntoSample"></i>&nbsp;
+                                <button type="button" class="btn btn-sm btn-default pull-right" id="addEntoSample"><i class="fa fa-plus"></i>&nbsp;Add Sample</button>
                                 <h4>Samples</h4>
                             </div>
+                        </div>
+                        <div class="row  col-md-12 col-sm-12 sims" id="samples">
                         </div>
                     </div>
                     <div class="tab-pane" id="tab_3">
                         <div class="row  col-md-12 col-sm-12 sims">
                             <div class="form-group  col-md-12 col-sm-12">
-                                <i class="fa fa-image fa-2x text-info pull-right"></i>
+                                <button type="button" class="btn btn-sm btn-default pull-right" id="addAttachment"><i class="fa fa-plus"></i>&nbsp;Add Attachment</button>
                                 <h4>Attachments</h4>
                             </div>
                         </div>
