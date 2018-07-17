@@ -16,9 +16,6 @@
         "cordova-plugin-file": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
-        },
         "cordova-plugin-network-information": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
@@ -41,6 +38,9 @@
             "PACKAGE_NAME": "io.cordova.simsmobile"
         },
         "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "io.cordova.simsmobile"
+        },
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "io.cordova.simsmobile"
         }
     },

@@ -222,20 +222,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-geolocation.geolocation",
-        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-        "pluginId": "cordova-plugin-geolocation",
-        "clobbers": [
-            "navigator.geolocation"
-        ]
-    },
-    {
-        "id": "cordova-plugin-geolocation.PositionError",
-        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-        "pluginId": "cordova-plugin-geolocation",
-        "runs": true
-    },
-    {
         "id": "cordova-plugin-network-information.network",
         "file": "plugins/cordova-plugin-network-information/www/network.js",
         "pluginId": "cordova-plugin-network-information",
@@ -307,6 +293,20 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.permissions"
         ]
+    },
+    {
+        "id": "cordova-plugin-geolocation.geolocation",
+        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+        "pluginId": "cordova-plugin-geolocation",
+        "clobbers": [
+            "navigator.geolocation"
+        ]
+    },
+    {
+        "id": "cordova-plugin-geolocation.PositionError",
+        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+        "pluginId": "cordova-plugin-geolocation",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -317,7 +317,6 @@ module.exports.metadata =
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-file": "4.3.3",
     "cordova-plugin-file-opener2": "2.0.19",
-    "cordova-plugin-geolocation": "2.4.3",
     "cordova-plugin-network-information": "2.0.1",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-whitelist": "1.2.2",
@@ -325,7 +324,8 @@ module.exports.metadata =
     "cordova-plugin-zip": "3.1.0",
     "cordova-plugin-appversion": "1.0.0",
     "cordova-plugin-file-transfer": "1.7.1",
-    "cordova-plugin-android-permissions": "1.0.0"
+    "cordova-plugin-android-permissions": "1.0.0",
+    "cordova-plugin-geolocation": "2.4.3"
 };
 // BOTTOM OF METADATA
 });

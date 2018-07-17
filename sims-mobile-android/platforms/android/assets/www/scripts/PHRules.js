@@ -790,7 +790,6 @@ $(document).on('click', '.getCoords', function (e) {
     e.preventDefault();
 });
 
-
 $(document).on('click', '.getPlantCoords', function (e) {
     var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
     var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
@@ -1412,6 +1411,7 @@ function loadModal(pagename) {
                 //$('#form1').find("input[type='text'][name^='track_id']").val(results.observations.length + 1);
                 $('#form1').find("input[type='number'][name^='status']").val("0");
                 $('#form1').find("input[type='text'][name^='PlantDisciplineCode']").val(curDiscipline);
+                $('#form1').find("input[type='number'][name^='SubmittedByStaffId']").val("2");
                 //$('#form1').find("input[type='text'][name='age']").inputmask("99:99");
                 $('.nextid').text('');
             }
@@ -1626,6 +1626,18 @@ function Iterate(data) {
     delete modData.status_M_N;
     $.each(modData, function (index, value) {
         if (typeof value == 'object') {
+            if (index == 'PlantObsTab' && value.length == 0) {
+                vError = 1;
+                vErrDescription.push('Minimum one Host expected.You can Save & Exit instead.');
+                vFailed = true;
+                return false;
+            }
+            if (index == 'PlantSampleTab' && value.length == 0) {
+                vError = 1;
+                vErrDescription.push('Minimum one Sample expected.You can Save & Exit instead.');
+                vFailed = true;
+                return false;
+            }
             Iterate(value);
         }
         else {
@@ -1647,7 +1659,7 @@ function Iterate(data) {
                 if (fMOC == 'M' && fNSD == 'S' && value == '') {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push(index + ' field cannot be NULL');
+                    vErrDescription.push(fname + ' field cannot be NULL');
                     vFailed = true;
                     return false;
                 }
@@ -1656,7 +1668,7 @@ function Iterate(data) {
                     if (fname == 'HostStatAreaNo') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push(index + ' field cannot be NULL');
+                    vErrDescription.push(fname + ' field cannot be NULL');
                     vFailed = true;
                     return false;
                 }
@@ -1697,22 +1709,29 @@ function guid() {
 $(document).on('click', '#SaveSettingsExit', function (e) {
     var v_appMode = $('#form3').find('#appMode').val();
     if (!v_appMode) {
-        $.growl({ title: "Application Error", message: "Provide a valid mode: IAH, PH, AH!", location: "bc", size: "large" });
+        $.growl({ title: "Application Error", message: "Provide a valid mode: PH!", location: "bc", size: "large" });
         return false;
     }
-    if (v_appMode != AppMode) {
-        db.transaction(function (tx) {
-            tx.executeSql("UPDATE settings SET settingsval = ? WHERE settingstext = ?", [v_appMode, "AppMode"], function (tx, res) {
-                //alert("Dataset updated.");
-                AppMode = v_appMode;
-                settings.innerHTML = AppMode;
-                $.growl({ title: 'Application Settings', message: 'Application Mode set to:' + v_appMode, location: "bc", size: "large" });
-                $('#modalSettings').modal('hide');
-            });
-        }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while updating AppMode to DB. " + err.message, location: "bc", size: "large" });
+    /* Set AppMode */
+    resSettings.settings.app.appMode = v_appMode;
+    /* Clear active Flag on Mapsets */
+    $.each(resSettings.settings.mapSets, function (i, v) {
+        resSettings.settings.mapSets[i].activeFlag = 0;
+    });
+    /* Set active Mapset */
+    var activeMapset = $("input[name='optMaps']:checked").data('id');
+    resSettings.settings.mapSets[activeMapset].activeFlag = 1;
+    console.log(JSON.stringify(resSettings));
+    /* Save to DB */
+    db.transaction(function (tx) {
+        tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
+            //alert("Row inserted.");
+            //return e + pad(nextID.toString(), 4);
+            $('#modalSettings').modal('hide');
         });
-    } else { $('#modalSettings').modal('hide'); }
+    }, function (err) {
+        $.growl({ title: "Application Error", message: "An error occured while updating settings. " + err.message, location: "bc", size: "large" });
+    });
 });
 
 $(document).on('click', 'a.downloadMaps', function (e) {
@@ -1722,42 +1741,35 @@ $(document).on('click', 'a.downloadMaps', function (e) {
     var fileTransfer = new FileTransfer();
     $('#modalProgress').modal();
     $('#mb6 .progText').text("Download in progress ...");
-    if (checkIfFileExists(filename) == 0) {
-        fileTransfer.download(
-            url2,
-            fileURL,
-            function (entry) {
-                //console.log("Successful download...");
-                $('#mb6 .progText').text("Download complete ...");
-                $('#mb6 .progText').text("Extracting Zip file. This might take a while ...");
-                //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
-                processZip(fileURL, 'file:///storage/emulated/0/maps');
-            },
-            function (error) {
-                $('#mb6 .progText').text(error.source);
-            },
-            null, {}
-        );
-    } else {
-        $('#mb6 .progText').text("Extracting Zip file ...");
-        //processZip(fileURL, 'file:///storage/emulated/0/maps/' + filename.split(".")[0]);
-        processZip(fileURL, 'file:///storage/emulated/0/maps');
-    }
+    fileTransfer.download(
+        url2,
+        fileURL,
+        function (entry) {
+            //console.log("Successful download...");
+            $('#mb6 .progText').text("Download complete ...");
+            $('#mb6 .progText').text("Extracting Zip file. This might take a while ...");
+            processZip(fileURL, cordova.file.externalRootDirectory + "maps"); //Enable for Android
+            //processZip(fileURL, cordova.file.dataDirectory + "maps"); //Enable for iOS
+        },
+        function (error) {
+            $('#mb6 .progText').text(error.source);
+        },
+        null, {}
+    );
 });
 
 function processZip(zipSource, destination) {
     // Handle the progress event
     var progressHandler = function (progressEvent) {
         var percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-        // Display progress in the console : 8% ...
-        //console.log(percent + "%");
-        $('#mb6 .progText').text("Extracting Zip file. This may take a while! ..." + percent + "%");
+        $('#mb6 .progText').text("Extracting Zip file. This may take a while!... " + percent + "%");
     };
     // Proceed to unzip the file
     window.zip.unzip(zipSource, destination, (status) => {
         if (status == 0) {
             //console.log("Files succesfully decompressed");
             $('#modalProgress').modal('hide');
+            initSettings();
             $.growl({ title: "Download Maps", message: "Maps downloaded successfully.", location: "bc", size: "large" });
         }
         if (status == -1) {
