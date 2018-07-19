@@ -3,14 +3,23 @@
     "mapSets": [
       {
         "mapsetID": 1,
-        "mapSetName": "Australia Street Maps",
-        "downloadPath": "http://sprinq.com.au/files/AU.zip",
-        "mapPath": "file:///storage/emulated/0/maps/AU/",
+        "mapSetName": "QLD Terrain and Road Maps",
+        "downloadPath": "http://sprinq.com.au/files/QLD.zip",
+        "mapPath": "file:///storage/emulated/0/maps/QLD/",
         "emptyTilePath": "maps/empty.png",
         "startZoom": 7,
         "endZoom": 15,
         "activeFlag": 0,
-        "mapCenter": {"lat": "-35.30873","lng": "149.124412"}
+        "mapCenter": {
+          "lat": "-26.77882",
+          "lng": "150.89034"
+        },
+        "mapBounds": {
+          "topLat": "-8.55413",
+          "leftLng": "138.79849",
+          "botttomLat": "-29.01318",
+          "rightLng": "154.67349"
+        }
       },
       {
         "mapsetID": 2,
@@ -24,6 +33,12 @@
         "mapCenter": {
           "lat": "-5.95452",
           "lng": "146.50437"
+        },
+        "mapBounds": {
+          "topLat": "-2.528109",
+          "leftLng": "140.65029",
+          "botttomLat": "-10.9648",
+          "rightLng": "151.197165"
         }
       },
       {
@@ -38,6 +53,12 @@
         "mapCenter": {
           "lat": "-8.79854",
           "lng": "125.83805"
+        },
+        "mapBounds": {
+          "topLat": "-8.12481",
+          "leftLng": "124.84378",
+          "botttomLat": "-9.57940",
+          "rightLng": "128.22757"
         }
       }
     ],

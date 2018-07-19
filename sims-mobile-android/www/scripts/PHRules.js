@@ -22,7 +22,7 @@ function loadPHDefaults() {
     $.getJSON("data/activity.json", function (data) {
         var option = $('<option />');
         option.attr('value', data.activities.activity.metadata.id).text(data.activities.activity.metadata.name);
-        $("#form1").find('#SurvActivityId').append(option);
+        $("#form1").find('select[name="SurvActivityId_M_N"]').append(option);
     });
 
     // Loading sites //
@@ -30,7 +30,7 @@ function loadPHDefaults() {
         $.each(data.activities.activity.metadata.sites, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.id).text(val.name);
-            $("#form1").find('#SiteId').append(option);
+            $("#form1").find('select[name="SiteId_O_N"]').append(option);
         });
     });
 
@@ -39,7 +39,7 @@ function loadPHDefaults() {
         $.each(data.staffs.staff, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.id).text(val.displayName);
-            $("#form1").find('#ObservationStaffId').append(option);
+            $("#form1").find('select[name="ObservationStaffId_M_N"]').append(option);
         });
         staffData = '<option value="NONE">- select -</option>';
         $.each(data.staffs.staff, function (key, val) {
@@ -476,10 +476,10 @@ $(document).on('click', "[data-action=collapse]", function () {
 
 $(document).on('click', '#addBotanySample', function (e) {
     if (bsamples > 0) {
-        var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
-        var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
-        var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
-        var samplePrelimID = $('div.sample').first().find('input[name^="PrelimTaxonText"]').val();
+        var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
+        var sampleLng = $('div.sample').last().find('input[name^="Longitude"]').val();
+        var sampleTime = $('div.sample').last().find('input[name^="CollectedDatetime"]').val();
+        var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
         if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
             $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large"});
@@ -557,10 +557,10 @@ $(document).on('click', '.removeBotSample', function (e) {
 
 $(document).on('click', '#addEntoSample', function (e) {
     if (esamples > 0) {
-        var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
-        var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
-        var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
-        var samplePrelimID = $('div.sample').first().find('input[name^="PrelimTaxonText"]').val();
+        var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
+        var sampleLng = $('div.sample').last().find('input[name^="Longitude"]').val();
+        var sampleTime = $('div.sample').last().find('input[name^="CollectedDatetime"]').val();
+        var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
         if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
             $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
@@ -646,10 +646,10 @@ $(document).on('click', '.removeEntoSample', function (e) {
 
 $(document).on('click', '#addPathSample', function (e) {
     if (psamples > 0) {
-        var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
-        var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
-        var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
-        var samplePrelimID = $('div.sample').first().find('input[name^="PrelimTaxonText"]').val();
+        var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
+        var sampleLng = $('div.sample').last().find('input[name^="Longitude"]').val();
+        var sampleTime = $('div.sample').last().find('input[name^="CollectedDatetime"]').val();
+        var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
         if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
             $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
@@ -955,12 +955,14 @@ function loadModal(pagename) {
         url: "",
         beforeSend: function (xhr) {
             $('#modalProgress').modal();
+            $('#mb6 .progText').text("Loading ...");
             $('#mb').empty();
             $('#mt').empty();
             $('#mt2').empty();
             $(document).find('script[id="pageScript"]').remove();
             $('#mb').load(pagename + '.html');
             t0 = performance.now();
+            loadPHDefaults();
             bsamples = 0;
             esamples = 0;
             psamples = 0;
@@ -970,12 +972,10 @@ function loadModal(pagename) {
             numPathHosts = 0;
             numPathTargets = 0;
         }
-    })
-        .complete(function (e) {
+    }).complete(function (e) {
             $('#form1').find("input[type=text],input[type=date],input[type=number], textarea").val("");
             $('#form1').find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
             $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
-            loadPHDefaults();
             if (curIdx > -1) {
                 var data = results.observations[curIdx - 1];
                 //console.log(JSON.stringify(data));
@@ -1364,11 +1364,6 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    //if (key.startsWith("plantPic_") && value != "") {
-                    //    $('#form1').find("img[name='" + key + "']").attr("src", "images/" + value);
-                    //}
-                    //console.timeEnd('load Modal 5');
-                    //console.time('load Modal 6');
                     $('#form1').find("input[type='text'][name^='" + key + "']").val(value);
                     $('#form1').find("input[type='date'][name^='" + key + "']").val(value);
                     $('#form1').find("input[type='number'][name^='" + key + "']").val(value);
@@ -1721,12 +1716,13 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     /* Set active Mapset */
     var activeMapset = $("input[name='optMaps']:checked").data('id');
     resSettings.settings.mapSets[activeMapset].activeFlag = 1;
-    console.log(JSON.stringify(resSettings));
+    //console.log(JSON.stringify(resSettings));
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
             //alert("Row inserted.");
             //return e + pad(nextID.toString(), 4);
+            initSettings();
             $('#modalSettings').modal('hide');
         });
     }, function (err) {

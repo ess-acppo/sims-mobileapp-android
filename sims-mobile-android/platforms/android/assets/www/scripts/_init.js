@@ -478,7 +478,10 @@ function placeMarker(location) {
     curLng = newMarker.getPosition().lng();
     curWkt = "POINT (" + curLng.toFixed(5) + " " + curLat.toFixed(5) + ")";
     //curAlt = newMarker.getPosition().altitude();
-    if (curLat < -10.713507 || curLat > -1.48189 || curLng < 131.756836 || curLng > 156.124512) {
+    var arr = resSettings.settings.mapSets.filter(function (el) {
+        return (el.activeFlag === 1);
+    });
+    if (curLat < arr[0].mapBounds.bottomLat || curLat > arr[0].mapBounds.topLat || curLng < arr[0].mapBounds.leftLng || curLng > arr[0].mapBounds.rightLng) {
         $.growl({ title: "Out of bounds!", message: "Location is outside map bounds!", location: "bc", size: "large" });
         newMarker.setMap(null);
     }
@@ -509,7 +512,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 function myLoc() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            if (position.coords.latitude < -10.713507 || position.coords.latitude > -1.48189 || position.coords.longitude < 131.756836 || position.coords.longitude > 156.124512) {
+            var arr = resSettings.settings.mapSets.filter(function (el) {
+                return (el.activeFlag === 1);
+            });
+            if (position.coords.latitude < arr[0].mapBounds.bottomLat || position.coords.latitude > arr[0].mapBounds.topLat || position.coords.longitude < arr[0].mapBounds.leftLng || position.coords.longitude > arr[0].mapBounds.rightLng) {
                 $.growl({ title: "Out of bounds!", message: "Location is outside map bounds!", location: "bc", size: "large" });
             }
             else {
