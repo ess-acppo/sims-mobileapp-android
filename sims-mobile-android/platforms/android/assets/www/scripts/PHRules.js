@@ -557,10 +557,10 @@ $(document).on('click', '.removeBotSample', function (e) {
 
 $(document).on('click', '#addEntoSample', function (e) {
     if (esamples > 0) {
-        var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
-        var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
-        var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
-        var samplePrelimID = $('div.sample').first().find('input[name^="PrelimTaxonText"]').val();
+        var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
+        var sampleLng = $('div.sample').last().find('input[name^="Longitude"]').val();
+        var sampleTime = $('div.sample').last().find('input[name^="CollectedDatetime"]').val();
+        var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
         if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
             $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
@@ -646,10 +646,10 @@ $(document).on('click', '.removeEntoSample', function (e) {
 
 $(document).on('click', '#addPathSample', function (e) {
     if (psamples > 0) {
-        var sampleLat = $('div.sample').first().find('input[name^="Latitude"]').val();
-        var sampleLng = $('div.sample').first().find('input[name^="Longitude"]').val();
-        var sampleTime = $('div.sample').first().find('input[name^="CollectedDatetime"]').val();
-        var samplePrelimID = $('div.sample').first().find('input[name^="PrelimTaxonText"]').val();
+        var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
+        var sampleLng = $('div.sample').last().find('input[name^="Longitude"]').val();
+        var sampleTime = $('div.sample').last().find('input[name^="CollectedDatetime"]').val();
+        var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
         if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
             $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
@@ -962,7 +962,6 @@ function loadModal(pagename) {
             $(document).find('script[id="pageScript"]').remove();
             $('#mb').load(pagename + '.html');
             t0 = performance.now();
-            loadPHDefaults();
             bsamples = 0;
             esamples = 0;
             psamples = 0;
@@ -973,9 +972,14 @@ function loadModal(pagename) {
             numPathTargets = 0;
         }
     }).complete(function (e) {
-            $('#form1').find("input[type=text],input[type=date],input[type=number], textarea").val("");
-            $('#form1').find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
-            $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
+        $('#form1').find("input[type=text],input[type=date],input[type=number], textarea").val("");
+        $('#form1').find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
+        $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
+        $.ajax({
+            beforeSend: function () {
+                loadPHDefaults()
+            }
+        }).complete(function () {
             if (curIdx > -1) {
                 var data = results.observations[curIdx - 1];
                 //console.log(JSON.stringify(data));
@@ -1034,7 +1038,7 @@ function loadModal(pagename) {
                                         wkt.toObject();
                                         $('div.hostweed').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
                                         $('div.hostweed').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
-                                    }                                   
+                                    }
                                     $('div.hostweed').eq(key1).find("input[type='text'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("input[type='date'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
@@ -1410,11 +1414,12 @@ function loadModal(pagename) {
                 //$('#form1').find("input[type='text'][name='age']").inputmask("99:99");
                 $('.nextid').text('');
             }
-        }).done(function () {
-            $('#modalProgress').modal('hide');
-            t1 = performance.now();
-            $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
         });
+    }).done(function () {
+        $('#modalProgress').modal('hide');
+        t1 = performance.now();
+        $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
+    });
 };
 
 $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
