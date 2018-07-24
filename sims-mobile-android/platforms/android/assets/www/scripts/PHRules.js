@@ -1,4 +1,5 @@
-﻿var staffData;
+﻿var siteData;
+var staffData;
 var statType;
 var MoB;
 var elifeStage;
@@ -16,6 +17,7 @@ var vErrDescription = [];
 var vFailed = false;
 var HostStatCountFlag = 0;
 var HostStatAreaFlag = 0;
+var PathTargetObservedCodeFlag = 0;
 
 function loadPHDefaults() {
     // Loading Activity Defaults //
@@ -27,6 +29,7 @@ function loadPHDefaults() {
 
     // Loading sites //
     $.getJSON("data/activity.json", function (data) {
+        siteData = data.activities.activity.metadata.sites;
         $.each(data.activities.activity.metadata.sites, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.id).text(val.name);
@@ -775,17 +778,25 @@ $(document).on('click', '.getCoords', function (e) {
     var xlat = $('#form1').find('input.obslat');
     var xlng = $('#form1').find('input.obslng');
     var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+    var siteID = $('#form1').find('select[name="SiteId_O_N"]').val();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            xlat.val(position.coords.latitude);
-            xlng.val(position.coords.longitude);
-            xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            if (siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
+            if (siteID == 99999 && checkMapBoundsByPos(position)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
         }, function () {
-            handleLocationError(true);
+            $.growl({ title: "Get GPS Failed!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false);
+        $.growl({ title: "GeoLocation Failed!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 });
@@ -800,11 +811,11 @@ $(document).on('click', '.getPlantCoords', function (e) {
             xlng.val(position.coords.longitude);
             xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
         }, function () {
-            handleLocationError(true);
+            $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false);
+        $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 });
@@ -819,11 +830,11 @@ $(document).on('click', '.getEntoHostCoords', function (e) {
             xlng.val(position.coords.longitude);
             xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
         }, function () {
-            handleLocationError(true);
+            $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false);
+        $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 });
@@ -838,33 +849,14 @@ $(document).on('click', '.getPathHostCoords', function (e) {
             xlng.val(position.coords.longitude);
             xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
         }, function () {
-            handleLocationError(true);
+            $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false);
+        $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 });
-
-//$(document).on('click', '.getObsCoords', function (e) {
-//    var xlat = $(this).$('#form1').find('input.obslat');
-//    var xlng = $(this).$('#form1').find('input.obslng');
-//    var xalt = $(this).$('#form1').find('input.obsalt');
-//    if (navigator.geolocation) {
-//        navigator.geolocation.getCurrentPosition(function (position) {
-//            xlat.val(position.coords.latitude);
-//            xlng.val(position.coords.longitude);
-//            xalt.val(position.coords.altitude)
-//        }, function () {
-//            handleLocationError(true);
-//        });
-//    } else {
-//        // Browser doesn't support Geolocation
-//        handleLocationError(false);
-//    };
-//    e.preventDefault();
-//});
 
 $(document).on('click', '.getSampleCoords', function (e) {
     var xlat = $(this).closest('.sample').find('input.samplelat');
@@ -878,11 +870,11 @@ $(document).on('click', '.getSampleCoords', function (e) {
             xalt.val(position.coords.altitude);
             xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
         }, function () {
-            handleLocationError(true);
+            $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false);
+        $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 });
@@ -1649,10 +1641,18 @@ function Iterate(data) {
                 var fnum = index.split("_")[3];
                 var ftype = index.split("_")[4];
                 if (fname == 'HostStatCount' && value == 0) { HostStatCountFlag = 1; }
+                if (fname == 'TargetObservedCode' && value == 'N') { PathTargetObservedCodeFlag = 1; }      
                 if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1) {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push('HostStatCount and Area fields - both cannot be NULL');
+                    vFailed = true;
+                    return false;
+                }
+                if (fname == 'CommentText' && value == "" && PathTargetObservedCodeFlag == 1) {
+                    //console.log('HostStatCount and Area fields - both cannot be NULL');
+                    vError = 1;
+                    vErrDescription.push('Comments Text for TargetObserved field cannot be NULL');
                     vFailed = true;
                     return false;
                 }
@@ -1671,7 +1671,7 @@ function Iterate(data) {
                     vErrDescription.push(fname + ' field cannot be NULL');
                     vFailed = true;
                     return false;
-                }
+                }        
             }
         }
     });
