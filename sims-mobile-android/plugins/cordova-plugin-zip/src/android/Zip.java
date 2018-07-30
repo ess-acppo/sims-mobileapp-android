@@ -130,14 +130,21 @@ public class Zip extends CordovaPlugin {
                     if(file.exists() || file.createNewFile()){
                         Log.w("Zip", "extracting: " + file.getPath());
                         FileOutputStream fout = new FileOutputStream(file);
-                        int count;
-                        while ((count = zis.read(buffer)) != -1)
-                        {
-                            fout.write(buffer, 0, count);
-                        }
-                        fout.close();
+						BufferedOutputStream bufout = new BufferedOutputStream(fout);
+						byte[] buffer = new byte[1024];
+						int read = 0;
+						while ((read = zis.read(buffer)) != -1) {
+							bufout.write(buffer, 0, read);
+						}
+						bufout.close();
+						fout.close();
+                        //int count;
+                        //while ((count = zis.read(buffer)) != -1)
+                        //{
+                        //    fout.write(buffer, 0, count);
+                        //}
+                        //fout.close();
                     }
-
                 }
                 progress.addLoaded(ze.getCompressedSize());
                 updateProgress(callbackContext, progress);

@@ -162,6 +162,34 @@ function loadPHDefaults() {
     });
 }
 
+function loadSitePolygons() {
+    $.getJSON("data/activity.json", function (data) {
+        $.each(data.activities.activity.metadata.sites, function (key, val) {
+            var wkt = new Wkt.Wkt();
+            wkt.read(val.locationDatum.wkt);
+            wkt.toObject();
+
+            var tC = [];
+            // Add each GPS entry to an array
+            for (var k = 0; k < wkt.toJson().coordinates[0].length; k++) {
+                var latlngc = new google.maps.LatLng(wkt.toJson().coordinates[0][k][1], wkt.toJson().coordinates[0][k][0]);
+                tC.push(latlngc);
+            };
+            // Plot the GPS entries as a line on the Google Map
+            var tP = new google.maps.Polygon({
+                map: map,
+                path: tC,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+                fillOpacity: 0.0
+            });
+            //mapc.fitBounds(trackCoords);
+            tP.setMap(map);
+        });
+    });
+}
+
 $(document).on('click', '.qtyplus', function (e) {
     e.preventDefault();
     pStatisticType = $(this).parent().parent().find('select[name^=PlantStatisticType]').val();
@@ -778,7 +806,7 @@ $(document).on('click', '.getCoords', function (e) {
     var xlat = $('#form1').find('input.obslat');
     var xlng = $('#form1').find('input.obslng');
     var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
-    var siteID = $('#form1').find('select[name="SiteId_O_N"]').val();
+    var siteID = $('#form1').find('select[name="SiteId_O_N"] option:selected').val();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             if (siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
