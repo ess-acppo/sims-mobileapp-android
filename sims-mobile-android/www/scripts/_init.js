@@ -1,6 +1,6 @@
-﻿var mapPath; // = "file:///storage/emulated/0/maps/PNG/";
-var emptyTilePath; // = "maps/empty.png";
-var AppMode; // = 'PH';
+﻿var mapPath; 
+var emptyTilePath; 
+var AppMode; 
 var infoWindow;
 var zoomlevel = document.getElementById('zoomlevel');
 var settings = document.getElementById('AppMode');
@@ -67,8 +67,7 @@ var trackPath;
 setInterval(function () {
     statusElem.className = navigator.onLine ? 'label label-success' : 'label label-info';
     statusElem.innerHTML = navigator.onLine ? 'online' : 'offline';
-}, 1000);
-
+}, 1000)
 function checkPermissions() {
     var permissions = cordova.plugins.permissions;
     permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
@@ -93,7 +92,6 @@ function checkPermissions() {
         console.warn('Error granting permission!');
     }
 }
-
 function initSettings() {
     var today = new Date();
     var dd = today.getDate();
@@ -110,9 +108,65 @@ function initSettings() {
     db.transaction(function (tx) {
         tx.executeSql("CREATE TABLE IF NOT EXISTS observations (id integer primary key, filedt text, data blob)");
         tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key, settingstext text, settingsval text default '{}')");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS phrefcodes (id integer primary key, settingstext text, settingsval text default '{}')");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS activitydata (id integer primary key, settingstext text, settingsval text default '{}')");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS staffdata (id integer primary key, settingstext text, settingsval text default '{}')");
     }, function (err) {
         $.growl({ title: "Application Error", message: "An error occurred while initializing the DB. " + err.message, location: "bc", size: "large" });
+        });
+    //Loading PH reference codes
+    db.transaction(function (tx) {
+        tx.executeSql("SELECT * FROM phrefcodes WHERE id = ?", [1], function (tx, res) {
+            //This is not the first load
+            if (res.rows && res.rows.length > 0) {
+                PHRefCodes = JSON.parse(res.rows.item(0).settingsval);
+                loadPHRefCodes();
+            }
+            else {
+                //This is the first load
+                syncPHRefCodes();
+                loadPHRefCodes();
+            };
+        });
+    }, function (err) {
+        $.growl({ title: "Application Error", message: "An error occured while loading PH RefenceCodes. " + err.message, location: "bc", size: "large", fixed: "true" });
+        });
+    //Loading Activity Data
+    db.transaction(function (tx) {
+        tx.executeSql("SELECT * FROM activitydata WHERE id = ?", [1], function (tx, res) {
+            //This is not the first load
+            if (res.rows && res.rows.length > 0) {
+                ActivityData = JSON.parse(res.rows.item(0).settingsval);
+                siteData = ActivityData[0].sites;
+                loadActivityData();
+            }
+            else {
+                //This is the first load
+                syncActivityData();
+                loadActivityData();
+            };
+        });
+    }, function (err) {
+        $.growl({ title: "Application Error", message: "An error occured while loading Activity Data. " + err.message, location: "bc", size: "large", fixed: "true" });
+        });
+    //Loading Staff Data
+    db.transaction(function (tx) {
+        tx.executeSql("SELECT * FROM staffdata WHERE id = ?", [1], function (tx, res) {
+            //This is not the first load
+            if (res.rows && res.rows.length > 0) {
+                staffDataS = JSON.parse(res.rows.item(0).settingsval);
+                loadstaffData();
+            }
+            else {
+                //This is the first load
+                syncstaffData();
+                loadstaffData();
+            };
+        });
+    }, function (err) {
+        $.growl({ title: "Application Error", message: "An error occured while loading staff Data. " + err.message, location: "bc", size: "large", fixed: "true" });
     });
+    //Loading maps and Markers
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM settings WHERE id = ?", [1], function (tx, res) {
             //This is not the first load
@@ -312,7 +366,6 @@ function initSettings() {
         $.growl({ title: "Application Error", message: "An error occured while loading app settings. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
 }
-
 function initLoad() {
     //Invoke Authentication functionality ---------------
     /* Not required for Windows platform */
@@ -330,7 +383,6 @@ function initLoad() {
     //return;
     //OTP functionality ends -----------------
 }
-
 function loadMapMarkers() {
     //Read from DB
     var d;
@@ -373,104 +425,12 @@ function loadMapMarkers() {
     }, function (err) {
         $.growl({ title: "Application Error", message: "An error occured while retrieving observations. " + err.message, location: "bc", size: "large" });
     });
-};
-
-$(document).on('click', 'a.btnResetData', function (e) {
-    $.confirm({
-        title: 'Confirm Data Reset!',
-        content: 'Do you want to delete all the observation records?',
-        buttons: {
-            Ok: function () {
-                $.ajax({
-                    method: "GET",
-                    url: "data/observations1.json",
-                    contentType: "json",
-                    success: function (data) {
-                        var today = new Date();
-                        var dd = today.getDate();
-                        var mm = today.getMonth() + 1; //January is 0!
-                        var yyyy = today.getFullYear();
-                        if (dd < 10) {
-                            dd = '0' + dd
-                        }
-                        if (mm < 10) {
-                            mm = '0' + mm
-                        }
-                        today = dd.toString() + '/' + mm.toString() + '/' + yyyy.toString();
-                        db.transaction(function (tx) {
-                            tx.executeSql("DELETE FROM observations", [], function (tx, res) {
-                                //alert("Rows deleted.");
-                            });
-                        }, function (err) {
-                            $.growl({ title: "Application Error", message: "An error occured while deleting row from DB. " + err.message, location: "bc", size: "large" });
-                        });
-                        db.transaction(function (tx) {
-                            tx.executeSql("INSERT INTO observations (id, filedt, data) VALUES (?,?,?)", [1, today, JSON.stringify(data)], function (tx, res) {
-                                //alert("Row inserted.");
-                            });
-                        }, function (err) {
-                            $.growl({ title: "Application Error", message: "An error occured while inserting row to DB. " + err.message, location: "bc", size: "large" });
-                        });
-                        clearMarkers();
-                        results = JSON.parse(data);
-                        for (var i = 0; i < results.observations.length; i++) {
-                            var wkt = new Wkt.Wkt();
-                            wkt.read(results.observations[i].ObservationWhereWktClob_M_S);
-                            wkt.toObject();
-                            var latLng = new google.maps.LatLng(wkt.toJson().coordinates[1], wkt.toJson().coordinates[0]);
-                            var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].PlantDisciplineCode_M_S.toString().trim();
-                            var marker = new google.maps.Marker({
-                                position: latLng,
-                                map: map,
-                                title: ti
-                            });
-                            markers.push(marker);
-                            google.maps.event.addListener(marker, 'click', function () {
-                                curIdx = this.title.split("/")[0];
-                                var curD = "'" + this.title.split("/")[1].toString().trim() + "'";
-                                curLat = this.getPosition().lat();
-                                curLng = this.getPosition().lng();
-                                //curAlt = this.getPosition().altitude();
-                                if (infoWindow) {
-                                    infoWindow.close();
-                                }
-                                infoWindow = new google.maps.InfoWindow({
-                                    content: '<div id="content"><h4>Observation ' + this.title + '</h4><div id="bodyContent">' +
-                                    '<i class="fa fa-pencil fa-2x text-info" onclick="launchModal(' + curIdx + ',' + curD + ')"></i><label class="text-info">Edit</label></div></div>'
-                                });
-                                infoWindow.setPosition(this.position);
-                                infoWindow.open(map);
-                                map.setCenter(this.position);
-                            });
-                        }
-                        db.transaction(function (tx) {
-                            tx.executeSql("UPDATE observations SET data = ?,filedt = ? WHERE id = ?", [JSON.stringify(results), today, 1], function (tx, res) {
-                                //alert("Dataset updated.");
-                                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large" });
-                            });
-                        }, function (err) {
-                            $.growl({ title: "Application Error", message: "An error occured while updating data to DB. " + err.message, location: "bc", size: "large" });
-                        });
-                        $.growl({ title: "Application Info", message: "Data reset complete!", location: "bc", size: "large" });
-                    },
-                    failure: function () {
-                        $.growl({ title: "Application Error", message: "Error!", location: "bc", size: "large" });
-                    }
-                });
-            },
-            cancel: function () {
-                //close
-            }
-        }
-    });
-});
-
+}
 function clearMarkers() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
 }
-
 function checkMapBoundsByLoc(location) {
     var nM = new google.maps.Marker({
         position: location,
@@ -489,7 +449,6 @@ function checkMapBoundsByLoc(location) {
     nM.setMap(null);
     return true;
 }
-
 function checkMapBoundsByPos(position) {
     var cLat = position.coords.latitude;
     var cLng = position.coords.longitude;
@@ -502,7 +461,6 @@ function checkMapBoundsByPos(position) {
     }
     return true;
 }
-
 function checkMapBoundsBySite(position, siteId) {
     var arr = siteData.filter(function (el) {
         return (el.id === siteId);
@@ -553,7 +511,6 @@ function checkMapBoundsBySite(position, siteId) {
         return false;
     }
 }
-
 function placeMarker(location) {
     newMarker = new google.maps.Marker({
         position: location,
@@ -580,16 +537,14 @@ function placeMarker(location) {
                 break;
         };
     }
-};
-
+}
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
         'Error: The Geolocation service failed.' :
         'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
-};
-
+}
 function myLoc() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -610,8 +565,7 @@ function myLoc() {
         // Browser doesn't support Geolocation
         $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     }
-};
-
+}
 function getAltitude() {
     //var t0, t1;
     //t0 = performance.now();
@@ -630,8 +584,7 @@ function getAltitude() {
     };
     //t1 = performance.now();
     //$('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
-};
-
+}
 function downloadCSV() {
     $('#mt1').text('All Observations');
     switch (AppMode) {
@@ -647,8 +600,7 @@ function downloadCSV() {
         default:
             break;
     }
-};
-
+}
 function launchModal(e, f) {
     curIdx = e;
     curDiscipline = f;
@@ -670,8 +622,7 @@ function launchModal(e, f) {
             break;
     }
     $('#modalForm').modal();
-};
-
+}
 function loadData() {
     var data;
     var tab;
@@ -812,8 +763,7 @@ function loadData() {
             data = results.observations;
     }
     //table.column(10).visible(false);
-};
-
+}
 function exportTableToCSV($table, filename) {
     csv = "";
     var $rows = $table.find('tr:has(td)'),
@@ -874,9 +824,7 @@ function exportTableToCSV($table, filename) {
             });
         });
     });
-};
-
-
+}
 function objectifyForm(formArray) {//serialize data function
     var returnArray = {};
     for (var i = 0; i < formArray.length; i++) {
@@ -886,14 +834,12 @@ function objectifyForm(formArray) {//serialize data function
     }
     return returnArray;
 }
-
 if (!String.prototype.startsWith) {
     String.prototype.startsWith = function (searchString, position) {
         position = position || 0;
         return this.indexOf(searchString, position) === position;
     };
 }
-
 function BindAutoComplete() {
     function log(message) {
         //$("<div>").text(message).prependTo("#log");
@@ -935,450 +881,14 @@ function BindAutoComplete() {
             $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
         }
     });
-};
-
+}
 function pad(str, max) {
     str = str.toString();
     return str.length < max ? pad("0" + str, max) : str;
 }
-
-$(document).on('click', '#Save', function (e) {
-    //var obj = JSON.stringify(objectifyForm(form1));
-    console.log(JSON.stringify(objectifyPHFormforSave(form1)));
-    var obj = objectifyPHFormforSave(form1);
-    obj.status_M_N = 0;
-    if (curIdx > 0) {
-        results.observations[curIdx - 1] = obj;
-    }
-    else {
-        //console.log(JSON.stringify(obj));
-        results.observations.push(obj);
-        //curIdx = results.observations.length;
-    }
-    db.transaction(function (tx) {
-        tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-            //alert("Dataset updated.");
-            $.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large" });
-        });
-    }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
-    });
-    //$('#modalForm').modal('hide');
-    //clearMarkers();
-    //loadMapMarkers();
-    //if (infoWindow) {
-    //    infoWindow.close();
-    //}
-});
-
-$(document).on('click', '#SaveExit', function (e) {
-    //var obj = JSON.stringify(objectifyForm(form1));
-    console.log(JSON.stringify(objectifyPHFormforSave(form1)));
-    //console.log(curIdx);
-    var obj = objectifyPHFormforSave(form1);
-    obj.status_M_N = 0;
-    if (curIdx > 0) {
-        results.observations[curIdx - 1] = obj;
-    }
-    else {
-        results.observations.push(obj);
-        //curIdx = results.observations.length;
-    }
-    db.transaction(function (tx) {
-        tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-            $.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large" });
-            //alert("Dataset updated.");
-        });
-    }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
-    });
-    $('#modalForm').modal('hide');
-    clearMarkers();
-    loadMapMarkers();
-    if (infoWindow) {
-        infoWindow.close();
-    }
-});
-
-$(document).on('click', '#Submit2', function (e) {
-    var rowsFailedErr = [];
-    vError = 0;
-    vErrDescription = [];
-    vFailed = false;
-    HostStatCountFlag = 0;
-    HostStatAreaFlag = 0;
-    PathTargetObservedCodeFlag = 0;
-    var obj = objectifyPHFormforSave(form1);
-    console.log(JSON.stringify(obj));
-    var result = Iterate(obj);
-    if (result.vError == 0) {
-        //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));
-        obj.status_M_N = 1;
-        if (curIdx > 0) {
-            results.observations[curIdx - 1] = obj;
-        }
-        else {
-            results.observations.push(obj);
-        }
-        db.transaction(function (tx) {
-            tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-                $.growl({ title: "Submit Observations", message: "Success! Observation marked for Sync.", location: "tc", size: "large" });
-            });
-        }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while saving row to DB. " + err.message, location: "bc", size: "large" });
-            });
-        $('#modalForm').modal('hide');
-        clearMarkers();
-        loadMapMarkers();
-        if (infoWindow) {
-            infoWindow.close();
-        }
-    }
-    else {
-        rowsFailedErr.push(result.vErrDescription);
-        $.growl({ title: "Submit Observations", message: "Submit Failed!<br/>Errors:<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large" }); 
-    }
-});
-
-$(document).on('click', '#settings', function (e) {
-    $.ajax({
-        url: "",
-        beforeSend: function (xhr) {
-            $('#modalProgress').modal();
-            $('#mb6 .progText').text("Loading ...");
-            $('#mb5').empty();
-            $('#mt5').empty();
-            $(document).find('script[id="pageScript"]').remove();
-            $('#mb5').load('settings.html');
-            t0 = performance.now();
-        }
-    })
-        .complete(function (e) {
-            $('#mb5').find('#appMode').val(AppMode);
-            var arr = resSettings.settings.mapSets.filter(function (el) {
-                return (el.activeFlag === 1);
-            });
-            $('#form3').find('input[name="optMaps"][data-id="' + (arr[0].mapsetID - 1) + '"]').iCheck('check');
-        }).done(function () {
-            $('#modalProgress').modal('hide');
-        });
-    $('#modalSettings').modal();
-});
-
-$(document).on('click', '#zplus', function (e) {
-    map.setZoom(curZoom + 1);
-});
-
-$(document).on('click', '#zminus', function (e) {
-    map.setZoom(curZoom - 1);
-});
-
-$(document).on('click', '#Delete', function (e) {
-    $.confirm({
-        title: 'Delete Observation?',
-        content: 'Do you want to delete this observation?',
-        buttons: {
-            Ok: function () {
-                results.observations.splice(curIdx - 1, 1);
-                db.transaction(function (tx) {
-                    tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-                        //alert("Dataset updated.");
-                    });
-                }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
-                });
-                $('#modalForm').modal('hide');
-                //table.destroy();
-                //loadData();
-                clearMarkers();
-                loadMapMarkers();
-            },
-            cancel: function () {
-                //close
-            }
-        }
-    });
-});
-
-$(document).on('click', '#srchTable tbody tr', function () {
-    var t0, t1;
-    if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-    }
-    else {
-        table.$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-    }
-    var d = table.row(this).data();
-    curIdx = d.id;
-    curDiscipline = d.PlantDisciplineCode;
-    $.ajax({
-        url: "",
-        beforeSend: function (xhr) {
-            t0 = performance.now();
-            $('#modalProgress').modal();
-            $('#mb6 .progText').text("Loading ...");
-        }
-    })
-        .complete(function (data) {
-            switch (curDiscipline) {
-                case "0":
-                    loadModal('mo_sngObservation');
-                    break;
-                case "1":
-                    loadModal('mo_grpObservation');
-                    break;
-                case "B":
-                    loadModal('mo_BotObservation');
-                    break;
-                case "E":
-                    loadModal('mo_EntObservation');
-                    break;
-                case "P":
-                    loadModal('mo_PatObservation');
-                    break;
-            }
-            var zi = $('#modalGrid').css('z-index');
-            $('#modalForm').css('z-index', zi + 100);
-            $('#modalForm').modal();
-        }).done(function () {
-            $('#modalProgress').modal('hide');
-            $('#modalGrid').modal('hide');
-            t1 = performance.now();
-            $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
-        });
-});
-
-$(document).on('click', '#srchPHTable tbody tr', function () {
-    var t0, t1;
-    if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-    }
-    else {
-        table.$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-    }
-    var d = table.row(this).data();
-    curIdx = d.id_M_N;
-    curDiscipline = d.PlantDisciplineCode_M_S;
-    $.ajax({
-        url: "",
-        beforeSend: function (xhr) {
-            t0 = performance.now();
-            $('#modalProgress').modal();
-            $('#mb6 .progText').text("Loading ...");
-        }
-    })
-        .complete(function (data) {
-            switch (curDiscipline) {
-                case "0":
-                    loadModal('mo_sngObservation');
-                    break;
-                case "1":
-                    loadModal('mo_grpObservation');
-                    break;
-                case "B":
-                    loadModal('mo_BotObservation');
-                    break;
-                case "E":
-                    loadModal('mo_EntObservation');
-                    break;
-                case "P":
-                    loadModal('mo_PatObservation');
-                    break;
-            }
-            var zi = $('#modalPHGrid').css('z-index');
-            $('#modalForm').css('z-index', zi + 100);
-            $('#modalForm').modal();
-        }).done(function () {
-            $('#modalProgress').modal('hide');
-            $('#modalPHGrid').modal('hide');
-            t1 = performance.now();
-            $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
-        });
-});
-
-$(document).on('click', '.export', function (event) {
-    var args = [$('#srchTable_wrapper'), 'export.csv'];
-    exportTableToCSV.apply(this, args);
-});
-
-$(document).on('click', '.sync', function (event) {
-    var success = true;
-    var rowsFailed = [];
-    var rowsFailedErr = [];
-    var rowsSuccess = [];
-    $.each(results.observations, function (index, value) {
-        if (value.status_M_N == 0) { return true };
-        vError = 0;
-        vErrDescription = [];
-        vFailed = false;
-        HostStatCountFlag = 0;
-        HostStatAreaFlag = 0;
-        PathTargetObservedCodeFlag = 0;
-        var rowid = value.id_M_N;
-        var result = Iterate(value);
-        if (result.vError == 0) {
-            console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value))));
-            var vpayload = JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value)));
-            var payload = {
-                "value": vpayload.escapeSpecialChars() 
-            };
-            rowsSuccess.push(rowid);
-            $.ajax({
-                method: "POST",
-                url: "http://dev-sims.oztaxa.com/BasicAuth/api/Observations",
-                data: JSON.stringify(payload),
-                contentType: "application/json",
-                dataType: "json",
-                headers: {
-                    "authorization": "Basic c2ltc3VzZXI6c2ltc0AxMjM=",
-                    "cache-control": "no-cache"
-                },
-                success: function () {
-                    //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
-                },
-                complete: function () {
-                    //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
-                },
-                failure: function () {
-                    $.growl.error({ message: "Sync - Failed!" });
-                }
-            });
-        }
-        else {
-            rowsFailed.push(rowid);
-            rowsFailedErr.push(result.vErrDescription);
-            success = false;
-            return false;
-        }
-    });
-    if (success == true) { $.growl({ title: "Submit Observations", message: "Success! Observations " + rowsSuccess.join(',') + " synced to cloud.", location: "tc", size: "large", fixed: "true" }) }
-    else { $.growl({ title: "Submit Observations", message: "Submit Failed for rows:" + rowsFailed.join(',') + "<br/>Errors:<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
-});
-
-$(document).on('shown.bs.modal', '#modalPHGrid', function () {
-    loadPHDefaults();
-    loadData();
-});
-
-$(document).on('hidden.bs.modal', '#modalPHGrid', function () {
-    table.destroy();
-});
-
-$(document).on('shown.bs.modal', '#modalGrid', function () {
-    loadAHDefaults();
-    loadData();
-});
-
-$(document).on('hidden.bs.modal', '#modalGrid', function () {
-    table.destroy();
-});
-
-$(document).on('hidden.bs.modal', '#modalForm', function () {
-    //table.destroy();
-    //loadAHDefaults();
-    //loadData();
-    clearMarkers();
-    loadMapMarkers();
-});
-
-$(document).ready(function () {
-    $('.modal-body').height($(window).height() / 1.36);
-    $('.datetimepicker').datetimepicker({
-        format: 'd-MMM-YYYY hh:mm Z',
-        defaultDate: Date.now()
-    });
-    $('.datepicker').datepicker({
-        format: 'd-MMM-YYYY hh:mm Z',
-        todayHighlight: true,
-        autoclose: true
-    });
-    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue'
-    });
-});
-
-$(window).resize(function () {
-    clearTimeout(resizeId);
-    resizeId = setTimeout(doneResizing, 500);
-});
-
 function doneResizing() {
     $('.modal-body').height($(window).height() / 1.36);
 }
-
-$(document).on('click', '.obsForm', function (e) {
-    $('.obsForm').removeClass('bg-Obs');
-    $(this).addClass('bg-Obs');
-    curDiscipline = $(this).find('input[type=radio][name="optObs"]').attr('data-discipline');
-    $(this).find('input[type="radio"].minimal').iCheck('check');
-});
-
-$(document).on('click', '#showFormPH', function (e) {
-    var zi;
-    var formName = $("input[name='optObs']:checked").val();
-    if (formName) {
-        zi = $('#modalPHMenu').css('z-index');
-        $('#modalForm').css('z-index', zi + 100);
-        loadModal(formName);
-        $('#modalForm').modal();
-        $('#modalPHMenu').modal('hide');
-    }
-});
-
-$(document).on('hidden.bs.modal', '#modalForm', function () {
-    if (newMarker && (curIdx === -1 || curIdx === -2)) {
-        newMarker.setMap(null);
-    }
-});
-
-$(document).on('hidden.bs.modal', '#modalPHMenu', function () {
-    if (newMarker && (curIdx === -1 || curIdx === -2)) {
-        newMarker.setMap(null);
-    }
-});
-
-$(document).on('click', '#btnData', function () {
-    $('#postedData').toggleClass('hide');
-});
-
-$(document).on('change', 'input:checkbox', function (e) {
-    e.preventDefault();
-    if ($(this).is(":checked")) {
-        $(this).val('Y');
-    } else {
-        $(this).val('N');
-    }
-});
-
-$(document).on('click', '#newObservation', function () {
-    curIdx = -2;
-    switch (AppMode) {
-        case 'IAH':
-            $('#modalMenu').modal();
-            break;
-        case 'AH':
-            $('#modalAHMenu').modal();
-            break;
-        case 'PH':
-            var zi = $('#modalPHGrid').css('z-index');
-            $('#modalPHMenu').css('z-index', zi + 100);
-            $('#modalPHMenu').modal();
-            $('#modalPHGrid').modal('hide');
-            break;
-    };
-});
-
-$(document).on('click', 'a.btnBackupData', function (e) {
-    backupDatabase();
-});
-
-$(document).on('click', 'a.btnRestoreData', function (e) {
-    restoreDatabase();
-});
-
 function backupDatabase() {
     var fileName = cordova.file.applicationStorageDirectory + 'databases/sims.db';
     var directoryName = cordova.file.externalRootDirectory;
@@ -1406,7 +916,6 @@ function backupDatabase() {
         console.log('[!] Database not found: ' + fileName + ' errorcode: ' + + error.code);
     });
 }
-
 function restoreDatabase() {
     $.confirm({
         title: 'Confirm Data Restore!',
@@ -1445,7 +954,6 @@ function restoreDatabase() {
         }
     });
 }
-
 google.maps.Polygon.prototype.Contains = function (point) {
     var crossings = 0,
         path = this.getPath();
@@ -1499,8 +1007,523 @@ google.maps.Polygon.prototype.Contains = function (point) {
         return (blue >= red);
 
     }
-};
-
+}
 String.prototype.escapeSpecialChars = function () {
     return this.replace(/\\"/g, '\\"');
-};
+}
+$(document).ready(function () {
+    $('.modal-body').height($(window).height() / 1.36);
+    $('.datetimepicker').datetimepicker({
+        format: 'd-MMM-YYYY hh:mm Z',
+        defaultDate: Date.now()
+    });
+    $('.datepicker').datepicker({
+        format: 'd-MMM-YYYY hh:mm Z',
+        todayHighlight: true,
+        autoclose: true
+    });
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+})
+$(window).resize(function () {
+    clearTimeout(resizeId);
+    resizeId = setTimeout(doneResizing, 500);
+})
+$(document).on('click', '#Save', function (e) {
+    //var obj = JSON.stringify(objectifyForm(form1));
+    console.log(JSON.stringify(objectifyPHFormforSave(form1)));
+    var obj = objectifyPHFormforSave(form1);
+    obj.status_M_N = 0;
+    if (curIdx > 0) {
+        results.observations[curIdx - 1] = obj;
+    }
+    else {
+        //console.log(JSON.stringify(obj));
+        results.observations.push(obj);
+        //curIdx = results.observations.length;
+    }
+    db.transaction(function (tx) {
+        tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+            //alert("Dataset updated.");
+            $.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large" });
+        });
+    }, function (err) {
+        $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
+    });
+    //$('#modalForm').modal('hide');
+    //clearMarkers();
+    //loadMapMarkers();
+    //if (infoWindow) {
+    //    infoWindow.close();
+    //}
+})
+$(document).on('click', '#SaveExit', function (e) {
+    //var obj = JSON.stringify(objectifyForm(form1));
+    console.log(JSON.stringify(objectifyPHFormforSave(form1)));
+    //console.log(curIdx);
+    var obj = objectifyPHFormforSave(form1);
+    obj.status_M_N = 0;
+    if (curIdx > 0) {
+        results.observations[curIdx - 1] = obj;
+    }
+    else {
+        results.observations.push(obj);
+        //curIdx = results.observations.length;
+    }
+    db.transaction(function (tx) {
+        tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+            $.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large" });
+            //alert("Dataset updated.");
+        });
+    }, function (err) {
+        $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
+    });
+    $('#modalForm').modal('hide');
+    clearMarkers();
+    loadMapMarkers();
+    if (infoWindow) {
+        infoWindow.close();
+    }
+})
+$(document).on('click', '#Submit2', function (e) {
+    var rowsFailedErr = [];
+    vError = 0;
+    vErrDescription = [];
+    vFailed = false;
+    HostStatCountFlag = 0;
+    HostStatAreaFlag = 0;
+    PathTargetObservedCodeFlag = 0;
+    var obj = objectifyPHFormforSave(form1);
+    console.log(JSON.stringify(obj));
+    var result = Iterate(obj);
+    if (result.vError == 0) {
+        //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));
+        obj.status_M_N = 1;
+        if (curIdx > 0) {
+            results.observations[curIdx - 1] = obj;
+        }
+        else {
+            results.observations.push(obj);
+        }
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                $.growl({ title: "Submit Observations", message: "Success! Observation marked for Sync.", location: "tc", size: "large" });
+            });
+        }, function (err) {
+            $.growl({ title: "Application Error", message: "An error occured while saving row to DB. " + err.message, location: "bc", size: "large" });
+            });
+        $('#modalForm').modal('hide');
+        clearMarkers();
+        loadMapMarkers();
+        if (infoWindow) {
+            infoWindow.close();
+        }
+    }
+    else {
+        rowsFailedErr.push(result.vErrDescription);
+        $.growl({ title: "Submit Observations", message: "Submit Failed!<br/>Errors:<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large" }); 
+    }
+})
+$(document).on('click', '#settings', function (e) {
+    $.ajax({
+        url: "",
+        beforeSend: function (xhr) {
+            $('#modalProgress').modal();
+            $('#mb6 .progText').text("Loading ...");
+            $('#mb5').empty();
+            $('#mt5').empty();
+            $(document).find('script[id="pageScript"]').remove();
+            $('#mb5').load('settings.html');
+            t0 = performance.now();
+        }
+    })
+        .complete(function (e) {
+            $('#mb5').find('#appMode').val(AppMode);
+            var arr = resSettings.settings.mapSets.filter(function (el) {
+                return (el.activeFlag === 1);
+            });
+            $('#form3').find('input[name="optMaps"][data-id="' + (arr[0].mapsetID - 1) + '"]').iCheck('check');
+        }).done(function () {
+            $('#modalProgress').modal('hide');
+        });
+    $('#modalSettings').modal();
+})
+$(document).on('click', '#zplus', function (e) {
+    map.setZoom(curZoom + 1);
+});
+$(document).on('click', '#zminus', function (e) {
+    map.setZoom(curZoom - 1);
+});
+$(document).on('click', '#Delete', function (e) {
+    $.confirm({
+        title: 'Delete Observation?',
+        content: 'Do you want to delete this observation?',
+        buttons: {
+            Ok: function () {
+                results.observations.splice(curIdx - 1, 1);
+                db.transaction(function (tx) {
+                    tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                        //alert("Dataset updated.");
+                    });
+                }, function (err) {
+                    $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
+                });
+                $('#modalForm').modal('hide');
+                //table.destroy();
+                //loadData();
+                clearMarkers();
+                loadMapMarkers();
+            },
+            cancel: function () {
+                //close
+            }
+        }
+    });
+});
+$(document).on('click', '#srchTable tbody tr', function () {
+    var t0, t1;
+    if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+    }
+    else {
+        table.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+    }
+    var d = table.row(this).data();
+    curIdx = d.id;
+    curDiscipline = d.PlantDisciplineCode;
+    $.ajax({
+        url: "",
+        beforeSend: function (xhr) {
+            t0 = performance.now();
+            $('#modalProgress').modal();
+            $('#mb6 .progText').text("Loading ...");
+        }
+    })
+        .complete(function (data) {
+            switch (curDiscipline) {
+                case "0":
+                    loadModal('mo_sngObservation');
+                    break;
+                case "1":
+                    loadModal('mo_grpObservation');
+                    break;
+                case "B":
+                    loadModal('mo_BotObservation');
+                    break;
+                case "E":
+                    loadModal('mo_EntObservation');
+                    break;
+                case "P":
+                    loadModal('mo_PatObservation');
+                    break;
+            }
+            var zi = $('#modalGrid').css('z-index');
+            $('#modalForm').css('z-index', zi + 100);
+            $('#modalForm').modal();
+        }).done(function () {
+            $('#modalProgress').modal('hide');
+            $('#modalGrid').modal('hide');
+            t1 = performance.now();
+            $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
+        });
+})
+$(document).on('click', '#srchPHTable tbody tr', function () {
+    var t0, t1;
+    if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+    }
+    else {
+        table.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+    }
+    var d = table.row(this).data();
+    curIdx = d.id_M_N;
+    curDiscipline = d.PlantDisciplineCode_M_S;
+    $.ajax({
+        url: "",
+        beforeSend: function (xhr) {
+            t0 = performance.now();
+            $('#modalProgress').modal();
+            $('#mb6 .progText').text("Loading ...");
+        }
+    })
+        .complete(function (data) {
+            switch (curDiscipline) {
+                case "0":
+                    loadModal('mo_sngObservation');
+                    break;
+                case "1":
+                    loadModal('mo_grpObservation');
+                    break;
+                case "B":
+                    loadModal('mo_BotObservation');
+                    break;
+                case "E":
+                    loadModal('mo_EntObservation');
+                    break;
+                case "P":
+                    loadModal('mo_PatObservation');
+                    break;
+            }
+            var zi = $('#modalPHGrid').css('z-index');
+            $('#modalForm').css('z-index', zi + 100);
+            $('#modalForm').modal();
+        }).done(function () {
+            $('#modalProgress').modal('hide');
+            $('#modalPHGrid').modal('hide');
+            t1 = performance.now();
+            $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
+        });
+})
+$(document).on('click', '.export', function (event) {
+    var args = [$('#srchTable_wrapper'), 'export.csv'];
+    exportTableToCSV.apply(this, args);
+})
+$(document).on('click', '.sync', function (event) {
+    var success = true;
+    var rowsFailed = [];
+    var rowsFailedErr = [];
+    var rowsSuccess = [];
+    $.each(results.observations, function (index, value) {
+        if (value.status_M_N == 0) { return true };
+        vError = 0;
+        vErrDescription = [];
+        vFailed = false;
+        HostStatCountFlag = 0;
+        HostStatAreaFlag = 0;
+        PathTargetObservedCodeFlag = 0;
+        var rowid = value.id_M_N;
+        var result = Iterate(value);
+        if (result.vError == 0) {
+            console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value))));
+            var vpayload = JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value)));
+            var payload = {
+                "value": vpayload.escapeSpecialChars() 
+            };
+            rowsSuccess.push(rowid);
+            $.ajax({
+                method: "POST",
+                url: "http://dev-sims.oztaxa.com/BasicAuth/api/Observations",
+                data: JSON.stringify(payload),
+                contentType: "application/json",
+                dataType: "json",
+                headers: {
+                    "authorization": "Basic c2ltc3VzZXI6c2ltc0AxMjM=",
+                    "cache-control": "no-cache"
+                },
+                success: function () {
+                    //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
+                    results.observations.splice(curIdx - 1, 1);
+                },
+                complete: function () {
+                    //$.growl({ title: "Apply Changes", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
+                },
+                failure: function () {
+                    $.growl.error({ message: "Sync - Failed!" });
+                }
+            });
+        }
+        else {
+            rowsFailed.push(rowid);
+            rowsFailedErr.push(result.vErrDescription);
+            success = false;
+            return false;
+        }
+    });
+    if (success == true) {
+        $.growl({ title: "Submit Observations", message: "Success! Observations " + rowsSuccess.join(',') + " synced to cloud.", location: "tc", size: "large", fixed: "true" });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl({ title: "Application Error", message: "An error occured while updating row to DB. " + err.message, location: "bc", size: "large" });
+        });
+    }
+    else { $.growl({ title: "Submit Observations", message: "Submit Failed for rows:" + rowsFailed.join(',') + "<br/>Errors:<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
+    syncPHRefCodes();
+    syncActivityData();
+    syncstaffData();
+})
+$(document).on('shown.bs.modal', '#modalPHGrid', function () {
+    loadPHRefCodes();
+    loadActivityData();
+    loadstaffData();
+    loadData();
+    if (statusElem.innerHTML == 'online') {
+        $('.sync').removeClass('hide');
+    }
+    if (statusElem.innerHTML == 'offline') {
+        $('.sync').addClass('hide');
+    }
+})
+$(document).on('hidden.bs.modal', '#modalPHGrid', function () {
+    table.destroy();
+})
+$(document).on('shown.bs.modal', '#modalGrid', function () {
+    loadAHDefaults();
+    loadData();
+})
+$(document).on('hidden.bs.modal', '#modalGrid', function () {
+    table.destroy();
+})
+$(document).on('hidden.bs.modal', '#modalForm', function () {
+    //table.destroy();
+    //loadAHDefaults();
+    //loadData();
+    clearMarkers();
+    loadMapMarkers();
+})
+$(document).on('click', 'a.btnResetData', function (e) {
+    $.confirm({
+        title: 'Confirm Data Reset!',
+        content: 'Do you want to delete all the observation records?',
+        buttons: {
+            Ok: function () {
+                $.ajax({
+                    method: "GET",
+                    url: "data/observations1.json",
+                    contentType: "json",
+                    success: function (data) {
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth() + 1; //January is 0!
+                        var yyyy = today.getFullYear();
+                        if (dd < 10) {
+                            dd = '0' + dd
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm
+                        }
+                        today = dd.toString() + '/' + mm.toString() + '/' + yyyy.toString();
+                        db.transaction(function (tx) {
+                            tx.executeSql("DELETE FROM observations", [], function (tx, res) {
+                                //alert("Rows deleted.");
+                            });
+                        }, function (err) {
+                            $.growl({ title: "Application Error", message: "An error occured while deleting row from DB. " + err.message, location: "bc", size: "large" });
+                        });
+                        db.transaction(function (tx) {
+                            tx.executeSql("INSERT INTO observations (id, filedt, data) VALUES (?,?,?)", [1, today, JSON.stringify(data)], function (tx, res) {
+                                //alert("Row inserted.");
+                            });
+                        }, function (err) {
+                            $.growl({ title: "Application Error", message: "An error occured while inserting row to DB. " + err.message, location: "bc", size: "large" });
+                        });
+                        clearMarkers();
+                        results = JSON.parse(data);
+                        for (var i = 0; i < results.observations.length; i++) {
+                            var wkt = new Wkt.Wkt();
+                            wkt.read(results.observations[i].ObservationWhereWktClob_M_S);
+                            wkt.toObject();
+                            var latLng = new google.maps.LatLng(wkt.toJson().coordinates[1], wkt.toJson().coordinates[0]);
+                            var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].PlantDisciplineCode_M_S.toString().trim();
+                            var marker = new google.maps.Marker({
+                                position: latLng,
+                                map: map,
+                                title: ti
+                            });
+                            markers.push(marker);
+                            google.maps.event.addListener(marker, 'click', function () {
+                                curIdx = this.title.split("/")[0];
+                                var curD = "'" + this.title.split("/")[1].toString().trim() + "'";
+                                curLat = this.getPosition().lat();
+                                curLng = this.getPosition().lng();
+                                //curAlt = this.getPosition().altitude();
+                                if (infoWindow) {
+                                    infoWindow.close();
+                                }
+                                infoWindow = new google.maps.InfoWindow({
+                                    content: '<div id="content"><h4>Observation ' + this.title + '</h4><div id="bodyContent">' +
+                                    '<i class="fa fa-pencil fa-2x text-info" onclick="launchModal(' + curIdx + ',' + curD + ')"></i><label class="text-info">Edit</label></div></div>'
+                                });
+                                infoWindow.setPosition(this.position);
+                                infoWindow.open(map);
+                                map.setCenter(this.position);
+                            });
+                        }
+                        db.transaction(function (tx) {
+                            tx.executeSql("UPDATE observations SET data = ?,filedt = ? WHERE id = ?", [JSON.stringify(results), today, 1], function (tx, res) {
+                                //alert("Dataset updated.");
+                                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large" });
+                            });
+                        }, function (err) {
+                            $.growl({ title: "Application Error", message: "An error occured while updating data to DB. " + err.message, location: "bc", size: "large" });
+                        });
+                        $.growl({ title: "Application Info", message: "Data reset complete!", location: "bc", size: "large" });
+                    },
+                    failure: function () {
+                        $.growl({ title: "Application Error", message: "Error!", location: "bc", size: "large" });
+                    }
+                });
+            },
+            cancel: function () {
+                //close
+            }
+        }
+    });
+})
+$(document).on('click', '.obsForm', function (e) {
+    $('.obsForm').removeClass('bg-Obs');
+    $(this).addClass('bg-Obs');
+    curDiscipline = $(this).find('input[type=radio][name="optObs"]').attr('data-discipline');
+    $(this).find('input[type="radio"].minimal').iCheck('check');
+})
+$(document).on('click', '#showFormPH', function (e) {
+    var zi;
+    var formName = $("input[name='optObs']:checked").val();
+    if (formName) {
+        zi = $('#modalPHMenu').css('z-index');
+        $('#modalForm').css('z-index', zi + 100);
+        loadModal(formName);
+        $('#modalForm').modal();
+        $('#modalPHMenu').modal('hide');
+    }
+})
+$(document).on('hidden.bs.modal', '#modalForm', function () {
+    if (newMarker && (curIdx === -1 || curIdx === -2)) {
+        newMarker.setMap(null);
+    }
+})
+$(document).on('hidden.bs.modal', '#modalPHMenu', function () {
+    if (newMarker && (curIdx === -1 || curIdx === -2)) {
+        newMarker.setMap(null);
+    }
+})
+$(document).on('click', '#btnData', function () {
+    $('#postedData').toggleClass('hide');
+})
+$(document).on('change', 'input:checkbox', function (e) {
+    e.preventDefault();
+    if ($(this).is(":checked")) {
+        $(this).val('Y');
+    } else {
+        $(this).val('N');
+    }
+})
+$(document).on('click', '#newObservation', function () {
+    curIdx = -2;
+    switch (AppMode) {
+        case 'IAH':
+            $('#modalMenu').modal();
+            break;
+        case 'AH':
+            $('#modalAHMenu').modal();
+            break;
+        case 'PH':
+            var zi = $('#modalPHGrid').css('z-index');
+            $('#modalPHMenu').css('z-index', zi + 100);
+            $('#modalPHMenu').modal();
+            $('#modalPHGrid').modal('hide');
+            break;
+    };
+})
+$(document).on('click', 'a.btnBackupData', function (e) {
+    backupDatabase();
+})
+$(document).on('click', 'a.btnRestoreData', function (e) {
+    restoreDatabase();
+})

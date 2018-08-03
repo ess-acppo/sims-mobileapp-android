@@ -79,8 +79,7 @@
     "auth": {
       "authenticated": 0,
       "authURL": "",
-      "currentToken": "",
-      "currentTokenExpiryDateTime": "",
+      "hashedPassword": "",
       "lastLoggedInUser": "",
       "lastLoggedInDateTime": "",
       "useOTP": 1,
