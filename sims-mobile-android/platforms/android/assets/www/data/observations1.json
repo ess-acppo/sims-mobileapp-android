@@ -53,7 +53,7 @@
           "PlantObsMethodCode_M_S_0_H": "D",
           "CommentText_O_S_0_H": "no comment",
           "PlantLifeStgCode_O_S_0_H": "S",
-          "LocationPointWktClob_O_S_0_H": "POINT (143.196948 -3.526742)",
+          "LocationPointWktClob_O_S_0_H": "POINT (142.476780 -3.367256)",
           "GpsDatumId_O_S_0_H": "WGS84"
         },
         {
@@ -97,7 +97,7 @@
           "PlantObsMethodCode_M_S_1_H": "D",
           "CommentText_O_S_1_H": "no comment",
           "PlantLifeStgCode_O_S_1_H": "S",
-          "LocationPointWktClob_O_S_1_H": "POINT (143.196948 -3.526742)",
+          "LocationPointWktClob_O_S_1_H": "POINT (142.476780 -3.367256)",
           "GpsDatumId_O_S_1_H": "WGS84"
         }
       ],
@@ -232,7 +232,7 @@
       "ObservationDate_M_D": "2018-06-05",
       "ObservationStaffId_M_N": 5,
       "DurationMinsCount_O_N": 6,
-      "ObservationWhereWktClob_M_S": "POINT (143.196948 -3.526742)",
+      "ObservationWhereWktClob_M_S": "POINT (142.476780 -3.387121)",
       "ObservWhereGpsDatumId_M_S": "WGS84",
       "AltitudeNo_O_N": 7,
       "id_M_N": 1,
@@ -434,7 +434,7 @@
       "ObservationDate_M_D": "2018-06-05",
       "ObservationStaffId_M_N": 5,
       "DurationMinsCount_O_N": 6,
-      "ObservationWhereWktClob_M_S": "POINT (142.476780 -3.367256)",
+      "ObservationWhereWktClob_M_S": "POINT (142.298362 -3.157713)",
       "ObservWhereGpsDatumId_M_S": "WGS84",
       "AltitudeNo_O_N": 7,
       "id_M_N": 2,

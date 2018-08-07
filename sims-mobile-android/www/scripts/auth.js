@@ -99,10 +99,10 @@ function authenticate3(x, y) {
     var mypbkdf2 = new PBKDF2(password, salt, iterations, bytes);
     var status_callback = function (percent_done) {
         //display_message("Computed " + Math.floor(percent_done) + "%")
-        console.log("Computed " + Math.floor(percent_done) + "%");
+        //console.log("Computed " + Math.floor(percent_done) + "%");
     };
     var result_callback = function (key) {
-        console.log("The derived " + (bytes * 8) + "-bit key is: " + key);
+        //console.log("The derived " + (bytes * 8) + "-bit key is: " + key);
         if (!resSettings.settings.auth.hashedPassword) {
             $.growl({ title: "Authentication Error", message: "You must be authenticated atleast once when you are online.", location: "bc", size: "large" });
             $('#mb6 .progText').text("");
@@ -165,10 +165,10 @@ function derive_key(u, p) {
     var mypbkdf2 = new PBKDF2(password, salt, iterations, bytes);
     var status_callback = function (percent_done) {
         //display_message("Computed " + Math.floor(percent_done) + "%")
-        console.log("Computed " + Math.floor(percent_done) + "%");
+        //console.log("Computed " + Math.floor(percent_done) + "%");
     };
     var result_callback = function (key) {
-        console.log("The derived " + (bytes * 8) + "-bit key is: " + key);
+        //console.log("The derived " + (bytes * 8) + "-bit key is: " + key);
         resSettings.settings.auth.authenticated = 1;
         resSettings.settings.auth.hashedPassword = key;
         resSettings.settings.auth.lastLoggedInUser = u;

@@ -3,21 +3,23 @@
     "mapSets": [
       {
         "mapsetID": 1,
-        "mapSetName": "QLD Terrain and Road Maps",
-        "downloadPath": "http://sprinq.com.au/files/QLD.zip",
-        "mapPath": "file:///storage/emulated/0/maps/QLD/",
+        "mapSetName": "Australia Street Maps",
+        "downloadPath": "http://sprinq.com.au/files/AU.zip",
+        "mapPath": "ms-appdata:///local/maps/AU/",
         "emptyTilePath": "maps/empty.png",
         "startZoom": 7,
         "endZoom": 15,
         "activeFlag": 0,
+        "downloaded": 0,
+        "lastDownloadDate":  "",
         "mapCenter": {
-          "lat": "-26.77882",
-          "lng": "150.89034"
+          "lat": "-35.30873",
+          "lng": "149.124412"
         },
         "mapBounds": {
           "topLat": "-8.55413",
           "leftLng": "138.79849",
-          "botttomLat": "-29.01318",
+          "bottomLat": "-29.01318",
           "rightLng": "154.67349"
         }
       },
@@ -25,14 +27,16 @@
         "mapsetID": 2,
         "mapSetName": "Papua New Guinea Street Maps",
         "downloadPath": "http://sprinq.com.au/files/PNG.zip",
-        "mapPath": "file:///storage/emulated/0/maps/PNG/",
+        "mapPath": "ms-appdata:///local/maps/PNG/",
         "emptyTilePath": "maps/empty.png",
         "startZoom": 7,
         "endZoom": 15,
         "activeFlag": 1,
+        "downloaded": 1,
+        "lastDownloadDate": "08/01/2018",
         "mapCenter": {
           "lat": "-5.95452",
-          "lng": "146.50437"
+          "lng": "144.60374"
         },
         "mapBounds": {
           "topLat": "-2.528109",
@@ -45,11 +49,13 @@
         "mapsetID": 3,
         "mapSetName": "East Timor Street Maps",
         "downloadPath": "http://sprinq.com.au/files/ET.zip",
-        "mapPath": "file:///storage/emulated/0/maps/ET/",
+        "mapPath": "ms-appdata:///local/maps/ET/",
         "emptyTilePath": "maps/empty.png",
         "startZoom": 7,
         "endZoom": 15,
         "activeFlag": 0,
+        "downloaded": 0,
+        "lastDownloadDate": "",
         "mapCenter": {
           "lat": "-8.79854",
           "lng": "125.83805"
@@ -57,18 +63,17 @@
         "mapBounds": {
           "topLat": "-8.12481",
           "leftLng": "124.84378",
-          "botttomLat": "-9.57940",
+          "bottomLat": "-9.57940",
           "rightLng": "128.22757"
         }
       }
     ],
     "device": {
-      "ownerId": "6",
-      "ownerName": "",
-      "ownerRole": "",
-      "samplePrefix": "XX",
-      "sampleStartNumber": 0,
-      "currentSampleNumber": 0
+      "ownerId": "1",
+      "ownerName": "Raj Jonnalagedda",
+      "ownerRole": "Botanist",
+      "samplePrefix": "RJ",
+      "sampleStartNumber": 0
     },
     "logging": {
       "allowLogging": 1,
@@ -79,7 +84,8 @@
     "auth": {
       "authenticated": 0,
       "authURL": "",
-      "hashedPassword": "",
+      "currentToken": "",
+      "currentTokenExpiryDateTime": "",
       "lastLoggedInUser": "",
       "lastLoggedInDateTime": "",
       "useOTP": 1,

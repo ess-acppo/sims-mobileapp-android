@@ -1,6 +1,7 @@
 package org.apache.cordova;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -131,7 +132,7 @@ public class Zip extends CordovaPlugin {
                         Log.w("Zip", "extracting: " + file.getPath());
                         FileOutputStream fout = new FileOutputStream(file);
 						BufferedOutputStream bufout = new BufferedOutputStream(fout);
-						byte[] buffer = new byte[1024];
+						//byte[] buffer = new byte[1024];
 						int read = 0;
 						while ((read = zis.read(buffer)) != -1) {
 							bufout.write(buffer, 0, read);
