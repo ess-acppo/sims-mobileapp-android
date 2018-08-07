@@ -12,7 +12,6 @@ var resSettings;
 var newMarker;
 var db = null;  
 var markers = [];
-var markersc = [];
 var markerCluster;
 var table;
 var curIdx;
@@ -391,8 +390,6 @@ function initLoad() {
     //OTP functionality ends -----------------
 }
 function loadMapMarkers() {
-    //Read from DB
-    var d;
     db.readTransaction(function (tx) {
         tx.executeSql("SELECT * FROM observations WHERE id = ?", [1], function (tx, res) {
             if (res.rows && res.rows.length > 0) {
@@ -433,12 +430,14 @@ function loadMapMarkers() {
         });
     }, function (err) {
         $.growl({ title: "Application Error", message: "An error occured while retrieving observations. " + err.message, location: "bc", size: "large" });
-    });
+        });
 }
 function clearMarkers() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
+    if (markerCluster) { markerCluster.clearMarkers(); }
+    markers = [];
 }
 function checkMapBoundsByLoc(location) {
     var nM = new google.maps.Marker({

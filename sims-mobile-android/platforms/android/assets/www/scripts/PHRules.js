@@ -1956,8 +1956,7 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     });
     /* Set active Mapset */
     var activeMapset = $("input[name='optMaps']:checked").data('id');
-    resSettings.settings.mapSets[activeMapset].activeFlag = 1;
-    //console.log(JSON.stringify(resSettings));
+    if (activeMapset) { resSettings.settings.mapSets[activeMapset].activeFlag = 1; }
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
@@ -1984,7 +1983,7 @@ $(document).on('click', 'a.downloadMaps', function (e) {
 function getFileandExtract(url, mapset, i, n) {
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));
-    $('#mb6 .progText').text("File " + i + " out of " + n + ": Download in progress ...(" + Math.round(t3/1000/60) + "ms)");
+    $('#mb6 .progText').text("File " + i + " out of " + n + ": Download in progress ...(" + Math.round(t3/1000/60) + "m)");
     url2 = url + mapset + pad(i, 2) + ".zip";
     filename = mapset + pad(i, 2) + ".zip";
     var fileURL = cordova.file.externalRootDirectory + "maps/" + filename;
@@ -2005,7 +2004,7 @@ function processZip(zipSource, destination, url, mapset, i, n) {
     // Handle the progress event
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));
-    $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...(" + Math.round(t3 / 1000 / 60) + "ms)");
+    $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...(" + Math.round(t3 / 1000 / 60) + "m)");
 
     var progressHandler = function (progressEvent) {
         var percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);

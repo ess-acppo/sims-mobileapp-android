@@ -1956,8 +1956,7 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     });
     /* Set active Mapset */
     var activeMapset = $("input[name='optMaps']:checked").data('id');
-    resSettings.settings.mapSets[activeMapset].activeFlag = 1;
-    //console.log(JSON.stringify(resSettings));
+    if (activeMapset) { resSettings.settings.mapSets[activeMapset].activeFlag = 1; }
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
