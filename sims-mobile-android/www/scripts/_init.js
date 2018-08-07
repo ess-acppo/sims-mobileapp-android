@@ -196,12 +196,6 @@ function initSettings() {
                 google.maps.event.addListener(map, 'click', function (event) {
                     placeMarker(event.latLng);
                 });
-                //google.maps.event.addListener(map, 'dblclick', function (event) {
-                //    map.setZoom(curZoom + 1);
-                //});
-                //google.maps.event.addListener(map, 'click', function (event) {
-                //    map.setZoom(curZoom - 1);
-                //});
             }
             else {
                 //This is the first load
@@ -343,12 +337,6 @@ function initSettings() {
                         google.maps.event.addListener(map, 'click', function (event) {
                             placeMarker(event.latLng);
                         });
-                        //google.maps.event.addListener(map, 'dblclick', function (event) {
-                        //    map.setZoom(curZoom + 1);
-                        //});
-                        //google.maps.event.addListener(map, 'click', function (event) {
-                        //    map.setZoom(curZoom - 1);
-                        //});
                     },
                     failure: function () {
                         $.growl({ title: "Application Error", message: "Error loading settings!", location: "bc", size: "large", fixed: "true" });
