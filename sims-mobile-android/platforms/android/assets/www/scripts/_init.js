@@ -320,6 +320,9 @@ function initSettings() {
                                 }
                                 var mcOptions = { gridSize: 50, maxZoom: 8, imagePath: 'mapfiles/markers2/m' };
                                 markerCluster = new MarkerClusterer(map, markers, mcOptions); 
+                                google.maps.event.addListener(markerCluster, 'clusterclick', function (cluster) {
+                                    map.setCenter(cluster.getCenter());
+                                });
                                 db.transaction(function (tx) {
                                     tx.executeSql("UPDATE observations SET data = ?,filedt = ? WHERE id = ?", [JSON.stringify(results), today, 1], function (tx, res) {
                                         //alert("Dataset updated.");
@@ -403,6 +406,9 @@ function loadMapMarkers() {
                 }
                 var mcOptions = { gridSize: 50, maxZoom: 8, imagePath: 'mapfiles/markers2/m' };
                 markerCluster = new MarkerClusterer(map, markers, mcOptions); 
+                google.maps.event.addListener(markerCluster, 'clusterclick', function (cluster) {
+                    map.setCenter(cluster.getCenter());
+                });
             }
         });
     }, function (err) {
@@ -1252,7 +1258,7 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
         });
 })
 $(document).on('click', '.export', function (event) {
-    var args = [$('#srchTable_wrapper'), 'export.csv'];
+    var args = [$('#srchPHTable_wrapper'), 'export.csv'];
     exportTableToCSV.apply(this, args);
 })
 $(document).on('click', '.sync', function (event) {
