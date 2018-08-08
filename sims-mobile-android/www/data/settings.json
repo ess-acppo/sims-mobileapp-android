@@ -32,8 +32,8 @@
         "startZoom": 7,
         "endZoom": 15,
         "activeFlag": 1,
-        "downloaded": 1,
-        "lastDownloadDate": "08/01/2018",
+        "downloaded": 0,
+        "lastDownloadDate": "09/09/1900",
         "mapCenter": {
           "lat": "-5.95452",
           "lng": "144.60374"

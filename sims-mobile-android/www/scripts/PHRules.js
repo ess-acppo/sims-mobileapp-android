@@ -13,6 +13,9 @@ var incidence;
 var severity;
 var HostStatCount;
 var HostStatAreaNo;
+var cLatitude;
+var cLongitude;
+var cWkt;
 var vError = 0;
 var vErrDescription = [];
 var vFailed = false;
@@ -402,6 +405,7 @@ function loadstaffData() {
 }
 function loadSitePolygons() {
     $.each(siteData, function (key, val) {
+        if (val.id == 99999) { return true;}
         var wkt = new Wkt.Wkt();
         wkt.read(val.locationDatum.wkt);
         wkt.toObject();
@@ -655,6 +659,8 @@ function loadModal(pagename) {
                                         $('div.entobox').eq(key1).find("select[name^='PlantStatisticType']").val('C');
                                         $('div.entobox').eq(key1).find("input[type='number'][name^='HostStatAreaNo']").addClass('hide');
                                         $('div.entobox').eq(key1).find("input[type='number'][name^='HostStatCount']").removeClass('hide');
+                                        $('div.entobox').eq(key1).find("div.countArea").removeClass('hide');
+                                        $('div.entobox').eq(key1).find("input[type='radio'][name^='CountList'][value='Count']").iCheck('check');
                                     }
                                     if (key2.startsWith("HostStatAreaNo") && value2 > 0) {
                                         $('div.entobox').eq(key1).find("select[name^='PlantStatisticType']").val('A');
@@ -735,6 +741,8 @@ function loadModal(pagename) {
                                         $('div.pathbox').eq(key1).find("select[name^='PlantStatisticType']").val('C');
                                         $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatAreaNo']").addClass('hide');
                                         $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatCount']").removeClass('hide');
+                                        $('div.pathbox').eq(key1).find("div.countArea").removeClass('hide');
+                                        $('div.pathbox').eq(key1).find("input[type='radio'][name^='CountList'][value='Count']").iCheck('check');
                                     }
                                     if (key2.startsWith("HostStatAreaNo") && value2 > 0) {
                                         $('div.pathbox').eq(key1).find("select[name^='PlantStatisticType']").val('A');
@@ -2037,3 +2045,40 @@ function processZip(zipSource, destination, url, mapset, i, n) {
         }
     }, progressHandler);
 }
+$(document).on('change', 'select[name="SiteId_O_N"]', function () {
+    var that = $(this);
+    $.ajax({
+        url: "",
+        beforeSend: function (xhr) {
+            $('#modalProgress').modal();
+            $('#mb6 .progText').text("Refreshing site coordinates ...");
+        }
+    })
+        .complete(function (e) {
+            var str = that.val();
+            if (str == 99999) {
+                //alert('NewSite selected');
+                var xlat = $('#form1').find('input.obslat');
+                var xlng = $('#form1').find('input.obslng');
+                var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+                if (xlat.val() != "") { cLatitude = xlat.val(); }
+                if (xlng.val() != "") { cLongitude = xlng.val(); }
+                if (xwkt.val() != "") { cWkt = xwkt.val(); } 
+                xlat.val("");
+                xlng.val("");
+                xwkt.val("");
+            }
+            else {
+                //alert('Existing site selected');
+                var xlat = $('#form1').find('input.obslat');
+                var xlng = $('#form1').find('input.obslng');
+                var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+                if (cLatitude != "") { xlat.val(cLatitude); }
+                if (cLongitude != "") { xlng.val(cLongitude); }
+                if (cWkt != "") { xwkt.val(cWkt); } 
+            }
+        }).done(function () {
+            $('#modalProgress').modal('hide');
+            $('#mb6 .progText').text("");
+        });
+})
