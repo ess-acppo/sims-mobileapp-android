@@ -258,7 +258,7 @@ function initSettings() {
                         map = new google.maps.Map(document.getElementById("map"), mapOptions); map.mapTypes.set('xx', mymap); map.setMapTypeId('xx');
                         $.ajax({
                             method: "GET",
-                            url: "data/observations1.json",
+                            url: "data/observations2.json",
                             contentType: "json",
                             success: function (data) {
                                 var today = new Date();
@@ -1162,6 +1162,9 @@ $(document).on('click', '#Delete', function (e) {
                 //loadData();
                 clearMarkers();
                 loadMapMarkers();
+                if (infoWindow) {
+                    infoWindow.close();
+                }
             },
             cancel: function () {
                 //close
@@ -1364,7 +1367,7 @@ $(document).on('click', 'a.btnResetData', function (e) {
             Ok: function () {
                 $.ajax({
                     method: "GET",
-                    url: "data/observations1.json",
+                    url: "data/observations2.json",
                     contentType: "json",
                     success: function (data) {
                         var today = new Date();

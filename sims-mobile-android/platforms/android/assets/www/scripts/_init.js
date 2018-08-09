@@ -1029,7 +1029,7 @@ $(document).on('click', '#Save', function (e) {
     else {
         //console.log(JSON.stringify(obj));
         results.observations.push(obj);
-        //curIdx = results.observations.length;
+        curIdx = results.observations.length;
     }
     db.transaction(function (tx) {
         tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
