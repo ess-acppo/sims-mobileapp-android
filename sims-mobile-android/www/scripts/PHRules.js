@@ -815,7 +815,7 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    if (key2.startsWith("SamplePointWktClob")) {
+                                    if (key2.startsWith("SamplePointWktClob") && value2.length > 0) {
                                         var wkt = new Wkt.Wkt();
                                         wkt.read(value2);
                                         wkt.toObject();
@@ -848,6 +848,19 @@ function loadModal(pagename) {
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
+                                    if (key2 == "SampleAttachmentTab") {
+                                        $.each(value2, function (key3, value3) {
+                                            var pKey = key3 + 1;
+                                            if (value3.AttachmentPath != "") {
+                                                $('div.sample').eq(key1).find("input:hidden[name^='PlantSampleAttachment" + pKey + "']").val(value3.AttachmentPath);
+                                                $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment" + pKey + "']").attr("src", value3.AttachmentPath);
+                                            }
+                                            if (value3.AttachmentPath == "") {
+                                                $('div.sample').eq(key1).find("input:hidden[name^='PlantSampleAttachment" + pKey + "']").val("");
+                                                $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment" + pKey + "']").attr("src", "images/plant.png");
+                                            }
+                                        });
+                                    }
                                 });
                             });
                         });
@@ -861,7 +874,7 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    if (key2.startsWith("SamplePointWktClob")) {
+                                    if (key2.startsWith("SamplePointWktClob") && value2.length > 0) {
                                         var wkt = new Wkt.Wkt();
                                         wkt.read(value2);
                                         wkt.toObject();
@@ -899,6 +912,19 @@ function loadModal(pagename) {
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
+                                    if (key2 == "SampleAttachmentTab") {
+                                        $.each(value2, function (key3, value3) {
+                                            var pKey = key3 + 1;
+                                            if (value3.AttachmentPath != "") {
+                                                $('div.sample').eq(key1).find("input:hidden[name^='PlantSampleAttachment" + pKey + "']").val(value3.AttachmentPath);
+                                                $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment" + pKey + "']").attr("src", value3.AttachmentPath);
+                                            }
+                                            if (value3.AttachmentPath == "") {
+                                                $('div.sample').eq(key1).find("input:hidden[name^='PlantSampleAttachment" + pKey + "']").val("");
+                                                $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment" + pKey + "']").attr("src", "images/plant.png");
+                                            }
+                                        });
+                                    }
                                 });
                             });
                         });
@@ -912,7 +938,7 @@ function loadModal(pagename) {
                                 }
                             }).complete(function (e) {
                                 $.each(value1, function (key2, value2) {
-                                    if (key2.startsWith("SamplePointWktClob")) {
+                                    if (key2.startsWith("SamplePointWktClob") && value2.length > 0) {
                                         var wkt = new Wkt.Wkt();
                                         wkt.read(value2);
                                         wkt.toObject();
@@ -945,6 +971,19 @@ function loadModal(pagename) {
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
+                                    if (key2 == "SampleAttachmentTab") {
+                                        $.each(value2, function (key3, value3) {
+                                            var pKey = key3 + 1;
+                                            if (value3.AttachmentPath != "") {
+                                                $('div.sample').eq(key1).find("input:hidden[name^='PlantSampleAttachment" + pKey + "']").val(value3.AttachmentPath);
+                                                $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment" + pKey + "']").attr("src", value3.AttachmentPath);
+                                            }
+                                            if (value3.AttachmentPath == "") {
+                                                $('div.sample').eq(key1).find("input:hidden[name^='PlantSampleAttachment" + pKey + "']").val("");
+                                                $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment" + pKey + "']").attr("src", "images/plant.png");
+                                            }
+                                        });
+                                    }
                                 });
                             });
                         });
@@ -1588,6 +1627,9 @@ $(document).on('click', '#addBotanySample', function (e) {
         radioClass: 'iradio_square-blue'
     });
     that.find('select[name^="HostIdentifiedUserId"]').find('option').remove().end().append($(staffData));
+    that.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
+    })
     that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
     })
@@ -1645,6 +1687,9 @@ $(document).on('click', '#addEntoSample', function (e) {
     that.find('select[name^="EntoInfestedPctCode"]').find('option').remove().end().append($(percInfested));
     that.find('select[name^="EntoDamageLevelCode"]').find('option').remove().end().append($(damageLevel));
     that.find('select[name^="EntoPestLevelCode"]').find('option').remove().end().append($(pestLevel));
+    that.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
+    })
     that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
     })
@@ -1700,6 +1745,9 @@ $(document).on('click', '#addPathSample', function (e) {
     that.find('select[name^="HostIdentifiedUserId"]').find('option').remove().end().append($(staffData));
     that.find('select[name^="PathIncidCode"]').find('option').remove().end().append($(incidence));
     that.find('select[name^="PathSevCode"]').find('option').remove().end().append($(severity));
+    that.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
+    })
     that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
     })
@@ -1798,11 +1846,19 @@ $(document).on('click', '.getPlantCoords', function (e) {
     var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
     var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
     var xwkt = $(this).closest('.hostweed').find('input[name^="LocationPointWktClob"]');
+    var siteID = $('#form1').find('select[name="SiteId_O_N"] option:selected').val();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            xlat.val(position.coords.latitude);
-            xlng.val(position.coords.longitude);
-            xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            if (siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
+            if (siteID == 99999 && checkMapBoundsByPos(position)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
         }, function () {
             $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
@@ -1816,11 +1872,19 @@ $(document).on('click', '.getEntoHostCoords', function (e) {
     var xlat = $(this).closest('.entobox').find('input.entolat');
     var xlng = $(this).closest('.entobox').find('input.entolng');
     var xwkt = $(this).closest('.entobox').find('input[name^="LocationPointWktClob"]');
+    var siteID = $('#form1').find('select[name="SiteId_O_N"] option:selected').val();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            xlat.val(position.coords.latitude);
-            xlng.val(position.coords.longitude);
-            xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            if (siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
+            if (siteID == 99999 && checkMapBoundsByPos(position)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
         }, function () {
             $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
@@ -1834,11 +1898,19 @@ $(document).on('click', '.getPathHostCoords', function (e) {
     var xlat = $(this).closest('.pathbox').find('input.pathlat');
     var xlng = $(this).closest('.pathbox').find('input.pathlng');
     var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
+    var siteID = $('#form1').find('select[name="SiteId_O_N"] option:selected').val();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            xlat.val(position.coords.latitude);
-            xlng.val(position.coords.longitude);
-            xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            if (siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
+            if (siteID == 99999 && checkMapBoundsByPos(position)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
         }, function () {
             $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
@@ -1853,12 +1925,21 @@ $(document).on('click', '.getSampleCoords', function (e) {
     var xlng = $(this).closest('.sample').find('input.samplelng');
     var xalt = $(this).closest('.sample').find('input.samplealt');
     var xwkt = $(this).closest('.sample').find('input[name^="SamplePointWktClob"]');
+    var siteID = $('#form1').find('select[name="SiteId_O_N"] option:selected').val();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            xlat.val(position.coords.latitude);
-            xlng.val(position.coords.longitude);
-            xalt.val(position.coords.altitude);
-            xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            if (siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xalt.val(position.coords.altitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
+            if (siteID == 99999 && checkMapBoundsByPos(position)) {
+                xlat.val(position.coords.latitude);
+                xlng.val(position.coords.longitude);
+                xalt.val(position.coords.altitude);
+                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            }
         }, function () {
             $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
@@ -1891,8 +1972,8 @@ $(document).on('click', 'img.pp', function () {
             that.attr("src", imgURI);
             $("#form1").find('input:hidden[name=' + inpname + ']').val(imgURI);
         },
-        function onFail() {
-            $.growl.warning({ title: "Error", message: "Error taking picture'!", location: "bc", size: "large" });
+        function onFail(error) {
+            $.growl.warning({ title: "Error", message: error, location: "bc", size: "large" });
         },
         options);
 
