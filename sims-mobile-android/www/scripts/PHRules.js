@@ -1161,7 +1161,7 @@ function objectifyPHFormforSave(formArray) {
                     vPlantSampleTab.EntoLifeStgTab.push(vEntoLifeStgTab);
                     continue;
                 }
-                if (fname.startsWith('SampleAttachment')) {
+                if (fname.startsWith('PlantSampleAttachment')) {
                     //var x = fname.substr(fname.length - 1);
                     var attachment = { "AttachmentNo": "", "AttachmentPath": "" };
                     attachment.AttachmentNo = sampleAttachment;
@@ -1627,10 +1627,10 @@ $(document).on('click', '#addBotanySample', function (e) {
         radioClass: 'iradio_square-blue'
     });
     that.find('select[name^="HostIdentifiedUserId"]').find('option').remove().end().append($(staffData));
-    that.find('img').each(function () {
+    that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
     })
-    that.find('input').each(function () {
+    that.find('img').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
     })
     that.find('select').each(function () {
@@ -2134,7 +2134,25 @@ function processZip(zipSource, destination, url, mapset, i, n) {
                 initSettings();
                 $.growl({ title: "Download Maps", message: "Maps downloaded successfully.", location: "bc", size: "large" });
             }
-            else { getFileandExtract(url, mapset, i, n); }
+            else {
+                var filename = zipSource.substr(zipSource.lastIndexOf('/') + 1);
+                console.log(filename);
+                window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "maps", function (dir) {
+                    dir.getFile(filename, { create: false }, function (fileEntry) {
+                        fileEntry.remove(function () {
+                            // The file has been removed succesfully
+                            $.growl({ title: "Application Info", message: "Zip file is removed successfully.", location: "bc", size: "large" });
+                        }, function (error) {
+                            // Error deleting the file
+                            $.growl({ title: "Application Error", message: "Error removing zip file.", location: "bc", size: "large" });
+                        }, function () {
+                            // The file doesn't exist
+                            $.growl({ title: "Application Info", message: "Zip file does not exist.", location: "bc", size: "large" });
+                        });
+                    });
+                });
+                getFileandExtract(url, mapset, i, n);
+            }
         }
         if (status == -1) {
             $.growl({ title: "Download Maps", message: "Failed extracting zip file.", location: "bc", size: "large" });

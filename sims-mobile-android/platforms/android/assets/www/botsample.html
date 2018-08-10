@@ -71,7 +71,7 @@
         </div>
         <div class="form-group col-md-6 col-sm-6">
             <label><span class="bold-red">*&nbsp;</span>Datum</label>
-            <select class="form-control" name="GpsDatumId_M_S" data-section="PlantSampleTab">
+            <select class="form-control sampledat" name="GpsDatumId_M_S" data-section="PlantSampleTab">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>
@@ -86,7 +86,7 @@
             <input type="datetime-local" class="form-control" placeholder="Time" name="CollectedDatetime_M_D" maxlength="20" data-section="PlantSampleTab">
         </div>
         <div class="form-group col-md-6 col-sm-6">
-            <label>Altitude</label>
+            <label>Altitude (Meters)</label>
             <input type="number" class="form-control samplealt" placeholder="Altitude" name="CollectedAltitudeNo_O_N" min="0" max="9999" maxlength="4" data-section="PlantSampleTab">
         </div>
     </div>
@@ -150,18 +150,18 @@
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-12 col-sm-12">
-            <input type="checkbox" name="ExternalPhotoExistFlag_O_S" class="minimal" maxlength="1" data-section="PlantSampleTab">&nbsp;&nbsp;
-            <label>Photo(s) taken using external camera</label>
+            <img class="pp" src="images/plant.png" name="iPlantSampleAttachment1_O_S">
+            <input type="hidden" name="PlantSampleAttachment1_O_S" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" name="iPlantSampleAttachment2_O_S">
+            <input type="hidden" name="PlantSampleAttachment2_O_S" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" name="iPlantSampleAttachment3_O_S">
+            <input type="hidden" name="PlantSampleAttachment3_O_S" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" name="iPlantSampleAttachment4_O_S">
+            <input type="hidden" name="PlantSampleAttachment4_O_S" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" name="iPlantSampleAttachment5_O_S">
+            <input type="hidden" name="PlantSampleAttachment5_O_S" value="" data-section="SampleAttachmentTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
         <div class="form-group col-md-12 col-sm-12">
-            <img class="pp" src="images/plant.png" id="plantPic1">
-            <input type="text" class="hide" id="iplantPic1" name="SampleAttachment1_O_S" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic2">
-            <input type="text" class="hide" id="iplantPic2" name="SampleAttachment2_O_S" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic3">
-            <input type="text" class="hide" id="iplantPic3" name="SampleAttachment3_O_S" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic4">
-            <input type="text" class="hide" id="iplantPic4" name="SampleAttachment4_O_S" value="" data-section="SampleAttachmentTab"><img class="pp" src="images/plant.png" id="plantPic5">
-            <input type="text" class="hide" id="iplantPic5" name="SampleAttachment5_O_S" value="" data-section="SampleAttachmentTab">
+            <input type="checkbox" name="ExternalPhotoExistFlag_O_S" class="minimal" maxlength="1" data-section="PlantSampleTab">&nbsp;&nbsp;
+            <label>Photo(s) taken using external camera</label>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 sims">
