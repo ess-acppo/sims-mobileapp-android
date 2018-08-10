@@ -2097,12 +2097,30 @@ function getFileandExtract(url, mapset, i, n) {
         fileURL,
         function (entry) {
             processZip(fileURL, cordova.file.externalRootDirectory + "maps/" + mapset, url, mapset, i, n);
+            removefile(mapset, i);
         },
         function (error) {
             $('#mb6 .progText').text(error.source);
         },
         null, {}
     );
+}
+function removefile(mapset, i) {
+    filename = mapset + pad(i, 2) + ".zip";
+    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "maps", function (dir) {
+        dir.getFile(filename, { create: false }, function (fileEntry) {
+            fileEntry.remove(function () {
+                // The file has been removed succesfully
+                $.growl({ title: "Application Info", message: "Zip file is removed successfully.", location: "bc", size: "large" });
+            }, function (error) {
+                // Error deleting the file
+                $.growl({ title: "Application Error", message: "Error removing zip file.", location: "bc", size: "large" });
+            }, function () {
+                // The file doesn't exist
+                $.growl({ title: "Application Info", message: "Zip file does not exist.", location: "bc", size: "large" });
+            });
+        });
+    });
 }
 function processZip(zipSource, destination, url, mapset, i, n) {
     // Handle the progress event
@@ -2134,25 +2152,7 @@ function processZip(zipSource, destination, url, mapset, i, n) {
                 initSettings();
                 $.growl({ title: "Download Maps", message: "Maps downloaded successfully.", location: "bc", size: "large" });
             }
-            else {
-                var filename = zipSource.substr(zipSource.lastIndexOf('/') + 1);
-                console.log(filename);
-                window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "maps", function (dir) {
-                    dir.getFile(filename, { create: false }, function (fileEntry) {
-                        fileEntry.remove(function () {
-                            // The file has been removed succesfully
-                            $.growl({ title: "Application Info", message: "Zip file is removed successfully.", location: "bc", size: "large" });
-                        }, function (error) {
-                            // Error deleting the file
-                            $.growl({ title: "Application Error", message: "Error removing zip file.", location: "bc", size: "large" });
-                        }, function () {
-                            // The file doesn't exist
-                            $.growl({ title: "Application Info", message: "Zip file does not exist.", location: "bc", size: "large" });
-                        });
-                    });
-                });
-                getFileandExtract(url, mapset, i, n);
-            }
+            else { getFileandExtract(url, mapset, i, n); }
         }
         if (status == -1) {
             $.growl({ title: "Download Maps", message: "Failed extracting zip file.", location: "bc", size: "large" });
