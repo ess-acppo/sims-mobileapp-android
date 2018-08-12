@@ -11,7 +11,7 @@
         "endZoom": 15,
         "activeFlag": 0,
         "downloaded": 0,
-        "lastDownloadDate": "",
+        "lastDownloadDate": "-",
         "mapCenter": {
           "lat": "-35.30873",
           "lng": "149.124412"
@@ -33,7 +33,7 @@
         "endZoom": 15,
         "activeFlag": 1,
         "downloaded": 0,
-        "lastDownloadDate": "09/09/1900",
+        "lastDownloadDate": "-",
         "mapCenter": {
           "lat": "-5.95452",
           "lng": "144.60374"
@@ -55,7 +55,7 @@
         "endZoom": 15,
         "activeFlag": 0,
         "downloaded": 0,
-        "lastDownloadDate": "",
+        "lastDownloadDate": "-",
         "mapCenter": {
           "lat": "-8.79854",
           "lng": "125.83805"

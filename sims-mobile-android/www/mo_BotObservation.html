@@ -1,139 +1,143 @@
 ﻿<form role="form" id="form1">
     <div class="row">
-        <div class=" col-md-12 col-sm-12">
+        <div class="col-md-12 col-sm-12 col-xs-12 pl-0">
             <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="first middle active fat">
+                <ul class="nav nav-tabs ">
+                    <li class="active">
                         <a href="#tab_0" data-toggle="tab"><i class="fa fa-search mxr-5"></i>Site Visit Details</a>
                     </li>
-                    <li class="middle fat">
+                    <li>
                         <a href="#tab_1" data-toggle="tab"><i class="fa fa-leaf mxr-5"></i>Observations</a>
                     </li>
-                    <li class="middle fat">
+                    <li>
                         <a href="#tab_2" data-toggle="tab"><i class="fa fa-flask mxr-5"></i>Samples</a>
                     </li>
-                    <li class="last fat">
+                    <li class="hide">
                         <a href="#tab_3" data-toggle="tab"><i class="fa fa-paperclip mxr-5"></i>Attachments</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_0">
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-12 col-sm-12">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                 <small class="pull-right" id="perfTime"></small>&nbsp;
                                 <h4>Site Visit Details</h4>
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label><span class="bold-red">*&nbsp;</span>Activity</label>
                                 <select class="form-control" name="SurvActivityId_M_N" data-section="Observation"></select>
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label>Site</label>
                                 <select class="form-control" name="SiteId_O_N" data-section="Observation"></select>
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label>Waypoint</label>
                                 <input type="number" class="form-control" placeholder="Waypoint" name="WaypointNumber_O_N" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label><span class="bold-red">*&nbsp;</span>Observation Date</label>
                                 <input class="form-control" type="date" placeholder="Observation Date" name="ObservationDate_M_D" maxlength="10" data-section="Observation">
                                 <i class="fa fa-calendar form-control-feedback"></i>
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label><span class="bold-red">*&nbsp;</span>Observer</label>
                                 <select class="form-control" name="ObservationStaffId_M_N" data-section="Observation"></select>
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label><span class="bold-red">*&nbsp;</span>Duration (HH:MM)</label>
                                 <input type="number" class="form-control" placeholder="HH:MM" name="DurationMinsCount_O_N" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label><span class="bold-red">*&nbsp;</span>Latitude</label>
                                 <input type="number" class="form-control obslat" placeholder="Latitude" name="Latitude" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label><span class="bold-red">*&nbsp;</span>Longitude</label>
                                 <input type="number" class="form-control obslng" placeholder="Longitude" name="Longitude" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims hide">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12 hide">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label><span class="bold-red">*&nbsp;</span>Point WKT</label>
                                 <input type="text" class="form-control" readonly name="ObservationWhereWktClob_M_S" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <label><span class="bold-red">*&nbsp;</span>Datum</label>
                                 <select class="form-control" name="ObservWhereGpsDatumId_M_S" data-section="Observation">
                                     <option>WGS84</option>
                                     <option>GDA94</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3 col-sm-3">
+                            <div class="form-group col-md-3 col-sm-3 col-xs-3">
                                 <button class="btn btn-md btn-default getCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button>
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group col-md-6 col-sm-6">
                                 <label>Altitude (Meters)</label>
                                 <input type="number" class="form-control obsalt" placeholder="Altitude" name="AltitudeNo_O_N" min="0" max="9999" maxlength="4" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <input type="checkbox" class="minimal" name="AdditionalObserverTab" data-section="Observation">&nbsp;<label>Additional Observers</label>
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12 addlObserver hide">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <input type="text" class="form-control" placeholder="Observer 1" name="AdditionalObserverName1_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12 addlObserver hide">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <input type="text" class="form-control" placeholder="Observer 2" name="AdditionalObserverName2_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12 addlObserver hide">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <input type="text" class="form-control" placeholder="Observer 3" name="AdditionalObserverName3_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12 addlObserver hide">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <input type="text" class="form-control" placeholder="Observer 4" name="AdditionalObserverName4_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims addlObserver hide">
-                            <div class="form-group  col-md-6 col-sm-6">
+                        <div class="row col-md-12 col-sm-12 col-xs-12 addlObserver hide">
+                            <div class="form-group col-md-6 col-sm-6">
                                 <input type="text" class="form-control" placeholder="Observer 5" name="AdditionalObserverName5_O_S" maxlength="50" data-section="Observation">
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab_1">
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-12 col-sm-12">
-                                <button type="button" class="btn btn-sm btn-default pull-right" id="addPlant"><i class="fa fa-plus"></i>&nbsp;Add Plant</button>
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                                <span data-toggle="tooltip" class="badge badge-success pull-right" data-original-title="0" style="margin-right:10px;" id="numPlants"></span>
+                                <h4>Observations</h4>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                                <button type="button" class="btn btn-sm btn-info pull-right" id="addPlant"><i class="fa fa-plus"></i>&nbsp;Add Plant</button>
                                 <div class="btn-group pull-right glossary" style="margin-right:5px;">
-                                    <button class="btn btn-sm btn-default active" id="all">All</button>
+                                    <button class="btn btn-sm btn-default" id="all">All</button>
                                     <button class="btn btn-sm btn-default hide" id="a">A</button>
                                     <button class="btn btn-sm btn-default hide" id="b">B</button>
                                     <button class="btn btn-sm btn-default hide" id="c">C</button>
@@ -161,44 +165,47 @@
                                     <button class="btn btn-sm btn-default hide" id="y">Y</button>
                                     <button class="btn btn-sm btn-default hide" id="z">Z</button>
                                 </div>
-                                <span data-toggle='tooltip' class='badge badge-success pull-right' data-original-title='3' style="margin-right:10px;" id="numPlants"></span>
-                                <h4>Observations</h4>
                             </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims" id="hostweeds">
+                        <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="hostweeds">
                         </div>
                     </div>
                     <div class="tab-pane" id="tab_2">
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-12 col-sm-12">
-                                <button type="button" class="btn btn-sm btn-default pull-right" id="addBotanySample"><i class="fa fa-plus"></i>&nbsp;Add Sample</button>
+                        <div class="row col-md-12 col-sm-12 col-xs-12 pr-0">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                                <span data-toggle="tooltip" class="badge badge-success pull-right" data-original-title="0" style="margin-right:10px;" id="numSamples"></span>
                                 <h4>Samples</h4>
                             </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                                <button type="button" class="btn btn-sm btn-info pull-right" id="addBotanySample"><i class="fa fa-plus"></i>&nbsp;Add Sample</button>
+                            </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims" id="samples">
+                        <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="samples">
                         </div>
                     </div>
                     <div class="tab-pane" id="tab_3">
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-12 col-sm-12">
-                                <button type="button" class="btn btn-sm btn-default pull-right" id="addAttachment"><i class="fa fa-plus"></i>&nbsp;Add Attachment</button>
+                        <div class="row col-md-12 col-sm-12 col-xs-12 pr-0">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
                                 <h4>Attachments</h4>
                             </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                                <button type="button" class="btn btn-sm btn-info pull-right" id="addAttachment"><i class="fa fa-plus"></i>&nbsp;Add Attachment</button>
+                            </div>
                         </div>
-                        <div class="row  col-md-12 col-sm-12 sims">
-                            <div class="form-group  col-md-3 col-sm-3">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-3 col-sm-3 col-xs-3">
                                 <label>ID</label>
                                 <input type="number" class="form-control" readonly name="id_M_N" data-section="Observation" />
                             </div>
-                            <div class="form-group  col-md-3 col-sm-3">
+                            <div class="form-group col-md-3 col-sm-3 col-xs-3">
                                 <label>Status</label>
                                 <input type="number" class="form-control" readonly name="status_M_N" data-section="Observation" />
                             </div>
-                            <div class="form-group  col-md-3 col-sm-3">
+                            <div class="form-group col-md-3 col-sm-3 col-xs-3">
                                 <label>Discipline</label>
                                 <input type="text" class="form-control" value="B" readonly name="PlantDisciplineCode_M_S" data-section="Observation" />
                             </div>
-                            <div class="form-group  col-md-3 col-sm-3">
+                            <div class="form-group col-md-3 col-sm-3 col-xs-3">
                                 <label>Submitting Staff ID</label>
                                 <input type="number" class="form-control" value="200201" readonly name="SubmittedByStaffId_M_N" data-section="Observation" />
                             </div>

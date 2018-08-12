@@ -5,12 +5,12 @@ html, body {
     padding: 0;
 }
 
-body {
+/*body {
     font: normal 16px/20px "Helvetica Neue", Helvetica, sans-serif;
     background: rgb(237, 237, 236);
     margin: 0;
     padding: 0;
-}
+}*/
 
 .main {
     position: relative;
@@ -23,16 +23,16 @@ body {
     top: 3px;
     width: 100%;
     text-align: center;
-    z-index: 10;
+    z-index: 0;
 }
 
 .bottomButton {
     position: absolute;
     bottom: 10px;
     right: 0px;
-    width: 50%;
+    width: 100%;
     text-align: center;
-    z-index: 10;
+    z-index: 0;
 }
 
     .bottomButton > .badge {
@@ -49,18 +49,18 @@ body {
 }
 
 /* Modal Dialogs START */
-.modal {
+/*.modal {
     background-color: rgba(0, 0, 0, 0.1);
-}
+}*/
 
-.modal-header {
+/*.modal-header {
     color: #333;
     font-weight: bold;
-}
+}*/
 
-.modal-content {
+/*.modal-content {
     border-radius: 0px;
-}
+}*/
 
 #modalGrid .modal-body, #modalPHGrid .modal-body {
     height: 900px;
@@ -152,11 +152,15 @@ body {
     height: 80px;
 }
 
+.modal-dialog {
+    width: 100%;
+    margin: 0px auto;
+}
 
 @media (min-width: 768px) {
     .modal-dialog {
-        width: 98%;
-        margin: 15px auto;
+        width: 100%;
+        margin: 0px auto;
     }
 }
 
@@ -170,7 +174,7 @@ body {
     margin-top: -15px;
 }
 
-.nav-tabs-custom {
+/*.nav-tabs-custom {
     box-shadow: none;
     border-radius: 5px;
     height: 60px;
@@ -197,20 +201,20 @@ body {
             text-align: center;
             padding-top: 10px;
             height: 50px;
-        }
+        }*/
 
-.nav-tabs {
-    overflow-x: auto;
+.nav-tabs{
+    overflow-x: scroll;
     overflow-y: hidden;
     display: -webkit-box;
     display: -moz-box;
 }
 
-    .nav-tabs > li {
+    /*.nav-tabs > li {
         float: none;
-    }
+    }*/
 
-.super-slim-8 {
+/*.super-slim-8 {
     width: 12.5%;
 }
 
@@ -224,7 +228,7 @@ body {
 
 .fat {
     width: 25%;
-}
+}*/
 
 .regular {
     width: 20%;
@@ -232,7 +236,7 @@ body {
     background-color: transparent;
 }
 
-.nav-tabs-custom > .nav-tabs > li > a {
+/*.nav-tabs-custom > .nav-tabs > li > a {
     background-color: transparent;
     padding: 0;
     text-align: center;
@@ -253,9 +257,9 @@ body {
         color: #fff;
         font-size: 14px;
         font-weight: bold;
-    }
+    }*/
 
-.nav-tabs-custom > .nav-tabs > li.active > a {
+/*.nav-tabs-custom > .nav-tabs > li.active > a {
     background-color: transparent;
     padding: 0;
     text-align: center;
@@ -264,9 +268,9 @@ body {
     color: #fff;
     font-size: 14px;
     font-weight: bold;
-}
+}*/
 
-.nav-tabs-custom > .nav-tabs > li.hover > a {
+/*.nav-tabs-custom > .nav-tabs > li.hover > a {
     background-color: transparent;
     padding: 0;
     text-align: center;
@@ -287,7 +291,7 @@ body {
     padding: 0px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
-}
+}*/
 
 .wf-buttons {
     height: 60px;
@@ -861,10 +865,10 @@ table.dataTable {
     width: 10%;
 }
 
-.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+/*.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
     padding-right: 8px;
     padding-left: 8px;
-}
+}*/
 /* All cols together*/
 
 hr {
@@ -1121,6 +1125,7 @@ label {
 
 .bg-Obs {
     background-color: #ebf6ff;
+    margin-left: 0px;
 }
 
 .bg-gray-blue label, .bg-gray-blue-last label {
@@ -1175,4 +1180,16 @@ label {
 
 .p-3 {
     padding: 20px;
+}
+
+.pl-0 {
+    padding-left: 0;
+}
+
+.pr-0 {
+    padding-right:0;
+}
+
+.py-0 {
+    padding-right:0;
 }

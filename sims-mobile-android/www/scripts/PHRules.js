@@ -1038,7 +1038,7 @@ function loadModal(pagename) {
     }).done(function () {
         $('#modalProgress').modal('hide');
         t1 = performance.now();
-        $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
+        $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>&nbsp;" + Math.round((t1 - t0)) + " ms");
     });
 };
 function objectifyPHFormforSave(formArray) {
@@ -1642,7 +1642,9 @@ $(document).on('click', '#addBotanySample', function (e) {
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
+    that.find('.badge').text(bsamples);
     $('#samples').append(that);
+    $('#numSamples').text(bsamples);
 })
 $(document).on('click', '.removeBotSample', function (e) {
     var x = $(this);
@@ -1702,7 +1704,9 @@ $(document).on('click', '#addEntoSample', function (e) {
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
+    that.find('.badge').text(esamples);
     $('#samples').append(that);
+    $('#numSamples').text(esamples);
 })
 $(document).on('click', '.removeEntoSample', function (e) {
     var x = $(this);
@@ -1760,7 +1764,9 @@ $(document).on('click', '#addPathSample', function (e) {
     //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID("SM"));
+    that.find('.badge').text(psamples);
     $('#samples').append(that);
+    $('#numSamples').text(psamples);
 })
 $(document).on('click', '.removePathSample', function (e) {
     var x = $(this);
@@ -2087,7 +2093,8 @@ $(document).on('click', 'a.downloadMaps', function (e) {
 function getFileandExtract(url, mapset, i, n) {
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));
-    $('#mb6 .progText').text("File " + i + " out of " + n + ": Download in progress ...(" + Math.round(t3/1000/60) + "m)");
+    $('#mb6 .progText').text("File " + i + " out of " + n + ": Download in progress ...");
+    $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');  
     url2 = url + mapset + pad(i, 2) + ".zip";
     filename = mapset + pad(i, 2) + ".zip";
     var fileURL = cordova.file.externalRootDirectory + "maps/" + filename;
@@ -2096,8 +2103,8 @@ function getFileandExtract(url, mapset, i, n) {
         url2,
         fileURL,
         function (entry) {
+            $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');  
             processZip(fileURL, cordova.file.externalRootDirectory + "maps/" + mapset, url, mapset, i, n);
-            removefile(mapset, i);
         },
         function (error) {
             $('#mb6 .progText').text(error.source);
@@ -2105,36 +2112,37 @@ function getFileandExtract(url, mapset, i, n) {
         null, {}
     );
 }
-function removefile(mapset, i) {
-    filename = mapset + pad(i, 2) + ".zip";
-    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "maps", function (dir) {
-        dir.getFile(filename, { create: false }, function (fileEntry) {
-            fileEntry.remove(function () {
-                // The file has been removed succesfully
-                $.growl({ title: "Application Info", message: "Zip file is removed successfully.", location: "bc", size: "large" });
-            }, function (error) {
-                // Error deleting the file
-                $.growl({ title: "Application Error", message: "Error removing zip file.", location: "bc", size: "large" });
-            }, function () {
-                // The file doesn't exist
-                $.growl({ title: "Application Info", message: "Zip file does not exist.", location: "bc", size: "large" });
-            });
-        });
-    });
-}
 function processZip(zipSource, destination, url, mapset, i, n) {
     // Handle the progress event
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));
-    $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...(" + Math.round(t3 / 1000 / 60) + "m)");
+    $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
+    //$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0).text('0%');  
 
     var progressHandler = function (progressEvent) {
         var percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-        $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ..." + percent + "%");
+        $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
+        $('.progress-bar').css('width', percent + '%').attr('aria-valuenow', percent).text(percent + '%');  
     };
     // Proceed to unzip the file
     window.zip.unzip(zipSource, destination, (status) => {
         if (status == 0) {
+            var filename = mapset + pad(i, 2) + ".zip";
+            window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "maps", function (dir) {
+                dir.getFile(filename, { create: false }, function (fileEntry) {
+                    fileEntry.remove(function () {
+                        // The file has been removed succesfully
+                        $.growl({ title: "Application Info", message: "Zip file is removed successfully.", location: "bc", size: "large" });
+                    }, function (error) {
+                        // Error deleting the file
+                        $.growl({ title: "Application Error", message: "Error removing zip file.", location: "bc", size: "large" });
+                    }, function () {
+                        // The file doesn't exist
+                        $.growl({ title: "Application Info", message: "Zip file does not exist.", location: "bc", size: "large" });
+                    });
+                });
+            });
+            $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');  
             i++;
             if (i > n) {
                 resSettings.settings.mapSets[ActiveMapSet].downloaded = 1;
@@ -2152,7 +2160,11 @@ function processZip(zipSource, destination, url, mapset, i, n) {
                 initSettings();
                 $.growl({ title: "Download Maps", message: "Maps downloaded successfully.", location: "bc", size: "large" });
             }
-            else { getFileandExtract(url, mapset, i, n); }
+            else {
+                $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');  
+                //$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0).text('0%');  
+                getFileandExtract(url, mapset, i, n);
+            }
         }
         if (status == -1) {
             $.growl({ title: "Download Maps", message: "Failed extracting zip file.", location: "bc", size: "large" });
