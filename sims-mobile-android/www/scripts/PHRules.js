@@ -444,6 +444,9 @@ function loadBotanySample() {
     that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
     })
+    that.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
+    })
     that.find('select').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
     })
@@ -453,6 +456,7 @@ function loadBotanySample() {
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     $('#samples').append(that);
+    $('#numSamples').text(bsamples);
 }
 function loadEntoSample() {
     esamples = esamples + 1;
@@ -473,6 +477,9 @@ function loadEntoSample() {
     that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
     })
+    that.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
+    })
     that.find('select').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
     })
@@ -482,6 +489,7 @@ function loadEntoSample() {
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     $('#samples').append(that);
+    $('#numSamples').text(esamples);
 }
 function loadPathSample() {
     psamples = psamples + 1;
@@ -500,6 +508,9 @@ function loadPathSample() {
     that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
     })
+    that.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
+    })
     that.find('select').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
     })
@@ -509,6 +520,7 @@ function loadPathSample() {
     //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     $('#samples').append(that);
+    $('#numSamples').text(psamples);
 }
 function getNextID(e) {
     //Read from DB
@@ -1612,7 +1624,7 @@ $(document).on('click', '#addBotanySample', function (e) {
         var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
         if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
-            $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large"});
+            $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
             return;
         }
     }

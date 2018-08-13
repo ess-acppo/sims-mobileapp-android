@@ -53,10 +53,10 @@ html, body {
     background-color: rgba(0, 0, 0, 0.1);
 }*/
 
-/*.modal-header {
-    color: #333;
-    font-weight: bold;
-}*/
+.modal-header {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
 
 /*.modal-content {
     border-radius: 0px;
@@ -76,6 +76,10 @@ html, body {
     overflow-x: hidden;
     overflow-y: scroll;
     /*margin-right: 20px;*/
+}
+
+#modalAuth .modal-dialog {
+    margin: 4% auto;
 }
 
 #modalForm .modal-dialog {
@@ -122,7 +126,7 @@ html, body {
 
 #mb3 {
     padding: 0;
-    margin-right: 0;
+    margin-right: -15px;
 }
 
 #mb {
@@ -209,6 +213,11 @@ html, body {
     display: -webkit-box;
     display: -moz-box;
 }
+
+    .nav-tabs > li > a {
+        font-weight: 500;
+        font-size: 1.5rem;
+    }
 
     /*.nav-tabs > li {
         float: none;
@@ -356,7 +365,10 @@ html, body {
 }
 
 .bg-target {
-    background-color: #fef3be;
+    background-color: #fbf5d6;
+    margin: 2px;
+    margin-bottom: 5px;
+    border-radius: 4px;
 }
 
 .content {
@@ -579,15 +591,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 
-.row .col-xs-2 label, .row .col-xs-3 label, .row .col-xs-4 label, .row .col-xs-5 label, .row .col-xs-9 label, .row .col-xs-12 label {
+/*.row .col-xs-2 label, .row .col-xs-3 label, .row .col-xs-4 label, .row .col-xs-5 label, .row .col-xs-9 label, .row .col-xs-12 label {
     max-width: 100%;
     font-weight: 500;
     font-size: 12px;
     margin-top: 5px;
     margin-left: 5px;
-}
+}*/
 
-.form-control {
+/*.form-control {
     height: 28px;
     padding: 0px 5px;
     font-size: 11px;
@@ -597,33 +609,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     background-image: none;
     border: 1px solid #cbcaca;
     border-radius: 2px;
-}
+}*/
 
-.sims > .form-group > .form-control {
-    width: 100%;
-    height: 34px;
-    padding: 0px 5px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: transparent;
-    background-image: none;
-    border: 1px solid #cbcaca;
-    border-radius: 4px;
-}
-
-.sims > .form-group {
+/*.row > .form-group {
     padding-right: 5px;
     padding-bottom: 5px;
     padding-top: 5px;
     margin-bottom: 5px;
-}
+}*/
 
-.row > .form-group {
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    margin-bottom: 5px;
+.form-group {
+    margin-bottom: 15px;
+    margin-top: 8px;
 }
 
 .carousel-control.right {
@@ -709,8 +706,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 a {
     outline: none;
     text-decoration: none;
-    color: #000;
-    font-size: 12px;
+    font-size: 1rem;
 }
 
 div .item {
@@ -737,19 +733,19 @@ small {
     padding-bottom: 0px;
 }
 
-.table-bordered {
+/*.table-bordered {
     border: 1px solid #dfdfdf;
-}
+}*/
 
-thead {
+/*thead {
     background-color: #fafafa;
     color: #0572ce;
     font-size: 12px;
-}
+}*/
 
-tbody {
+/*tbody {
     font-size: 12px;
-}
+}*/
 
 .sidebar-menu .treeview-menu {
     padding-left: 0px;
@@ -1009,7 +1005,7 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
-.table-bordered {
+/*.table-bordered {
     border: 1px solid #dfdfdf;
 }
 
@@ -1020,15 +1016,15 @@ input:checked + .slider:before {
     .table-bordered > tbody > tr > td,
     .table-bordered > tfoot > tr > td {
         border: 1px solid #dfdfdf;
-    }
+    }*/
 
 div.dataTables_filter {
     text-align: left;
 }
 
-.form-control-feedback.fa {
+/*.form-control-feedback.fa {
     line-height: 96px;
-}
+}*/
 
 .border-bottom-dark {
     border-bottom: 1px solid #414042;
@@ -1042,9 +1038,9 @@ div.dataTables_filter {
     background-color: #fefefe;
 }
 
-label {
+/*label {
     font-size: 12px;
-}
+}*/
 
 .timerblack {
     background-color: black;
@@ -1117,15 +1113,18 @@ label {
     text-align: center;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
     .otp-verify {
         padding: 0 30%;
+    }
+    .nav-tabs > li > a {
+        font-weight: 500;
+        font-size: 1rem;
     }
 }
 
 .bg-Obs {
     background-color: #ebf6ff;
-    margin-left: 0px;
 }
 
 .bg-gray-blue label, .bg-gray-blue-last label {

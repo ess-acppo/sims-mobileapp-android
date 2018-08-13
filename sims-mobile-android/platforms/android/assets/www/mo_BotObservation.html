@@ -2,15 +2,21 @@
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 pl-0">
             <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs ">
+                <ul class="nav nav-tabs" role="tablist">
                     <li class="active">
                         <a href="#tab_0" data-toggle="tab"><i class="fa fa-search mxr-5"></i>Site Visit Details</a>
                     </li>
                     <li>
-                        <a href="#tab_1" data-toggle="tab"><i class="fa fa-leaf mxr-5"></i>Observations</a>
+                        <a href="#tab_1" data-toggle="tab">
+                            <i class="fa fa-leaf mxr-5"></i>Observations
+                            <span data-toggle="tooltip" class="badge bg-gray-blue" data-original-title="3" id="numPlants"></span>
+                        </a>
                     </li>
                     <li>
-                        <a href="#tab_2" data-toggle="tab"><i class="fa fa-flask mxr-5"></i>Samples</a>
+                        <a href="#tab_2" data-toggle="tab">
+                            <i class="fa fa-flask mxr-5"></i>Samples
+                            <span data-toggle="tooltip" class="badge bg-gray-blue" data-original-title="0" id="numSamples"></span>
+                        </a>
                     </li>
                     <li class="hide">
                         <a href="#tab_3" data-toggle="tab"><i class="fa fa-paperclip mxr-5"></i>Attachments</a>
@@ -20,8 +26,7 @@
                     <div class="tab-pane active" id="tab_0">
                         <div class="row col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                <small class="pull-right" id="perfTime"></small>&nbsp;
-                                <h4>Site Visit Details</h4>
+                                <small class="hide" id="perfTime"></small>
                             </div>
                         </div>
                         <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -130,40 +135,36 @@
                     </div>
                     <div class="tab-pane" id="tab_1">
                         <div class="row col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                                <span data-toggle="tooltip" class="badge badge-success pull-right" data-original-title="0" style="margin-right:10px;" id="numPlants"></span>
-                                <h4>Observations</h4>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                                <button type="button" class="btn btn-sm btn-info pull-right" id="addPlant"><i class="fa fa-plus"></i>&nbsp;Add Plant</button>
+                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                <button type="button" class="btn btn-md btn-info pull-right" id="addPlant"><i class="fa fa-plus"></i>&nbsp;Add Plant</button>
                                 <div class="btn-group pull-right glossary" style="margin-right:5px;">
-                                    <button class="btn btn-sm btn-default" id="all">All</button>
-                                    <button class="btn btn-sm btn-default hide" id="a">A</button>
-                                    <button class="btn btn-sm btn-default hide" id="b">B</button>
-                                    <button class="btn btn-sm btn-default hide" id="c">C</button>
-                                    <button class="btn btn-sm btn-default hide" id="d">D</button>
-                                    <button class="btn btn-sm btn-default hide" id="e">E</button>
-                                    <button class="btn btn-sm btn-default hide" id="f">F</button>
-                                    <button class="btn btn-sm btn-default hide" id="g">G</button>
-                                    <button class="btn btn-sm btn-default hide" id="h">H</button>
-                                    <button class="btn btn-sm btn-default hide" id="i">I</button>
-                                    <button class="btn btn-sm btn-default hide" id="j">J</button>
-                                    <button class="btn btn-sm btn-default hide" id="k">K</button>
-                                    <button class="btn btn-sm btn-default hide" id="l">L</button>
-                                    <button class="btn btn-sm btn-default hide" id="m">M</button>
-                                    <button class="btn btn-sm btn-default hide" id="n">N</button>
-                                    <button class="btn btn-sm btn-default hide" id="o">O</button>
-                                    <button class="btn btn-sm btn-default hide" id="p">P</button>
-                                    <button class="btn btn-sm btn-default hide" id="q">Q</button>
-                                    <button class="btn btn-sm btn-default hide" id="r">R</button>
-                                    <button class="btn btn-sm btn-default hide" id="s">S</button>
-                                    <button class="btn btn-sm btn-default hide" id="t">T</button>
-                                    <button class="btn btn-sm btn-default hide" id="u">U</button>
-                                    <button class="btn btn-sm btn-default hide" id="v">V</button>
-                                    <button class="btn btn-sm btn-default hide" id="w">W</button>
-                                    <button class="btn btn-sm btn-default hide" id="x">X</button>
-                                    <button class="btn btn-sm btn-default hide" id="y">Y</button>
-                                    <button class="btn btn-sm btn-default hide" id="z">Z</button>
+                                    <button class="btn btn-md btn-default" id="all">All</button>
+                                    <button class="btn btn-md btn-default hide" id="a">A</button>
+                                    <button class="btn btn-md btn-default hide" id="b">B</button>
+                                    <button class="btn btn-md btn-default hide" id="c">C</button>
+                                    <button class="btn btn-md btn-default hide" id="d">D</button>
+                                    <button class="btn btn-md btn-default hide" id="e">E</button>
+                                    <button class="btn btn-md btn-default hide" id="f">F</button>
+                                    <button class="btn btn-md btn-default hide" id="g">G</button>
+                                    <button class="btn btn-md btn-default hide" id="h">H</button>
+                                    <button class="btn btn-md btn-default hide" id="i">I</button>
+                                    <button class="btn btn-md btn-default hide" id="j">J</button>
+                                    <button class="btn btn-md btn-default hide" id="k">K</button>
+                                    <button class="btn btn-md btn-default hide" id="l">L</button>
+                                    <button class="btn btn-md btn-default hide" id="m">M</button>
+                                    <button class="btn btn-md btn-default hide" id="n">N</button>
+                                    <button class="btn btn-md btn-default hide" id="o">O</button>
+                                    <button class="btn btn-md btn-default hide" id="p">P</button>
+                                    <button class="btn btn-md btn-default hide" id="q">Q</button>
+                                    <button class="btn btn-md btn-default hide" id="r">R</button>
+                                    <button class="btn btn-md btn-default hide" id="s">S</button>
+                                    <button class="btn btn-md btn-default hide" id="t">T</button>
+                                    <button class="btn btn-md btn-default hide" id="u">U</button>
+                                    <button class="btn btn-md btn-default hide" id="v">V</button>
+                                    <button class="btn btn-md btn-default hide" id="w">W</button>
+                                    <button class="btn btn-md btn-default hide" id="x">X</button>
+                                    <button class="btn btn-md btn-default hide" id="y">Y</button>
+                                    <button class="btn btn-md btn-default hide" id="z">Z</button>
                                 </div>
                             </div>
                         </div>
@@ -172,12 +173,8 @@
                     </div>
                     <div class="tab-pane" id="tab_2">
                         <div class="row col-md-12 col-sm-12 col-xs-12 pr-0">
-                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                                <span data-toggle="tooltip" class="badge badge-success pull-right" data-original-title="0" style="margin-right:10px;" id="numSamples"></span>
-                                <h4>Samples</h4>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                                <button type="button" class="btn btn-sm btn-info pull-right" id="addBotanySample"><i class="fa fa-plus"></i>&nbsp;Add Sample</button>
+                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                <button type="button" class="btn btn-md btn-info pull-right" id="addBotanySample"><i class="fa fa-plus"></i>&nbsp;Add Sample</button>
                             </div>
                         </div>
                         <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="samples">
@@ -185,11 +182,8 @@
                     </div>
                     <div class="tab-pane" id="tab_3">
                         <div class="row col-md-12 col-sm-12 col-xs-12 pr-0">
-                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                                <h4>Attachments</h4>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                                <button type="button" class="btn btn-sm btn-info pull-right" id="addAttachment"><i class="fa fa-plus"></i>&nbsp;Add Attachment</button>
+                            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                <button type="button" class="btn btn-md btn-info pull-right" id="addAttachment"><i class="fa fa-plus"></i>&nbsp;Add Attachment</button>
                             </div>
                         </div>
                         <div class="row col-md-12 col-sm-12 col-xs-12">

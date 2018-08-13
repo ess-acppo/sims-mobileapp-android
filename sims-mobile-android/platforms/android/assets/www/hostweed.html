@@ -2,12 +2,12 @@
     <i class="fa fa-arrow-circle-up fa-3x text-arrows collapse hide" data-action="collapse"></i>
     <i class="fa fa-arrow-circle-down fa-3x expand text-arrows" data-action="expand"></i>
     <div class="row col-md-12 col-sm-12 col-xs-12 pl-0 py-0">
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
-            <span data-toggle="tooltip" title="" class="badge badge-success" data-original-title="1">1</span>
+        <div class="form-group col-md-4 col-sm-4 col-xs-12">
+            <span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span>
             <label><span class="bold-red">*&nbsp;</span>Taxon ID</label>
             <input type="number" class="form-control" placeholder="Taxon ID" name="PlantTaxonId_O_N" min="0" max="99999999" maxlength="8">
         </div>
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-7 col-sm-7 col-xs-12">
             <label><span class="bold-red">*&nbsp;</span>Host Name</label>
             <input type="text" class="form-control" placeholder="Host Name" name="PlantTaxonText_M_S" data-section="PlantObsTab">
         </div>
@@ -24,11 +24,11 @@
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 col-xs-12 countArea hide">
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <label><span class="bold-red">*&nbsp;</span>Statistic Type</label>
             <select class="form-control select2" name="PlantStatisticType" data-section="PlantObsTab"></select>
         </div>
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <label><span class="bold-red">*&nbsp;</span>Count/Area</label>&nbsp;<span data-toggle="tooltip" title="0" class="badge bg-grey" data-original-title="0">0</span>
             <br />
             <button type="button" class="btn btn-md btn-default qtyminus"><i class="fa fa-minus"></i></button>
@@ -38,47 +38,45 @@
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 col-xs-12 pl-0 py-0">
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <input type="checkbox" name="CheckFutureSurveyFlag_O_S" class="minimal" maxlength="1" data-section="PlantObsTab">&nbsp;
             <label>Flag</label>
         </div>
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <input type="checkbox" name="ExternalPhotoExistFlag_O_S" class="minimal" maxlength="1" data-section="PlantObsTab">&nbsp;
             <label>External Photo</label>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 col-xs-12 pl-0 py-0">
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <label>Latitude</label>
             <input type="number" class="form-control hostweedlat" name="Latitude" placeholder="Latitude" data-section="PlantObsTab">
         </div>
-    </div>
-    <div class="row col-md-12 col-sm-12 col-xs-12 pl-0 py-0">
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <label>Longitude</label>
             <input type="number" class="form-control hostweedlng" name="Longitude" placeholder="Longitude" data-section="PlantObsTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 col-xs-12 hide">
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <label><span class="bold-red">*&nbsp;</span>Point WKT</label>
             <input type="text" class="form-control" readonly name="LocationPointWktClob_O_S" data-section="PlantObsTab">
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 col-xs-12 pl-0 py-0">
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <label>Datum</label>
             <select class="form-control hostweeddat" name="GpsDatumId_O_S" data-section="PlantObsTab">
                 <option>WGS84</option>
                 <option>GDA94</option>
             </select>
         </div>
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12">
             <button class="btn btn-md btn-default getPlantCoords"><i class="fa fa-map-marker text-info"></i>&nbsp;Get Coordinates</button>
         </div>
     </div>
     <div class="row col-md-12 col-sm-12 col-xs-12 pl-0 py-0">
-        <div class="form-group col-md-11 col-sm-11 col-xs-11">
+        <div class="form-group col-md-11 col-sm-11 col-xs-12">
             <label>Notes</label>
             <textarea class="form-control" rows="6" name="CommentText_O_S" style="height:60px;" maxlength="400" data-section="PlantObsTab"></textarea>
         </div>
