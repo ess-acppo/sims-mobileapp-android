@@ -598,7 +598,7 @@ function getNextAnimalID() {
                         $("#form1").find('input[type="text"].nextid').first().val(nextID);
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
+                    $.growl({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
                 });
             }
             else {
@@ -609,12 +609,12 @@ function getNextAnimalID() {
                         $("#form1").find('input[type="text"].nextid').first().val(1);
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
+                    $.growl({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
                 });
             }
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while retrieving next ID. " + err.message, location: "bc", size: "large" });
+        $.growl({ title: "", message: "An error occured while retrieving next ID. " + err.message, location: "bc", size: "large" });
     });
 };
 
@@ -880,8 +880,8 @@ $(document).on('blur', 'input[type=text][name="age"]', function (e) {
     var age = $(this).val();
     var yr = age.split(":")[0] * 1;
     var mn = age.split(":")[1] * 1;//enter months
-    if (isNaN(mn) || isNaN(yr)) { $.growl({ title: "Application Error", message: "Invalid Month!" + err.message, location: "bc", size: "large" }); return; }
-    if (mn < 1 || mn > 11) { $.growl({ title: "Application Error", message: "Invalid Month!" + err.message, location: "bc", size: "large" }); return; }
+    if (isNaN(mn) || isNaN(yr)) { $.growl({ title: "", message: "Invalid Month!" + err.message, location: "bc", size: "large" }); return; }
+    if (mn < 1 || mn > 11) { $.growl({ title: "", message: "Invalid Month!" + err.message, location: "bc", size: "large" }); return; }
     var dy = 0;
     var today = new Date();
     var dobD = today.getDate();

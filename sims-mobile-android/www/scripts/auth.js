@@ -2,6 +2,7 @@
 var text;
 var icon;
 var s;
+var authCode;
 
 function initAuth() {
     document.querySelector('.auth-send')
@@ -79,7 +80,8 @@ function authenticate2(x, y) {
         icon.classList.add('fa-check');
         icon.classList.remove('fa-times');
         text.innerHTML = 'Login success!';
-        derive_key(x,y);
+        derive_key(x, y);
+        authCode = "Basic " + btoa(x + ":" + y);
         $('#modalProgress').modal('hide');
         $('#modalAuth').modal('hide');
     }).fail(function (response) {
@@ -104,7 +106,7 @@ function authenticate3(x, y) {
     var result_callback = function (key) {
         //console.log("The derived " + (bytes * 8) + "-bit key is: " + key);
         if (!resSettings.settings.auth.hashedPassword) {
-            $.growl({ title: "Authentication Error", message: "You must be authenticated atleast once when you are online.", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "You must be authenticated atleast once when you are online.", location: "bc", size: "large" });
             $('#mb6 .progText').text("");
             $('#modalProgress').modal('hide');
             s.classList.add('hide');
@@ -113,7 +115,7 @@ function authenticate3(x, y) {
             text.innerHTML = 'Login Error!';
         }
         if (x != resSettings.settings.auth.lastLoggedInUser || key != resSettings.settings.auth.hashedPassword) {
-            $.growl({ title: "Authentication Error", message: "Username or Password is incorrect.", location: "bc", size: "large" });
+            $.growl.error({ title: "Authentication Error", message: "Username or Password is incorrect.", location: "bc", size: "large" });
             $('#mb6 .progText').text("");
             $('#modalProgress').modal('hide');
             s.classList.add('hide');
@@ -129,7 +131,7 @@ function authenticate3(x, y) {
                     //return e + pad(nextID.toString(), 4);
                 });
             }, function (err) {
-                $.growl({ title: "Application Error", message: "An error occured while updating Auth Settings. " + err.message, location: "bc", size: "large" });
+                $.growl.error({ title: "", message: "An error occured while updating Auth Settings. " + err.message, location: "bc", size: "large" });
             });
             s.classList.add('hide');
             icon.classList.add('fa-check');
@@ -179,7 +181,7 @@ function derive_key(u, p) {
                 //return e + pad(nextID.toString(), 4);
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while updating Auth Settings. " + err.message, location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "An error occured while updating Auth Settings. " + err.message, location: "bc", size: "large" });
         });
     };
     mypbkdf2.deriveKey(status_callback, result_callback);

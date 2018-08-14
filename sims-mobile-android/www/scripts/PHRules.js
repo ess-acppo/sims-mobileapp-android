@@ -159,8 +159,6 @@ function loadPHDefaults() {
 }
 function syncPHRefCodes() {
     // Loading Activity Defaults //
-    var x = "simsuser";
-    var y = "sims@123";
     var settings = {
         "async": false,
         "crossDomain": true,
@@ -171,7 +169,7 @@ function syncPHRefCodes() {
             $('#modalProgress').modal();
         },
         "headers": {
-            "authorization": "Basic " + btoa(x + ":" + y),
+            "authorization": authCode,
             "cache-control": "no-cache"
         }
     }
@@ -183,14 +181,14 @@ function syncPHRefCodes() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO phrefcodes (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'refcodes', JSON.stringify(PHRefCodes)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE phrefcodes SET settingsval = ? WHERE id = ?", [JSON.stringify(PHRefCodes), 1], function (tx, res) {
@@ -198,13 +196,13 @@ function syncPHRefCodes() {
                 //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
         $('#modalProgress').modal('hide');
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl({ title: "Application Error", message: "An error occurred while fetching reference codes. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching reference codes. " + err.message, location: "bc", size: "large" });
         });
 }
 function loadPHRefCodes() {
@@ -280,8 +278,6 @@ function loadPHRefCodes() {
     });
 }
 function syncActivityData() {
-    var x = "simsuser";
-    var y = "sims@123";
     var settings = {
         "async": false,
         "crossDomain": true,
@@ -292,7 +288,7 @@ function syncActivityData() {
             $('#modalProgress').modal();
         },
         "headers": {
-            "authorization": "Basic " + btoa(x + ":" + y),
+            "authorization": authCode,
             "cache-control": "no-cache"
         }
     }
@@ -304,14 +300,14 @@ function syncActivityData() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO activitydata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'activity', JSON.stringify(ActivityData)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while updating ActivityData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE activitydata SET settingsval = ? WHERE id = ?", [JSON.stringify(ActivityData), 1], function (tx, res) {
@@ -319,13 +315,13 @@ function syncActivityData() {
                 //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while updating ActivityData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
             });
         $('#modalProgress').modal('hide');
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl({ title: "Application Error", message: "An error occurred while fetching ActivityData. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching ActivityData. " + err.message, location: "bc", size: "large" });
     });
 }
 function loadActivityData() {
@@ -341,8 +337,6 @@ function loadActivityData() {
     });
 }
 function syncstaffData() {
-    var x = "simsuser";
-    var y = "sims@123";
     var settings = {
         "async": false,
         "crossDomain": true,
@@ -353,7 +347,7 @@ function syncstaffData() {
             $('#modalProgress').modal();
         },
         "headers": {
-            "authorization": "Basic " + btoa(x + ":" + y),
+            "authorization": authCode,
             "cache-control": "no-cache"
         }
     }
@@ -364,14 +358,14 @@ function syncstaffData() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while deleting StaffData from DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting StaffData from DB. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'staff', JSON.stringify(staffDataS)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while updating StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataS), 1], function (tx, res) {
@@ -379,13 +373,13 @@ function syncstaffData() {
                 //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl({ title: "Application Error", message: "An error occured while updating StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
             });
         $('#modalProgress').modal('hide');
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl({ title: "Application Error", message: "An error occurred while fetching StaffData. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + err.message, location: "bc", size: "large" });
     });
 }
 function loadstaffData() {
@@ -533,7 +527,7 @@ function getNextID(e) {
             $("#form1").find('input[type="text"].nextid').last().val(e + pad(nextID.toString(), 6));
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
     });
 };
 function loadModal(pagename) {
@@ -1281,7 +1275,7 @@ function SubmitRecord(formArray) {//serialize data function
         "header": {
             "ebmCID": guid1,
             "ebmMID": guid1,
-            "ebmSID": "SIMS Mobile App",
+            "ebmSID": "ESFA - Enterprise Surveillance Field App",
             "ebmTimestamp": new Date().toISOString()
         },
         "body": {
@@ -1855,11 +1849,11 @@ $(document).on('click', '.getCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl({ title: "Get GPS Failed!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "Get GPS Failed!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl({ title: "GeoLocation Failed!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "GeoLocation Failed!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -1884,11 +1878,11 @@ $(document).on('click', '.getPlantCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -1913,11 +1907,11 @@ $(document).on('click', '.getEntoHostCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -1942,11 +1936,11 @@ $(document).on('click', '.getPathHostCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -1974,11 +1968,11 @@ $(document).on('click', '.getSampleCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -2067,7 +2061,7 @@ $(document).on('change', 'select[name^="PlantStatisticType"]', function () {
 $(document).on('click', '#SaveSettingsExit', function (e) {
     var v_appMode = $('#form3').find('#appMode').val();
     if (!v_appMode) {
-        $.growl({ title: "Application Error", message: "Provide a valid mode: PH!", location: "bc", size: "large" });
+        $.growl.warning({ title: "", message: "Provide a valid mode: PH!", location: "bc", size: "large" });
         return false;
     }
     /* Set AppMode */
@@ -2088,7 +2082,7 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
             $('#modalSettings').modal('hide');
         });
     }, function (err) {
-        $.growl({ title: "Application Error", message: "An error occured while updating settings. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occured while updating settings. " + err.message, location: "bc", size: "large" });
     });
 })
 $(document).on('click', 'a.downloadMaps', function (e) {
@@ -2144,13 +2138,13 @@ function processZip(zipSource, destination, url, mapset, i, n) {
                 dir.getFile(filename, { create: false }, function (fileEntry) {
                     fileEntry.remove(function () {
                         // The file has been removed succesfully
-                        $.growl({ title: "Application Info", message: "Zip file is removed successfully.", location: "bc", size: "large" });
+                        $.growl.notice({ title: "", message: "Zip file is removed successfully.", location: "bc", size: "large" });
                     }, function (error) {
                         // Error deleting the file
-                        $.growl({ title: "Application Error", message: "Error removing zip file.", location: "bc", size: "large" });
+                        $.growl.error({ title: "", message: "Error removing zip file.", location: "bc", size: "large" });
                     }, function () {
                         // The file doesn't exist
-                        $.growl({ title: "Application Info", message: "Zip file does not exist.", location: "bc", size: "large" });
+                        $.growl.notice({ title: "", message: "Zip file does not exist.", location: "bc", size: "large" });
                     });
                 });
             });
@@ -2165,12 +2159,12 @@ function processZip(zipSource, destination, url, mapset, i, n) {
                         //return e + pad(nextID.toString(), 4);
                     });
                 }, function (err) {
-                    $.growl({ title: "Application Error", message: "An error occured while updating mapsets. " + err.message, location: "bc", size: "large" });
+                    $.growl.error({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "bc", size: "large" });
                 });
                 $('#modalProgress').modal('hide');
                 $('#form3').find('label.mapNotes').eq(ActiveMapSet).text("Last downloaded on:" + new Date().toUTCString());
                 initSettings();
-                $.growl({ title: "Download Maps", message: "Maps downloaded successfully.", location: "bc", size: "large" });
+                $.growl({ title: "", message: "Maps downloaded successfully.", location: "bc", size: "large" });
             }
             else {
                 $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');  
@@ -2179,7 +2173,7 @@ function processZip(zipSource, destination, url, mapset, i, n) {
             }
         }
         if (status == -1) {
-            $.growl({ title: "Download Maps", message: "Failed extracting zip file.", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "Failed extracting zip file.", location: "bc", size: "large" });
         }
     }, progressHandler);
 }

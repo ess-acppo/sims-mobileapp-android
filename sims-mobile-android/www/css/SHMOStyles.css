@@ -3,6 +3,8 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Google Sans',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
 /*body {
@@ -159,13 +161,6 @@ html, body {
 .modal-dialog {
     width: 100%;
     margin: 0px auto;
-}
-
-@media (min-width: 768px) {
-    .modal-dialog {
-        width: 100%;
-        margin: 0px auto;
-    }
 }
 
 /* Modal Dialogs END */
@@ -377,12 +372,9 @@ html, body {
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif;
+    font-family: 'Google Sans',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
-    font-weight: 600;
 }
-
-
 
 .content-header > h1 {
     margin: 0;
@@ -718,13 +710,13 @@ div .item {
     background-color: #fff;
 }
 
-small {
+/*small {
     font-size: 12px;
     font-style: italic;
     color: #959494;
     padding-left: 5px;
     padding-bottom: 0px;
-}
+}*/
 
 
 .no-right-padding {
@@ -1113,16 +1105,6 @@ div.dataTables_filter {
     text-align: center;
 }
 
-@media screen and (max-width: 768px) {
-    .otp-verify {
-        padding: 0 30%;
-    }
-    .nav-tabs > li > a {
-        font-weight: 500;
-        font-size: 1rem;
-    }
-}
-
 .bg-Obs {
     background-color: #ebf6ff;
 }
@@ -1191,4 +1173,25 @@ div.dataTables_filter {
 
 .py-0 {
     padding-right:0;
+}
+
+text-center {
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        width: 100%;
+        margin: 0px auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .otp-verify {
+        padding: 0 30%;
+    }
+
+    .nav-tabs > li > a {
+        font-size: 1.1rem;
+    }
 }
