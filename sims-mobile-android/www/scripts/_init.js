@@ -357,7 +357,6 @@ function initLoad() {
     /* Not required for Windows platform */
     checkPermissions();
     /* Not required for Windows platform */
-    initSettings();
     initAuth();
     $('#modalAuth').modal();
     //return;
