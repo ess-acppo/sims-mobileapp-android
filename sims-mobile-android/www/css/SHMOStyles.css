@@ -60,6 +60,10 @@ html, body {
     font-weight: 500;
 }
 
+.esfatitle {
+    font-size: 1.4rem;
+}
+
 /*.modal-content {
     border-radius: 0px;
 }*/
@@ -202,19 +206,19 @@ html, body {
             height: 50px;
         }*/
 
-.nav-tabs{
+/*.nav-tabs {
     overflow-x: scroll;
     overflow-y: hidden;
     display: -webkit-box;
     display: -moz-box;
+}*/
+
+.nav-tabs > li > a {
+    font-weight: 500;
+    font-size: 1.5rem;
 }
 
-    .nav-tabs > li > a {
-        font-weight: 500;
-        font-size: 1.5rem;
-    }
-
-    /*.nav-tabs > li {
+/*.nav-tabs > li {
         float: none;
     }*/
 
@@ -1168,11 +1172,11 @@ div.dataTables_filter {
 }
 
 .pr-0 {
-    padding-right:0;
+    padding-right: 0;
 }
 
 .py-0 {
-    padding-right:0;
+    padding-right: 0;
 }
 
 text-center {
@@ -1193,5 +1197,9 @@ text-center {
 
     .nav-tabs > li > a {
         font-size: 1.1rem;
+    }
+
+    .esfatitle {
+        font-size: 1.2rem;
     }
 }
