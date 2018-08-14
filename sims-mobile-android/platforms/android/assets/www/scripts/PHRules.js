@@ -1295,22 +1295,6 @@ function guid() {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
-function checkIfFileExists(path) {
-    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "/maps/", function (fileSystem) {
-        fileSystem.getFile(path, { create: false }, fileExists, fileDoesNotExist);
-    }, getFSFail); //of requestFileSystem
-}
-function fileExists(fileEntry) {
-    //alert("File " + fileEntry.fullPath + " exists!");
-    return 1;
-}
-function fileDoesNotExist() {
-    //alert("file does not exist");
-    return 0;
-}
-function getFSFail(evt) {
-    console.log(evt.target.error.code);
-}
 $(document).on('click', '.qtyplus', function (e) {
     e.preventDefault();
     pStatisticType = $(this).parent().parent().find('select[name^=PlantStatisticType]').val();
@@ -1851,11 +1835,11 @@ $(document).on('click', '.getCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "Get GPS Failed!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "GeoLocation Failed!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -1880,11 +1864,11 @@ $(document).on('click', '.getPlantCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -1909,11 +1893,11 @@ $(document).on('click', '.getEntoHostCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -1938,11 +1922,11 @@ $(document).on('click', '.getPathHostCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -1970,11 +1954,11 @@ $(document).on('click', '.getSampleCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "Out of bounds!", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "Out of bounds!", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
 })
@@ -2098,6 +2082,43 @@ $(document).on('click', 'a.downloadMaps', function (e) {
     $('#mb6 .progText').text("Download in progress ...");
     getFileandExtract(url, mapset, 1, numfiles);
 })
+$(document).on('change', 'select[name="SiteId_O_N"]', function () {
+    var that = $(this);
+    $.ajax({
+        url: "",
+        beforeSend: function (xhr) {
+            $('#modalProgress').modal();
+            $('#mb6 .progText').text("Refreshing site coordinates ...");
+        }
+    })
+        .complete(function (e) {
+            var str = that.val();
+            if (str == 99999) {
+                //alert('NewSite selected');
+                var xlat = $('#form1').find('input.obslat');
+                var xlng = $('#form1').find('input.obslng');
+                var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+                if (xlat.val() != "") { cLatitude = xlat.val(); }
+                if (xlng.val() != "") { cLongitude = xlng.val(); }
+                if (xwkt.val() != "") { cWkt = xwkt.val(); }
+                xlat.val("");
+                xlng.val("");
+                xwkt.val("");
+            }
+            else {
+                //alert('Existing site selected');
+                var xlat = $('#form1').find('input.obslat');
+                var xlng = $('#form1').find('input.obslng');
+                var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+                if (cLatitude != "") { xlat.val(cLatitude); }
+                if (cLongitude != "") { xlng.val(cLongitude); }
+                if (cWkt != "") { xwkt.val(cWkt); }
+            }
+        }).done(function () {
+            $('#modalProgress').modal('hide');
+            $('#mb6 .progText').text("");
+        });
+})
 function getFileandExtract(url, mapset, i, n) {
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));
@@ -2179,40 +2200,3 @@ function processZip(zipSource, destination, url, mapset, i, n) {
         }
     }, progressHandler);
 }
-$(document).on('change', 'select[name="SiteId_O_N"]', function () {
-    var that = $(this);
-    $.ajax({
-        url: "",
-        beforeSend: function (xhr) {
-            $('#modalProgress').modal();
-            $('#mb6 .progText').text("Refreshing site coordinates ...");
-        }
-    })
-        .complete(function (e) {
-            var str = that.val();
-            if (str == 99999) {
-                //alert('NewSite selected');
-                var xlat = $('#form1').find('input.obslat');
-                var xlng = $('#form1').find('input.obslng');
-                var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
-                if (xlat.val() != "") { cLatitude = xlat.val(); }
-                if (xlng.val() != "") { cLongitude = xlng.val(); }
-                if (xwkt.val() != "") { cWkt = xwkt.val(); } 
-                xlat.val("");
-                xlng.val("");
-                xwkt.val("");
-            }
-            else {
-                //alert('Existing site selected');
-                var xlat = $('#form1').find('input.obslat');
-                var xlng = $('#form1').find('input.obslng');
-                var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
-                if (cLatitude != "") { xlat.val(cLatitude); }
-                if (cLongitude != "") { xlng.val(cLongitude); }
-                if (cWkt != "") { xwkt.val(cWkt); } 
-            }
-        }).done(function () {
-            $('#modalProgress').modal('hide');
-            $('#mb6 .progText').text("");
-        });
-})
