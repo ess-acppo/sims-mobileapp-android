@@ -85,9 +85,9 @@ function authenticate2(x, y) {
 
         initSettings();
         /* Not required for Android and iOS platforms */
-        var myElement = document.getElementById('map');
-        var hammertime = new Hammer(myElement);
-        hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+        //var myElement = document.getElementById('map');
+        //var hammertime = new Hammer(myElement);
+        //hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
         /* Not required for Android and iOS platform */
 
         $('#modalProgress').modal('hide');
@@ -148,9 +148,9 @@ function authenticate3(x, y) {
 
             initSettings();
             /* Not required for Android and iOS platforms */
-            var myElement = document.getElementById('map');
-            var hammertime = new Hammer(myElement);
-            hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+            //var myElement = document.getElementById('map');
+            //var hammertime = new Hammer(myElement);
+            //hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
             /* Not required for Android and iOS platform */
 
             $('#modalProgress').modal('hide');

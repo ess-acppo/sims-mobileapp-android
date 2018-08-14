@@ -17,7 +17,7 @@
        under the License.
  */
 
-package io.cordova.simsmobile;
+package io.cordova.ESFA;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
