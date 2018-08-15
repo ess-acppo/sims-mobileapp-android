@@ -72,8 +72,9 @@
       "ownerId": "1",
       "ownerName": "Raj Jonnalagedda",
       "ownerRole": "Botanist",
-      "samplePrefix": "RJ",
-      "sampleStartNumber": 0
+      "samplePrefix": "XX",
+      "sampleStartNumber": 0,
+      "currentSampleNumber": 0
     },
     "logging": {
       "allowLogging": 1,

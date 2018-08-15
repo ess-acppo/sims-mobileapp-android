@@ -1154,6 +1154,9 @@ $(document).on('click', '#settings', function (e) {
             $('#form3').find('input[name="optMaps"][data-id="' + (arr[0].mapsetID - 1) + '"]').iCheck('check');
             $('#form3').find('label.mapNotes').eq(arr[0].mapsetID - 1).text("Last downloaded on:" + arr[0].lastDownloadDate);
             $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(staffData));
+            if (resSettings.settings.device.ownerId) { $('#form3').find('select[id="deviceOwner"]').val(resSettings.settings.device.ownerId) };
+            $('#form3').find('input[name="samplePrefix"]').val(resSettings.settings.device.samplePrefix);
+            $('#form3').find('input[name="sampleCurrNum"]').val(resSettings.settings.device.currentSampleNumber);
         }).done(function () {
             $('#modalProgress').modal('hide');
         });

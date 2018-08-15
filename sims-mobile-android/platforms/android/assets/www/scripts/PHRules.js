@@ -619,7 +619,7 @@ function loadPathSample() {
 }
 function getNextID(e) {
     //Read from DB
-    var nextID = resSettings.settings.device.currentSampleNumber + 1;
+    var nextID = resSettings.settings.device.currentSampleNumber * 1 + 1;
     resSettings.settings.device.currentSampleNumber = nextID;
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
@@ -1734,7 +1734,7 @@ $(document).on('click', '#addBotanySample', function (e) {
     })
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
-    that.find("input.nextid").val(getNextID("SM"));
+    that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
     that.find('.badge').text(bsamples);
     $('#samples').append(that);
     $('#numSamples').text(bsamples);
@@ -1796,7 +1796,7 @@ $(document).on('click', '#addEntoSample', function (e) {
     })
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
-    that.find("input.nextid").val(getNextID("SM"));
+    that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
     that.find('.badge').text(esamples);
     $('#samples').append(that);
     $('#numSamples').text(esamples);
@@ -1856,7 +1856,7 @@ $(document).on('click', '#addPathSample', function (e) {
     })
     //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
-    that.find("input.nextid").val(getNextID("SM"));
+    that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
     that.find('.badge').text(psamples);
     $('#samples').append(that);
     $('#numSamples').text(psamples);
@@ -2160,6 +2160,12 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     /* Set active Mapset */
     var activeMapset = $("input[name='optMaps']:checked").data('id');
     if (activeMapset) { resSettings.settings.mapSets[activeMapset].activeFlag = 1; }
+    /* Set Device Owner */
+    resSettings.settings.device.ownerId = $('#form3').find('select[id="deviceOwner"]').val();
+    resSettings.settings.device.ownerName = $('#form3').find('select[id="deviceOwner"]').text();
+    resSettings.settings.device.samplePrefix = $('#form3').find('input[name="samplePrefix"]').val();
+    resSettings.settings.device.sampleStartNumber = $('#form3').find('input[name="sampleStartNum"]').val();
+    resSettings.settings.device.currentSampleNumber = $('#form3').find('input[name="sampleCurrNum"]').val();
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {

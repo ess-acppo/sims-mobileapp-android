@@ -97,6 +97,7 @@ function authenticate2(x, y) {
         icon.classList.add('fa-times');
         icon.classList.remove('fa-check');
         text.innerHTML = 'Login Failed!';
+        $.growl.error({ title: "", message: "Username or Password is incorrect.", location: "bc", size: "large" });
     });
 }
 function authenticate3(x, y) {
@@ -132,7 +133,7 @@ function authenticate3(x, y) {
             return;
         }
         if (x !== resSettings.settings.auth.lastLoggedInUser || key !== resSettings.settings.auth.hashedPassword) {
-            $.growl.error({ title: "Authentication Error", message: "Username or Password is incorrect.", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "Username or Password is incorrect.", location: "bc", size: "large" });
             $('#mb6 .progText').text("");
             $('#modalProgress').modal('hide');
             s.classList.add('hide');
