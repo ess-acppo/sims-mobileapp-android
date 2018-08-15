@@ -128,34 +128,52 @@ function initSettings() {
             if (res.rows && res.rows.length > 0) {
                 ActivityData = JSON.parse(res.rows.item(0).settingsval);
                 siteData = ActivityData[0].sites;
+                programId = ActivityData[0].programId; 
                 loadActivityData();
+                //Loading Staff Data
+                db.transaction(function (tx) {
+                    tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", [programId + 'staff'], function (tx, res) {
+                        //This is not the first load
+                        if (res.rows && res.rows.length > 0) {
+                            staffDataS = JSON.parse(res.rows.item(0).settingsval);
+                            loadstaffData();
+                        }
+                        else {
+                            //This is the first load
+                            syncstaffData();
+                            loadstaffData();
+                        };
+                    });
+                }, function (err) {
+                    $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "bc", size: "large", fixed: "true" });
+                });
             }
             else {
                 //This is the first load
                 syncActivityData();
                 loadActivityData();
+                db.transaction(function (tx) {
+                    tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", [programId + 'staff'], function (tx, res) {
+                        //This is not the first load
+                        if (res.rows && res.rows.length > 0) {
+                            alert(JSON.stringify(res.rows.item(0).settingsval));
+                            staffDataS = JSON.parse(res.rows.item(0).settingsval);
+                            loadstaffData();
+                        }
+                        else {
+                            //This is the first load
+                            syncstaffData();
+                            loadstaffData();
+                        };
+                    });
+                }, function (err) {
+                    $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "bc", size: "large", fixed: "true" });
+                });
             };
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while loading Activity Data. " + err.message, location: "bc", size: "large", fixed: "true" });
         });
-    //Loading Staff Data
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM staffdata WHERE id = ?", [1], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                staffDataS = JSON.parse(res.rows.item(0).settingsval);
-                loadstaffData();
-            }
-            else {
-                //This is the first load
-                syncstaffData();
-                loadstaffData();
-            };
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "bc", size: "large", fixed: "true" });
-    });
     //Loading maps and Markers
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM settings WHERE id = ?", [1], function (tx, res) {
@@ -347,6 +365,7 @@ function initSettings() {
                 });
             };
             loadSitePolygons();
+            if ($("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide');}
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while loading app settings. " + err.message, location: "bc", size: "large", fixed: "true" });
@@ -1134,6 +1153,8 @@ $(document).on('click', '#settings', function (e) {
             });
             $('#form3').find('input[name="optMaps"][data-id="' + (arr[0].mapsetID - 1) + '"]').iCheck('check');
             $('#form3').find('label.mapNotes').eq(arr[0].mapsetID - 1).text("Last downloaded on:" + arr[0].lastDownloadDate);
+            $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(staffData));
+            if (resSettings.settings.device.ownerId) { $('#form3').find('select[id="deviceOwner"]').val(resSettings.settings.device.ownerId) };
         }).done(function () {
             $('#modalProgress').modal('hide');
         });
@@ -1464,6 +1485,28 @@ $(document).on('click', 'a.btnResetData', function (e) {
             }
         }
     });
+})
+$(document).on('click', 'a.btnSync', function (e) {
+    $.confirm({
+        title: 'Confirm Data Sync!',
+        content: 'Do you want to sync application data with the Server?<br/>Note that Observations will not be Synced!',
+        buttons: {
+            Ok: function () {
+                syncPHRefCodes();
+                syncActivityData();
+                syncstaffData();
+                $.growl({ title: "", message: "Sync Complete!.", location: "bc", size: "large" });
+            },
+            cancel: function () {
+                //close
+            }
+        }
+    });
+})
+$(document).on('click', '.showPayloads', function (e) {
+    alert(JSON.stringify(ActivityData));
+    alert(JSON.stringify(PHRefCodes));
+    alert(JSON.stringify(staffDataS));
 })
 $(document).on('click', '.obsForm', function (e) {
     $('.obsForm').removeClass('bg-Obs');

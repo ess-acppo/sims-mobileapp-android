@@ -125,49 +125,49 @@
     },
     "installed_plugins": {
         "cordova-plugin-android-permissions": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-app-version": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-appversion": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-file": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-file-opener2": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-file-transfer": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-plugin-zip": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         },
         "cordova-sqlite-storage": {
-            "PACKAGE_NAME": "io.cordova.simsmobile"
+            "PACKAGE_NAME": "io.cordova.ESFA"
         }
     },
     "dependent_plugins": {},
