@@ -1506,9 +1506,29 @@ $(document).on('click', 'a.btnSync', function (e) {
     });
 })
 $(document).on('click', '.showPayloads', function (e) {
-    alert(JSON.stringify(ActivityData));
-    alert(JSON.stringify(PHRefCodes));
-    alert(JSON.stringify(staffDataS));
+    $.alert({
+        title: 'Activity Data',
+        content: JSON.stringify(ActivityData),
+        buttons: {
+            Ok: function () {
+                $.alert({
+                    title: 'PHRefCodes Data',
+                    content: JSON.stringify(PHRefCodes),
+                    buttons: {
+                        Ok: function () {
+                            $.alert({
+                                title: 'Staff Data',
+                                content: JSON.stringify(staffDataS),
+                                buttons: {
+                                    Ok: function () { }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
 })
 $(document).on('click', '.obsForm', function (e) {
     $('.obsForm').removeClass('bg-Obs');

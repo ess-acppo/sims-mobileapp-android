@@ -2187,6 +2187,7 @@ $(document).on('click', 'a.downloadMaps', function (e) {
     t0 = performance.now();
     $('#modalProgress').modal();
     $('#mb6 .progText').text("Download in progress ...");
+    $('#mb6 .progTime').text(new Date().toUTCString());
     getFileandExtract(url, mapset, 1, numfiles);
 })
 $(document).on('change', 'select[name="SiteId_O_N"]', function () {
@@ -2294,6 +2295,7 @@ function processZip(zipSource, destination, url, mapset, i, n) {
                 $('#modalProgress').modal('hide');
                 $('#form3').find('label.mapNotes').eq(ActiveMapSet).text("Last downloaded on:" + new Date().toUTCString());
                 initSettings();
+                $('#mb6 .progTime').text("");
                 $.growl({ title: "", message: "Maps downloaded successfully.", location: "bc", size: "large" });
             }
             else {
