@@ -704,7 +704,7 @@ $(document).on('click', '#addSpecies', function (e) {
     that.find('.speciesText').val($('#lstSpecies option:selected').text());
     $('.speciesFound').append(that);
     $('#lstSpecies option:selected').remove();
-    BindAutoComplete();
+    //BindAutoComplete();
 });
 
 $(document).on('click', '.removeSpecies', function (e) {
