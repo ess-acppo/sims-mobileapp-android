@@ -2381,7 +2381,7 @@ $(document).on('click', 'a.downloadMaps', function (e) {
     t0 = performance.now();
     $('#modalProgress').modal();
     $('#mb6 .progText').text("Download in progress ...");
-    $('#mb6 .progTime').text(new Date().toUTCString());
+    $('#mb6 .progTime').text(new Date().toString());
     getFileandExtract(url, mapset, 1, numfiles);
 })
 $(document).on('change', 'select[name="SiteId_O_N"]', function () {
@@ -2477,7 +2477,7 @@ function processZip(zipSource, destination, url, mapset, i, n) {
             i++;
             if (i > n) {
                 resSettings.settings.mapSets[ActiveMapSet].downloaded = 1;
-                resSettings.settings.mapSets[ActiveMapSet].lastDownloadDate = new Date().toUTCString();
+                resSettings.settings.mapSets[ActiveMapSet].lastDownloadDate = new Date().toString();
                 db.transaction(function (tx) {
                     tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
                         //alert("Row inserted.");
@@ -2487,7 +2487,7 @@ function processZip(zipSource, destination, url, mapset, i, n) {
                     $.growl.error({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "bc", size: "large" });
                 });
                 $('#modalProgress').modal('hide');
-                $('#form3').find('label.mapNotes').eq(ActiveMapSet).text("Last downloaded on:" + new Date().toUTCString());
+                $('#form3').find('label.mapNotes').eq(ActiveMapSet).text("Last downloaded on:" + new Date().toString());
                 initSettings();
                 $('#mb6 .progTime').text("");
                 $.growl({ title: "", message: "Maps downloaded successfully.", location: "bc", size: "large" });
