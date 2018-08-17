@@ -83,11 +83,6 @@ function authenticate2(x, y) {
         derive_key(x, y);
         authCode = "Basic " + btoa(x + ":" + y);
         initSettings();
-        /* Not required for Android and iOS platforms */
-        //var myElement = document.getElementById('map');
-        //var hammertime = new Hammer(myElement);
-        //hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-        /* Not required for Android and iOS platform */
         //$('#modalProgress').modal('hide');
         $('#modalAuth').modal('hide');
     }).fail(function (response) {
@@ -157,11 +152,6 @@ function authenticate3(x, y) {
             icon.classList.remove('fa-times');
             text.innerHTML = 'Login success!';
             initSettings();
-            /* Not required for Android and iOS platforms */
-            //var myElement = document.getElementById('map');
-            //var hammertime = new Hammer(myElement);
-            //hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-            /* Not required for Android and iOS platform */
             //$('#modalProgress').modal('hide');
             $('#modalAuth').modal('hide');
             return;

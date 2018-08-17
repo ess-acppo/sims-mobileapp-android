@@ -597,6 +597,7 @@ function loadBotanySample() {
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     $('#samples').append(that);
     $('#numSamples').text(bsamples);
+    BindAutoCompleteBS(that.find('.taxonTextBS'));
 }
 function loadEntoSample() {
     esamples = esamples + 1;
@@ -630,6 +631,7 @@ function loadEntoSample() {
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     $('#samples').append(that);
     $('#numSamples').text(esamples);
+    BindAutoCompleteES(that.find('.taxonTextES'));
 }
 function loadPathSample() {
     psamples = psamples + 1;
@@ -661,6 +663,7 @@ function loadPathSample() {
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     $('#samples').append(that);
     $('#numSamples').text(psamples);
+    BindAutoCompletePS(that.find('.taxonTextPS'));
 }
 function getNextID(e) {
     //Read from DB
@@ -1441,7 +1444,7 @@ function guid() {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
-function BindAutoComplete(e) {
+function BindAutoCompleteB(e) {
     var options = {
         data: taxaData.taxaBotany,
         getValue: "name",
@@ -1452,6 +1455,125 @@ function BindAutoComplete(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.hostweed').find("input.taxonIDB").val(selectedItemValue);
+            }
+        },
+        adjustWidth: false
+    };
+    e.easyAutocomplete(options);
+}
+function BindAutoCompleteE(e) {
+    var options = {
+        data: taxaData.taxaEntomology,
+        getValue: "name",
+        list: {
+            match: {
+                enabled: true
+            },
+            onSelectItemEvent: function () {
+                var selectedItemValue = e.getSelectedItemData().id;
+                e.closest('.entobox').find("input.taxonIDE").val(selectedItemValue);
+            }
+        },
+        adjustWidth: false
+    };
+    e.easyAutocomplete(options);
+}
+function BindAutoCompleteP(e) {
+    var options = {
+        data: taxaData.taxaPathology,
+        getValue: "name",
+        list: {
+            match: {
+                enabled: true
+            },
+            onSelectItemEvent: function () {
+                var selectedItemValue = e.getSelectedItemData().id;
+                e.closest('.pathbox').find("input.taxonIDP").val(selectedItemValue);
+            }
+        },
+        adjustWidth: false
+    };
+    e.easyAutocomplete(options);
+}
+function BindAutoCompleteET(e) {
+    var options = {
+        data: taxaData.taxaEntomology,
+        getValue: "name",
+        list: {
+            match: {
+                enabled: true
+            },
+            onSelectItemEvent: function () {
+                var selectedItemValue = e.getSelectedItemData().id;
+                e.closest('.entotarget').find("input.taxonIDET").val(selectedItemValue);
+            }
+        },
+        adjustWidth: false
+    };
+    e.easyAutocomplete(options);
+}
+function BindAutoCompletePT(e) {
+    var options = {
+        data: taxaData.taxaPathology,
+        getValue: "name",
+        list: {
+            match: {
+                enabled: true
+            },
+            onSelectItemEvent: function () {
+                var selectedItemValue = e.getSelectedItemData().id;
+                e.closest('.pathtarget').find("input.taxonIDPT").val(selectedItemValue);
+            }
+        },
+        adjustWidth: false
+    };
+    e.easyAutocomplete(options);
+}
+function BindAutoCompleteBS(e) {
+    var options = {
+        data: taxaData.taxaBotany,
+        getValue: "name",
+        list: {
+            match: {
+                enabled: true
+            },
+            onSelectItemEvent: function () {
+                var selectedItemValue = e.getSelectedItemData().id;
+                e.closest('.sample').find("input.taxonIDBS").val(selectedItemValue);
+            }
+        },
+        adjustWidth: false
+    };
+    e.easyAutocomplete(options);
+}
+function BindAutoCompleteES(e) {
+    var options = {
+        data: taxaData.taxaEntomology,
+        getValue: "name",
+        list: {
+            match: {
+                enabled: true
+            },
+            onSelectItemEvent: function () {
+                var selectedItemValue = e.getSelectedItemData().id;
+                e.closest('.sample').find("input.taxonIDES").val(selectedItemValue);
+            }
+        },
+        adjustWidth: false
+    };
+    e.easyAutocomplete(options);
+}
+function BindAutoCompletePS(e) {
+    var options = {
+        data: taxaData.taxaPathology,
+        getValue: "name",
+        list: {
+            match: {
+                enabled: true
+            },
+            onSelectItemEvent: function () {
+                var selectedItemValue = e.getSelectedItemData().id;
+                e.closest('.sample').find("input.taxonIDPS").val(selectedItemValue);
             }
         },
         adjustWidth: false
@@ -1517,7 +1639,7 @@ $(document).on('click', "#addPlant", function () {
     $('#hostweeds').append(that1);
     numPlants++;
     $('#numPlants').text(numPlants);
-    BindAutoComplete(that1.find('.taxonTextB'));
+    BindAutoCompleteB(that1.find('.taxonTextB'));
 })
 $(document).on('click', "#addEntoHost", function () {
     var Idx = numEntoHosts;
@@ -1560,6 +1682,8 @@ $(document).on('click', "#addEntoHost", function () {
     numEntoHosts++;
     numEntoTargets++;
     $('#numEntoHosts').text(numEntoHosts);
+    BindAutoCompleteE(that1.find('.taxonTextE'));
+    BindAutoCompleteET(that1.find('.taxonTextET'));
 })
 $(document).on('click', "[data-action=addEntoTarget]", function () {
     var Idx = numEntoTargets;
@@ -1583,6 +1707,7 @@ $(document).on('click', "[data-action=addEntoTarget]", function () {
     that1.find('.badge-target').text(Idx * 1);
     that1.insertAfter(that);
     numEntoTargets++;
+    BindAutoCompleteET(that1.find('.taxonTextET'));
 })
 $(document).on('click', "#addPathHost", function () {
     var Idx = numPathHosts;
@@ -1625,6 +1750,8 @@ $(document).on('click', "#addPathHost", function () {
     numPathHosts++;
     numPathTargets++;
     $('#numPathHosts').text(numPathHosts);
+    BindAutoCompleteP(that1.find('.taxonTextP'));
+    BindAutoCompletePT(that1.find('.taxonTextPT'));
 })
 $(document).on('click', "[data-action=addPathTarget]", function () {
     var Idx = numPathTargets;
@@ -1648,6 +1775,7 @@ $(document).on('click', "[data-action=addPathTarget]", function () {
     that1.find('.badge-target').text(Idx * 1);
     that1.insertAfter(that);
     numPathTargets++;
+    BindAutoCompletePT(that1.find('.taxonTextPT'));
 })
 $(document).on('click', "[data-action=removePlant]", function () {
     var x = $(this);
@@ -1801,6 +1929,7 @@ $(document).on('click', '#addBotanySample', function (e) {
     that.find('.badge').text(bsamples);
     $('#samples').append(that);
     $('#numSamples').text(bsamples);
+    BindAutoCompleteBS(that.find('.taxonTextBS'));
 })
 $(document).on('click', '.removeBotSample', function (e) {
     var x = $(this);
@@ -1863,6 +1992,7 @@ $(document).on('click', '#addEntoSample', function (e) {
     that.find('.badge').text(esamples);
     $('#samples').append(that);
     $('#numSamples').text(esamples);
+    BindAutoCompleteES(that.find('.taxonTextES'));
 })
 $(document).on('click', '.removeEntoSample', function (e) {
     var x = $(this);
@@ -1923,6 +2053,7 @@ $(document).on('click', '#addPathSample', function (e) {
     that.find('.badge').text(psamples);
     $('#samples').append(that);
     $('#numSamples').text(psamples);
+    BindAutoCompletePS(that.find('.taxonTextPS'));
 })
 $(document).on('click', '.removePathSample', function (e) {
     var x = $(this);
