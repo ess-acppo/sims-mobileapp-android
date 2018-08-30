@@ -167,7 +167,7 @@ function syncPHRefCodes() {
     var settings = {
         "async": false,
         "crossDomain": true,
-        "url": "http://dev-sims.oztaxa.com/BasicAuth/api/referenceCodes",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Reference Codes ...");
@@ -285,7 +285,7 @@ function syncActivityData() {
     var settings = {
         "async": false,
         "crossDomain": true,
-        "url": "http://dev-sims.oztaxa.com/BasicAuth/api/activity",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Activity Data ...");
@@ -343,7 +343,7 @@ function syncstaffData() {
     var NPHsettings = {
         "async": false,
         "crossDomain": true,
-        "url": "http://dev-sims.oztaxa.com/BasicAuth/api/staff/NPH",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing NPH Staff Data ...");
@@ -388,7 +388,7 @@ function syncBPHstaffData() {
     var BPHsettings = {
         "async": false,
         "crossDomain": true,
-        "url": "http://dev-sims.oztaxa.com/BasicAuth/api/staff/BPH",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing BPH Staff Data ...");
@@ -433,7 +433,7 @@ function syncIPHstaffData() {
     var IPHsettings = {
         "async": false,
         "crossDomain": true,
-        "url": "http://dev-sims.oztaxa.com/BasicAuth/api/staff/IPH",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing IPH Staff Data ...");
@@ -488,7 +488,7 @@ function syncTaxaData() {
     var Taxasettings = {
         "async": false,
         "crossDomain": true,
-        "url": "http://dev-sims.oztaxa.com/BasicAuth/api/taxa",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Taxa ...");
