@@ -176,7 +176,7 @@ function syncPHRefCodes() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(settings).done(function (data) {
         //alert(JSON.stringify(response));
         PHRefCodes = data;
@@ -294,11 +294,11 @@ function syncActivityData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(settings).done(function (data) {
         ActivityData = data;
-        siteData = data[0].sites;
-        programId = data[0].programId;
+        siteData = data.activities[0].sites;
+        programId = data.activities[0].programId; 
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
                 //alert("Rows deleted.");
@@ -328,7 +328,7 @@ function syncActivityData() {
     });
 }
 function loadActivityData() {
-    $.each(ActivityData, function (key, val) {
+    $.each(ActivityData.activities, function (key, val) {
         var option = $('<option />');
         option.attr('value', val.activityId).text(val.activityName);
         $("#form1").find('select[name="SurvActivityId_M_N"]').append(option);
@@ -352,9 +352,10 @@ function syncstaffData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(NPHsettings).done(function (data) {
-        staffDataNPH = data;
+        alert(JSON.stringify(xmlToJson(data)));
+        staffDataNPH = xmlToJson(data);
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM staffdata WHERE id = ?", [1], function (tx, res) {
                 //alert("Rows deleted.");
@@ -397,9 +398,9 @@ function syncBPHstaffData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(BPHsettings).done(function (data) {
-        staffDataBPH = data;
+        staffDataBPH = xmlToJson(data);
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM staffdata WHERE id = ?", [2], function (tx, res) {
                 //alert("Rows deleted.");
@@ -442,9 +443,9 @@ function syncIPHstaffData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(IPHsettings).done(function (data) {
-        staffDataIPH = data;
+        staffDataIPH = xmlToJson(data);
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM staffdata WHERE id = ?", [3], function (tx, res) {
                 //alert("Rows deleted.");
@@ -466,7 +467,7 @@ function syncIPHstaffData() {
             });
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
-        });
+            });
         switch (programId) {
             case "NPH":
                 staffDataS = staffDataNPH;
@@ -497,7 +498,7 @@ function syncTaxaData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(Taxasettings).done(function (data) {
         taxaData = data;
         db.transaction(function (tx) {
@@ -545,7 +546,7 @@ function loadstaffData() {
 }
 function loadSitePolygons() {
     $.each(siteData, function (key, val) {
-        if (val.id == 99999) { return true; }
+        if (val.id === 99999) { return true; }
         var wkt = new Wkt.Wkt();
         wkt.read(val.locationDatum.wkt);
         wkt.toObject();

@@ -176,7 +176,7 @@ function syncPHRefCodes() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(settings).done(function (data) {
         //alert(JSON.stringify(response));
         PHRefCodes = data;
@@ -294,11 +294,11 @@ function syncActivityData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(settings).done(function (data) {
         ActivityData = data;
-        siteData = data[0].sites;
-        programId = data[0].programId;
+        siteData = data.activities[0].sites;
+        programId = data.activities[0].programId; 
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
                 //alert("Rows deleted.");
@@ -328,7 +328,7 @@ function syncActivityData() {
     });
 }
 function loadActivityData() {
-    $.each(ActivityData, function (key, val) {
+    $.each(ActivityData.activities, function (key, val) {
         var option = $('<option />');
         option.attr('value', val.activityId).text(val.activityName);
         $("#form1").find('select[name="SurvActivityId_M_N"]').append(option);
@@ -352,9 +352,10 @@ function syncstaffData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(NPHsettings).done(function (data) {
-        staffDataNPH = data;
+        alert(JSON.stringify(xmlToJson(data)));
+        staffDataNPH = xmlToJson(data);
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM staffdata WHERE id = ?", [1], function (tx, res) {
                 //alert("Rows deleted.");
@@ -397,9 +398,9 @@ function syncBPHstaffData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(BPHsettings).done(function (data) {
-        staffDataBPH = data;
+        staffDataBPH = xmlToJson(data);
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM staffdata WHERE id = ?", [2], function (tx, res) {
                 //alert("Rows deleted.");
@@ -442,9 +443,9 @@ function syncIPHstaffData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(IPHsettings).done(function (data) {
-        staffDataIPH = data;
+        staffDataIPH = xmlToJson(data);
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM staffdata WHERE id = ?", [3], function (tx, res) {
                 //alert("Rows deleted.");
@@ -466,7 +467,7 @@ function syncIPHstaffData() {
             });
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
-        });
+            });
         switch (programId) {
             case "NPH":
                 staffDataS = staffDataNPH;
@@ -497,7 +498,7 @@ function syncTaxaData() {
             "authorization": authCode,
             "cache-control": "no-cache"
         }
-    }
+    };
     $.ajax(Taxasettings).done(function (data) {
         taxaData = data;
         db.transaction(function (tx) {
@@ -545,7 +546,7 @@ function loadstaffData() {
 }
 function loadSitePolygons() {
     $.each(siteData, function (key, val) {
-        if (val.id == 99999) { return true; }
+        if (val.id === 99999) { return true; }
         var wkt = new Wkt.Wkt();
         wkt.read(val.locationDatum.wkt);
         wkt.toObject();
@@ -1583,7 +1584,7 @@ function BindAutoCompletePS(e) {
 $(document).on('click', '.qtyplus', function (e) {
     e.preventDefault();
     pStatisticType = $(this).parent().parent().find('select[name^=PlantStatisticType]').val();
-    if (pStatisticType == 'C') {
+    if (pStatisticType === 'C') {
         fieldName = $(this).parent().find('input.count').attr('name');
     } else { fieldName = $(this).parent().find('input.area').attr('name'); }
     var currentVal = parseInt($('input[name=' + fieldName + ']').val());
@@ -1594,11 +1595,11 @@ $(document).on('click', '.qtyplus', function (e) {
         $('input[name=' + fieldName + ']').text(0);
         $('input[name=' + fieldName + ']').val(0);
     }
-})
+});
 $(document).on('click', ".qtyminus", function (e) {
     e.preventDefault();
     pStatisticType = $(this).parent().parent().find('select[name^=PlantStatisticType]').val();
-    if (pStatisticType == 'C') {
+    if (pStatisticType === 'C') {
         fieldName = $(this).parent().find('input.count').attr('name');
     } else { fieldName = $(this).parent().find('input.area').attr('name'); }
     var currentVal = parseInt($('input[name=' + fieldName + ']').val());
@@ -1609,7 +1610,7 @@ $(document).on('click', ".qtyminus", function (e) {
         $('input[name=' + fieldName + ']').text(0);
         $('input[name=' + fieldName + ']').val(0);
     }
-})
+});
 $(document).on('click', "#addPlant", function () {
     var Idx = numPlants;
     var that1 = $(hostweed);
@@ -1640,7 +1641,7 @@ $(document).on('click', "#addPlant", function () {
     numPlants++;
     $('#numPlants').text(numPlants);
     BindAutoCompleteB(that1.find('.taxonTextB'));
-})
+});
 $(document).on('click', "#addEntoHost", function () {
     var Idx = numEntoHosts;
     var that1 = $(entobox);
@@ -1684,7 +1685,7 @@ $(document).on('click', "#addEntoHost", function () {
     $('#numEntoHosts').text(numEntoHosts);
     BindAutoCompleteE(that1.find('.taxonTextE'));
     BindAutoCompleteET(that1.find('.taxonTextET'));
-})
+});
 $(document).on('click', "[data-action=addEntoTarget]", function () {
     var Idx = numEntoTargets;
     var that = $(this).closest('.entotarget');
@@ -1708,7 +1709,7 @@ $(document).on('click', "[data-action=addEntoTarget]", function () {
     that1.insertAfter(that);
     numEntoTargets++;
     BindAutoCompleteET(that1.find('.taxonTextET'));
-})
+});
 $(document).on('click', "#addPathHost", function () {
     var Idx = numPathHosts;
     var that1 = $(pathbox);
@@ -1752,7 +1753,7 @@ $(document).on('click', "#addPathHost", function () {
     $('#numPathHosts').text(numPathHosts);
     BindAutoCompleteP(that1.find('.taxonTextP'));
     BindAutoCompletePT(that1.find('.taxonTextPT'));
-})
+});
 $(document).on('click', "[data-action=addPathTarget]", function () {
     var Idx = numPathTargets;
     var that = $(this).closest('.pathtarget');
@@ -1776,7 +1777,7 @@ $(document).on('click', "[data-action=addPathTarget]", function () {
     that1.insertAfter(that);
     numPathTargets++;
     BindAutoCompletePT(that1.find('.taxonTextPT'));
-})
+});
 $(document).on('click', "[data-action=removePlant]", function () {
     var x = $(this);
     if (numPlants > 1) {
@@ -1795,7 +1796,7 @@ $(document).on('click', "[data-action=removePlant]", function () {
             }
         });
     }
-})
+});
 $(document).on('click', "[data-action=removeEntoHost]", function () {
     var x = $(this);
     if (numEntoHosts > 1) {
@@ -1814,7 +1815,7 @@ $(document).on('click', "[data-action=removeEntoHost]", function () {
             }
         });
     }
-})
+});
 $(document).on('click', "[data-action=removeEntoTarget]", function () {
     var x = $(this);
     if (numEntoTargets > 1) {
@@ -1833,7 +1834,7 @@ $(document).on('click', "[data-action=removeEntoTarget]", function () {
             }
         });
     }
-})
+});
 $(document).on('click', "[data-action=removePathHost]", function () {
     var x = $(this);
     if (numPathHosts > 1) {
@@ -1852,7 +1853,7 @@ $(document).on('click', "[data-action=removePathHost]", function () {
             }
         });
     }
-})
+});
 $(document).on('click', "[data-action=removePathTarget]", function () {
     var x = $(this);
     if (numPathTargets > 1) {
@@ -1871,7 +1872,7 @@ $(document).on('click', "[data-action=removePathTarget]", function () {
             }
         });
     }
-})
+});
 $(document).on('click', "[data-action=expand]", function () {
     var x = $(this).closest('.collapsed');
     x.removeClass('collapsed');
@@ -1879,7 +1880,7 @@ $(document).on('click', "[data-action=expand]", function () {
     x.find('.collapse').removeClass('hide');
     x.find('.expand').addClass('hide');
     x.css("background-color", "#fffcec");
-})
+});
 $(document).on('click', "[data-action=collapse]", function () {
     var x = $(this).closest('.expanded');
     x.addClass('collapsed');
@@ -1887,7 +1888,7 @@ $(document).on('click', "[data-action=collapse]", function () {
     x.find('.collapse').addClass('hide');
     x.find('.expand').removeClass('hide');
     x.css("background-color", "#fff");
-})
+});
 $(document).on('click', '#addBotanySample', function (e) {
     if (bsamples > 0) {
         var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
@@ -1930,7 +1931,7 @@ $(document).on('click', '#addBotanySample', function (e) {
     $('#samples').append(that);
     $('#numSamples').text(bsamples);
     BindAutoCompleteBS(that.find('.taxonTextBS'));
-})
+});
 $(document).on('click', '.removeBotSample', function (e) {
     var x = $(this);
     $.confirm({
@@ -1946,7 +1947,7 @@ $(document).on('click', '.removeBotSample', function (e) {
             }
         }
     });
-})
+});
 $(document).on('click', '#addEntoSample', function (e) {
     if (esamples > 0) {
         var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
@@ -1993,7 +1994,7 @@ $(document).on('click', '#addEntoSample', function (e) {
     $('#samples').append(that);
     $('#numSamples').text(esamples);
     BindAutoCompleteES(that.find('.taxonTextES'));
-})
+});
 $(document).on('click', '.removeEntoSample', function (e) {
     var x = $(this);
     $.confirm({
@@ -2009,7 +2010,7 @@ $(document).on('click', '.removeEntoSample', function (e) {
             }
         }
     });
-})
+});
 $(document).on('click', '#addPathSample', function (e) {
     if (psamples > 0) {
         var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
@@ -2054,7 +2055,7 @@ $(document).on('click', '#addPathSample', function (e) {
     $('#samples').append(that);
     $('#numSamples').text(psamples);
     BindAutoCompletePS(that.find('.taxonTextPS'));
-})
+});
 $(document).on('click', '.removePathSample', function (e) {
     var x = $(this);
     $.confirm({
@@ -2070,7 +2071,7 @@ $(document).on('click', '.removePathSample', function (e) {
             }
         }
     });
-})
+});
 var btns = $(document).on('click', 'div.btn-group.glossary > .btn', function (e) {
     e.preventDefault();
     if (this.id === 'all') {
@@ -2083,12 +2084,12 @@ var btns = $(document).on('click', 'div.btn-group.glossary > .btn', function (e)
     }
     $(this).parent().find('.active').removeClass('active');
     $(this).addClass('active');
-})
+});
 $('input[type="checkbox"].minimal').on('ifClicked', function (event) {
     //alert(event.type + ' callback');
     event.preventDefault();
     $(this).val('Y');
-})
+});
 $(document).on('ifChecked', 'input[type="checkbox"].minimal', function (event) {
     //alert(event.type + ' callback');
     if ($(this).attr('name') === 'AdditionalObserverTab') {
@@ -2098,7 +2099,7 @@ $(document).on('ifChecked', 'input[type="checkbox"].minimal', function (event) {
         $('.addlCollectors').removeClass('hide');
     };
     $(this).val('Y');
-})
+});
 $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event) {
     //alert(event.type + ' callback');
     if ($(this).attr('name') === 'AdditionalObserverTab') {
@@ -2108,7 +2109,7 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
         $('.addlCollectors').addClass('hide');
     };
     $(this).val('N');
-})
+});
 $(document).on('click', '.getCoords', function (e) {
     var xlat = $('#form1').find('input.obslat');
     var xlng = $('#form1').find('input.obslng');
@@ -2137,7 +2138,7 @@ $(document).on('click', '.getCoords', function (e) {
         $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
-})
+});
 $(document).on('click', '.getPlantCoords', function (e) {
     var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
     var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
@@ -2166,7 +2167,7 @@ $(document).on('click', '.getPlantCoords', function (e) {
         $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
-})
+});
 $(document).on('click', '.getEntoHostCoords', function (e) {
     var xlat = $(this).closest('.entobox').find('input.entolat');
     var xlng = $(this).closest('.entobox').find('input.entolng');
@@ -2195,7 +2196,7 @@ $(document).on('click', '.getEntoHostCoords', function (e) {
         $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
-})
+});
 $(document).on('click', '.getPathHostCoords', function (e) {
     var xlat = $(this).closest('.pathbox').find('input.pathlat');
     var xlng = $(this).closest('.pathbox').find('input.pathlng');
@@ -2224,7 +2225,7 @@ $(document).on('click', '.getPathHostCoords', function (e) {
         $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
-})
+});
 $(document).on('click', '.getSampleCoords', function (e) {
     var xlat = $(this).closest('.sample').find('input.samplelat');
     var xlng = $(this).closest('.sample').find('input.samplelng');
@@ -2256,7 +2257,7 @@ $(document).on('click', '.getSampleCoords', function (e) {
         $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
     };
     e.preventDefault();
-})
+});
 $(document).on('click', 'img.pp', function () {
     var that = $(this);
     var ppname = that.attr("name");
@@ -2286,20 +2287,20 @@ $(document).on('click', 'img.pp', function () {
         options);
 
     return false;
-})
+});
 $(document).on('ifClicked', 'input[type="radio"].minimal', function (event) {
     //alert(event.type + ' callback');
     event.preventDefault();
     if ($(this).data('validate') != 'N') {
         $('#form1').find("input[type='radio'][name^='" + $(this).attr('name') + "']").val($(this).val());
     }
-})
+});
 $(document).on('change', 'input:radio', function (e) {
     e.preventDefault();
     if ($(this).is(":checked") && $(this).data('validate') != 'N') {
         $('#form1').find("input[type='radio'][name^='" + $(this).attr('name') + "']").val($(this).val());
     }
-})
+});
 $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
     //alert(event.type + ' callback');
     if ($(this).attr('name') == 'addlCollectors') {
@@ -2327,7 +2328,7 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
         that.find("input[type='number'][name^='HostStatCount']").val("0");
         that.addClass('hide');
     };
-})
+});
 $(document).on('change', 'select[name^="PlantStatisticType"]', function () {
     var str = $(this).val();
     if (str == 'C') {
@@ -2338,7 +2339,7 @@ $(document).on('change', 'select[name^="PlantStatisticType"]', function () {
         $(this).parent().parent().find("input[type='number'][name^='HostStatAreaNo']").removeClass('hide');
         $(this).parent().parent().find("input[type='number'][name^='HostStatCount']").addClass('hide');
     }
-})
+});
 $(document).on('click', '#SaveSettingsExit', function (e) {
     var v_appMode = $('#form3').find('#appMode').val();
     if (!v_appMode) {
@@ -2371,7 +2372,7 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while updating settings. " + err.message, location: "bc", size: "large" });
     });
-})
+});
 $(document).on('click', 'a.downloadMaps', function (e) {
     var url = $('#form3').find("input[name='optMaps']:checked").data("url");
     var numfiles = $('#form3').find("input[name='optMaps']:checked").data("files");
@@ -2383,7 +2384,7 @@ $(document).on('click', 'a.downloadMaps', function (e) {
     $('#mb6 .progText').text("Download in progress ...");
     $('#mb6 .progTime').text(new Date().toString());
     getFileandExtract(url, mapset, 1, numfiles);
-})
+});
 $(document).on('change', 'select[name="SiteId_O_N"]', function () {
     var that = $(this);
     $.ajax({
@@ -2420,7 +2421,7 @@ $(document).on('change', 'select[name="SiteId_O_N"]', function () {
             $('#modalProgress').modal('hide');
             $('#mb6 .progText').text("");
         });
-})
+});
 function getFileandExtract(url, mapset, i, n) {
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));

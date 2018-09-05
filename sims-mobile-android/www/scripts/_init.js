@@ -68,7 +68,7 @@ var trackPath;
 setInterval(function () {
     statusElem.className = navigator.onLine ? 'label label-success' : 'label label-info';
     statusElem.innerHTML = navigator.onLine ? 'online' : 'offline';
-}, 1000)
+}, 1000);
 function checkPermissions() {
     var permissions = cordova.plugins.permissions;
     permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE,
@@ -143,8 +143,8 @@ function initSettings() {
             //This is not the first load
             if (res.rows && res.rows.length > 0) {
                 ActivityData = JSON.parse(res.rows.item(0).settingsval);
-                siteData = ActivityData[0].sites;
-                programId = ActivityData[0].programId; 
+                siteData = ActivityData.activities[0].sites;
+                programId = ActivityData.activities[0].programId; 
                 loadActivityData();
                 //Loading Staff Data
                 db.transaction(function (tx) {
@@ -158,7 +158,7 @@ function initSettings() {
                             //This is the first load
                             syncstaffData();
                             loadstaffData();
-                        };
+                        }
                     });
                 }, function (err) {
                     $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "bc", size: "large", fixed: "true" });
@@ -180,7 +180,7 @@ function initSettings() {
                             //This is the first load
                             syncstaffData();
                             loadstaffData();
-                        };
+                        }
                     });
                 }, function (err) {
                     $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "bc", size: "large", fixed: "true" });
@@ -1009,14 +1009,14 @@ $(document).ready(function () {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
-})
+});
 function doneResizing() {
     $('.modal-body').height($(window).height() / 1.4);
 }
 $(window).resize(function () {
     clearTimeout(resizeId);
     resizeId = setTimeout(doneResizing, 500);
-})
+});
 $(document).on('click', '#Save', function (e) {
     //var obj = JSON.stringify(objectifyForm(form1));
     console.log(JSON.stringify(objectifyPHFormforSave(form1)));
@@ -1044,7 +1044,7 @@ $(document).on('click', '#Save', function (e) {
     //if (infoWindow) {
     //    infoWindow.close();
     //}
-})
+});
 $(document).on('click', '#SaveExit', function (e) {
     //var obj = JSON.stringify(objectifyForm(form1));
     console.log(JSON.stringify(objectifyPHFormforSave(form1)));
@@ -1072,7 +1072,7 @@ $(document).on('click', '#SaveExit', function (e) {
     //if (infoWindow) {
     //    infoWindow.close();
     //}
-})
+});
 $(document).on('click', '#Submit2', function (e) {
     var rowsFailedErr = [];
     vError = 0;
@@ -1100,7 +1100,7 @@ $(document).on('click', '#Submit2', function (e) {
             });
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while saving row to DB. " + err.message, location: "bc", size: "large" });
-            });
+        });
         $('#modalForm').modal('hide');
         //clearMarkers();
         //loadMapMarkers();
@@ -1110,9 +1110,9 @@ $(document).on('click', '#Submit2', function (e) {
     }
     else {
         rowsFailedErr.push(result.vErrDescription);
-        $.growl.error({ title: "", message: "Submit Failed!<br/>" + rowsFailedErr.join('<br/>'), location: "bc", size: "large" }); 
+        $.growl.error({ title: "", message: "Submit Failed!<br/>" + rowsFailedErr.join('<br/>'), location: "bc", size: "large" });
     }
-})
+});
 $(document).on('click', '#settings', function (e) {
     $.ajax({
         url: "",
@@ -1140,7 +1140,7 @@ $(document).on('click', '#settings', function (e) {
             $('#modalProgress').modal('hide');
         });
     $('#modalSettings').modal();
-})
+});
 $(document).on('click', '#zplus', function (e) {
     map.setZoom(curZoom + 1);
 });
@@ -1263,11 +1263,11 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
             $('#modalProgress').modal('hide');
             $('#modalPHGrid').modal('hide');
         });
-})
+});
 $(document).on('click', '.export', function (event) {
     var args = [$('#srchPHTable_wrapper'), 'export.csv'];
     exportTableToCSV.apply(this, args);
-})
+});
 $(document).on('click', '.sync', function (event) {
     var success = true;
     var noRowstoPush = true;
@@ -1310,7 +1310,7 @@ $(document).on('click', '.sync', function (event) {
                     //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "bc", size: "large" });
                     //results.observations(value.id_M_N - 1).status_M_N = 2;
                     //results.observations.splice(index, 1);
-                    rowsSuccess.push(index);   
+                    rowsSuccess.push(index);
                 },
                 failure: function () {
                     $.growl.error({ message: "Sync - Failed!" });
@@ -1348,7 +1348,7 @@ $(document).on('click', '.sync', function (event) {
     table.destroy();
     loadData();
     $.growl({ title: "", message: "Sync Complete!.", location: "bc", size: "large" });
-})
+});
 $(document).on('shown.bs.modal', '#modalPHGrid', function () {
     loadPHRefCodes();
     loadActivityData();
@@ -1360,24 +1360,24 @@ $(document).on('shown.bs.modal', '#modalPHGrid', function () {
     if (statusElem.innerHTML == 'offline') {
         $('.sync').addClass('hide');
     }
-})
+});
 $(document).on('hidden.bs.modal', '#modalPHGrid', function () {
     table.destroy();
-})
+});
 $(document).on('shown.bs.modal', '#modalGrid', function () {
     loadAHDefaults();
     loadData();
-})
+});
 $(document).on('hidden.bs.modal', '#modalGrid', function () {
     table.destroy();
-})
+});
 $(document).on('hidden.bs.modal', '#modalForm', function () {
     //table.destroy();
     //loadAHDefaults();
     //loadData();
     clearMarkers();
     loadMapMarkers();
-})
+});
 $(document).on('click', 'a.btnResetData', function (e) {
     $.confirm({
         title: 'Confirm Data Reset!',
@@ -1466,7 +1466,7 @@ $(document).on('click', 'a.btnResetData', function (e) {
             }
         }
     });
-})
+});
 $(document).on('click', 'a.btnSync', function (e) {
     $.confirm({
         title: 'Confirm Data Sync!',
@@ -1483,7 +1483,7 @@ $(document).on('click', 'a.btnSync', function (e) {
             }
         }
     });
-})
+});
 $(document).on('click', '.showPayloads', function (e) {
     $.alert({
         title: 'Activity Data',
@@ -1520,13 +1520,13 @@ $(document).on('click', '.showPayloads', function (e) {
             }
         }
     });
-})
+});
 $(document).on('click', '.obsForm', function (e) {
     $('.obsForm').removeClass('bg-Obs');
     $(this).addClass('bg-Obs');
     curDiscipline = $(this).find('input[type=radio][name="optObs"]').attr('data-discipline');
     $(this).find('input[type="radio"].minimal').iCheck('check');
-})
+});
 $(document).on('click', '#showFormPH', function (e) {
     var zi;
     var formName = $("input[name='optObs']:checked").val();
@@ -1537,20 +1537,20 @@ $(document).on('click', '#showFormPH', function (e) {
         $('#modalForm').modal();
         $('#modalPHMenu').modal('hide');
     }
-})
+});
 $(document).on('hidden.bs.modal', '#modalForm', function () {
     if (newMarker && (curIdx === -1 || curIdx === -2)) {
         newMarker.setMap(null);
     }
-})
+});
 $(document).on('hidden.bs.modal', '#modalPHMenu', function () {
     if (newMarker && (curIdx === -1 || curIdx === -2)) {
         newMarker.setMap(null);
     }
-})
+});
 $(document).on('click', '#btnData', function () {
     $('#postedData').toggleClass('hide');
-})
+});
 $(document).on('change', 'input:checkbox', function (e) {
     e.preventDefault();
     if ($(this).is(":checked")) {
@@ -1558,7 +1558,7 @@ $(document).on('change', 'input:checkbox', function (e) {
     } else {
         $(this).val('N');
     }
-})
+});
 $(document).on('click', '#newObservation', function () {
     curIdx = -2;
     switch (AppMode) {
@@ -1575,10 +1575,54 @@ $(document).on('click', '#newObservation', function () {
             $('#modalPHGrid').modal('hide');
             break;
     };
-})
+});
 $(document).on('click', 'a.btnBackupData', function (e) {
     backupDatabase();
-})
+});
 $(document).on('click', 'a.btnRestoreData', function (e) {
     restoreDatabase();
-})
+});
+// Changes XML to JSON
+// Changes XML to JSON
+// Modified version from here: http://davidwalsh.name/convert-xml-json
+function xmlToJson(xml) {
+
+    // Create the return object
+    var obj = {};
+
+    if (xml.nodeType == 1) { // element
+        // do attributes
+        if (xml.attributes.length > 0) {
+            obj["@attributes"] = {};
+            for (var j = 0; j < xml.attributes.length; j++) {
+                var attribute = xml.attributes.item(j);
+                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+            }
+        }
+    } else if (xml.nodeType == 3) { // text
+        obj = xml.nodeValue;
+    }
+
+    // do children
+    // If just one text node inside
+    if (xml.hasChildNodes() && xml.childNodes.length === 1 && xml.childNodes[0].nodeType === 3) {
+        obj = xml.childNodes[0].nodeValue;
+    }
+    else if (xml.hasChildNodes()) {
+        for (var i = 0; i < xml.childNodes.length; i++) {
+            var item = xml.childNodes.item(i);
+            var nodeName = item.nodeName;
+            if (typeof (obj[nodeName]) == "undefined") {
+                obj[nodeName] = xmlToJson(item);
+            } else {
+                if (typeof (obj[nodeName].push) == "undefined") {
+                    var old = obj[nodeName];
+                    obj[nodeName] = [];
+                    obj[nodeName].push(old);
+                }
+                obj[nodeName].push(xmlToJson(item));
+            }
+        }
+    }
+    return obj;
+}
