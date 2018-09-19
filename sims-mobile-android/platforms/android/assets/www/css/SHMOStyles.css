@@ -159,7 +159,7 @@ html, body {
 }
 
 .collapsed {
-    height: 110px;
+    height: 90px;
 }
 
 .modal-dialog {
@@ -526,7 +526,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
     .form-group img.pp {
-        width: 12%;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
         margin-right: 3px;
     }
 
@@ -1148,9 +1150,15 @@ div.dataTables_filter {
 }
 
 .text-arrows {
-    color: #ddd;
     position: absolute;
     right: 5px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.text-arrows-2 {
+    position: absolute;
+    right: 50px;
     top: 5px;
     cursor: pointer;
 }
@@ -1177,6 +1185,10 @@ div.dataTables_filter {
 
 text-center {
     text-align: center;
+}
+
+text-right {
+    text-align: right;
 }
 
 @media (min-width: 768px) {

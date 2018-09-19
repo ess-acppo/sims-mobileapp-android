@@ -10,343 +10,343 @@
 /*
  * EasyAutocomplete - Configuration 
  */
-var EasyAutocomplete = (function(scope){
+var EasyAutocomplete = (function (scope) {
+
+    scope.Configuration = function Configuration(options) {
+        var defaults = {
+            data: "list-required",
+            url: "list-required",
+            dataType: "json",
 
-	scope.Configuration = function Configuration(options) {
-		var defaults = {
-			data: "list-required",
-			url: "list-required",
-			dataType: "json",
+            listLocation: function (data) {
+                return data;
+            },
 
-			listLocation: function(data) {
-				return data;
-			},
+            xmlElementName: "",
 
-			xmlElementName: "",
+            getValue: function (element) {
+                return element;
+            },
 
-			getValue: function(element) {
-				return element;
-			},
+            autocompleteOff: true,
 
-			autocompleteOff: true,
+            placeholder: false,
 
-			placeholder: false,
+            ajaxCallback: function () { },
 
-			ajaxCallback: function() {},
+            matchResponseProperty: false,
 
-			matchResponseProperty: false,
-
-			list: {
-				sort: {
-					enabled: false,
-					method: function(a, b) {
-						a = defaults.getValue(a);
-						b = defaults.getValue(b);
-						if (a < b) {
-							return -1;
-						}
-						if (a > b) {
-							return 1;
-						}
-						return 0;
-					}
-				},
-
-				maxNumberOfElements: 6,
-
-				hideOnEmptyPhrase: true,
-
-				match: {
-					enabled: false,
-					caseSensitive: false,
-					method: function(element, phrase) {
-
-						if (element.search(phrase) > -1) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-				},
-
-				showAnimation: {
-					type: "normal", //normal|slide|fade
-					time: 400,
-					callback: function() {}
-				},
-
-				hideAnimation: {
-					type: "normal",
-					time: 400,
-					callback: function() {}
-				},
-
-				/* Events */
-				onClickEvent: function() {},
-				onSelectItemEvent: function() {},
-				onLoadEvent: function() {},
-				onChooseEvent: function() {},
-				onKeyEnterEvent: function() {},
-				onMouseOverEvent: function() {},
-				onMouseOutEvent: function() {},	
-				onShowListEvent: function() {},
-				onHideListEvent: function() {}
-			},
+            list: {
+                sort: {
+                    enabled: false,
+                    method: function (a, b) {
+                        a = defaults.getValue(a);
+                        b = defaults.getValue(b);
+                        if (a < b) {
+                            return -1;
+                        }
+                        if (a > b) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                },
+
+                maxNumberOfElements: 6,
+
+                hideOnEmptyPhrase: true,
+
+                match: {
+                    enabled: false,
+                    caseSensitive: false,
+                    method: function (element, phrase) {
+                        phrase = phrase.replace('(', '').replace(')', '');
+                        if (element.search(phrase) > -1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                },
 
-			highlightPhrase: true,
+                showAnimation: {
+                    type: "normal", //normal|slide|fade
+                    time: 400,
+                    callback: function () { }
+                },
 
-			theme: "",
-
-			cssClasses: "",
-
-			minCharNumber: 0,
-
-			requestDelay: 0,
-
-			adjustWidth: true,
-
-			ajaxSettings: {},
-
-			preparePostData: function(data, inputPhrase) {return data;},
-
-			loggerEnabled: true,
-
-			template: "",
-
-			categoriesAssigned: false,
-
-			categories: [{
-				maxNumberOfElements: 4
-			}]
-
-		};
-		
-		var externalObjects = ["ajaxSettings", "template"];
-
-		this.get = function(propertyName) {
-			return defaults[propertyName];
-		};
+                hideAnimation: {
+                    type: "normal",
+                    time: 400,
+                    callback: function () { }
+                },
 
-		this.equals = function(name, value) {
-			if (isAssigned(name)) {
-				if (defaults[name] === value) {
-					return true;
-				}
-			} 
-			
-			return false;
-		};
+                /* Events */
+                onClickEvent: function () { },
+                onSelectItemEvent: function () { },
+                onLoadEvent: function () { },
+                onChooseEvent: function () { },
+                onKeyEnterEvent: function () { },
+                onMouseOverEvent: function () { },
+                onMouseOutEvent: function () { },
+                onShowListEvent: function () { },
+                onHideListEvent: function () { }
+            },
 
-		this.checkDataUrlProperties = function() {
-			if (defaults.url === "list-required" && defaults.data === "list-required") {
-				return false;
-			}
-			return true;
-		};
-		this.checkRequiredProperties = function() {
-			for (var propertyName in defaults) {
-				if (defaults[propertyName] === "required") {
-					logger.error("Option " + propertyName + " must be defined");
-					return false;
-				}
-			}
-			return true;
-		};
+            highlightPhrase: true,
 
-		this.printPropertiesThatDoesntExist = function(consol, optionsToCheck) {
-			printPropertiesThatDoesntExist(consol, optionsToCheck);
-		};
+            theme: "",
 
+            cssClasses: "",
 
-		prepareDefaults();
-
-		mergeOptions();
-
-		if (defaults.loggerEnabled === true) {
-			printPropertiesThatDoesntExist(console, options);	
-		}
-
-		addAjaxSettings();
-
-		processAfterMerge();
-		function prepareDefaults() {
+            minCharNumber: 0,
 
-			if (options.dataType === "xml") {
-				
-				if (!options.getValue) {
-
-					options.getValue = function(element) {
-						return $(element).text();
-					};
-				}
-
-				
-				if (!options.list) {
-
-					options.list = {};
-				} 
-
-				if (!options.list.sort) {
-					options.list.sort = {};
-				}
-
-
-				options.list.sort.method = function(a, b) {
-					a = options.getValue(a);
-					b = options.getValue(b);
-					if (a < b) {
-						return -1;
-					}
-					if (a > b) {
-						return 1;
-					}
-					return 0;
-				};
-
-				if (!options.list.match) {
-					options.list.match = {};
-				}
-
-				options.list.match.method = function(element, phrase) {
-
-					if (element.search(phrase) > -1) {
-						return true;
-					} else {
-						return false;
-					}
-				};
-
-			}
-			if (options.categories !== undefined && options.categories instanceof Array) {
-
-				var categories = [];
-
-				for (var i = 0, length = options.categories.length; i < length; i += 1) { 
-
-					var category = options.categories[i];
-
-					for (var property in defaults.categories[0]) {
-
-						if (category[property] === undefined) {
-							category[property] = defaults.categories[0][property];
-						}
-					}
-
-					categories.push(category);
-				}
-
-				options.categories = categories;
-			}
-		}
-
-		function mergeOptions() {
-
-			defaults = mergeObjects(defaults, options);
-
-			function mergeObjects(source, target) {
-				var mergedObject = source || {};
-
-				for (var propertyName in source) {
-					if (target[propertyName] !== undefined && target[propertyName] !== null) {
-
-						if (typeof target[propertyName] !== "object" || 
-								target[propertyName] instanceof Array) {
-							mergedObject[propertyName] = target[propertyName];
-						} else {
-							mergeObjects(source[propertyName], target[propertyName]);
-						}
-					}
-				}
-			
-				/* If data is an object */
-				if (target.data !== undefined && target.data !== null && typeof target.data === "object") {
-					mergedObject.data = target.data;
-				}
-
-				return mergedObject;
-			}
-		}	
-
-
-		function processAfterMerge() {
-			
-			if (defaults.url !== "list-required" && typeof defaults.url !== "function") {
-				var defaultUrl = defaults.url;
-				defaults.url = function() {
-					return defaultUrl;
-				};
-			}
-
-			if (defaults.ajaxSettings.url !== undefined && typeof defaults.ajaxSettings.url !== "function") {
-				var defaultUrl = defaults.ajaxSettings.url;
-				defaults.ajaxSettings.url = function() {
-					return defaultUrl;
-				};
-			}
-
-			if (typeof defaults.listLocation === "string") {
-				var defaultlistLocation = defaults.listLocation;
-
-				if (defaults.dataType.toUpperCase() === "XML") {
-					defaults.listLocation = function(data) {
-						return $(data).find(defaultlistLocation);
-					};
-				} else {
-					defaults.listLocation = function(data) {
-						return data[defaultlistLocation];
-					};	
-				}
-			}
-
-			if (typeof defaults.getValue === "string") {
-				var defaultsGetValue = defaults.getValue;
-				defaults.getValue = function(element) {
-					return element[defaultsGetValue];
-				};
-			}
-
-			if (options.categories !== undefined) {
-				defaults.categoriesAssigned = true;
-			}
-
-		}
-
-		function addAjaxSettings() {
-
-			if (options.ajaxSettings !== undefined && typeof options.ajaxSettings === "object") {
-				defaults.ajaxSettings = options.ajaxSettings;
-			} else {
-				defaults.ajaxSettings = {};	
-			}
-			
-		}
-
-		function isAssigned(name) {
-			if (defaults[name] !== undefined && defaults[name] !== null) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		function printPropertiesThatDoesntExist(consol, optionsToCheck) {
-			
-			checkPropertiesIfExist(defaults, optionsToCheck);
-
-			function checkPropertiesIfExist(source, target) {
-				for(var property in target) {
-					if (source[property] === undefined) {
-						consol.log("Property '" + property + "' does not exist in EasyAutocomplete options API.");		
-					}
-
-					if (typeof source[property] === "object" && $.inArray(property, externalObjects) === -1) {
-						checkPropertiesIfExist(source[property], target[property]);
-					}
-				}	
-			}
-		}
-	};
-
-	return scope;
+            requestDelay: 0,
+
+            adjustWidth: true,
+
+            ajaxSettings: {},
+
+            preparePostData: function (data, inputPhrase) { return data; },
+
+            loggerEnabled: true,
+
+            template: "",
+
+            categoriesAssigned: false,
+
+            categories: [{
+                maxNumberOfElements: 4
+            }]
+
+        };
+
+        var externalObjects = ["ajaxSettings", "template"];
+
+        this.get = function (propertyName) {
+            return defaults[propertyName];
+        };
+
+        this.equals = function (name, value) {
+            if (isAssigned(name)) {
+                if (defaults[name] === value) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        this.checkDataUrlProperties = function () {
+            if (defaults.url === "list-required" && defaults.data === "list-required") {
+                return false;
+            }
+            return true;
+        };
+        this.checkRequiredProperties = function () {
+            for (var propertyName in defaults) {
+                if (defaults[propertyName] === "required") {
+                    logger.error("Option " + propertyName + " must be defined");
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        this.printPropertiesThatDoesntExist = function (consol, optionsToCheck) {
+            printPropertiesThatDoesntExist(consol, optionsToCheck);
+        };
+
+
+        prepareDefaults();
+
+        mergeOptions();
+
+        if (defaults.loggerEnabled === true) {
+            printPropertiesThatDoesntExist(console, options);
+        }
+
+        addAjaxSettings();
+
+        processAfterMerge();
+        function prepareDefaults() {
+
+            if (options.dataType === "xml") {
+
+                if (!options.getValue) {
+
+                    options.getValue = function (element) {
+                        return $(element).text();
+                    };
+                }
+
+
+                if (!options.list) {
+
+                    options.list = {};
+                }
+
+                if (!options.list.sort) {
+                    options.list.sort = {};
+                }
+
+
+                options.list.sort.method = function (a, b) {
+                    a = options.getValue(a);
+                    b = options.getValue(b);
+                    if (a < b) {
+                        return -1;
+                    }
+                    if (a > b) {
+                        return 1;
+                    }
+                    return 0;
+                };
+
+                if (!options.list.match) {
+                    options.list.match = {};
+                }
+
+                options.list.match.method = function (element, phrase) {
+
+                    if (element.search(phrase) > -1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+            }
+            if (options.categories !== undefined && options.categories instanceof Array) {
+
+                var categories = [];
+
+                for (var i = 0, length = options.categories.length; i < length; i += 1) {
+
+                    var category = options.categories[i];
+
+                    for (var property in defaults.categories[0]) {
+
+                        if (category[property] === undefined) {
+                            category[property] = defaults.categories[0][property];
+                        }
+                    }
+
+                    categories.push(category);
+                }
+
+                options.categories = categories;
+            }
+        }
+
+        function mergeOptions() {
+
+            defaults = mergeObjects(defaults, options);
+
+            function mergeObjects(source, target) {
+                var mergedObject = source || {};
+
+                for (var propertyName in source) {
+                    if (target[propertyName] !== undefined && target[propertyName] !== null) {
+
+                        if (typeof target[propertyName] !== "object" ||
+                            target[propertyName] instanceof Array) {
+                            mergedObject[propertyName] = target[propertyName];
+                        } else {
+                            mergeObjects(source[propertyName], target[propertyName]);
+                        }
+                    }
+                }
+
+                /* If data is an object */
+                if (target.data !== undefined && target.data !== null && typeof target.data === "object") {
+                    mergedObject.data = target.data;
+                }
+
+                return mergedObject;
+            }
+        }
+
+
+        function processAfterMerge() {
+
+            if (defaults.url !== "list-required" && typeof defaults.url !== "function") {
+                var defaultUrl = defaults.url;
+                defaults.url = function () {
+                    return defaultUrl;
+                };
+            }
+
+            if (defaults.ajaxSettings.url !== undefined && typeof defaults.ajaxSettings.url !== "function") {
+                var defaultUrl = defaults.ajaxSettings.url;
+                defaults.ajaxSettings.url = function () {
+                    return defaultUrl;
+                };
+            }
+
+            if (typeof defaults.listLocation === "string") {
+                var defaultlistLocation = defaults.listLocation;
+
+                if (defaults.dataType.toUpperCase() === "XML") {
+                    defaults.listLocation = function (data) {
+                        return $(data).find(defaultlistLocation);
+                    };
+                } else {
+                    defaults.listLocation = function (data) {
+                        return data[defaultlistLocation];
+                    };
+                }
+            }
+
+            if (typeof defaults.getValue === "string") {
+                var defaultsGetValue = defaults.getValue;
+                defaults.getValue = function (element) {
+                    return element[defaultsGetValue];
+                };
+            }
+
+            if (options.categories !== undefined) {
+                defaults.categoriesAssigned = true;
+            }
+
+        }
+
+        function addAjaxSettings() {
+
+            if (options.ajaxSettings !== undefined && typeof options.ajaxSettings === "object") {
+                defaults.ajaxSettings = options.ajaxSettings;
+            } else {
+                defaults.ajaxSettings = {};
+            }
+
+        }
+
+        function isAssigned(name) {
+            if (defaults[name] !== undefined && defaults[name] !== null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function printPropertiesThatDoesntExist(consol, optionsToCheck) {
+
+            checkPropertiesIfExist(defaults, optionsToCheck);
+
+            function checkPropertiesIfExist(source, target) {
+                for (var property in target) {
+                    if (source[property] === undefined) {
+                        consol.log("Property '" + property + "' does not exist in EasyAutocomplete options API.");
+                    }
+
+                    if (typeof source[property] === "object" && $.inArray(property, externalObjects) === -1) {
+                        checkPropertiesIfExist(source[property], target[property]);
+                    }
+                }
+            }
+        }
+    };
+
+    return scope;
 
 })(EasyAutocomplete || {});
 
@@ -354,44 +354,44 @@ var EasyAutocomplete = (function(scope){
 /*
  * EasyAutocomplete - Logger 
  */
-var EasyAutocomplete = (function(scope){
-	
-	scope.Logger = function Logger() {
+var EasyAutocomplete = (function (scope) {
 
-		this.error = function(message) {
-			console.log("ERROR: " + message);
-		};
+    scope.Logger = function Logger() {
 
-		this.warning = function(message) {
-			console.log("WARNING: " + message);
-		};
-	};
+        this.error = function (message) {
+            console.log("ERROR: " + message);
+        };
 
-	return scope;
+        this.warning = function (message) {
+            console.log("WARNING: " + message);
+        };
+    };
+
+    return scope;
 
 })(EasyAutocomplete || {});
-	
+
 
 /*
  * EasyAutocomplete - Constans
  */
-var EasyAutocomplete = (function(scope){	
-	
-	scope.Constans = function Constans() {
-		var constants = {
-			CONTAINER_CLASS: "easy-autocomplete-container",
-			CONTAINER_ID: "eac-container-",
+var EasyAutocomplete = (function (scope) {
 
-			WRAPPER_CSS_CLASS: "easy-autocomplete"
-		};
+    scope.Constans = function Constans() {
+        var constants = {
+            CONTAINER_CLASS: "easy-autocomplete-container",
+            CONTAINER_ID: "eac-container-",
 
-		this.getValue = function(propertyName) {
-			return constants[propertyName];
-		};
+            WRAPPER_CSS_CLASS: "easy-autocomplete"
+        };
 
-	};
+        this.getValue = function (propertyName) {
+            return constants[propertyName];
+        };
 
-	return scope;
+    };
+
+    return scope;
 
 })(EasyAutocomplete || {});
 
@@ -401,193 +401,193 @@ var EasyAutocomplete = (function(scope){
  * @author Łukasz Pawełczak 
  *
  */
-var EasyAutocomplete = (function(scope) {
+var EasyAutocomplete = (function (scope) {
 
-	scope.ListBuilderService = function ListBuilderService(configuration, proccessResponseData) {
-
-
-		this.init = function(data) {
-			var listBuilder = [],
-				builder = {};
-
-			builder.data = configuration.get("listLocation")(data);
-			builder.getValue = configuration.get("getValue");
-			builder.maxListSize = configuration.get("list").maxNumberOfElements;
-
-				
-			listBuilder.push(builder);
-
-			return listBuilder;
-		};
-
-		this.updateCategories = function(listBuilder, data) {
-			
-			if (configuration.get("categoriesAssigned")) {
-
-				listBuilder = [];
-
-				for(var i = 0; i < configuration.get("categories").length; i += 1) {
-
-					var builder = convertToListBuilder(configuration.get("categories")[i], data);
-
-					listBuilder.push(builder);
-				}
-
-			} 
-
-			return listBuilder;
-		};
-
-		this.convertXml = function(listBuilder) {
-			if(configuration.get("dataType").toUpperCase() === "XML") {
-
-				for(var i = 0; i < listBuilder.length; i += 1) {
-					listBuilder[i].data = convertXmlToList(listBuilder[i]);
-				}
-			}
-
-			return listBuilder;
-		};
-
-		this.processData = function(listBuilder, inputPhrase) {
-
-			for(var i = 0, length = listBuilder.length; i < length; i+=1) {
-				listBuilder[i].data = proccessResponseData(configuration, listBuilder[i], inputPhrase);
-			}
-
-			return listBuilder;
-		};
-
-		this.checkIfDataExists = function(listBuilders) {
-
-			for(var i = 0, length = listBuilders.length; i < length; i += 1) {
-
-				if (listBuilders[i].data !== undefined && listBuilders[i].data instanceof Array) {
-					if (listBuilders[i].data.length > 0) {
-						return true;
-					}
-				} 
-			}
-
-			return false;
-		};
+    scope.ListBuilderService = function ListBuilderService(configuration, proccessResponseData) {
 
 
-		function convertToListBuilder(category, data) {
+        this.init = function (data) {
+            var listBuilder = [],
+                builder = {};
 
-			var builder = {};
-
-			if(configuration.get("dataType").toUpperCase() === "XML") {
-
-				builder = convertXmlToListBuilder();
-			} else {
-
-				builder = convertDataToListBuilder();
-			}
-			
-
-			if (category.header !== undefined) {
-				builder.header = category.header;
-			}
-
-			if (category.maxNumberOfElements !== undefined) {
-				builder.maxNumberOfElements = category.maxNumberOfElements;
-			}
-
-			if (configuration.get("list").maxNumberOfElements !== undefined) {
-
-				builder.maxListSize = configuration.get("list").maxNumberOfElements;
-			}
-
-			if (category.getValue !== undefined) {
-
-				if (typeof category.getValue === "string") {
-					var defaultsGetValue = category.getValue;
-					builder.getValue = function(element) {
-						return element[defaultsGetValue];
-					};
-				} else if (typeof category.getValue === "function") {
-					builder.getValue = category.getValue;
-				}
-
-			} else {
-				builder.getValue = configuration.get("getValue");	
-			}
-			
-
-			return builder;
+            builder.data = configuration.get("listLocation")(data);
+            builder.getValue = configuration.get("getValue");
+            builder.maxListSize = configuration.get("list").maxNumberOfElements;
 
 
-			function convertXmlToListBuilder() {
+            listBuilder.push(builder);
 
-				var builder = {},
-					listLocation;
+            return listBuilder;
+        };
 
-				if (category.xmlElementName !== undefined) {
-					builder.xmlElementName = category.xmlElementName;
-				}
+        this.updateCategories = function (listBuilder, data) {
 
-				if (category.listLocation !== undefined) {
+            if (configuration.get("categoriesAssigned")) {
 
-					listLocation = category.listLocation;
-				} else if (configuration.get("listLocation") !== undefined) {
+                listBuilder = [];
 
-					listLocation = configuration.get("listLocation");
-				}
+                for (var i = 0; i < configuration.get("categories").length; i += 1) {
 
-				if (listLocation !== undefined) {
-					if (typeof listLocation === "string") {
-						builder.data = $(data).find(listLocation);
-					} else if (typeof listLocation === "function") {
+                    var builder = convertToListBuilder(configuration.get("categories")[i], data);
 
-						builder.data = listLocation(data);
-					}
-				} else {
+                    listBuilder.push(builder);
+                }
 
-					builder.data = data;
-				}
+            }
 
-				return builder;
-			}
+            return listBuilder;
+        };
 
+        this.convertXml = function (listBuilder) {
+            if (configuration.get("dataType").toUpperCase() === "XML") {
 
-			function convertDataToListBuilder() {
+                for (var i = 0; i < listBuilder.length; i += 1) {
+                    listBuilder[i].data = convertXmlToList(listBuilder[i]);
+                }
+            }
 
-				var builder = {};
+            return listBuilder;
+        };
 
-				if (category.listLocation !== undefined) {
+        this.processData = function (listBuilder, inputPhrase) {
 
-					if (typeof category.listLocation === "string") {
-						builder.data = data[category.listLocation];
-					} else if (typeof category.listLocation === "function") {
-						builder.data = category.listLocation(data);
-					}
-				} else {
-					builder.data = data;
-				}
+            for (var i = 0, length = listBuilder.length; i < length; i += 1) {
+                listBuilder[i].data = proccessResponseData(configuration, listBuilder[i], inputPhrase);
+            }
 
-				return builder;
-			}
-		}
+            return listBuilder;
+        };
 
-		function convertXmlToList(builder) {
-			var simpleList = [];
+        this.checkIfDataExists = function (listBuilders) {
 
-			if (builder.xmlElementName === undefined) {
-				builder.xmlElementName = configuration.get("xmlElementName");
-			}
+            for (var i = 0, length = listBuilders.length; i < length; i += 1) {
+
+                if (listBuilders[i].data !== undefined && listBuilders[i].data instanceof Array) {
+                    if (listBuilders[i].data.length > 0) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        };
 
 
-			$(builder.data).find(builder.xmlElementName).each(function() {
-				simpleList.push(this);
-			});
+        function convertToListBuilder(category, data) {
 
-			return simpleList;
-		}
+            var builder = {};
 
-	};
+            if (configuration.get("dataType").toUpperCase() === "XML") {
 
-	return scope;
+                builder = convertXmlToListBuilder();
+            } else {
+
+                builder = convertDataToListBuilder();
+            }
+
+
+            if (category.header !== undefined) {
+                builder.header = category.header;
+            }
+
+            if (category.maxNumberOfElements !== undefined) {
+                builder.maxNumberOfElements = category.maxNumberOfElements;
+            }
+
+            if (configuration.get("list").maxNumberOfElements !== undefined) {
+
+                builder.maxListSize = configuration.get("list").maxNumberOfElements;
+            }
+
+            if (category.getValue !== undefined) {
+
+                if (typeof category.getValue === "string") {
+                    var defaultsGetValue = category.getValue;
+                    builder.getValue = function (element) {
+                        return element[defaultsGetValue];
+                    };
+                } else if (typeof category.getValue === "function") {
+                    builder.getValue = category.getValue;
+                }
+
+            } else {
+                builder.getValue = configuration.get("getValue");
+            }
+
+
+            return builder;
+
+
+            function convertXmlToListBuilder() {
+
+                var builder = {},
+                    listLocation;
+
+                if (category.xmlElementName !== undefined) {
+                    builder.xmlElementName = category.xmlElementName;
+                }
+
+                if (category.listLocation !== undefined) {
+
+                    listLocation = category.listLocation;
+                } else if (configuration.get("listLocation") !== undefined) {
+
+                    listLocation = configuration.get("listLocation");
+                }
+
+                if (listLocation !== undefined) {
+                    if (typeof listLocation === "string") {
+                        builder.data = $(data).find(listLocation);
+                    } else if (typeof listLocation === "function") {
+
+                        builder.data = listLocation(data);
+                    }
+                } else {
+
+                    builder.data = data;
+                }
+
+                return builder;
+            }
+
+
+            function convertDataToListBuilder() {
+
+                var builder = {};
+
+                if (category.listLocation !== undefined) {
+
+                    if (typeof category.listLocation === "string") {
+                        builder.data = data[category.listLocation];
+                    } else if (typeof category.listLocation === "function") {
+                        builder.data = category.listLocation(data);
+                    }
+                } else {
+                    builder.data = data;
+                }
+
+                return builder;
+            }
+        }
+
+        function convertXmlToList(builder) {
+            var simpleList = [];
+
+            if (builder.xmlElementName === undefined) {
+                builder.xmlElementName = configuration.get("xmlElementName");
+            }
+
+
+            $(builder.data).find(builder.xmlElementName).each(function () {
+                simpleList.push(this);
+            });
+
+            return simpleList;
+        }
+
+    };
+
+    return scope;
 
 })(EasyAutocomplete || {});
 
@@ -601,82 +601,82 @@ var EasyAutocomplete = (function(scope) {
  * - show only matching list
  *
  */
-var EasyAutocomplete = (function(scope) {
+var EasyAutocomplete = (function (scope) {
 
-	scope.proccess = function proccessData(config, listBuilder, phrase) {
+    scope.proccess = function proccessData(config, listBuilder, phrase) {
 
-		scope.proccess.match = match;
+        scope.proccess.match = match;
 
-		var list = listBuilder.data,
-			inputPhrase = phrase;//TODO REFACTOR
+        var list = listBuilder.data,
+            inputPhrase = phrase;//TODO REFACTOR
 
-		list = findMatch(list, inputPhrase);
-		list = reduceElementsInList(list);
-		list = sort(list);
+        list = findMatch(list, inputPhrase);
+        list = reduceElementsInList(list);
+        list = sort(list);
 
-		return list;
-
-
-		function findMatch(list, phrase) {
-			var preparedList = [],
-				value = "";
-
-			if (config.get("list").match.enabled) {
-
-				for(var i = 0, length = list.length; i < length; i += 1) {
-
-					value = config.get("getValue")(list[i]);
-					
-					if (match(value, phrase)) {
-						preparedList.push(list[i]);	
-					}
-					
-				}
-
-			} else {
-				preparedList = list;
-			}
-
-			return preparedList;
-		}
-
-		function match(value, phrase) {
-
-			if (!config.get("list").match.caseSensitive) {
-
-				if (typeof value === "string") {
-					value = value.toLowerCase();	
-				}
-				
-				phrase = phrase.toLowerCase();
-			}
-			if (config.get("list").match.method(value, phrase)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		function reduceElementsInList(list) {
-			if (listBuilder.maxNumberOfElements !== undefined && list.length > listBuilder.maxNumberOfElements) {
-				list = list.slice(0, listBuilder.maxNumberOfElements);
-			}
-
-			return list;
-		}
-
-		function sort(list) {
-			if (config.get("list").sort.enabled) {
-				list.sort(config.get("list").sort.method);
-			}
-
-			return list;
-		}
-		
-	};
+        return list;
 
 
-	return scope;
+        function findMatch(list, phrase) {
+            var preparedList = [],
+                value = "";
+
+            if (config.get("list").match.enabled) {
+
+                for (var i = 0, length = list.length; i < length; i += 1) {
+
+                    value = config.get("getValue")(list[i]);
+
+                    if (match(value, phrase)) {
+                        preparedList.push(list[i]);
+                    }
+
+                }
+
+            } else {
+                preparedList = list;
+            }
+
+            return preparedList;
+        }
+
+        function match(value, phrase) {
+
+            if (!config.get("list").match.caseSensitive) {
+
+                if (typeof value === "string") {
+                    value = value.toLowerCase();
+                }
+
+                phrase = phrase.toLowerCase();
+            }
+            if (config.get("list").match.method(value, phrase)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function reduceElementsInList(list) {
+            if (listBuilder.maxNumberOfElements !== undefined && list.length > listBuilder.maxNumberOfElements) {
+                list = list.slice(0, listBuilder.maxNumberOfElements);
+            }
+
+            return list;
+        }
+
+        function sort(list) {
+            if (config.get("list").sort.enabled) {
+                list.sort(config.get("list").sort.method);
+            }
+
+            return list;
+        }
+
+    };
+
+
+    return scope;
 
 
 })(EasyAutocomplete || {});
@@ -688,190 +688,190 @@ var EasyAutocomplete = (function(scope) {
  * 
  *
  */
-var EasyAutocomplete = (function(scope){
+var EasyAutocomplete = (function (scope) {
 
-	scope.Template = function Template(options) {
-
-
-		var genericTemplates = {
-			basic: {
-				type: "basic",
-				method: function(element) { return element; },
-				cssClass: ""
-			},
-			description: {
-				type: "description",
-				fields: {
-					description: "description"
-				},
-				method: function(element) {	return element + " - description"; },
-				cssClass: "eac-description"
-			},
-			iconLeft: {
-				type: "iconLeft",
-				fields: {
-					icon: ""
-				},
-				method: function(element) {
-					return element;
-				},
-				cssClass: "eac-icon-left"
-			},
-			iconRight: {
-				type: "iconRight",
-				fields: {
-					iconSrc: ""
-				},
-				method: function(element) {
-					return element;
-				},
-				cssClass: "eac-icon-right"
-			},
-			links: {
-				type: "links",
-				fields: {
-					link: ""
-				},
-				method: function(element) {
-					return element;
-				},
-				cssClass: ""
-			},
-			custom: {
-				type: "custom",
-				method: function() {},
-				cssClass: ""
-			}
-		},
+    scope.Template = function Template(options) {
 
 
-
-		/*
-		 * Converts method with {{text}} to function
-		 */
-		convertTemplateToMethod = function(template) {
-
-
-			var _fields = template.fields,
-				buildMethod;
-
-			if (template.type === "description") {
-
-				buildMethod = genericTemplates.description.method; 
-
-				if (typeof _fields.description === "string") {
-					buildMethod = function(elementValue, element) {
-						return elementValue + " - <span>" + element[_fields.description] + "</span>";
-					};					
-				} else if (typeof _fields.description === "function") {
-					buildMethod = function(elementValue, element) {
-						return elementValue + " - <span>" + _fields.description(element) + "</span>";
-					};	
-				}
-
-				return buildMethod;
-			}
-
-			if (template.type === "iconRight") {
-
-				if (typeof _fields.iconSrc === "string") {
-					buildMethod = function(elementValue, element) {
-						return elementValue + "<img class='eac-icon' src='" + element[_fields.iconSrc] + "' />" ;
-					};					
-				} else if (typeof _fields.iconSrc === "function") {
-					buildMethod = function(elementValue, element) {
-						return elementValue + "<img class='eac-icon' src='" + _fields.iconSrc(element) + "' />" ;
-					};
-				}
-
-				return buildMethod;
-			}
-
-
-			if (template.type === "iconLeft") {
-
-				if (typeof _fields.iconSrc === "string") {
-					buildMethod = function(elementValue, element) {
-						return "<img class='eac-icon' src='" + element[_fields.iconSrc] + "' />" + elementValue;
-					};					
-				} else if (typeof _fields.iconSrc === "function") {
-					buildMethod = function(elementValue, element) {
-						return "<img class='eac-icon' src='" + _fields.iconSrc(element) + "' />" + elementValue;
-					};
-				}
-
-				return buildMethod;
-			}
-
-			if(template.type === "links") {
-
-				if (typeof _fields.link === "string") {
-					buildMethod = function(elementValue, element) {
-						return "<a href='" + element[_fields.link] + "' >" + elementValue + "</a>";
-					};					
-				} else if (typeof _fields.link === "function") {
-					buildMethod = function(elementValue, element) {
-						return "<a href='" + _fields.link(element) + "' >" + elementValue + "</a>";
-					};
-				}
-
-				return buildMethod;
-			}
+        var genericTemplates = {
+            basic: {
+                type: "basic",
+                method: function (element) { return element; },
+                cssClass: ""
+            },
+            description: {
+                type: "description",
+                fields: {
+                    description: "description"
+                },
+                method: function (element) { return element + " - description"; },
+                cssClass: "eac-description"
+            },
+            iconLeft: {
+                type: "iconLeft",
+                fields: {
+                    icon: ""
+                },
+                method: function (element) {
+                    return element;
+                },
+                cssClass: "eac-icon-left"
+            },
+            iconRight: {
+                type: "iconRight",
+                fields: {
+                    iconSrc: ""
+                },
+                method: function (element) {
+                    return element;
+                },
+                cssClass: "eac-icon-right"
+            },
+            links: {
+                type: "links",
+                fields: {
+                    link: ""
+                },
+                method: function (element) {
+                    return element;
+                },
+                cssClass: ""
+            },
+            custom: {
+                type: "custom",
+                method: function () { },
+                cssClass: ""
+            }
+        },
 
 
-			if (template.type === "custom") {
 
-				return template.method;
-			}
-
-			return genericTemplates.basic.method;
-
-		},
+            /*
+             * Converts method with {{text}} to function
+             */
+            convertTemplateToMethod = function (template) {
 
 
-		prepareBuildMethod = function(options) {
-			if (!options || !options.type) {
+                var _fields = template.fields,
+                    buildMethod;
 
-				return genericTemplates.basic.method;
-			}
+                if (template.type === "description") {
 
-			if (options.type && genericTemplates[options.type]) {
+                    buildMethod = genericTemplates.description.method;
 
-				return convertTemplateToMethod(options);
-			} else {
+                    if (typeof _fields.description === "string") {
+                        buildMethod = function (elementValue, element) {
+                            return elementValue + " - <span>" + element[_fields.description] + "</span>";
+                        };
+                    } else if (typeof _fields.description === "function") {
+                        buildMethod = function (elementValue, element) {
+                            return elementValue + " - <span>" + _fields.description(element) + "</span>";
+                        };
+                    }
 
-				return genericTemplates.basic.method;
-			}
+                    return buildMethod;
+                }
 
-		},
+                if (template.type === "iconRight") {
 
-		templateClass = function(options) {
-			var emptyStringFunction = function() {return "";};
+                    if (typeof _fields.iconSrc === "string") {
+                        buildMethod = function (elementValue, element) {
+                            return elementValue + "<img class='eac-icon' src='" + element[_fields.iconSrc] + "' />";
+                        };
+                    } else if (typeof _fields.iconSrc === "function") {
+                        buildMethod = function (elementValue, element) {
+                            return elementValue + "<img class='eac-icon' src='" + _fields.iconSrc(element) + "' />";
+                        };
+                    }
 
-			if (!options || !options.type) {
-
-				return emptyStringFunction;
-			}
-
-			if (options.type && genericTemplates[options.type]) {
-				return (function () { 
-					var _cssClass = genericTemplates[options.type].cssClass;
-					return function() { return _cssClass;};
-				})();
-			} else {
-				return emptyStringFunction;
-			}
-		};
-
-
-		this.getTemplateClass = templateClass(options);
-
-		this.build = prepareBuildMethod(options);
+                    return buildMethod;
+                }
 
 
-	};
+                if (template.type === "iconLeft") {
 
-	return scope;
+                    if (typeof _fields.iconSrc === "string") {
+                        buildMethod = function (elementValue, element) {
+                            return "<img class='eac-icon' src='" + element[_fields.iconSrc] + "' />" + elementValue;
+                        };
+                    } else if (typeof _fields.iconSrc === "function") {
+                        buildMethod = function (elementValue, element) {
+                            return "<img class='eac-icon' src='" + _fields.iconSrc(element) + "' />" + elementValue;
+                        };
+                    }
+
+                    return buildMethod;
+                }
+
+                if (template.type === "links") {
+
+                    if (typeof _fields.link === "string") {
+                        buildMethod = function (elementValue, element) {
+                            return "<a href='" + element[_fields.link] + "' >" + elementValue + "</a>";
+                        };
+                    } else if (typeof _fields.link === "function") {
+                        buildMethod = function (elementValue, element) {
+                            return "<a href='" + _fields.link(element) + "' >" + elementValue + "</a>";
+                        };
+                    }
+
+                    return buildMethod;
+                }
+
+
+                if (template.type === "custom") {
+
+                    return template.method;
+                }
+
+                return genericTemplates.basic.method;
+
+            },
+
+
+            prepareBuildMethod = function (options) {
+                if (!options || !options.type) {
+
+                    return genericTemplates.basic.method;
+                }
+
+                if (options.type && genericTemplates[options.type]) {
+
+                    return convertTemplateToMethod(options);
+                } else {
+
+                    return genericTemplates.basic.method;
+                }
+
+            },
+
+            templateClass = function (options) {
+                var emptyStringFunction = function () { return ""; };
+
+                if (!options || !options.type) {
+
+                    return emptyStringFunction;
+                }
+
+                if (options.type && genericTemplates[options.type]) {
+                    return (function () {
+                        var _cssClass = genericTemplates[options.type].cssClass;
+                        return function () { return _cssClass; };
+                    })();
+                } else {
+                    return emptyStringFunction;
+                }
+            };
+
+
+        this.getTemplateClass = templateClass(options);
+
+        this.build = prepareBuildMethod(options);
+
+
+    };
+
+    return scope;
 
 })(EasyAutocomplete || {});
 
@@ -880,744 +880,744 @@ var EasyAutocomplete = (function(scope){
  * EasyAutocomplete - jQuery plugin for autocompletion
  *
  */
-var EasyAutocomplete = (function(scope) {
-
-	
-	scope.main = function Core($input, options) {
-				
-		var module = {
-				name: "EasyAutocomplete",
-				shortcut: "eac"
-			};
-
-		var consts = new scope.Constans(),
-			config = new scope.Configuration(options),
-			logger = new scope.Logger(),
-			template = new scope.Template(options.template),
-			listBuilderService = new scope.ListBuilderService(config, scope.proccess),
-			checkParam = config.equals,
-
-			$field = $input, 
-			$container = "",
-			elementsList = [],
-			selectedElement = -1,
-			requestDelayTimeoutId;
-
-		scope.consts = consts;
-
-		this.getConstants = function() {
-			return consts;
-		};
-
-		this.getConfiguration = function() {
-			return config;
-		};
-
-		this.getContainer = function() {
-			return $container;
-		};
-
-		this.getSelectedItemIndex = function() {
-			return selectedElement;
-		};
-
-		this.getItems = function () {
-			return elementsList;
-		};
-
-		this.getItemData = function(index) {
-
-			if (elementsList.length < index || elementsList[index] === undefined) {
-				return -1;
-			} else {
-				return elementsList[index];
-			}
-		};
-
-		this.getSelectedItemData = function() {
-			return this.getItemData(selectedElement);
-		};
-
-		this.build = function() {
-			prepareField();
-		};
+var EasyAutocomplete = (function (scope) {
 
-		this.init = function() {
-			init();
-		};
-		function init() {
 
-			if ($field.length === 0) {
-				logger.error("Input field doesn't exist.");
-				return;
-			}
+    scope.main = function Core($input, options) {
 
-			if (!config.checkDataUrlProperties()) {
-				logger.error("One of options variables 'data' or 'url' must be defined.");
-				return;
-			}
+        var module = {
+            name: "EasyAutocomplete",
+            shortcut: "eac"
+        };
 
-			if (!config.checkRequiredProperties()) {
-				logger.error("Will not work without mentioned properties.");
-				return;
-			}
+        var consts = new scope.Constans(),
+            config = new scope.Configuration(options),
+            logger = new scope.Logger(),
+            template = new scope.Template(options.template),
+            listBuilderService = new scope.ListBuilderService(config, scope.proccess),
+            checkParam = config.equals,
 
+            $field = $input,
+            $container = "",
+            elementsList = [],
+            selectedElement = -1,
+            requestDelayTimeoutId;
 
-			prepareField();
-			bindEvents();	
+        scope.consts = consts;
 
-		}
-		function prepareField() {
+        this.getConstants = function () {
+            return consts;
+        };
 
-				
-			if ($field.parent().hasClass(consts.getValue("WRAPPER_CSS_CLASS"))) {
-				removeContainer();
-				removeWrapper();
-			} 
-			
-			createWrapper();
-			createContainer();	
+        this.getConfiguration = function () {
+            return config;
+        };
 
-			$container = $("#" + getContainerId());
-			if (config.get("placeholder")) {
-				$field.attr("placeholder", config.get("placeholder"));
-			}
+        this.getContainer = function () {
+            return $container;
+        };
 
+        this.getSelectedItemIndex = function () {
+            return selectedElement;
+        };
 
-			function createWrapper() {
-				var $wrapper = $("<div>"),
-					classes = consts.getValue("WRAPPER_CSS_CLASS");
+        this.getItems = function () {
+            return elementsList;
+        };
 
-			
-				if (config.get("theme") && config.get("theme") !== "") {
-					classes += " eac-" + config.get("theme");
-				}
+        this.getItemData = function (index) {
 
-				if (config.get("cssClasses") && config.get("cssClasses") !== "") {
-					classes += " " + config.get("cssClasses");
-				}
+            if (elementsList.length < index || elementsList[index] === undefined) {
+                return -1;
+            } else {
+                return elementsList[index];
+            }
+        };
 
-				if (template.getTemplateClass() !== "") {
-					classes += " " + template.getTemplateClass();
-				}
-				
+        this.getSelectedItemData = function () {
+            return this.getItemData(selectedElement);
+        };
 
-				$wrapper
-					.addClass(classes);
-				$field.wrap($wrapper);
+        this.build = function () {
+            prepareField();
+        };
 
+        this.init = function () {
+            init();
+        };
+        function init() {
 
-				if (config.get("adjustWidth") === true) {
-					adjustWrapperWidth();	
-				}
-				
+            if ($field.length === 0) {
+                logger.error("Input field doesn't exist.");
+                return;
+            }
 
-			}
+            if (!config.checkDataUrlProperties()) {
+                logger.error("One of options variables 'data' or 'url' must be defined.");
+                return;
+            }
 
-			function adjustWrapperWidth() {
-				var fieldWidth = $field.outerWidth();
+            if (!config.checkRequiredProperties()) {
+                logger.error("Will not work without mentioned properties.");
+                return;
+            }
 
-				$field.parent().css("width", fieldWidth);				
-			}
 
-			function removeWrapper() {
-				$field.unwrap();
-			}
+            prepareField();
+            bindEvents();
 
-			function createContainer() {
-				var $elements_container = $("<div>").addClass(consts.getValue("CONTAINER_CLASS"));
+        }
+        function prepareField() {
 
-				$elements_container
-						.attr("id", getContainerId())
-						.prepend($("<ul>"));
 
+            if ($field.parent().hasClass(consts.getValue("WRAPPER_CSS_CLASS"))) {
+                removeContainer();
+                removeWrapper();
+            }
 
-				(function() {
+            createWrapper();
+            createContainer();
 
-					$elements_container
-						/* List show animation */
-						.on("show.eac", function() {
+            $container = $("#" + getContainerId());
+            if (config.get("placeholder")) {
+                $field.attr("placeholder", config.get("placeholder"));
+            }
 
-							switch(config.get("list").showAnimation.type) {
 
-								case "slide":
-									var animationTime = config.get("list").showAnimation.time,
-										callback = config.get("list").showAnimation.callback;
+            function createWrapper() {
+                var $wrapper = $("<div>"),
+                    classes = consts.getValue("WRAPPER_CSS_CLASS");
 
-									$elements_container.find("ul").slideDown(animationTime, callback);
-								break;
 
-								case "fade":
-									var animationTime = config.get("list").showAnimation.time,
-										callback = config.get("list").showAnimation.callback;
+                if (config.get("theme") && config.get("theme") !== "") {
+                    classes += " eac-" + config.get("theme");
+                }
 
-									$elements_container.find("ul").fadeIn(animationTime), callback;
-								break;
+                if (config.get("cssClasses") && config.get("cssClasses") !== "") {
+                    classes += " " + config.get("cssClasses");
+                }
 
-								default:
-									$elements_container.find("ul").show();
-								break;
-							}
+                if (template.getTemplateClass() !== "") {
+                    classes += " " + template.getTemplateClass();
+                }
 
-							config.get("list").onShowListEvent();
-							
-						})
-						/* List hide animation */
-						.on("hide.eac", function() {
 
-							switch(config.get("list").hideAnimation.type) {
+                $wrapper
+                    .addClass(classes);
+                $field.wrap($wrapper);
 
-								case "slide":
-									var animationTime = config.get("list").hideAnimation.time,
-										callback = config.get("list").hideAnimation.callback;
 
-									$elements_container.find("ul").slideUp(animationTime, callback);
-								break;
+                if (config.get("adjustWidth") === true) {
+                    adjustWrapperWidth();
+                }
 
-								case "fade":
-									var animationTime = config.get("list").hideAnimation.time,
-										callback = config.get("list").hideAnimation.callback;
 
-									$elements_container.find("ul").fadeOut(animationTime, callback);
-								break;
+            }
 
-								default:
-									$elements_container.find("ul").hide();
-								break;
-							}
+            function adjustWrapperWidth() {
+                var fieldWidth = $field.outerWidth();
 
-							config.get("list").onHideListEvent();
+                $field.parent().css("width", fieldWidth);
+            }
 
-						})
-						.on("selectElement.eac", function() {
-							$elements_container.find("ul li").removeClass("selected");
-							$elements_container.find("ul li").eq(selectedElement).addClass("selected");
+            function removeWrapper() {
+                $field.unwrap();
+            }
 
-							config.get("list").onSelectItemEvent();
-						})
-						.on("loadElements.eac", function(event, listBuilders, phrase) {
-			
+            function createContainer() {
+                var $elements_container = $("<div>").addClass(consts.getValue("CONTAINER_CLASS"));
 
-							var $item = "",
-								$listContainer = $elements_container.find("ul");
+                $elements_container
+                    .attr("id", getContainerId())
+                    .prepend($("<ul>"));
 
-							$listContainer
-								.empty()
-								.detach();
 
-							elementsList = [];
-							var counter = 0;
-							for(var builderIndex = 0, listBuildersLength = listBuilders.length; builderIndex < listBuildersLength; builderIndex += 1) {
+                (function () {
 
-								var listData = listBuilders[builderIndex].data;
+                    $elements_container
+                        /* List show animation */
+                        .on("show.eac", function () {
 
-								if (listData.length === 0) {
-									continue;
-								}
+                            switch (config.get("list").showAnimation.type) {
 
-								if (listBuilders[builderIndex].header !== undefined && listBuilders[builderIndex].header.length > 0) {
-									$listContainer.append("<div class='eac-category' >" + listBuilders[builderIndex].header + "</div>");
-								}
+                                case "slide":
+                                    var animationTime = config.get("list").showAnimation.time,
+                                        callback = config.get("list").showAnimation.callback;
 
-								for(var i = 0, listDataLength = listData.length; i < listDataLength && counter < listBuilders[builderIndex].maxListSize; i += 1) {
-									$item = $("<li><div class='eac-item'></div></li>");
-									
+                                    $elements_container.find("ul").slideDown(animationTime, callback);
+                                    break;
 
-									(function() {
-										var j = i,
-											itemCounter = counter,
-											elementsValue = listBuilders[builderIndex].getValue(listData[j]);
+                                case "fade":
+                                    var animationTime = config.get("list").showAnimation.time,
+                                        callback = config.get("list").showAnimation.callback;
 
-										$item.find(" > div")
-											.on("click", function() {
+                                    $elements_container.find("ul").fadeIn(animationTime), callback;
+                                    break;
 
-												$field.val(elementsValue).trigger("change");
+                                default:
+                                    $elements_container.find("ul").show();
+                                    break;
+                            }
 
-												selectedElement = itemCounter;
-												selectElement(itemCounter);
+                            config.get("list").onShowListEvent();
 
-												config.get("list").onClickEvent();
-												config.get("list").onChooseEvent();
-											})
-											.mouseover(function() {
+                        })
+                        /* List hide animation */
+                        .on("hide.eac", function () {
 
-												selectedElement = itemCounter;
-												selectElement(itemCounter);	
+                            switch (config.get("list").hideAnimation.type) {
 
-												config.get("list").onMouseOverEvent();
-											})
-											.mouseout(function() {
-												config.get("list").onMouseOutEvent();
-											})
-											.html(template.build(highlight(elementsValue, phrase), listData[j]));
-									})();
+                                case "slide":
+                                    var animationTime = config.get("list").hideAnimation.time,
+                                        callback = config.get("list").hideAnimation.callback;
 
-									$listContainer.append($item);
-									elementsList.push(listData[i]);
-									counter += 1;
-								}
-							}
+                                    $elements_container.find("ul").slideUp(animationTime, callback);
+                                    break;
 
-							$elements_container.append($listContainer);
+                                case "fade":
+                                    var animationTime = config.get("list").hideAnimation.time,
+                                        callback = config.get("list").hideAnimation.callback;
 
-							config.get("list").onLoadEvent();
-						});
+                                    $elements_container.find("ul").fadeOut(animationTime, callback);
+                                    break;
 
-				})();
+                                default:
+                                    $elements_container.find("ul").hide();
+                                    break;
+                            }
 
-				$field.after($elements_container);
-			}
+                            config.get("list").onHideListEvent();
 
-			function removeContainer() {
-				$field.next("." + consts.getValue("CONTAINER_CLASS")).remove();
-			}
+                        })
+                        .on("selectElement.eac", function () {
+                            $elements_container.find("ul li").removeClass("selected");
+                            $elements_container.find("ul li").eq(selectedElement).addClass("selected");
 
-			function highlight(string, phrase) {
+                            config.get("list").onSelectItemEvent();
+                        })
+                        .on("loadElements.eac", function (event, listBuilders, phrase) {
 
-				if(config.get("highlightPhrase") && phrase !== "") {
-					return highlightPhrase(string, phrase);	
-				} else {
-					return string;
-				}
-					
-			}
 
-			function escapeRegExp(str) {
-				return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
- 			}
+                            var $item = "",
+                                $listContainer = $elements_container.find("ul");
 
-			function highlightPhrase(string, phrase) {
-				var escapedPhrase = escapeRegExp(phrase);
-				return (string + "").replace(new RegExp("(" + escapedPhrase + ")", "gi") , "<b>$1</b>");
-			}
+                            $listContainer
+                                .empty()
+                                .detach();
 
+                            elementsList = [];
+                            var counter = 0;
+                            for (var builderIndex = 0, listBuildersLength = listBuilders.length; builderIndex < listBuildersLength; builderIndex += 1) {
 
+                                var listData = listBuilders[builderIndex].data;
 
-		}
-		function getContainerId() {
-			
-			var elementId = $field.attr("id");
+                                if (listData.length === 0) {
+                                    continue;
+                                }
 
-			elementId = consts.getValue("CONTAINER_ID") + elementId;
+                                if (listBuilders[builderIndex].header !== undefined && listBuilders[builderIndex].header.length > 0) {
+                                    $listContainer.append("<div class='eac-category' >" + listBuilders[builderIndex].header + "</div>");
+                                }
 
-			return elementId;
-		}
-		function bindEvents() {
+                                for (var i = 0, listDataLength = listData.length; i < listDataLength && counter < listBuilders[builderIndex].maxListSize; i += 1) {
+                                    $item = $("<li><div class='eac-item'></div></li>");
 
-			bindAllEvents();
-			
 
-			function bindAllEvents() {
-				if (checkParam("autocompleteOff", true)) {
-					removeAutocomplete();
-				}
+                                    (function () {
+                                        var j = i,
+                                            itemCounter = counter,
+                                            elementsValue = listBuilders[builderIndex].getValue(listData[j]);
 
-				bindFocusOut();
-				bindKeyup();
-				bindKeydown();
-				bindKeypress();
-				bindFocus();
-				bindBlur();
-			}
+                                        $item.find(" > div")
+                                            .on("click", function () {
 
-			function bindFocusOut() {
-				$field.focusout(function () {
+                                                $field.val(elementsValue).trigger("change");
 
-					var fieldValue = $field.val(),
-						phrase;
+                                                selectedElement = itemCounter;
+                                                selectElement(itemCounter);
 
-					if (!config.get("list").match.caseSensitive) {
-						fieldValue = fieldValue.toLowerCase();
-					}
+                                                config.get("list").onClickEvent();
+                                                config.get("list").onChooseEvent();
+                                            })
+                                            .mouseover(function () {
 
-					for (var i = 0, length = elementsList.length; i < length; i += 1) {
+                                                selectedElement = itemCounter;
+                                                selectElement(itemCounter);
 
-						phrase = config.get("getValue")(elementsList[i]);
-						if (!config.get("list").match.caseSensitive) {
-							phrase = phrase.toLowerCase();
-						}
+                                                config.get("list").onMouseOverEvent();
+                                            })
+                                            .mouseout(function () {
+                                                config.get("list").onMouseOutEvent();
+                                            })
+                                            .html(template.build(highlight(elementsValue, phrase), listData[j]));
+                                    })();
 
-						if (phrase === fieldValue) {
-							selectedElement = i;
-							selectElement(selectedElement);
-							return;
-						}
-					}
-				});
-			}
+                                    $listContainer.append($item);
+                                    elementsList.push(listData[i]);
+                                    counter += 1;
+                                }
+                            }
 
-			function bindKeyup() {
-				$field
-				.off("keyup")
-				.keyup(function(event) {
+                            $elements_container.append($listContainer);
 
-					switch(event.keyCode) {
+                            config.get("list").onLoadEvent();
+                        });
 
-						case 27:
+                })();
 
-							hideContainer();
-							loseFieldFocus();
-						break;
+                $field.after($elements_container);
+            }
 
-						case 38:
+            function removeContainer() {
+                $field.next("." + consts.getValue("CONTAINER_CLASS")).remove();
+            }
 
-							event.preventDefault();
+            function highlight(string, phrase) {
 
-							if(elementsList.length > 0 && selectedElement > 0) {
+                if (config.get("highlightPhrase") && phrase !== "") {
+                    return highlightPhrase(string, phrase);
+                } else {
+                    return string;
+                }
 
-								selectedElement -= 1;
+            }
 
-								$field.val(config.get("getValue")(elementsList[selectedElement]));
+            function escapeRegExp(str) {
+                return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+            }
 
-								selectElement(selectedElement);
+            function highlightPhrase(string, phrase) {
+                var escapedPhrase = escapeRegExp(phrase);
+                return (string + "").replace(new RegExp("(" + escapedPhrase + ")", "gi"), "<b>$1</b>");
+            }
 
-							}						
-						break;
 
-						case 40:
 
-							event.preventDefault();
+        }
+        function getContainerId() {
 
-							if(elementsList.length > 0 && selectedElement < elementsList.length - 1) {
+            var elementId = $field.attr("id");
 
-								selectedElement += 1;
+            elementId = consts.getValue("CONTAINER_ID") + elementId;
 
-								$field.val(config.get("getValue")(elementsList[selectedElement]));
+            return elementId;
+        }
+        function bindEvents() {
 
-								selectElement(selectedElement);
-								
-							}
+            bindAllEvents();
 
-						break;
 
-						default:
+            function bindAllEvents() {
+                if (checkParam("autocompleteOff", true)) {
+                    removeAutocomplete();
+                }
 
-							if (event.keyCode > 40 || event.keyCode === 8) {
+                bindFocusOut();
+                bindKeyup();
+                bindKeydown();
+                bindKeypress();
+                bindFocus();
+                bindBlur();
+            }
 
-								var inputPhrase = $field.val();
+            function bindFocusOut() {
+                $field.focusout(function () {
 
-								if (!(config.get("list").hideOnEmptyPhrase === true && event.keyCode === 8 && inputPhrase === "")) {
+                    var fieldValue = $field.val(),
+                        phrase;
 
-									if (config.get("requestDelay") > 0) {
-										if (requestDelayTimeoutId !== undefined) {
-											clearTimeout(requestDelayTimeoutId);
-										}
+                    if (!config.get("list").match.caseSensitive) {
+                        fieldValue = fieldValue.toLowerCase();
+                    }
 
-										requestDelayTimeoutId = setTimeout(function () { loadData(inputPhrase);}, config.get("requestDelay"));
-									} else {
-										loadData(inputPhrase);
-									}
+                    for (var i = 0, length = elementsList.length; i < length; i += 1) {
 
-								} else {
-									hideContainer();
-								}
-								
-							}
+                        phrase = config.get("getValue")(elementsList[i]);
+                        if (!config.get("list").match.caseSensitive) {
+                            phrase = phrase.toLowerCase();
+                        }
 
+                        if (phrase === fieldValue) {
+                            selectedElement = i;
+                            selectElement(selectedElement);
+                            return;
+                        }
+                    }
+                });
+            }
 
-						break;
-					}
-				
+            function bindKeyup() {
+                $field
+                    .off("keyup")
+                    .keyup(function (event) {
 
-					function loadData(inputPhrase) {
+                        switch (event.keyCode) {
 
+                            case 27:
 
-						if (inputPhrase.length < config.get("minCharNumber")) {
-							return;
-						}
+                                hideContainer();
+                                loseFieldFocus();
+                                break;
 
+                            case 38:
 
-						if (config.get("data") !== "list-required") {
+                                event.preventDefault();
 
-							var data = config.get("data");
+                                if (elementsList.length > 0 && selectedElement > 0) {
 
-							var listBuilders = listBuilderService.init(data);
+                                    selectedElement -= 1;
 
-							listBuilders = listBuilderService.updateCategories(listBuilders, data);
-							
-							listBuilders = listBuilderService.processData(listBuilders, inputPhrase);
+                                    $field.val(config.get("getValue")(elementsList[selectedElement]));
 
-							loadElements(listBuilders, inputPhrase);
+                                    selectElement(selectedElement);
 
-							if ($field.parent().find("li").length > 0) {
-								showContainer();	
-							} else {
-								hideContainer();
-							}
+                                }
+                                break;
 
-						}
+                            case 40:
 
-						var settings = createAjaxSettings();
+                                event.preventDefault();
 
-						if (settings.url === undefined || settings.url === "") {
-							settings.url = config.get("url");
-						}
+                                if (elementsList.length > 0 && selectedElement < elementsList.length - 1) {
 
-						if (settings.dataType === undefined || settings.dataType === "") {
-							settings.dataType = config.get("dataType");
-						}
+                                    selectedElement += 1;
 
+                                    $field.val(config.get("getValue")(elementsList[selectedElement]));
 
-						if (settings.url !== undefined && settings.url !== "list-required") {
+                                    selectElement(selectedElement);
 
-							settings.url = settings.url(inputPhrase);
+                                }
 
-							settings.data = config.get("preparePostData")(settings.data, inputPhrase);
+                                break;
 
-							$.ajax(settings) 
-								.done(function(data) {
+                            default:
 
-									var listBuilders = listBuilderService.init(data);
+                                if (event.keyCode > 40 || event.keyCode === 8) {
 
-									listBuilders = listBuilderService.updateCategories(listBuilders, data);
-									
-									listBuilders = listBuilderService.convertXml(listBuilders);
-									if (checkInputPhraseMatchResponse(inputPhrase, data)) {
+                                    var inputPhrase = $field.val();
 
-										listBuilders = listBuilderService.processData(listBuilders, inputPhrase);
+                                    if (!(config.get("list").hideOnEmptyPhrase === true && event.keyCode === 8 && inputPhrase === "")) {
 
-										loadElements(listBuilders, inputPhrase);	
-																				
-									}
+                                        if (config.get("requestDelay") > 0) {
+                                            if (requestDelayTimeoutId !== undefined) {
+                                                clearTimeout(requestDelayTimeoutId);
+                                            }
 
-									if (listBuilderService.checkIfDataExists(listBuilders) && $field.parent().find("li").length > 0) {
-										showContainer();	
-									} else {
-										hideContainer();
-									}
+                                            requestDelayTimeoutId = setTimeout(function () { loadData(inputPhrase); }, config.get("requestDelay"));
+                                        } else {
+                                            loadData(inputPhrase);
+                                        }
 
-									config.get("ajaxCallback")();
+                                    } else {
+                                        hideContainer();
+                                    }
 
-								})
-								.fail(function() {
-									logger.warning("Fail to load response data");
-								})
-								.always(function() {
+                                }
 
-								});
-						}
 
-						
+                                break;
+                        }
 
-						function createAjaxSettings() {
 
-							var settings = {},
-								ajaxSettings = config.get("ajaxSettings") || {};
+                        function loadData(inputPhrase) {
 
-							for (var set in ajaxSettings) {
-								settings[set] = ajaxSettings[set];
-							}
 
-							return settings;
-						}
+                            if (inputPhrase.length < config.get("minCharNumber")) {
+                                return;
+                            }
 
-						function checkInputPhraseMatchResponse(inputPhrase, data) {
 
-							if (config.get("matchResponseProperty") !== false) {
-								if (typeof config.get("matchResponseProperty") === "string") {
-									return (data[config.get("matchResponseProperty")] === inputPhrase);
-								}
+                            if (config.get("data") !== "list-required") {
 
-								if (typeof config.get("matchResponseProperty") === "function") {
-									return (config.get("matchResponseProperty")(data) === inputPhrase);
-								}
+                                var data = config.get("data");
 
-								return true;
-							} else {
-								return true;
-							}
+                                var listBuilders = listBuilderService.init(data);
 
-						}
+                                listBuilders = listBuilderService.updateCategories(listBuilders, data);
 
-					}
+                                listBuilders = listBuilderService.processData(listBuilders, inputPhrase);
 
+                                loadElements(listBuilders, inputPhrase);
 
-				});
-			}
+                                if ($field.parent().find("li").length > 0) {
+                                    showContainer();
+                                } else {
+                                    hideContainer();
+                                }
 
-			function bindKeydown() {
-				$field
-					.on("keydown", function(evt) {
-	        		    evt = evt || window.event;
-	        		    var keyCode = evt.keyCode;
-	        		    if (keyCode === 38) {
-	        		        suppressKeypress = true; 
-	        		        return false;
-	        		    }
-		        	})
-					.keydown(function(event) {
+                            }
 
-						if (event.keyCode === 13 && selectedElement > -1) {
+                            var settings = createAjaxSettings();
 
-							$field.val(config.get("getValue")(elementsList[selectedElement]));
+                            if (settings.url === undefined || settings.url === "") {
+                                settings.url = config.get("url");
+                            }
 
-							config.get("list").onKeyEnterEvent();
-							config.get("list").onChooseEvent();
+                            if (settings.dataType === undefined || settings.dataType === "") {
+                                settings.dataType = config.get("dataType");
+                            }
 
-							selectedElement = -1;
-							hideContainer();
 
-							event.preventDefault();
-						}
-					});
-			}
+                            if (settings.url !== undefined && settings.url !== "list-required") {
 
-			function bindKeypress() {
-				$field
-				.off("keypress");
-			}
+                                settings.url = settings.url(inputPhrase);
 
-			function bindFocus() {
-				$field.focus(function() {
+                                settings.data = config.get("preparePostData")(settings.data, inputPhrase);
 
-					if ($field.val() !== "" && elementsList.length > 0) {
-						
-						selectedElement = -1;
-						showContainer();	
-					}
-									
-				});
-			}
+                                $.ajax(settings)
+                                    .done(function (data) {
 
-			function bindBlur() {
-				$field.blur(function() {
-					setTimeout(function() { 
-						
-						selectedElement = -1;
-						hideContainer();
-					}, 250);
-				});
-			}
+                                        var listBuilders = listBuilderService.init(data);
 
-			function removeAutocomplete() {
-				$field.attr("autocomplete","off");
-			}
+                                        listBuilders = listBuilderService.updateCategories(listBuilders, data);
 
-		}
+                                        listBuilders = listBuilderService.convertXml(listBuilders);
+                                        if (checkInputPhraseMatchResponse(inputPhrase, data)) {
 
-		function showContainer() {
-			$container.trigger("show.eac");
-		}
+                                            listBuilders = listBuilderService.processData(listBuilders, inputPhrase);
 
-		function hideContainer() {
-			$container.trigger("hide.eac");
-		}
+                                            loadElements(listBuilders, inputPhrase);
 
-		function selectElement(index) {
-			
-			$container.trigger("selectElement.eac", index);
-		}
+                                        }
 
-		function loadElements(list, phrase) {
-			$container.trigger("loadElements.eac", [list, phrase]);
-		}
+                                        if (listBuilderService.checkIfDataExists(listBuilders) && $field.parent().find("li").length > 0) {
+                                            showContainer();
+                                        } else {
+                                            hideContainer();
+                                        }
 
-		function loseFieldFocus() {
-			$field.trigger("blur");
-		}
+                                        config.get("ajaxCallback")();
 
+                                    })
+                                    .fail(function () {
+                                        logger.warning("Fail to load response data");
+                                    })
+                                    .always(function () {
 
-	};
-	scope.eacHandles = [];
+                                    });
+                            }
 
-	scope.getHandle = function(id) {
-		return scope.eacHandles[id];
-	};
 
-	scope.inputHasId = function(input) {
 
-		if($(input).attr("id") !== undefined && $(input).attr("id").length > 0) {
-			return true;
-		} else {
-			return false;
-		}
+                            function createAjaxSettings() {
 
-	};
+                                var settings = {},
+                                    ajaxSettings = config.get("ajaxSettings") || {};
 
-	scope.assignRandomId = function(input) {
+                                for (var set in ajaxSettings) {
+                                    settings[set] = ajaxSettings[set];
+                                }
 
-		var fieldId = "";
+                                return settings;
+                            }
 
-		do {
-			fieldId = "eac-" + Math.floor(Math.random() * 10000);		
-		} while ($("#" + fieldId).length !== 0);
-		
-		elementId = scope.consts.getValue("CONTAINER_ID") + fieldId;
+                            function checkInputPhraseMatchResponse(inputPhrase, data) {
 
-		$(input).attr("id", fieldId);
- 
-	};
+                                if (config.get("matchResponseProperty") !== false) {
+                                    if (typeof config.get("matchResponseProperty") === "string") {
+                                        return (data[config.get("matchResponseProperty")] === inputPhrase);
+                                    }
 
-	scope.setHandle = function(handle, id) {
-		scope.eacHandles[id] = handle;
-	};
+                                    if (typeof config.get("matchResponseProperty") === "function") {
+                                        return (config.get("matchResponseProperty")(data) === inputPhrase);
+                                    }
 
+                                    return true;
+                                } else {
+                                    return true;
+                                }
 
-	return scope;
+                            }
+
+                        }
+
+
+                    });
+            }
+
+            function bindKeydown() {
+                $field
+                    .on("keydown", function (evt) {
+                        evt = evt || window.event;
+                        var keyCode = evt.keyCode;
+                        if (keyCode === 38) {
+                            suppressKeypress = true;
+                            return false;
+                        }
+                    })
+                    .keydown(function (event) {
+
+                        if (event.keyCode === 13 && selectedElement > -1) {
+
+                            $field.val(config.get("getValue")(elementsList[selectedElement]));
+
+                            config.get("list").onKeyEnterEvent();
+                            config.get("list").onChooseEvent();
+
+                            selectedElement = -1;
+                            hideContainer();
+
+                            event.preventDefault();
+                        }
+                    });
+            }
+
+            function bindKeypress() {
+                $field
+                    .off("keypress");
+            }
+
+            function bindFocus() {
+                $field.focus(function () {
+
+                    if ($field.val() !== "" && elementsList.length > 0) {
+
+                        selectedElement = -1;
+                        showContainer();
+                    }
+
+                });
+            }
+
+            function bindBlur() {
+                $field.blur(function () {
+                    setTimeout(function () {
+
+                        selectedElement = -1;
+                        hideContainer();
+                    }, 250);
+                });
+            }
+
+            function removeAutocomplete() {
+                $field.attr("autocomplete", "off");
+            }
+
+        }
+
+        function showContainer() {
+            $container.trigger("show.eac");
+        }
+
+        function hideContainer() {
+            $container.trigger("hide.eac");
+        }
+
+        function selectElement(index) {
+
+            $container.trigger("selectElement.eac", index);
+        }
+
+        function loadElements(list, phrase) {
+            $container.trigger("loadElements.eac", [list, phrase]);
+        }
+
+        function loseFieldFocus() {
+            $field.trigger("blur");
+        }
+
+
+    };
+    scope.eacHandles = [];
+
+    scope.getHandle = function (id) {
+        return scope.eacHandles[id];
+    };
+
+    scope.inputHasId = function (input) {
+
+        if ($(input).attr("id") !== undefined && $(input).attr("id").length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    };
+
+    scope.assignRandomId = function (input) {
+
+        var fieldId = "";
+
+        do {
+            fieldId = "eac-" + Math.floor(Math.random() * 10000);
+        } while ($("#" + fieldId).length !== 0);
+
+        elementId = scope.consts.getValue("CONTAINER_ID") + fieldId;
+
+        $(input).attr("id", fieldId);
+
+    };
+
+    scope.setHandle = function (handle, id) {
+        scope.eacHandles[id] = handle;
+    };
+
+
+    return scope;
 
 })(EasyAutocomplete || {});
 
-(function($) {
+(function ($) {
 
-	$.fn.easyAutocomplete = function(options) {
+    $.fn.easyAutocomplete = function (options) {
 
-		return this.each(function() {
-			var $this = $(this),
-				eacHandle = new EasyAutocomplete.main($this, options);
+        return this.each(function () {
+            var $this = $(this),
+                eacHandle = new EasyAutocomplete.main($this, options);
 
-			if (!EasyAutocomplete.inputHasId($this)) {
-				EasyAutocomplete.assignRandomId($this);
-			}
+            if (!EasyAutocomplete.inputHasId($this)) {
+                EasyAutocomplete.assignRandomId($this);
+            }
 
-			eacHandle.init();
+            eacHandle.init();
 
-			EasyAutocomplete.setHandle(eacHandle, $this.attr("id"));
+            EasyAutocomplete.setHandle(eacHandle, $this.attr("id"));
 
-		});
-	};
+        });
+    };
 
-	$.fn.getSelectedItemIndex = function() {
+    $.fn.getSelectedItemIndex = function () {
 
-		var inputId = $(this).attr("id");
+        var inputId = $(this).attr("id");
 
-		if (inputId !== undefined) {
-			return EasyAutocomplete.getHandle(inputId).getSelectedItemIndex();
-		}
+        if (inputId !== undefined) {
+            return EasyAutocomplete.getHandle(inputId).getSelectedItemIndex();
+        }
 
-		return -1;
-	};
+        return -1;
+    };
 
-	$.fn.getItems = function () {
+    $.fn.getItems = function () {
 
-		var inputId = $(this).attr("id");
+        var inputId = $(this).attr("id");
 
-		if (inputId !== undefined) {
-			return EasyAutocomplete.getHandle(inputId).getItems();
-		}
+        if (inputId !== undefined) {
+            return EasyAutocomplete.getHandle(inputId).getItems();
+        }
 
-		return -1;
-	};
+        return -1;
+    };
 
-	$.fn.getItemData = function(index) {
+    $.fn.getItemData = function (index) {
 
-		var inputId = $(this).attr("id");
+        var inputId = $(this).attr("id");
 
-		if (inputId !== undefined && index > -1) {
-			return EasyAutocomplete.getHandle(inputId).getItemData(index);
-		}
+        if (inputId !== undefined && index > -1) {
+            return EasyAutocomplete.getHandle(inputId).getItemData(index);
+        }
 
-		return -1;
-	};
+        return -1;
+    };
 
-	$.fn.getSelectedItemData = function() {
+    $.fn.getSelectedItemData = function () {
 
-		var inputId = $(this).attr("id");
+        var inputId = $(this).attr("id");
 
-		if (inputId !== undefined) {
-			return EasyAutocomplete.getHandle(inputId).getSelectedItemData();
-		}
+        if (inputId !== undefined) {
+            return EasyAutocomplete.getHandle(inputId).getSelectedItemData();
+        }
 
-		return -1;
-	};
+        return -1;
+    };
 
 })(jQuery);
