@@ -1073,23 +1073,23 @@ $(document).on('click', '#Save', function (e) {
     //var obj1 = JSON.stringify(objectifyForm(form1));
     var obj = objectifyPHFormforSave(form1);
     obj.status_M_N = 0;
-    $.confirm({
-        title: 'Payload Saved!',
-        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
-        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-        buttons: {
-            ok: function () { },
-            copy: {
-                text: 'Copy', // With spaces and symbols
-                action: function () {
-                    var copytext = this.$content.find("#Payload");
-                    copytext.select();
-                    document.execCommand("copy");
-                    return false;
-                }
-            }
-        }
-    });
+    //$.confirm({
+    //    title: 'Payload Saved!',
+    //    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+    //    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+    //    buttons: {
+    //        ok: function () { },
+    //        copy: {
+    //            text: 'Copy', // With spaces and symbols
+    //            action: function () {
+    //                var copytext = this.$content.find("#Payload");
+    //                copytext.select();
+    //                document.execCommand("copy");
+    //                return false;
+    //            }
+    //        }
+    //    }
+    //});
     if (curIdx > 0) {
         results.observations[curPos] = obj;
     }
@@ -1118,23 +1118,23 @@ $(document).on('click', '#SaveExit', function (e) {
     //var obj1 = JSON.stringify(objectifyForm(form1));
     var obj = objectifyPHFormforSave(form1);
     obj.status_M_N = 0;
-    $.confirm({
-        title: 'Payload Saved!',
-        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
-        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-        buttons: {
-            ok: function () { },
-            copy: {
-                text: 'Copy', // With spaces and symbols
-                action: function () {
-                    var copytext = this.$content.find("#Payload");
-                    copytext.select();
-                    document.execCommand("copy");
-                    return false;
-                }
-            }
-        }
-    });
+    //$.confirm({
+    //    title: 'Payload Saved!',
+    //    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+    //    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+    //    buttons: {
+    //        ok: function () { },
+    //        copy: {
+    //            text: 'Copy', // With spaces and symbols
+    //            action: function () {
+    //                var copytext = this.$content.find("#Payload");
+    //                copytext.select();
+    //                document.execCommand("copy");
+    //                return false;
+    //            }
+    //        }
+    //    }
+    //});
     if (curIdx > 0) {
         results.observations[curPos] = obj;
     }
@@ -1171,23 +1171,23 @@ $(document).on('click', '#Submit2', function (e) {
     if (result.vError == 0) {
         //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));
         obj.status_M_N = 1;
-        $.confirm({
-            title: 'Payload marked for Submit!',
-            content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
-            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-            buttons: {
-                ok: function () { },
-                copy: {
-                    text: 'Copy', // With spaces and symbols
-                    action: function () {
-                        var copytext = this.$content.find("#Payload");
-                        copytext.select();
-                        document.execCommand("copy");
-                        return false;
-                    }
-                }
-            }
-        });
+        //$.confirm({
+        //    title: 'Payload marked for Submit!',
+        //    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+        //    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+        //    buttons: {
+        //        ok: function () { },
+        //        copy: {
+        //            text: 'Copy', // With spaces and symbols
+        //            action: function () {
+        //                var copytext = this.$content.find("#Payload");
+        //                copytext.select();
+        //                document.execCommand("copy");
+        //                return false;
+        //            }
+        //        }
+        //    }
+        //});
         if (curIdx > 0) {
             results.observations[curPos] = obj;
         }

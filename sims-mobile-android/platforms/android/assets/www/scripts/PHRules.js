@@ -1527,7 +1527,7 @@ function Iterate(data) {
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'CountList') { CountListFlag = value; }
+                if (fname == 'CountList') { CountListFlag = $('input[name="' + index + '"]:checked').val(); }
                 if (fname == 'HostStatCount' && value == 0) { HostStatCountFlag = 1; }
                 if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && CountListFlag == 'Count' && plantDisciplineCode === 'B') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
