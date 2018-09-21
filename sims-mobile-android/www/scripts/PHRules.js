@@ -23,6 +23,8 @@ var cWkt;
 var vError = 0;
 var vErrDescription = [];
 var vFailed = false;
+var attachmentFlag = 0;
+var plantDisciplineCode;
 var CountListFlag = 0;
 var HostStatCountFlag = 0;
 var HostStatAreaFlag = 0;
@@ -44,6 +46,8 @@ function syncPHRefCodes() {
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Reference Codes ...");
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
         },
         "headers": {
             "authorization": authCode,
@@ -162,6 +166,8 @@ function syncActivityData() {
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Activity Data ...");
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
         },
         "headers": {
             "authorization": authCode,
@@ -222,6 +228,8 @@ function syncstaffData() {
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing NPH Staff Data ...");
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
         },
         "headers": {
             "authorization": authCode,
@@ -268,6 +276,8 @@ function syncBPHstaffData() {
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing BPH Staff Data ...");
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
         },
         "headers": {
             "authorization": authCode,
@@ -313,6 +323,8 @@ function syncIPHstaffData() {
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing IPH Staff Data ...");
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
         },
         "headers": {
             "authorization": authCode,
@@ -368,6 +380,8 @@ function syncTaxaData() {
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Taxa ...");
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
         },
         "headers": {
             "authorization": authCode,
@@ -511,6 +525,7 @@ function loadEntoSample() {
     $('#samples').append(that);
     $('#numSamples').text(esamples);
     BindAutoCompleteES(that.find('.taxonTextES'));
+    BindAutoCompleteHES(that.find('.taxonTextHES'));
 }
 function loadPathSample() {
     psamples = psamples + 1;
@@ -543,6 +558,7 @@ function loadPathSample() {
     $('#samples').append(that);
     $('#numSamples').text(psamples);
     BindAutoCompletePS(that.find('.taxonTextPS'));
+    BindAutoCompleteHPS(that.find('.taxonTextHPS'));
 }
 function getNextID(e) {
     //Read from DB
@@ -565,6 +581,8 @@ function loadModal(pagename) {
         beforeSend: function (xhr) {
             $('#modalProgress').modal();
             $('#mb6 .progText').text("Loading ...");
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
             $('#mb').empty();
             $('#mt').empty();
             $('#mt2').empty();
@@ -593,11 +611,13 @@ function loadModal(pagename) {
             }
         }).complete(function () {
             if (curIdx > -1) {
-                var data = results.observations[curIdx - 1];
+                var data = results.observations[curPos];
                 //console.log(JSON.stringify(data));
                 //console.time('load Modal');
                 $.each(data, function (key, value) {
                     //console.time('load Modal 1');
+                    if (key.startsWith('WaypointNumber') && value > 0) { $('#form1').find("input[name='WaypointNumber_O_N']").val(value); }
+                    if (key.startsWith('WaypointNumber') && value === 0) { $('#form1').find("input[name='WaypointNumber_O_N']").val(''); }
                     if (key.startsWith('ObservationWhereWktClob') && value != "") {
                         var wkt = new Wkt.Wkt();
                         wkt.read(value);
@@ -686,7 +706,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key == "PlantObsTab" && curDiscipline == "E" && value.length > 0) {
+                    if (key === "PlantObsTab" && curDiscipline == "E" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -743,7 +763,7 @@ function loadModal(pagename) {
                                                     $('div.entobox').eq(key1).find('div.entotarget').eq(key3).find("input[type='date'][name^='" + key4 + "']").val(value4);
                                                     $('div.entobox').eq(key1).find('div.entotarget').eq(key3).find("input[type='number'][name^='" + key4 + "']").val(value4);
                                                     $('div.entobox').eq(key1).find('div.entotarget').eq(key3).find("input[type='checkbox'][name^='" + key4 + "']").val(value4);
-                                                    $('div.entobox').eq(key1).find('div.entotarget').eq(key3).find("input[type='checkbox'][name^='" + key4 + "'][value='on']").iCheck('check');
+                                                    $('div.entobox').eq(key1).find('div.entotarget').eq(key3).find("input[type='checkbox'][name^='" + key4 + "'][value='Y']").iCheck('check');
                                                     $('div.entobox').eq(key1).find('div.entotarget').eq(key3).find("input[type='radio'][name^='" + key4 + "'][value='" + value4 + "']").iCheck('check');
                                                     //$('div.entobox').eq(key1).find('div.entotarget').eq(key3).find("input[type='radio'][name^='" + key4 + "']").val(value4);
                                                     $('div.entobox').eq(key1).find('div.entotarget').eq(key3).find("select[name^='" + key4 + "']").val(value4);
@@ -777,7 +797,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key == "PlantObsTab" && curDiscipline == "P" && value.length > 0) {
+                    if (key === "PlantObsTab" && curDiscipline == "P" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -834,7 +854,7 @@ function loadModal(pagename) {
                                                     $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='date'][name^='" + key4 + "']").val(value4);
                                                     $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='number'][name^='" + key4 + "']").val(value4);
                                                     $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='checkbox'][name^='" + key4 + "']").val(value4);
-                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='checkbox'][name^='" + key4 + "'][value='on']").iCheck('check');
+                                                    $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='checkbox'][name^='" + key4 + "'][value='Y']").iCheck('check');
                                                     $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='radio'][name^='" + key4 + "'][value='" + value4 + "']").iCheck('check');
                                                     //$('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("input[type='radio'][name^='" + key4 + "']").val(value4);
                                                     $('div.pathbox').eq(key1).find('div.pathtarget').eq(key3).find("select[name^='" + key4 + "']").val(value4);
@@ -868,7 +888,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key == "PlantSampleTab" && curDiscipline == "B" && value.length > 0) {
+                    if (key === "PlantSampleTab" && curDiscipline == "B" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -908,7 +928,7 @@ function loadModal(pagename) {
                                     $('div.sample').eq(key1).find("input[type='datetime-local'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='on']").iCheck('check');
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='Y']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
                                     //$('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
@@ -939,7 +959,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key == "PlantSampleTab" && curDiscipline == "E" && value.length > 0) {
+                    if (key === "PlantSampleTab" && curDiscipline == "E" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -984,7 +1004,7 @@ function loadModal(pagename) {
                                     $('div.sample').eq(key1).find("input[type='datetime-local'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='on']").iCheck('check');
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='Y']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
                                     //$('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
@@ -1015,7 +1035,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key == "PlantSampleTab" && curDiscipline == "P" && value.length > 0) {
+                    if (key === "PlantSampleTab" && curDiscipline == "P" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -1055,7 +1075,7 @@ function loadModal(pagename) {
                                     $('div.sample').eq(key1).find("input[type='datetime-local'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("input[type='number'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "']").val(value2);
-                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='on']").iCheck('check');
+                                    $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "'][value='Y']").iCheck('check');
                                     $('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "'][value='" + value2 + "']").iCheck('check');
                                     //$('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
@@ -1089,9 +1109,9 @@ function loadModal(pagename) {
                     $('#form1').find("input[type='text'][name^='" + key + "']").val(value);
                     $('#form1').find("input[type='date'][name^='" + key + "']").val(value);
                     $('#form1').find("input[type='datetime-local'][name^='" + key + "']").val(value);
-                    $('#form1').find("input[type='number'][name^='" + key + "']").val(value);
+                    $('#form1').find("input:not([name^='WaypointNumber'])[type='number'][name^='" + key + "']").val(value);
                     $('#form1').find("input[type='checkbox'][name^='" + key + "']").val(value);
-                    $('#form1').find("input[type='checkbox'][name^='" + key + "'][value='on']").iCheck('check');
+                    $('#form1').find("input[type='checkbox'][name^='" + key + "'][value='Y']").iCheck('check');
                     $('#form1').find("input[type='radio'][name^='" + key + "'][value='" + value + "']").iCheck('check');
                     //$('#form1').find("input[type='radio'][name^='" + key + "']").val(value);
                     $('#form1').find("select[name^='" + key + "']").val(value);
@@ -1378,8 +1398,8 @@ function objectifyPHFormforSubmit(data) {//serialize data function
             if (item.PlantPartTab && item.PlantPartTab.length === 0) { delete item.PlantPartTab };
             if (item.PlantPreservationTab && item.PlantPreservationTab.length === 0) { delete item.PlantPreservationTab };
             if (item.attachments && item.attachments.attachment.length === 0) { delete item.attachments };
-            if (item.PrelimTaxonText !== "") {
-                delete item.PrelimTaxonId;
+            if (item.PrelimTaxonId !== "") {
+                delete item.PrelimTaxonText;
             }
             if (item.PlantPreservOtherText === "") {
                 delete item.PlantPreservOtherText;
@@ -1387,9 +1407,9 @@ function objectifyPHFormforSubmit(data) {//serialize data function
             if (item.HostIdentifiedUserId === 0) {
                 delete item.HostIdentifiedUserId;
             }
-            //if (item.HostTaxonText !== "") {
-            //    delete item.HostTaxonId;
-            //}
+            if (item.HostTaxonId !== "") {
+                delete item.HostTaxonText;
+            }
             if (item.SamplePointWktClob === "") {
                 delete item.SamplePointWktClob;
                 delete item.GpsDatumId;
@@ -1400,6 +1420,15 @@ function objectifyPHFormforSubmit(data) {//serialize data function
             if (item.PathSevCode === "NONE") {
                 delete item.PathSevCode;
             }
+            if (item.EntoInfestedPctCode === "NONE") {
+                delete item.EntoInfestedPctCode;
+            }
+            if (item.EntoDamageLevelCode === "NONE") {
+                delete item.EntoDamageLevelCode;
+            }
+            if (item.EntoPestLevelCode === "NONE") {
+                delete item.EntoPestLevelCode;
+            }
         });
     };
     $.each(jsonData.PlantObsTab, function (i, item) {
@@ -1408,9 +1437,9 @@ function objectifyPHFormforSubmit(data) {//serialize data function
         if (item.HostStatCount === 0) { delete item.HostStatCount };
         if (item.PlantObsTargetTab && item.PlantObsTargetTab.length === 0) { delete item.PlantObsTargetTab };
         if (item.attachments && item.attachments.attachment.length === 0) { delete item.attachments };
-        //if (item.PlantTaxonText !== "") {
-        //    delete item.PlantTaxonId;
-        //}
+        if (item.PlantTaxonId !== "") {
+            delete item.PlantTaxonText;
+        }
         if (item.CommentText === "") {
             delete item.CommentText;
         }
@@ -1424,11 +1453,11 @@ function objectifyPHFormforSubmit(data) {//serialize data function
         if (item.PlantLifeStgCode === "NONE") {
             delete item.PlantLifeStgCode;
         }
-        //$.each(item.PlantObsTargetTab, function (i, item1) {
-        //    if (item1.TargetTaxonText !== "") {
-        //        delete item1.TargetTaxonId;
-        //    }
-        //});
+        $.each(item.PlantObsTargetTab, function (i, item1) {
+            if (item1.TargetTaxonId !== "") {
+                delete item1.TargetTaxonText;
+            }
+        });
     });
     CleanUp(jsonData);
     delete jsonData.status;
@@ -1463,6 +1492,9 @@ function Iterate(data) {
                 //var vPlantPreservation = fname.split("-")[1];
                 //if (vPlantPreservation === 'O') { PlantPreservationOtherFlag = 1; }
             }
+            if (index === 'attachment') {
+                attachmentFlag = 1;
+            }
             //if (index == 'PlantSampleTab' && value.length == 0) {
             //    vError = 1;
             //    vErrDescription.push('Minimum one Sample expected.You can Save & Exit instead.');
@@ -1474,11 +1506,20 @@ function Iterate(data) {
         else {
             //console.log(index + ":" + value);
             if (isNaN(index)) {
+                if (index === 'name' && attachmentFlag === 1 && $.trim(value) === ".jpg") {
+                    vError = 1;
+                    vErrDescription.push("Please fill Attachment Name.");
+                    vFailed = true;
+                    return false;
+                }
+
                 var fname = index.split("_")[0];
                 var fMOC = index.split("_")[1];
                 var fNSD = index.split("_")[2];
                 var fnum = index.split("_")[3];
                 var ftype = index.split("_")[4];
+
+                if (fname == 'PlantDisciplineCode') { plantDisciplineCode = value; }
 
                 if (fname == 'SubmittedByStaffId' && value < 2) {
                     vError = 1;
@@ -1486,18 +1527,32 @@ function Iterate(data) {
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'CountList') { CountListFlag = value; }
+                if (fname == 'CountList') { CountListFlag = $('input[name="' + index + '"]:checked').val(); }
                 if (fname == 'HostStatCount' && value == 0) { HostStatCountFlag = 1; }
-                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && CountListFlag == 'Count') {
+                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && CountListFlag == 'Count' && plantDisciplineCode === 'B') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
+                    vFailed = true;
+                    return false;
+                }
+                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && plantDisciplineCode === 'E') {
+                    //console.log('HostStatCount and Area fields - both cannot be NULL');
+                    vError = 1;
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
+                    vFailed = true;
+                    return false;
+                }
+                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && plantDisciplineCode === 'P') {
+                    //console.log('HostStatCount and Area fields - both cannot be NULL');
+                    vError = 1;
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
                 if (fname == 'TimeHourCount' && fNSD == 'S' && value.indexOf('_') > -1) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>Invalid Duration Value.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Duration Value.");
                     vFailed = true;
                     return false;
                 }
@@ -1507,7 +1562,7 @@ function Iterate(data) {
                     wkt.toObject();
                     if (wkt.toJson().coordinates[1] < -180 || wkt.toJson().coordinates[1] > 180 || wkt.toJson().coordinates[0] < -180 || wkt.toJson().coordinates[0] > 180) {
                         vError = 1;
-                        vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
+                        vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
                         vFailed = true;
                         return false;
                     }
@@ -1518,7 +1573,7 @@ function Iterate(data) {
                     wkt.toObject();
                     if (wkt.toJson().coordinates[1] < -180 || wkt.toJson().coordinates[1] > 180 || wkt.toJson().coordinates[0] < -180 || wkt.toJson().coordinates[0] > 180) {
                         vError = 1;
-                        vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
+                        vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
                         vFailed = true;
                         return false;
                     }
@@ -1529,7 +1584,7 @@ function Iterate(data) {
 
                 if (fname == 'CommentText' && ftype === "T" && value === "" && PlantTargetObservedCodeFlag === 1) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>Comments Text for TargetObserved field cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Comments Text for TargetObserved field cannot be NULL.");
                     PlantTargetObservedCodeFlag = 0;
                     vFailed = true;
                     return false;
@@ -1540,35 +1595,35 @@ function Iterate(data) {
                     wkt.toObject();
                     if (wkt.toJson().coordinates[1] < -180 || wkt.toJson().coordinates[1] > 180 || wkt.toJson().coordinates[0] < -180 || wkt.toJson().coordinates[0] > 180) {
                         vError = 1;
-                        vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
+                        vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
                         vFailed = true;
                         return false;
                     }
                 }
                 if (fname == 'PlantPreservOtherText' && fNSD === 'S' && value === '' && PlantPreservationOtherFlag === 1) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>PlantPreservOtherText cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>PlantPreservOtherText cannot be NULL.");
                     PlantPreservationOtherFlag = 0;
                     vFailed = true;
                     return false;
                 }
                 if (fname == 'PlantPreservOtherText' && fNSD == 'S' && value !== '' && PlantPreservationOtherFlag === 0) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>Invalid PlantPreservOtherText.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid PlantPreservOtherText.");
                     vFailed = true;
                     return false;
                 }
                 if (fMOC == 'M' && fNSD == 'S' && (value === '' || value === 'NONE')) {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>" + fname + " field cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
                 if (fMOC == 'M' && fNSD == 'D' && value == '') {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>" + fname + " field cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
@@ -1578,26 +1633,40 @@ function Iterate(data) {
                     if (fname == 'HostStatAreaNo') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>" + fname + " field cannot be NULL or ZERO.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL or ZERO.");
                     vFailed = true;
                     return false;
                 }
                 if (fMOC == 'O' && fNSD == 'N' && value == 0) {
                     //console.log(index + ' field cannot be NULL');
                     if (fname == 'SiteId') return true;
+                    if (fname == 'AltitudeNo') return true;
+                    if (fname == 'PlantTaxonId') return true;
+                    if (fname == 'TargetTaxonId') return true;
+                    if (fname == 'PrelimTaxonId') return true;
+                    if (fname == 'HostTaxonId') return true;
+                    if (fname == 'CollectedAltitudeNo') return true;
+                    if (fname == 'WaypointNumber' && $('input[name="' + index + '"]').val() === "") return true;
+                    if (fname == 'WaypointNumber' && ($('input[name="' + index + '"]').val() !== "") && (value < 1 || value > 99999)) {
+                        vError = 1;
+                        vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Waypoint Number.");
+                        vFailed = true;
+                        return false;
+                    }
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>" + fname + ' field cannot be ZERO');
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be ZERO");
                     vFailed = true;
                     return false;
                 }
             }
         }
     });
-    if (vFailed == true) {
+    if (vFailed === true) {
         return { "vError": vError, "vErrDescription": vErrDescription.join('<br/>') };
     } else { return { "vError": 0, "vErrDescription": "" }; }
 }
 function Iterate2(data) {
+    var plantDisciplineCode;
     var modData = JSON.parse(JSON.stringify(data));
     //if (modData && modData.status_M_N) { delete modData.status_M_N; }
     $.each(modData, function (index, value) {
@@ -1615,6 +1684,9 @@ function Iterate2(data) {
                 //var vPlantPreservation = fname.split("-")[1];
                 //if (vPlantPreservation === 'O') { PlantPreservationOtherFlag = 1; }
             }
+            if (index === 'attachment') {
+                attachmentFlag = 1;
+            }
             //if (index == 'PlantSampleTab' && value.length == 0) {
             //    vError = 1;
             //    vErrDescription.push('Minimum one Sample expected.You can Save & Exit instead.');
@@ -1626,11 +1698,21 @@ function Iterate2(data) {
         else {
             //console.log(index + ":" + value);
             if (isNaN(index)) {
+
+                if (index === 'name' && attachmentFlag === 1 && $.trim(value) === ".jpg") {
+                    vError = 1;
+                    vErrDescription.push("Please fill Attachment Name.");
+                    vFailed = true;
+                    return false;
+                }
+
                 var fname = index.split("_")[0];
                 var fMOC = index.split("_")[1];
                 var fNSD = index.split("_")[2];
                 var fnum = index.split("_")[3];
                 var ftype = index.split("_")[4];
+
+                if (fname == 'PlantDisciplineCode') { plantDisciplineCode = value; }
 
                 if (fname == 'SubmittedByStaffId' && value < 2) {
                     vError = 1;
@@ -1640,17 +1722,31 @@ function Iterate2(data) {
                 }
                 if (fname == 'CountList') { CountListFlag = value; }
                 if (fname == 'HostStatCount' && value == 0) { HostStatCountFlag = 1; }
-                if (fname.startsWith('PlantPreservationTab') && ($.inArray("O", value) !== -1)) {
-                    //var vPlantPreservation = fname.split("-")[1];
-                    //if (vPlantPreservation === 'O') { PlantPreservationOtherFlag = 1; }
-                    PlantPreservationOtherFlag = 1;
-                }
-                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && CountListFlag == 'Count') {
+                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && CountListFlag == 'Count' && plantDisciplineCode === 'B') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
                     vFailed = true;
                     return false;
+                }
+                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && plantDisciplineCode === 'E') {
+                    //console.log('HostStatCount and Area fields - both cannot be NULL');
+                    vError = 1;
+                    vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
+                    vFailed = true;
+                    return false;
+                }
+                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && plantDisciplineCode === 'P') {
+                    //console.log('HostStatCount and Area fields - both cannot be NULL');
+                    vError = 1;
+                    vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
+                    vFailed = true;
+                    return false;
+                }
+                if (fname.startsWith('PlantPreservationTab') && ($.inArray("O", value) !== -1)) {
+                    //var vPlantPreservation = fname.split("-")[1];
+                    //if (vPlantPreservation === 'O') { PlantPreservationOtherFlag = 1; }
+                    PlantPreservationOtherFlag = 1;
                 }
                 if (fname == 'TimeHourCount' && fNSD == 'S' && value.indexOf('_') > -1) {
                     vError = 1;
@@ -1742,15 +1838,22 @@ function Iterate2(data) {
                 if (fMOC == 'O' && fNSD == 'N' && value == 0) {
                     //console.log(index + ' field cannot be NULL');
                     if (fname == 'SiteId') return true;
+                    if (fname == 'AltitudeNo') return true;
+                    if (fname == 'PlantTaxonId') return true;
+                    if (fname == 'TargetTaxonId') return true;
+                    if (fname == 'PrelimTaxonId') return true;
+                    if (fname == 'HostTaxonId') return true;
+                    if (fname == 'CollectedAltitudeNo') return true;
+                    if (fname == 'WaypointNumber') return true;
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-jump='" + index + "'>Go</a>" + fname + ' field cannot be ZERO');
+                    vErrDescription.push(fname + " field cannot be ZERO");
                     vFailed = true;
                     return false;
                 }
             }
         }
     });
-    if (vFailed == true) {
+    if (vFailed === true) {
         return { "vError": vError, "vErrDescription": vErrDescription.join('<br/>') };
     } else { return { "vError": 0, "vErrDescription": "" }; }
 }
@@ -2306,6 +2409,7 @@ $(document).on('click', '#addBotanySample', function (e) {
     that.find('textarea').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
     })
+    that.find("input[name^='CollectedSampleCount']").val('1');
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
@@ -2382,6 +2486,7 @@ $(document).on('click', '#addEntoSample', function (e) {
     that.find('textarea').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
     })
+    that.find("input[name^='CollectedSampleCount']").val('1');
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
@@ -2457,6 +2562,7 @@ $(document).on('click', '#addPathSample', function (e) {
     that.find('textarea').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
     })
+    that.find("input[name^='CollectedSampleCount']").val('1');
     //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
@@ -2794,6 +2900,8 @@ $(document).on('click', 'a.downloadMaps', function (e) {
     t0 = performance.now();
     $('#modalProgress').modal();
     $('#mb6 .progText').text("Download in progress ...");
+    $('#mb6 .progress').removeClass('hide');
+    $('#mb6 .fa-clock-o').removeClass('hide');
     $('#mb6 .progTime').text(new Date().toString());
     getFileandExtract(url, mapset, 1, numfiles);
 });
@@ -2801,7 +2909,7 @@ $(document).on('focus', 'select[name="SiteId_O_N"]', function (e) {
     lastValue = $(this).val();
 }).on('change', 'select[name="SiteId_O_N"]', function (e) {
     var that = $(this);
-    if (that.val() === "0") return;
+    if (that.val() === "0" || lastValue === "0") return;
     if (curDiscipline === "B" && numPlants === 0 && bsamples === 0) return;
     if (curDiscipline === "E" && numEntoHosts === 0 && esamples === 0) return;
     if (curDiscipline === "P" && numPathHosts === 0 && psamples === 0) return;
@@ -2859,6 +2967,8 @@ function getFileandExtract(url, mapset, i, n) {
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));
     $('#mb6 .progText').text("File " + i + " out of " + n + ": Download in progress ...");
+    $('#mb6 .progress').removeClass('hide');
+    $('#mb6 .fa-clock-o').removeClass('hide');
     $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
     url2 = url + mapset + pad(i, 2) + ".zip";
     filename = mapset + pad(i, 2) + ".zip";
@@ -2873,6 +2983,8 @@ function getFileandExtract(url, mapset, i, n) {
         },
         function (error) {
             $('#mb6 .progText').text(error.source);
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
         },
         null, {}
     );
@@ -2882,11 +2994,15 @@ function processZip(zipSource, destination, url, mapset, i, n) {
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));
     $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
+    $('#mb6 .progress').removeClass('hide');
+    $('#mb6 .fa-clock-o').removeClass('hide');
     //$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0).text('0%');  
 
     var progressHandler = function (progressEvent) {
         var percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
         $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
+        $('#mb6 .progress').removeClass('hide');
+        $('#mb6 .fa-clock-o').removeClass('hide');
         $('.progress-bar').css('width', percent + '%').attr('aria-valuenow', percent).text(percent + '%');
     };
     // Proceed to unzip the file

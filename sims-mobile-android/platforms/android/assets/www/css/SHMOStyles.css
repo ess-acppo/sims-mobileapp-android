@@ -117,7 +117,7 @@ html, body {
 }
 
 #modalProgress .modal-dialog {
-    width: 80%;
+    width: 50%;
     z-index: 350;
     top: 20%;
     text-align: center;
