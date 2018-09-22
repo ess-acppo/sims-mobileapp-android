@@ -3,7 +3,7 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Google Sans',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    font-family: 'Open Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -86,9 +86,11 @@ html, body {
 
 #modalAuth .modal-dialog {
     margin: 4% auto;
+    width: 50%;
 }
 
 #modalForm .modal-dialog {
+    margin: 1% auto;
     z-index: 204;
 }
 
@@ -96,7 +98,8 @@ html, body {
     z-index: 205;
 }
 
-#modalGrid .modal-dialog {
+#modalGrid .modal-dialog, #modalPHGrid .modal-dialog, #modalPHMenu .modal-dialog {
+    margin: 1% auto;
     z-index: 102;
 }
 
@@ -163,7 +166,7 @@ html, body {
 }
 
 .modal-dialog {
-    width: 100%;
+    width: 96%;
     margin: 0px auto;
 }
 
@@ -896,6 +899,7 @@ hr {
         width: 50px;
         height: 50px;
         padding: 10px 10px 6px 8px;
+        margin:3px;
         font-size: 14px;
         line-height: 1.33;
         border-radius: 25px;
@@ -1193,8 +1197,13 @@ text-right {
 
 @media (min-width: 768px) {
     .modal-dialog {
-        width: 100%;
+        width: 96%;
         margin: 0px auto;
+    }
+
+    #modalAuth .modal-dialog {
+        width: 50%;
+        margin: 4% auto;
     }
 }
 
@@ -1209,6 +1218,16 @@ text-right {
 
     .esfatitle {
         font-size: 1.2rem;
+    }
+
+    .modal-dialog {
+        width: 96%;
+        margin: 0px auto;
+    }
+
+    #modalAuth .modal-dialog {
+        width: 96%;
+        margin: 4% auto;
     }
 }
 
