@@ -62,28 +62,28 @@ function syncPHRefCodes() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO phrefcodes (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'refcodes', JSON.stringify(PHRefCodes)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE phrefcodes SET settingsval = ? WHERE id = ?", [JSON.stringify(PHRefCodes), 1], function (tx, res) {
                 //alert("Dataset updated.");
-                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
+                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         $('#modalProgress').modal('hide');
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching reference codes. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching reference codes. " + err.message, location: "tc", size: "large" });
     });
 }
 function loadPHRefCodes() {
@@ -183,27 +183,27 @@ function syncActivityData() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO activitydata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'activity', JSON.stringify(ActivityData)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE activitydata SET settingsval = ? WHERE id = ?", [JSON.stringify(ActivityData), 1], function (tx, res) {
                 //alert("Dataset updated.");
-                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
+                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching ActivityData. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching ActivityData. " + err.message, location: "tc", size: "large" });
     });
 }
 function loadActivityData() {
@@ -244,28 +244,28 @@ function syncstaffData() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while deleting NPH StaffData from database. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting NPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'NPHstaff', JSON.stringify(staffDataNPH)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataNPH), 1], function (tx, res) {
                 //alert("Dataset updated.");
-                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
+                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         syncBPHstaffData();
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + err.message, location: "tc", size: "large" });
     });
 }
 function syncBPHstaffData() {
@@ -291,28 +291,28 @@ function syncBPHstaffData() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while deleting BPH StaffData from database. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting BPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [2, 'BPHstaff', JSON.stringify(staffDataBPH)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataBPH), 2], function (tx, res) {
                 //alert("Dataset updated.");
-                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
+                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         syncIPHstaffData();
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching BPH StaffData. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching BPH StaffData. " + err.message, location: "tc", size: "large" });
     });
 }
 function syncIPHstaffData() {
@@ -338,22 +338,22 @@ function syncIPHstaffData() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while deleting IPH StaffData from database. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting IPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [3, 'IPHstaff', JSON.stringify(staffDataIPH)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataIPH), 3], function (tx, res) {
                 //alert("Dataset updated.");
-                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
+                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         switch (programId) {
             case "NPH":
@@ -369,7 +369,7 @@ function syncIPHstaffData() {
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + err.message, location: "tc", size: "large" });
     });
 }
 function syncTaxaData() {
@@ -395,27 +395,27 @@ function syncTaxaData() {
                 //alert("Rows deleted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while deleting Taxa Data from database. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while deleting Taxa Data from database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("INSERT INTO taxadata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'taxa', JSON.stringify(taxaData)], function (tx, res) {
                 //alert("Row inserted.");
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating Taxa Data to database. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating Taxa Data to database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
         db.transaction(function (tx) {
             tx.executeSql("UPDATE taxadata SET settingsval = ? WHERE id = ?", [JSON.stringify(taxaData), 1], function (tx, res) {
                 //alert("Dataset updated.");
-                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "bc", size: "large", fixed: "true" });
+                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
             });
         }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating Taxa Data to database. " + err.message, location: "bc", size: "large", fixed: "true" });
+            $.growl.error({ title: "", message: "An error occured while updating Taxa Data to database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching Taxa Data. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching Taxa Data. " + err.message, location: "tc", size: "large" });
     });
 }
 function loadstaffData() {
@@ -435,7 +435,7 @@ function loadstaffData() {
 }
 function loadSitePolygons() {
     $.each(siteData, function (key, val) {
-        if (val.id == 99999) { return true; }
+        if (val.id === 99999) { return true; }
         var wkt = new Wkt.Wkt();
         wkt.read(val.locationDatum.wkt);
         wkt.toObject();
@@ -571,7 +571,7 @@ function getNextID(e) {
             $("#form1").find('input[type="text"].nextid').last().val(e + pad(nextID.toString(), 6));
         });
     }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "tc", size: "large" });
     });
 }
 function loadModal(pagename) {
@@ -618,7 +618,7 @@ function loadModal(pagename) {
                     //console.time('load Modal 1');
                     if (key.startsWith('WaypointNumber') && value > 0) { $('#form1').find("input[name='WaypointNumber_O_N']").val(value); }
                     if (key.startsWith('WaypointNumber') && value === 0) { $('#form1').find("input[name='WaypointNumber_O_N']").val(''); }
-                    if (key.startsWith('ObservationWhereWktClob') && value != "") {
+                    if (key.startsWith('ObservationWhereWktClob') && value !== "") {
                         var wkt = new Wkt.Wkt();
                         wkt.read(value);
                         wkt.toObject();
@@ -637,7 +637,7 @@ function loadModal(pagename) {
                             addlObservers = addlObservers + option1;
                         });
                     }
-                    if (key === "PlantObsTab" && curDiscipline == "B" && value.length > 0) {
+                    if (key === "PlantObsTab" && curDiscipline === "B" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -681,7 +681,7 @@ function loadModal(pagename) {
                                     $('div.hostweed').eq(key1).find("input:not([name^='CountList'])[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.hostweed').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
-                                    if (key2 == "attachments") {
+                                    if (key2 === "attachments") {
                                         $.each(value2.attachment, function (key3, value3) {
                                             $.ajax({
                                                 url: "",
@@ -689,12 +689,12 @@ function loadModal(pagename) {
                                                     $('div.hostweed').eq(key1).find("#addPlantObsAttachment").trigger("click");
                                                 }
                                             }).complete(function (e) {
-                                                if (value3.content != "") {
+                                                if (value3.content !== "") {
                                                     $('div.hostweed').eq(key1).find("input[name^='PlantObsAttachmentD_M_S_" + key3 + "_H']").val(value3.description);
                                                     $('div.hostweed').eq(key1).find("img[name^='iPlantObsAttachment_M_S_" + key3 + "_H']").attr("src", "data:image/jpeg;base64," + value3.content);
                                                     $('div.hostweed').eq(key1).find("textarea[name^='PlantObsAttachment_M_S_" + key3 + "_H']").val(value3.content);
                                                 }
-                                                if (value3.content == "") {
+                                                if (value3.content === "") {
                                                     $('div.hostweed').eq(key1).find("input[name^='PlantObsAttachmentD_M_S_" + key3 + "_H']").val(value3.description);
                                                     $('div.hostweed').eq(key1).find("img[name^='iPlantObsAttachment_M_S_" + key3 + "_H']").attr("src", "images/plant.png");
                                                     $('div.hostweed').eq(key1).find("textarea[name^='PlantObsAttachment_M_S_" + key3 + "_H']").val("");
@@ -706,7 +706,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key === "PlantObsTab" && curDiscipline == "E" && value.length > 0) {
+                    if (key === "PlantObsTab" && curDiscipline === "E" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -748,7 +748,7 @@ function loadModal(pagename) {
                                     //$('div.entobox').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.entobox').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.entobox').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
-                                    if (key2 == "PlantObsTargetTab") {
+                                    if (key2 === "PlantObsTargetTab") {
                                         $.each(value2, function (key3, value3) {
                                             $.ajax({
                                                 url: "",
@@ -772,7 +772,7 @@ function loadModal(pagename) {
                                             });
                                         });
                                     }
-                                    if (key2 == "attachments") {
+                                    if (key2 === "attachments") {
                                         $.each(value2.attachment, function (key3, value3) {
                                             $.ajax({
                                                 url: "",
@@ -780,12 +780,12 @@ function loadModal(pagename) {
                                                     $('div.entobox').eq(key1).find("#addPlantObsAttachment").trigger("click");
                                                 }
                                             }).complete(function (e) {
-                                                if (value3.content != "") {
+                                                if (value3.content !== "") {
                                                     $('div.entobox').eq(key1).find("input[name^='PlantObsAttachmentD_M_S_" + key3 + "_H']").val(value3.description);
                                                     $('div.entobox').eq(key1).find("img[name^='iPlantObsAttachment_M_S_" + key3 + "_H']").attr("src", "data:image/jpeg;base64," + value3.content);
                                                     $('div.entobox').eq(key1).find("textarea[name^='PlantObsAttachment_M_S_" + key3 + "_H']").val(value3.content);
                                                 }
-                                                if (value3.content == "") {
+                                                if (value3.content === "") {
                                                     $('div.entobox').eq(key1).find("input[name^='PlantObsAttachmentD_M_S_" + key3 + "_H']").val(value3.description);
                                                     $('div.entobox').eq(key1).find("img[name^='iPlantObsAttachment_M_S_" + key3 + "_H']").attr("src", "images/plant.png");
                                                     $('div.entobox').eq(key1).find("textarea[name^='PlantObsAttachment_M_S_" + key3 + "_H']").val("");
@@ -797,7 +797,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key === "PlantObsTab" && curDiscipline == "P" && value.length > 0) {
+                    if (key === "PlantObsTab" && curDiscipline === "P" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -839,7 +839,7 @@ function loadModal(pagename) {
                                     //$('div.pathbox').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.pathbox').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.pathbox').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
-                                    if (key2 == "PlantObsTargetTab") {
+                                    if (key2 === "PlantObsTargetTab") {
                                         $.each(value2, function (key3, value3) {
                                             $.ajax({
                                                 url: "",
@@ -863,7 +863,7 @@ function loadModal(pagename) {
                                             });
                                         });
                                     }
-                                    if (key2 == "attachments") {
+                                    if (key2 === "attachments") {
                                         $.each(value2.attachment, function (key3, value3) {
                                             $.ajax({
                                                 url: "",
@@ -871,12 +871,12 @@ function loadModal(pagename) {
                                                     $('div.pathbox').eq(key1).find("#addPlantObsAttachment").trigger("click");
                                                 }
                                             }).complete(function (e) {
-                                                if (value3.content != "") {
+                                                if (value3.content !== "") {
                                                     $('div.pathbox').eq(key1).find("input[name^='PlantObsAttachmentD_M_S_" + key3 + "_H']").val(value3.description);
                                                     $('div.pathbox').eq(key1).find("img[name^='iPlantObsAttachment_M_S_" + key3 + "_H']").attr("src", "data:image/jpeg;base64," + value3.content);
                                                     $('div.pathbox').eq(key1).find("textarea[name^='PlantObsAttachment_M_S_" + key3 + "_H']").val(value3.content);
                                                 }
-                                                if (value3.content == "") {
+                                                if (value3.content === "") {
                                                     $('div.pathbox').eq(key1).find("input[name^='PlantObsAttachmentD_M_S_" + key3 + "_H']").val(value3.description);
                                                     $('div.pathbox').eq(key1).find("img[name^='iPlantObsAttachment_M_S_" + key3 + "_H']").attr("src", "images/plant.png");
                                                     $('div.pathbox').eq(key1).find("textarea[name^='PlantObsAttachment_M_S_" + key3 + "_H']").val("");
@@ -888,7 +888,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key === "PlantSampleTab" && curDiscipline == "B" && value.length > 0) {
+                    if (key === "PlantSampleTab" && curDiscipline === "B" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -904,7 +904,7 @@ function loadModal(pagename) {
                                         $('div.sample').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
                                         $('div.sample').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
                                     }
-                                    if (key2 == "AdditionalCollectorTab") {
+                                    if (key2 === "AdditionalCollectorTab") {
                                         $('div.sample').eq(key1).find('select[name^="AdditionalCollectorName"]').find('option').remove().end().append($(addlObservers)).val('NONE');
                                         if (value2.length > 0) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
@@ -913,12 +913,12 @@ function loadModal(pagename) {
                                             });
                                         }
                                     }
-                                    if (key2 == "PlantPreservationTab" && value2.length > 0) {
+                                    if (key2 === "PlantPreservationTab" && value2.length > 0) {
                                         $.each(value2, function (key3, value3) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
                                         });
                                     }
-                                    if (key2 == "PlantPartTab" && value2.length > 0) {
+                                    if (key2 === "PlantPartTab" && value2.length > 0) {
                                         $.each(value2, function (key3, value3) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
                                         });
@@ -933,7 +933,7 @@ function loadModal(pagename) {
                                     //$('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
-                                    if (key2 == "attachments") {
+                                    if (key2 === "attachments") {
                                         $.each(value2.attachment, function (key3, value3) {
                                             $.ajax({
                                                 url: "",
@@ -942,12 +942,12 @@ function loadModal(pagename) {
                                                 }
                                             }).complete(function (e) {
                                                 pkey = key3 + 1;
-                                                if (value3.content != "") {
+                                                if (value3.content !== "") {
                                                     $('div.sample').eq(key1).find("input[name^='PlantSampleAttachmentD_M_S_" + pkey + "_S']").val(value3.description);
                                                     $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment_M_S_" + pkey + "_S']").attr("src", "data:image/jpeg;base64," + value3.content);
                                                     $('div.sample').eq(key1).find("textarea[name^='PlantSampleAttachment_M_S_" + pkey + "_S']").val(value3.content);
                                                 }
-                                                if (value3.content == "") {
+                                                if (value3.content === "") {
                                                     $('div.sample').eq(key1).find("input[name^='PlantSampleAttachmentD_M_S_" + pkey + "_S']").val(value3.description);
                                                     $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment_M_S_" + pkey + "_S']").attr("src", "images/plant.png");
                                                     $('div.sample').eq(key1).find("textarea[name^='PlantSampleAttachment_M_S_" + pkey + "_S']").val("");
@@ -959,7 +959,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key === "PlantSampleTab" && curDiscipline == "E" && value.length > 0) {
+                    if (key === "PlantSampleTab" && curDiscipline === "E" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -975,7 +975,7 @@ function loadModal(pagename) {
                                         $('div.sample').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
                                         $('div.sample').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
                                     }
-                                    if (key2 == "AdditionalCollectorTab") {
+                                    if (key2 === "AdditionalCollectorTab") {
                                         $('div.sample').eq(key1).find('select[name^="AdditionalCollectorName"]').find('option').remove().end().append($(addlObservers)).val('NONE');
                                         if (value2.length > 0) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
@@ -984,17 +984,17 @@ function loadModal(pagename) {
                                             });
                                         }
                                     }
-                                    if (key2 == "PlantPreservationTab" && value2.length > 0) {
+                                    if (key2 === "PlantPreservationTab" && value2.length > 0) {
                                         $.each(value2, function (key3, value3) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
                                         });
                                     }
-                                    if (key2 == "PlantPartTab" && value2.length > 0) {
+                                    if (key2 === "PlantPartTab" && value2.length > 0) {
                                         $.each(value2, function (key3, value3) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
                                         });
                                     }
-                                    if (key2 == "EntoLifeStgTab" && value2.length > 0) {
+                                    if (key2 === "EntoLifeStgTab" && value2.length > 0) {
                                         $.each(value2, function (key3, value3) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
                                         });
@@ -1009,7 +1009,7 @@ function loadModal(pagename) {
                                     //$('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
-                                    if (key2 == "attachments") {
+                                    if (key2 === "attachments") {
                                         $.each(value2.attachment, function (key3, value3) {
                                             $.ajax({
                                                 url: "",
@@ -1018,12 +1018,12 @@ function loadModal(pagename) {
                                                 }
                                             }).complete(function (e) {
                                                 pkey = key3 + 1;
-                                                if (value3.content != "") {
+                                                if (value3.content !== "") {
                                                     $('div.sample').eq(key1).find("input[name^='PlantSampleAttachmentD_M_S_" + pkey + "_S']").val(value3.description);
                                                     $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment_M_S_" + pkey + "_S']").attr("src", "data:image/jpeg;base64," + value3.content);
                                                     $('div.sample').eq(key1).find("textarea[name^='PlantSampleAttachment_M_S_" + pkey + "_S']").val(value3.content);
                                                 }
-                                                if (value3.content == "") {
+                                                if (value3.content === "") {
                                                     $('div.sample').eq(key1).find("input[name^='PlantSampleAttachmentD_M_S_" + pkey + "_S']").val(value3.description);
                                                     $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment_M_S_" + pkey + "_S']").attr("src", "images/plant.png");
                                                     $('div.sample').eq(key1).find("textarea[name^='PlantSampleAttachment_M_S_" + pkey + "_S']").val("");
@@ -1035,7 +1035,7 @@ function loadModal(pagename) {
                             });
                         });
                     }
-                    if (key === "PlantSampleTab" && curDiscipline == "P" && value.length > 0) {
+                    if (key === "PlantSampleTab" && curDiscipline === "P" && value.length > 0) {
                         $.each(value, function (key1, value1) {
                             $.ajax({
                                 url: "",
@@ -1051,7 +1051,7 @@ function loadModal(pagename) {
                                         $('div.sample').eq(key1).find("input[type='number'][name^='Longitude']").val(wkt.toJson().coordinates[0]);
                                         $('div.sample').eq(key1).find("input[type='number'][name^='Latitude']").val(wkt.toJson().coordinates[1]);
                                     }
-                                    if (key2 == "AdditionalCollectorTab") {
+                                    if (key2 === "AdditionalCollectorTab") {
                                         $('div.sample').eq(key1).find('select[name^="AdditionalCollectorName"]').find('option').remove().end().append($(addlObservers)).val('NONE');
                                         if (value2.length > 0) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='AdditionalCollectorTab']").iCheck('check');
@@ -1060,12 +1060,12 @@ function loadModal(pagename) {
                                             });
                                         }
                                     }
-                                    if (key2 == "PlantPreservationTab" && value2.length > 0) {
+                                    if (key2 === "PlantPreservationTab" && value2.length > 0) {
                                         $.each(value2, function (key3, value3) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
                                         });
                                     }
-                                    if (key2 == "PlantPartTab" && value2.length > 0) {
+                                    if (key2 === "PlantPartTab" && value2.length > 0) {
                                         $.each(value2, function (key3, value3) {
                                             $('div.sample').eq(key1).find("input[type='checkbox'][name^='" + key2 + "-" + value3 + "']").iCheck('check');
                                         });
@@ -1080,7 +1080,7 @@ function loadModal(pagename) {
                                     //$('div.sample').eq(key1).find("input[type='radio'][name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("select[name^='" + key2 + "']").val(value2);
                                     $('div.sample').eq(key1).find("textarea[name^='" + key2 + "']").val(value2);
-                                    if (key2 == "attachments") {
+                                    if (key2 === "attachments") {
                                         $.each(value2.attachment, function (key3, value3) {
                                             $.ajax({
                                                 url: "",
@@ -1089,12 +1089,12 @@ function loadModal(pagename) {
                                                 }
                                             }).complete(function (e) {
                                                 pkey = key3 + 1;
-                                                if (value3.content != "") {
+                                                if (value3.content !== "") {
                                                     $('div.sample').eq(key1).find("input[name^='PlantSampleAttachmentD_M_S_" + pkey + "_S']").val(value3.description);
                                                     $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment_M_S_" + pkey + "_S']").attr("src", "data:image/jpeg;base64," + value3.content);
                                                     $('div.sample').eq(key1).find("textarea[name^='PlantSampleAttachment_M_S_" + pkey + "_S']").val(value3.content);
                                                 }
-                                                if (value3.content == "") {
+                                                if (value3.content === "") {
                                                     $('div.sample').eq(key1).find("input[name^='PlantSampleAttachmentD_M_S_" + pkey + "_S']").val(value3.description);
                                                     $('div.sample').eq(key1).find("img[name^='iPlantSampleAttachment_M_S_" + pkey + "_S']").attr("src", "images/plant.png");
                                                     $('div.sample').eq(key1).find("textarea[name^='PlantSampleAttachment_M_S_" + pkey + "_S']").val("");
@@ -1130,21 +1130,21 @@ function loadModal(pagename) {
                 var mm = today.getMonth() + 1; //January is 0!
                 var yyyy = today.getFullYear();
                 if (dd < 10) {
-                    dd = '0' + dd
+                    dd = '0' + dd;
                 }
                 if (mm < 10) {
-                    mm = '0' + mm
+                    mm = '0' + mm;
                 }
                 today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString();
                 $('#form1').find('select[id="ObservationStaffId"]').find('option').remove().end().append($(staffData));
-                if (curIdx == -1) {
+                if (curIdx === -1) {
                     $('#form1').find("input[name^='Latitude']").val(curLat.toFixed(5));
                     $('#form1').find("input[name^='Longitude']").val(curLng.toFixed(5));
                     $('#form1').find("input[type='text'][name^='ObservationWhereWktClob']").val(curWkt);
                     //getAltitude();
                 }
                 $('#form1').find("input[type='date'][name^='ObservationDatetime']").val(today);
-                if (results.observations.length == 0) {
+                if (results.observations.length === 0) {
                     $('#form1').find("input[type='number'][name^='id']").val(1);
                 } else { $('#form1').find("input[type='number'][name^='id']").val(results.observations[results.observations.length - 1].id_M_N + 1); }
                 $('#form1').find("input[type='number'][name^='status']").val("0");
@@ -1177,16 +1177,16 @@ function objectifyPHFormforSave(formArray) {
             if (formArray[i]['name'].startsWith('Latitude')) { continue; }
             if (formArray[i]['name'].startsWith('Longitude')) { continue; }
             if (formArray[i]['name'].startsWith('AdditionalObserverTab')) { continue; }
-            if (formArray[i]['name'].startsWith('AdditionalObserverName') && formArray[i]['value'] == "") {
+            if (formArray[i]['name'].startsWith('AdditionalObserverName') && formArray[i]['value'] === "") {
                 continue;
             }
-            if (formArray[i]['name'].startsWith('PlantAttachment') && formArray[i]['value'] == "") {
+            if (formArray[i]['name'].startsWith('PlantAttachment') && formArray[i]['value'] === "") {
                 continue;
             }
-            if (formArray[i]['name'].startsWith('PlantObsAttachment') && formArray[i]['value'] == "") {
+            if (formArray[i]['name'].startsWith('PlantObsAttachment') && formArray[i]['value'] === "") {
                 continue;
             }
-            if (formArray[i]['name'].startsWith('PlantSampleAttachment') && formArray[i]['value'] == "") {
+            if (formArray[i]['name'].startsWith('PlantSampleAttachment') && formArray[i]['value'] === "") {
                 continue;
             }
             if (formArray[i]['name'].startsWith('TargetObservedCode')) {
@@ -1200,9 +1200,9 @@ function objectifyPHFormforSave(formArray) {
             var fnum = formArray[i]['name'].split("_")[3];
             var ftype = formArray[i]['name'].split("_")[4];
 
-            if (fname == 'PlantDisciplineCode') { plantDisciplineCode = formArray[i]['value']; }
+            if (fname === 'PlantDisciplineCode') { plantDisciplineCode = formArray[i]['value']; }
 
-            if (formArray[i]['name'].startsWith('AdditionalObserverName') && formArray[i]['value'] != "") {
+            if (formArray[i]['name'].startsWith('AdditionalObserverName') && formArray[i]['value'] !== "") {
                 //var x = formArray[i]['name'].substr(formArray[i]['name'].length - 1);
                 var observer = { "ObserverNo": "", "AdditionalObserverName": "" };
                 observer.ObserverNo = addlObserver;
@@ -1228,8 +1228,8 @@ function objectifyPHFormforSave(formArray) {
                 continue;
             }
 
-            if (ftype == 'H' && fname != 'GpsDatumId') {
-                if (fname == 'PlantTaxonId') {
+            if (ftype === 'H' && fname !== 'GpsDatumId') {
+                if (fname === 'PlantTaxonId') {
                     var vPlantObsTab = {};
                 }
                 if (fname.startsWith('PlantObsAttachment')) {
@@ -1258,56 +1258,56 @@ function objectifyPHFormforSave(formArray) {
                 }
                 continue;
             }
-            if (ftype == 'T' && fname != 'CommentText') {
-                if (fname == 'TargetTaxonId') {
+            if (ftype === 'T' && fname !== 'CommentText') {
+                if (fname === 'TargetTaxonId') {
                     var vPlantObsTargetTab = {};
                 }
                 vPlantObsTargetTab[formArray[i]['name']] = formArray[i]['value'];
                 continue;
             }
-            if (ftype == 'T' && fname == 'CommentText') {
+            if (ftype === 'T' && fname === 'CommentText') {
                 vPlantObsTargetTab[formArray[i]['name']] = formArray[i]['value'];
                 vPlantObsTab.PlantObsTargetTab.push(vPlantObsTargetTab);
                 continue;
             }
-            if (ftype == 'H' && fname == 'GpsDatumId') {
+            if (ftype === 'H' && fname === 'GpsDatumId') {
                 vPlantObsTab[formArray[i]['name']] = formArray[i]['value'];
                 observation.PlantObsTab.push(vPlantObsTab);
                 continue;
             }
-            if (ftype == 'S' && fname != 'EndOfSample') {
-                if (fname == 'SampleFieldLabelText') {
+            if (ftype === 'S' && fname !== 'EndOfSample') {
+                if (fname === 'SampleFieldLabelText') {
                     var vPlantSampleTab = {};
                 }
-                if (fname.startsWith('AdditionalCollectorName') && (formArray[i]['value'] == 'NONE' || formArray[i]['value'] == '')) {
+                if (fname.startsWith('AdditionalCollectorName') && (formArray[i]['value'] === 'NONE' || formArray[i]['value'] === '')) {
                     continue;
                 }
-                if (fname.startsWith('AdditionalCollectorName') && (formArray[i]['value'] != 'NONE' || formArray[i]['value'] != '')) {
+                if (fname.startsWith('AdditionalCollectorName') && (formArray[i]['value'] !== 'NONE' || formArray[i]['value'] !== '')) {
                     vPlantSampleTab.AdditionalCollectorTab.push(Number(formArray[i]['value']));
                     continue;
                 }
-                if (fname.startsWith('PlantPartTab') && formArray[i]['value'] != 'Y') {
+                if (fname.startsWith('PlantPartTab') && formArray[i]['value'] !== 'Y') {
                     continue;
                 }
-                if (fname.startsWith('PlantPartTab') && formArray[i]['value'] == 'Y') {
+                if (fname.startsWith('PlantPartTab') && formArray[i]['value'] === 'Y') {
                     //var vPlantpart = fname.split("_")[0];
                     var vPlantpart = fname.split("-")[1];
                     vPlantSampleTab.PlantPartTab.push(vPlantpart);
                     continue;
                 }
-                if (fname.startsWith('PlantPreservationTab') && formArray[i]['value'] != 'Y') {
+                if (fname.startsWith('PlantPreservationTab') && formArray[i]['value'] !== 'Y') {
                     continue;
                 }
-                if (fname.startsWith('PlantPreservationTab') && formArray[i]['value'] == 'Y') {
+                if (fname.startsWith('PlantPreservationTab') && formArray[i]['value'] === 'Y') {
                     //var vPlantPreservation = fname.split("_")[0];
                     var vPlantPreservation = fname.split("-")[1];
                     vPlantSampleTab.PlantPreservationTab.push(vPlantPreservation);
                     continue;
                 }
-                if (fname.startsWith('EntoLifeStgTab') && formArray[i]['value'] != 'Y') {
+                if (fname.startsWith('EntoLifeStgTab') && formArray[i]['value'] !== 'Y') {
                     continue;
                 }
-                if (fname.startsWith('EntoLifeStgTab') && formArray[i]['value'] == 'Y') {
+                if (fname.startsWith('EntoLifeStgTab') && formArray[i]['value'] === 'Y') {
                     //var vEntoLifeStgTab = fname.split("_")[0];
                     var vEntoLifeStgTab = fname.split("-")[1];
                     vPlantSampleTab.EntoLifeStgTab.push(vEntoLifeStgTab);
@@ -1342,7 +1342,7 @@ function objectifyPHFormforSave(formArray) {
                 if (fname === 'EntoCollMethodCode') {
                     vPlantSampleTab["PlantPartTab"] = [];
                 }
-                if (fname === 'HostIdentifiedUserId' && plantDisciplineCode == 'P') {
+                if (fname === 'HostIdentifiedUserId' && plantDisciplineCode === 'P') {
                     vPlantSampleTab["PlantPartTab"] = [];
                 }
                 if (fname === 'EntoPestLevelCode') {
@@ -1357,7 +1357,7 @@ function objectifyPHFormforSave(formArray) {
                 }
                 continue;
             }
-            if (ftype == 'S' && fname == 'EndOfSample') {
+            if (ftype === 'S' && fname === 'EndOfSample') {
                 //vPlantSampleTab[formArray[i]['name']] = formArray[i]['value'];
                 observation.PlantSampleTab.push(vPlantSampleTab);
                 continue;
@@ -1398,8 +1398,11 @@ function objectifyPHFormforSubmit(data) {//serialize data function
             if (item.PlantPartTab && item.PlantPartTab.length === 0) { delete item.PlantPartTab };
             if (item.PlantPreservationTab && item.PlantPreservationTab.length === 0) { delete item.PlantPreservationTab };
             if (item.attachments && item.attachments.attachment.length === 0) { delete item.attachments };
-            if (item.PrelimTaxonId !== "") {
+            if (item.PrelimTaxonId > 0) {
                 delete item.PrelimTaxonText;
+            }
+            if (item.PrelimTaxonId === "" || item.PrelimTaxonId === 0 && $.trim(item.PrelimTaxonText) !== "") {
+                delete item.PrelimTaxonId;
             }
             if (item.PlantPreservOtherText === "") {
                 delete item.PlantPreservOtherText;
@@ -1407,8 +1410,11 @@ function objectifyPHFormforSubmit(data) {//serialize data function
             if (item.HostIdentifiedUserId === 0) {
                 delete item.HostIdentifiedUserId;
             }
-            if (item.HostTaxonId !== "") {
+            if (item.HostTaxonId > 0) {
                 delete item.HostTaxonText;
+            }
+            if (item.HostTaxonId === "" || item.HostTaxonId === 0 && $.trim(item.HostTaxonText) !== "") {
+                delete item.HostTaxonId;
             }
             if (item.SamplePointWktClob === "") {
                 delete item.SamplePointWktClob;
@@ -1437,8 +1443,11 @@ function objectifyPHFormforSubmit(data) {//serialize data function
         if (item.HostStatCount === 0) { delete item.HostStatCount };
         if (item.PlantObsTargetTab && item.PlantObsTargetTab.length === 0) { delete item.PlantObsTargetTab };
         if (item.attachments && item.attachments.attachment.length === 0) { delete item.attachments };
-        if (item.PlantTaxonId !== "") {
+        if (item.PlantTaxonId > 0) {
             delete item.PlantTaxonText;
+        }
+        if (item.PlantTaxonId === "" || item.PlantTaxonId === 0 && $.trim(item.PlantTaxonText) !== "") {
+            delete item.PlantTaxonId;
         }
         if (item.CommentText === "") {
             delete item.CommentText;
@@ -1454,8 +1463,11 @@ function objectifyPHFormforSubmit(data) {//serialize data function
             delete item.PlantLifeStgCode;
         }
         $.each(item.PlantObsTargetTab, function (i, item1) {
-            if (item1.TargetTaxonId !== "") {
+            if (item1.TargetTaxonId > 0) {
                 delete item1.TargetTaxonText;
+            }
+            if (item1.TargetTaxonId === "" || item1.TargetTaxonId === 0 && $.trim(item1.TargetTaxonText) !== "") {
+                delete item1.TargetTaxonId;
             }
         });
     });
@@ -1466,7 +1478,7 @@ function objectifyPHFormforSubmit(data) {//serialize data function
 }
 function CleanUp(data) {
     $.each(data, function (index, value) {
-        if (typeof value == 'object') {
+        if (typeof value === 'object') {
             CleanUp(value);
         }
         else {
@@ -1478,8 +1490,8 @@ function Iterate(data) {
     var modData = JSON.parse(JSON.stringify(data));
     //if (modData && modData.status_M_N) { delete modData.status_M_N; }
     $.each(modData, function (index, value) {
-        if (typeof value == 'object') {
-            if (index === 'PlantObsTab' && value.length == 0) {
+        if (typeof value === 'object') {
+            if (index === 'PlantObsTab' && value.length === 0) {
                 vError = 1;
                 vErrDescription.push('Minimum one Host expected.You can Save & Exit instead.');
                 vFailed = true;
@@ -1495,7 +1507,7 @@ function Iterate(data) {
             if (index === 'attachment') {
                 attachmentFlag = 1;
             }
-            //if (index == 'PlantSampleTab' && value.length == 0) {
+            //if (index === 'PlantSampleTab' && value.length === 0) {
             //    vError = 1;
             //    vErrDescription.push('Minimum one Sample expected.You can Save & Exit instead.');
             //    vFailed = true;
@@ -1519,44 +1531,44 @@ function Iterate(data) {
                 var fnum = index.split("_")[3];
                 var ftype = index.split("_")[4];
 
-                if (fname == 'PlantDisciplineCode') { plantDisciplineCode = value; }
+                if (fname === 'PlantDisciplineCode') { plantDisciplineCode = value; }
 
-                if (fname == 'SubmittedByStaffId' && value < 2) {
+                if (fname === 'SubmittedByStaffId' && value < 2) {
                     vError = 1;
                     vErrDescription.push("Invalid Submitted StaffID. Please set your Staff ID in the Application Settings.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'CountList') { CountListFlag = $('input[name="' + index + '"]:checked').val(); }
-                if (fname == 'HostStatCount' && value == 0) { HostStatCountFlag = 1; }
-                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && CountListFlag == 'Count' && plantDisciplineCode === 'B') {
+                if (fname === 'CountList') { CountListFlag = $('input[name="' + index + '"]:checked').val(); }
+                if (fname === 'HostStatCount' && value === 0) { HostStatCountFlag = 1; }
+                if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && CountListFlag === 'Count' && plantDisciplineCode === 'B') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && plantDisciplineCode === 'E') {
+                if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && plantDisciplineCode === 'E') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && plantDisciplineCode === 'P') {
+                if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && plantDisciplineCode === 'P') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'TimeHourCount' && fNSD == 'S' && value.indexOf('_') > -1) {
+                if (fname === 'TimeHourCount' && fNSD === 'S' && value.indexOf('_') > -1) {
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Duration Value.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'ObservationWhereWktClob' && value !== '') {
+                if (fname === 'ObservationWhereWktClob' && value !== '') {
                     var wkt = new Wkt.Wkt();
                     wkt.read(value);
                     wkt.toObject();
@@ -1567,7 +1579,7 @@ function Iterate(data) {
                         return false;
                     }
                 }
-                if (fname == 'LocationPointWktClob' && value !== '') {
+                if (fname === 'LocationPointWktClob' && value !== '') {
                     var wkt = new Wkt.Wkt();
                     wkt.read(value);
                     wkt.toObject();
@@ -1578,18 +1590,18 @@ function Iterate(data) {
                         return false;
                     }
                 }
-                if (fname == 'TargetObservedCode' && ftype == "T" && value == "N") {
+                if (fname === 'TargetObservedCode' && ftype === "T" && value === "N") {
                     PlantTargetObservedCodeFlag = 1;
                 }
 
-                if (fname == 'CommentText' && ftype === "T" && value === "" && PlantTargetObservedCodeFlag === 1) {
+                if (fname === 'CommentText' && ftype === "T" && value === "" && PlantTargetObservedCodeFlag === 1) {
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Comments Text for TargetObserved field cannot be NULL.");
                     PlantTargetObservedCodeFlag = 0;
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'SamplePointWktClob' && value !== '') {
+                if (fname === 'SamplePointWktClob' && value !== '') {
                     var wkt = new Wkt.Wkt();
                     wkt.read(value);
                     wkt.toObject();
@@ -1600,54 +1612,54 @@ function Iterate(data) {
                         return false;
                     }
                 }
-                if (fname == 'PlantPreservOtherText' && fNSD === 'S' && value === '' && PlantPreservationOtherFlag === 1) {
+                if (fname === 'PlantPreservOtherText' && fNSD === 'S' && value === '' && PlantPreservationOtherFlag === 1) {
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>PlantPreservOtherText cannot be NULL.");
                     PlantPreservationOtherFlag = 0;
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'PlantPreservOtherText' && fNSD == 'S' && value !== '' && PlantPreservationOtherFlag === 0) {
+                if (fname === 'PlantPreservOtherText' && fNSD === 'S' && value !== '' && PlantPreservationOtherFlag === 0) {
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid PlantPreservOtherText.");
                     vFailed = true;
                     return false;
                 }
-                if (fMOC == 'M' && fNSD == 'S' && (value === '' || value === 'NONE')) {
+                if (fMOC === 'M' && fNSD === 'S' && (value === '' || value === 'NONE')) {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fMOC == 'M' && fNSD == 'D' && value == '') {
+                if (fMOC === 'M' && fNSD === 'D' && value === '') {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fMOC == 'M' && fNSD == 'N' && value == 0) {
-                    if (fname == 'status') return true;
-                    if (fname == 'HostStatCount') return true;
-                    if (fname == 'HostStatAreaNo') return true;
+                if (fMOC === 'M' && fNSD === 'N' && value === 0) {
+                    if (fname === 'status') return true;
+                    if (fname === 'HostStatCount') return true;
+                    if (fname === 'HostStatAreaNo') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL or ZERO.");
                     vFailed = true;
                     return false;
                 }
-                if (fMOC == 'O' && fNSD == 'N' && value == 0) {
+                if (fMOC === 'O' && fNSD === 'N' && value === 0) {
                     //console.log(index + ' field cannot be NULL');
-                    if (fname == 'SiteId') return true;
-                    if (fname == 'AltitudeNo') return true;
-                    if (fname == 'PlantTaxonId') return true;
-                    if (fname == 'TargetTaxonId') return true;
-                    if (fname == 'PrelimTaxonId') return true;
-                    if (fname == 'HostTaxonId') return true;
-                    if (fname == 'CollectedAltitudeNo') return true;
-                    if (fname == 'WaypointNumber' && $('input[name="' + index + '"]').val() === "") return true;
-                    if (fname == 'WaypointNumber' && ($('input[name="' + index + '"]').val() !== "") && (value < 1 || value > 99999)) {
+                    if (fname === 'SiteId') return true;
+                    if (fname === 'AltitudeNo') return true;
+                    if (fname === 'PlantTaxonId') return true;
+                    if (fname === 'TargetTaxonId') return true;
+                    if (fname === 'PrelimTaxonId') return true;
+                    if (fname === 'HostTaxonId') return true;
+                    if (fname === 'CollectedAltitudeNo') return true;
+                    if (fname === 'WaypointNumber' && $('input[name="' + index + '"]').val() === "") return true;
+                    if (fname === 'WaypointNumber' && ($('input[name="' + index + '"]').val() !== "") && (value < 1 || value > 99999)) {
                         vError = 1;
                         vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Waypoint Number.");
                         vFailed = true;
@@ -1670,8 +1682,8 @@ function Iterate2(data) {
     var modData = JSON.parse(JSON.stringify(data));
     //if (modData && modData.status_M_N) { delete modData.status_M_N; }
     $.each(modData, function (index, value) {
-        if (typeof value == 'object') {
-            if (index == 'PlantObsTab' && value.length == 0) {
+        if (typeof value === 'object') {
+            if (index === 'PlantObsTab' && value.length === 0) {
                 vError = 1;
                 vErrDescription.push('Minimum one Host expected.You can Save & Exit instead.');
                 vFailed = true;
@@ -1687,7 +1699,7 @@ function Iterate2(data) {
             if (index === 'attachment') {
                 attachmentFlag = 1;
             }
-            //if (index == 'PlantSampleTab' && value.length == 0) {
+            //if (index === 'PlantSampleTab' && value.length === 0) {
             //    vError = 1;
             //    vErrDescription.push('Minimum one Sample expected.You can Save & Exit instead.');
             //    vFailed = true;
@@ -1712,31 +1724,31 @@ function Iterate2(data) {
                 var fnum = index.split("_")[3];
                 var ftype = index.split("_")[4];
 
-                if (fname == 'PlantDisciplineCode') { plantDisciplineCode = value; }
+                if (fname === 'PlantDisciplineCode') { plantDisciplineCode = value; }
 
-                if (fname == 'SubmittedByStaffId' && value < 2) {
+                if (fname === 'SubmittedByStaffId' && value < 2) {
                     vError = 1;
                     vErrDescription.push("Invalid Submitted StaffID. Please set your Staff ID in the Application Settings.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'CountList') { CountListFlag = value; }
-                if (fname == 'HostStatCount' && value == 0) { HostStatCountFlag = 1; }
-                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && CountListFlag == 'Count' && plantDisciplineCode === 'B') {
+                if (fname === 'CountList') { CountListFlag = value; }
+                if (fname === 'HostStatCount' && value === 0) { HostStatCountFlag = 1; }
+                if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && CountListFlag === 'Count' && plantDisciplineCode === 'B') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && plantDisciplineCode === 'E') {
+                if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && plantDisciplineCode === 'E') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'HostStatAreaNo' && value == 0 && HostStatCountFlag == 1 && plantDisciplineCode === 'P') {
+                if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && plantDisciplineCode === 'P') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
                     vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
@@ -1748,13 +1760,13 @@ function Iterate2(data) {
                     //if (vPlantPreservation === 'O') { PlantPreservationOtherFlag = 1; }
                     PlantPreservationOtherFlag = 1;
                 }
-                if (fname == 'TimeHourCount' && fNSD == 'S' && value.indexOf('_') > -1) {
+                if (fname === 'TimeHourCount' && fNSD === 'S' && value.indexOf('_') > -1) {
                     vError = 1;
                     vErrDescription.push("Invalid Duration Value.");
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'ObservationWhereWktClob' && value !== '') {
+                if (fname === 'ObservationWhereWktClob' && value !== '') {
                     var wkt = new Wkt.Wkt();
                     wkt.read(value);
                     wkt.toObject();
@@ -1765,7 +1777,7 @@ function Iterate2(data) {
                         return false;
                     }
                 }
-                if (fname == 'LocationPointWktClob' && value !== '') {
+                if (fname === 'LocationPointWktClob' && value !== '') {
                     var wkt = new Wkt.Wkt();
                     wkt.read(value);
                     wkt.toObject();
@@ -1776,18 +1788,18 @@ function Iterate2(data) {
                         return false;
                     }
                 }
-                if (fname == 'TargetObservedCode' && ftype == "T" && value == "N") {
+                if (fname === 'TargetObservedCode' && ftype === "T" && value === "N") {
                     PlantTargetObservedCodeFlag = 1;
                 }
 
-                if (fname == 'CommentText' && ftype === "T" && value === "" && PlantTargetObservedCodeFlag === 1) {
+                if (fname === 'CommentText' && ftype === "T" && value === "" && PlantTargetObservedCodeFlag === 1) {
                     vError = 1;
                     vErrDescription.push("Comments Text for TargetObserved field cannot be NULL.");
                     PlantTargetObservedCodeFlag = 0;
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'SamplePointWktClob' && value !== '') {
+                if (fname === 'SamplePointWktClob' && value !== '') {
                     var wkt = new Wkt.Wkt();
                     wkt.read(value);
                     wkt.toObject();
@@ -1798,53 +1810,53 @@ function Iterate2(data) {
                         return false;
                     }
                 }
-                if (fname == 'PlantPreservOtherText' && fNSD === 'S' && value === '' && PlantPreservationOtherFlag === 1) {
+                if (fname === 'PlantPreservOtherText' && fNSD === 'S' && value === '' && PlantPreservationOtherFlag === 1) {
                     vError = 1;
                     vErrDescription.push("PlantPreservOtherText cannot be NULL.");
                     PlantPreservationOtherFlag = 0;
                     vFailed = true;
                     return false;
                 }
-                if (fname == 'PlantPreservOtherText' && fNSD == 'S' && value !== '' && PlantPreservationOtherFlag === 0) {
+                if (fname === 'PlantPreservOtherText' && fNSD === 'S' && value !== '' && PlantPreservationOtherFlag === 0) {
                     vError = 1;
                     vErrDescription.push("Invalid PlantPreservOtherText.");
                     vFailed = true;
                     return false;
                 }
-                if (fMOC == 'M' && fNSD == 'S' && (value === '' || value === 'NONE')) {
+                if (fMOC === 'M' && fNSD === 'S' && (value === '' || value === 'NONE')) {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push(fname + " field cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fMOC == 'M' && fNSD == 'D' && value == '') {
+                if (fMOC === 'M' && fNSD === 'D' && value === '') {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push(fname + " field cannot be NULL.");
                     vFailed = true;
                     return false;
                 }
-                if (fMOC == 'M' && fNSD == 'N' && value == 0) {
-                    if (fname == 'status') return true;
-                    if (fname == 'HostStatCount') return true;
-                    if (fname == 'HostStatAreaNo') return true;
+                if (fMOC === 'M' && fNSD === 'N' && value === 0) {
+                    if (fname === 'status') return true;
+                    if (fname === 'HostStatCount') return true;
+                    if (fname === 'HostStatAreaNo') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push(fname + " field cannot be NULL or ZERO.");
                     vFailed = true;
                     return false;
                 }
-                if (fMOC == 'O' && fNSD == 'N' && value == 0) {
+                if (fMOC === 'O' && fNSD === 'N' && value === 0) {
                     //console.log(index + ' field cannot be NULL');
-                    if (fname == 'SiteId') return true;
-                    if (fname == 'AltitudeNo') return true;
-                    if (fname == 'PlantTaxonId') return true;
-                    if (fname == 'TargetTaxonId') return true;
-                    if (fname == 'PrelimTaxonId') return true;
-                    if (fname == 'HostTaxonId') return true;
-                    if (fname == 'CollectedAltitudeNo') return true;
-                    if (fname == 'WaypointNumber') return true;
+                    if (fname === 'SiteId') return true;
+                    if (fname === 'AltitudeNo') return true;
+                    if (fname === 'PlantTaxonId') return true;
+                    if (fname === 'TargetTaxonId') return true;
+                    if (fname === 'PrelimTaxonId') return true;
+                    if (fname === 'HostTaxonId') return true;
+                    if (fname === 'CollectedAltitudeNo') return true;
+                    if (fname === 'WaypointNumber') return true;
                     vError = 1;
                     vErrDescription.push(fname + " field cannot be ZERO");
                     vFailed = true;
@@ -2054,7 +2066,7 @@ function BindAutoCompleteHPS(e) {
 $(document).on('click', '.qtyplus', function (e) {
     e.preventDefault();
     pStatisticType = $(this).parent().parent().find('select[name^=PlantStatisticType]').val();
-    if (pStatisticType == 'C') {
+    if (pStatisticType === 'C') {
         fieldName = $(this).parent().find('input.count').attr('name');
     } else { fieldName = $(this).parent().find('input.area').attr('name'); }
     var currentVal = parseInt($('input[name=' + fieldName + ']').val());
@@ -2069,7 +2081,7 @@ $(document).on('click', '.qtyplus', function (e) {
 $(document).on('click', ".qtyminus", function (e) {
     e.preventDefault();
     pStatisticType = $(this).parent().parent().find('select[name^=PlantStatisticType]').val();
-    if (pStatisticType == 'C') {
+    if (pStatisticType === 'C') {
         fieldName = $(this).parent().find('input.count').attr('name');
     } else { fieldName = $(this).parent().find('input.area').attr('name'); }
     var currentVal = parseInt($('input[name=' + fieldName + ']').val());
@@ -2368,8 +2380,8 @@ $(document).on('click', '#addBotanySample', function (e) {
         var sampleTime = $('div.sample').last().find('input[name^="CollectedDatetime"]').val();
         var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
-        if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
-            $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
+        if (sampleLat === null || sampleLat === 0 || sampleLng === null || sampleLng === 0 || sampleTime === null || sampleTime === '' || samplePrelimID === null || samplePrelimID === '') {
+            $.growl.warning({ title: "Error", message: errString, location: "tc", size: "large" });
             return;
         }
     }
@@ -2441,8 +2453,8 @@ $(document).on('click', '#addEntoSample', function (e) {
         var sampleTime = $('div.sample').last().find('input[name^="CollectedDatetime"]').val();
         var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
-        if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
-            $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
+        if (sampleLat === null || sampleLat === 0 || sampleLng === null || sampleLng === 0 || sampleTime === null || sampleTime === '' || samplePrelimID === null || samplePrelimID === '') {
+            $.growl.warning({ title: "Error", message: errString, location: "tc", size: "large" });
             return;
         }
     }
@@ -2519,8 +2531,8 @@ $(document).on('click', '#addPathSample', function (e) {
         var sampleTime = $('div.sample').last().find('input[name^="CollectedDatetime"]').val();
         var samplePrelimID = $('div.sample').last().find('input[name^="PrelimTaxonText"]').val();
         var errString = "The following attributes cannot be NULL in the current Sample:<br/> Sample Latitude, Longitude, CollectedTime and PrelimTaxonText.";
-        if (sampleLat == null || sampleLat == 0 || sampleLng == null || sampleLng == 0 || sampleTime == null || sampleTime == '' || samplePrelimID == null || samplePrelimID == '') {
-            $.growl.warning({ title: "Error", message: errString, location: "bc", size: "large" });
+        if (sampleLat === null || sampleLat === 0 || sampleLng === null || sampleLng === 0 || sampleTime === null || sampleTime === '' || samplePrelimID === null || samplePrelimID === '') {
+            $.growl.warning({ title: "Error", message: errString, location: "tc", size: "large" });
             return;
         }
     }
@@ -2629,7 +2641,7 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
 $(document).on('click', '.getCoords', function (e) {
     var xlat = $('#form1').find('input.obslat');
     var xlng = $('#form1').find('input.obslng');
-    var xdat = $('#form1').find('input.obsdat');
+    var xdat = $('#form1').find('select.obsdat');
     var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
     var siteID = Number($('#form1').find('select[name="SiteId_O_N"] option:selected').val());
     if (navigator.geolocation) {
@@ -2647,18 +2659,18 @@ $(document).on('click', '.getCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "tc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "tc", size: "large" });
     };
     e.preventDefault();
 });
 $(document).on('click', '.getPlantCoords', function (e) {
     var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
     var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
-    var xdat = $(this).closest('.hostweed').find('input.hostweeddat');
+    var xdat = $(this).closest('.hostweed').find('select.hostweeddat');
     var xwkt = $(this).closest('.hostweed').find('input[name^="LocationPointWktClob"]');
     var siteID = Number($('#form1').find('select[name="SiteId_O_N"] option:selected').val());
     if (navigator.geolocation) {
@@ -2676,18 +2688,18 @@ $(document).on('click', '.getPlantCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "tc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "tc", size: "large" });
     };
     e.preventDefault();
 });
 $(document).on('click', '.getEntoHostCoords', function (e) {
     var xlat = $(this).closest('.entobox').find('input.entolat');
     var xlng = $(this).closest('.entobox').find('input.entolng');
-    var xdat = $(this).closest('.entobox').find('input.entodat');
+    var xdat = $(this).closest('.entobox').find('select.entodat');
     var xwkt = $(this).closest('.entobox').find('input[name^="LocationPointWktClob"]');
     var siteID = Number($('#form1').find('select[name="SiteId_O_N"] option:selected').val());
     if (navigator.geolocation) {
@@ -2705,18 +2717,18 @@ $(document).on('click', '.getEntoHostCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "tc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "tc", size: "large" });
     };
     e.preventDefault();
 });
 $(document).on('click', '.getPathHostCoords', function (e) {
     var xlat = $(this).closest('.pathbox').find('input.pathlat');
     var xlng = $(this).closest('.pathbox').find('input.pathlng');
-    var xdat = $(this).closest('.sample').find('input.pathdat');
+    var xdat = $(this).closest('.sample').find('select.pathdat');
     var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
     var siteID = Number($('#form1').find('select[name="SiteId_O_N"] option:selected').val());
     if (navigator.geolocation) {
@@ -2734,11 +2746,11 @@ $(document).on('click', '.getPathHostCoords', function (e) {
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "tc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "tc", size: "large" });
     };
     e.preventDefault();
 });
@@ -2754,23 +2766,23 @@ $(document).on('click', '.getSampleCoords', function (e) {
             if (siteID > 0 && siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
                 xlat.val(position.coords.latitude.toFixed(5));
                 xlng.val(position.coords.longitude.toFixed(5));
-                xalt.val(position.coords.altitude.toFixed(5));
+                xalt.val(Math.round(position.coords.altitude.toFixed(5)));
                 xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
                 xdat.val("WGS84");
             }
             if ((siteID === 0 || siteID === 99999) && checkMapBoundsByPos(position)) {
                 xlat.val(position.coords.latitude.toFixed(5));
                 xlng.val(position.coords.longitude.toFixed(5));
-                xalt.val(position.coords.altitude.toFixed(5));
+                xalt.val(Math.round(position.coords.altitude.toFixed(5)));
                 xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
                 xdat.val("WGS84");
             }
         }, function () {
-            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "tc", size: "large" });
         });
     } else {
         // Browser doesn't support Geolocation
-        $.growl.error({ title: "", message: "Geolocation Failed!", location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "tc", size: "large" });
     };
     e.preventDefault();
 });
@@ -2779,7 +2791,7 @@ $(document).on('click', 'img.pp', function () {
     var ppname = that.attr("name");
     var inpname = that.attr("name").substr(1, that.attr("name").length - 1);
     if (!navigator.camera) {
-        $.growl.warning({ title: "Error", message: "Camera API not supported!", location: "bc", size: "large" });
+        $.growl.warning({ title: "Error", message: "Camera API not supported!", location: "tc", size: "large" });
         return;
     }
     var options = {
@@ -2799,7 +2811,7 @@ $(document).on('click', 'img.pp', function () {
             $("#form1").find('textarea[name=' + inpname + ']').val(imageData);
         },
         function onFail(error) {
-            $.growl.warning({ title: "Error", message: error, location: "bc", size: "large" });
+            $.growl.warning({ title: "Error", message: error, location: "tc", size: "large" });
         },
         options);
 
@@ -2808,23 +2820,23 @@ $(document).on('click', 'img.pp', function () {
 //$(document).on('ifClicked', 'input[type="radio"].minimal', function (event) {
 //    //alert(event.type + ' callback');
 //    event.preventDefault();
-//    if ($(this).data('validate') != 'N') {
+//    if ($(this).data('validate') !=='N') {
 //        console.log($(this).val());
 //        $('#form1').find("input[name^='" + $(this).attr('name') + "']").val($(this).val());
 //    }
 //});
 //$(document).on('change', 'input:radio', function (e) {
 //    e.preventDefault();
-//    if ($(this).is(":checked") && $(this).data('validate') != 'N') {
+//    if ($(this).is(":checked") && $(this).data('validate') !=='N') {
 //        $('#form1').find("input[type='radio'][name^='" + $(this).attr('name') + "']").val($(this).val());
 //    }
 //});
 $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
     //alert(event.type + ' callback');
-    if ($(this).attr('name') == 'addlCollectors') {
+    if ($(this).attr('name') === 'addlCollectors') {
         $('#Roles').modal();
     };
-    if ($(this).attr('name') == 'otherSample') {
+    if ($(this).attr('name') === 'otherSample') {
         $(this).parent('div').parent('div').find('input[type="text"]').removeClass('hide');
     };
     if ($(this).attr('name').startsWith('CountList') && $(this).val() === 'Count') {
@@ -2849,11 +2861,11 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
 });
 $(document).on('change', 'select[name^="PlantStatisticType"]', function () {
     var str = $(this).val();
-    if (str == 'C') {
+    if (str === 'C') {
         $(this).parent().parent().find("input[type='number'][name^='HostStatAreaNo']").addClass('hide');
         $(this).parent().parent().find("input[type='number'][name^='HostStatCount']").removeClass('hide');
     }
-    if (str == 'A') {
+    if (str === 'A') {
         $(this).parent().parent().find("input[type='number'][name^='HostStatAreaNo']").removeClass('hide');
         $(this).parent().parent().find("input[type='number'][name^='HostStatCount']").addClass('hide');
     }
@@ -2861,7 +2873,7 @@ $(document).on('change', 'select[name^="PlantStatisticType"]', function () {
 $(document).on('click', '#SaveSettingsExit', function (e) {
     var v_appMode = $('#form3').find('#appMode').val();
     if (!v_appMode) {
-        $.growl.warning({ title: "", message: "Provide a valid mode: PH!", location: "bc", size: "large" });
+        $.growl.warning({ title: "", message: "Provide a valid mode: PH!", location: "tc", size: "large" });
         return false;
     }
     /* Set AppMode */
@@ -2888,7 +2900,7 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
             $('#modalSettings').modal('hide');
         });
     }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while updating settings. " + err.message, location: "bc", size: "large" });
+        $.growl.error({ title: "", message: "An error occured while updating settings. " + err.message, location: "tc", size: "large" });
     });
 });
 $(document).on('click', 'a.downloadMaps', function (e) {
@@ -3007,19 +3019,19 @@ function processZip(zipSource, destination, url, mapset, i, n) {
     };
     // Proceed to unzip the file
     window.zip.unzip(zipSource, destination, (status) => {
-        if (status == 0) {
+        if (status === 0) {
             var filename = mapset + pad(i, 2) + ".zip";
             setTimeout(window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory + "maps", function (dir) {
                 dir.getFile(filename, { create: false }, function (fileEntry) {
                     fileEntry.remove(function () {
                         // The file has been removed succesfully
-                        //$.growl.notice({ title: "", message: "Zip file is removed successfully.", location: "bc", size: "large" });
+                        //$.growl.notice({ title: "", message: "Zip file is removed successfully.", location: "tc", size: "large" });
                     }, function (error) {
                         // Error deleting the file
-                        $.growl.error({ title: "", message: "Error removing zip file.", location: "bc", size: "large" });
+                        $.growl.error({ title: "", message: "Error removing zip file.", location: "tc", size: "large" });
                     }, function () {
                         // The file doesn't exist
-                        $.growl.notice({ title: "", message: "Zip file does not exist.", location: "bc", size: "large" });
+                        $.growl.notice({ title: "", message: "Zip file does not exist.", location: "tc", size: "large" });
                     });
                 });
             }), 20000);
@@ -3034,13 +3046,13 @@ function processZip(zipSource, destination, url, mapset, i, n) {
                         //return e + pad(nextID.toString(), 4);
                     });
                 }, function (err) {
-                    $.growl.error({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "bc", size: "large" });
+                    $.growl.error({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
                 });
                 $('#modalProgress').modal('hide');
                 $('#form3').find('label.mapNotes').eq(ActiveMapSet).text("Last downloaded on:" + new Date().toString());
                 initSettings();
                 $('#mb6 .progTime').text("");
-                $.growl({ title: "", message: "Maps downloaded successfully.", location: "bc", size: "large" });
+                $.growl({ title: "", message: "Maps downloaded successfully.", location: "tc", size: "large" });
             }
             else {
                 $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
@@ -3049,7 +3061,7 @@ function processZip(zipSource, destination, url, mapset, i, n) {
             }
         }
         if (status === -1) {
-            $.growl.error({ title: "", message: "Failed extracting zip file.", location: "bc", size: "large" });
+            $.growl.error({ title: "", message: "Failed extracting zip file.", location: "tc", size: "large" });
         }
     }, progressHandler);
 }
@@ -3058,7 +3070,7 @@ $(document).on('blur', 'input.obslat', function (e) {
         var xlat = $('#form1').find('input.obslat');
         var xlng = $('#form1').find('input.obslng');
         var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
-        var xdat = $('#form1').find('input.obsdat');
+        var xdat = $('#form1').find('select.obsdat');
         xwkt.val("POINT (" + xlng.val() + " " + xlat.val() + ")");
         xdat.val("WGS84");
     }
@@ -3068,7 +3080,7 @@ $(document).on('blur', 'input.obslng', function (e) {
         var xlat = $('#form1').find('input.obslat');
         var xlng = $('#form1').find('input.obslng');
         var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
-        var xdat = $('#form1').find('input.obsdat');
+        var xdat = $('#form1').find('select.obsdat');
         xwkt.val("POINT (" + xlng.val() + " " + xlat.val() + ")");
         xdat.val("WGS84");
     }
@@ -3098,7 +3110,7 @@ $(document).on('blur', 'input.entolat', function (e) {
         var xlat = $(this).closest('.entobox').find('input.entolat');
         var xlng = $(this).closest('.entobox').find('input.entolng');
         var xwkt = $(this).closest('.entobox').find('input[name^="LocationPointWktClob"]');
-        var xdat = $(this).closest('.entobox').find('input.entodat');
+        var xdat = $(this).closest('.entobox').find('select.entodat');
         xwkt.val("POINT (" + xlng.val() + " " + xlat.val() + ")");
         xdat.val("WGS84");
     }
@@ -3108,7 +3120,7 @@ $(document).on('blur', 'input.entolng', function (e) {
         var xlat = $(this).closest('.entobox').find('input.entolat');
         var xlng = $(this).closest('.entobox').find('input.entolng');
         var xwkt = $(this).closest('.entobox').find('input[name^="LocationPointWktClob"]');
-        var xdat = $(this).closest('.entobox').find('input.entodat');
+        var xdat = $(this).closest('.entobox').find('select.entodat');
         xwkt.val("POINT (" + xlng.val() + " " + xlat.val() + ")");
         xdat.val("WGS84");
     }
@@ -3118,7 +3130,7 @@ $(document).on('blur', 'input.pathlat', function (e) {
         var xlat = $(this).closest('.pathbox').find('input.pathlat');
         var xlng = $(this).closest('.pathbox').find('input.pathlng');
         var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
-        var xdat = $(this).closest('.pathbox').find('input.pathdat');
+        var xdat = $(this).closest('.pathbox').find('select.pathdat');
         xwkt.val("POINT (" + xlng.val() + " " + xlat.val() + ")");
         xdat.val("WGS84");
     }
@@ -3128,7 +3140,7 @@ $(document).on('blur', 'input.pathlng', function (e) {
         var xlat = $(this).closest('.pathbox').find('input.pathlat');
         var xlng = $(this).closest('.pathbox').find('input.pathlng');
         var xwkt = $(this).closest('.pathbox').find('input[name^="LocationPointWktClob"]');
-        var xdat = $(this).closest('.pathbox').find('input.pathdat');
+        var xdat = $(this).closest('.pathbox').find('select.pathdat');
         xwkt.val("POINT (" + xlng.val() + " " + xlat.val() + ")");
         xdat.val("WGS84");
     }
@@ -3138,7 +3150,7 @@ $(document).on('blur', 'input.hostweedlat', function (e) {
         var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
         var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
         var xwkt = $(this).closest('.hostweed').find('input[name^="LocationPointWktClob"]');
-        var xdat = $(this).closest('.hostweed').find('input.hostweeddat');
+        var xdat = $(this).closest('.hostweed').find('select.hostweeddat');
         xwkt.val("POINT (" + xlng.val() + " " + xlat.val() + ")");
         xdat.val("WGS84");
     }
@@ -3148,7 +3160,7 @@ $(document).on('blur', 'input.hostweedlng', function (e) {
         var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
         var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
         var xwkt = $(this).closest('.hostweed').find('input[name^="LocationPointWktClob"]');
-        var xdat = $(this).closest('.hostweed').find('input.hostweeddat');
+        var xdat = $(this).closest('.hostweed').find('select.hostweeddat');
         xwkt.val("POINT (" + xlng.val() + " " + xlat.val() + ")");
         xdat.val("WGS84");
     }
@@ -3356,7 +3368,7 @@ function loadSiteData(str) {
                             $('div.entobox').eq(key1).find("input[type='text'][name^='PlantTaxonText']").val(getTaxonText(value2));
                         }
                         $('div.entobox').eq(key1).find("input[name^='" + key2 + "']").val(value2);
-                        if (key2 == "ActivitySitePlantTarget") {
+                        if (key2 === "ActivitySitePlantTarget") {
                             $.each(value2, function (key3, value3) {
                                 $.ajax({
                                     url: "",
@@ -3400,7 +3412,7 @@ function loadSiteData(str) {
                             $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatCount']").addClass('hide');
                             $('div.pathbox').eq(key1).find("input[type='number'][name^='HostStatAreaNo']").removeClass('hide');
                         }
-                        if (key2 == "PlantObservationMethodCode" && value2 !== "") {
+                        if (key2 === "PlantObservationMethodCode" && value2 !== "") {
                             $('div.pathbox').eq(key1).find("select[name^='PlantObsMethodCode']").val(value2);
                         }
                         if (key2 === "PlantTaxonId") {
@@ -3455,3 +3467,43 @@ function getTaxonText(id) {
             break;
     }
 }
+$(document).on('keydown', '.taxonTextP', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDP').val(''); }
+});
+$(document).on('keydown', '.taxonTextPT', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDPT').val(''); }
+});
+$(document).on('keydown', '.taxonTextE', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDE').val(''); }
+});
+$(document).on('keydown', '.taxonTextET', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDET').val(''); }
+});
+$(document).on('keydown', '.taxonTextB', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDB').val(''); }
+});
+$(document).on('keydown', '.taxonTextBS', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDBS').val(''); }
+});
+$(document).on('keydown', '.taxonTextES', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDES').val(''); }
+});
+$(document).on('keydown', '.taxonTextPS', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDPS').val(''); }
+});
+$(document).on('keydown', '.taxonTextHES', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDHES').val(''); }
+});
+$(document).on('keydown', '.taxonTextHPS', function () {
+    var key = event.keyCode || event.charCode;
+    if (key == 8 || key == 46) { $('.taxonIDHPS').val(''); }
+});
