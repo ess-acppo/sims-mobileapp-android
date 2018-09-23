@@ -35,7 +35,8 @@ var ActivityData;
 var programId;
 var taxaData;
 var t0 = 0, t1 = 0, t3 = 0;
-var lastValue;
+var lastSiteValue;
+var lastSurvActValue;
 
 function syncPHRefCodes() {
     // Loading Activity Defaults //
@@ -83,7 +84,7 @@ function syncPHRefCodes() {
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching reference codes. " + err.message, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching reference codes.", location: "tc", size: "large" });
     });
 }
 function loadPHRefCodes() {
@@ -176,8 +177,9 @@ function syncActivityData() {
     };
     $.ajax(settings).done(function (data) {
         ActivityData = data;
-        siteData = data.activities[0].sites;
-        programId = data.activities[0].programId;
+        //siteData = data.activities[0].sites;
+        //programId = data.activities[0].programId;
+        lastSurvActValue = data.activities[0].activityId;
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
                 //alert("Rows deleted.");
@@ -207,11 +209,44 @@ function syncActivityData() {
     });
 }
 function loadActivityData() {
+    $("#form1").find('select[name="SurvActivityId_M_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
     $.each(ActivityData.activities, function (key, val) {
         var option = $('<option />');
         option.attr('value', val.activityId).text(val.activityName);
         $("#form1").find('select[name="SurvActivityId_M_N"]').append(option);
     });
+    $("#form1").find('select[name="SiteId_O_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(siteData, function (key, val) {
+        var option = $('<option />');
+        option.attr('value', val.id).text(val.name);
+        $("#form1").find('select[name="SiteId_O_N"]').append(option);
+    });
+    $("#form1").find('select[name="SiteId_O_N"]').append($('<option value="99999">New Site</option>'));
+}
+function refreshActivityData(str) {
+    var arr = ActivityData.activities.filter(function (el) {
+        return (el.activityId === Number(str));
+    });
+    if (arr) {
+        siteData = arr[0].sites;
+        programId = arr[0].programId;
+        lastSurvActValue = arr[0].activityId;
+        lastSiteValue = 0;
+        db.transaction(function (tx) {
+            tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", [programId + 'staff'], function (tx, res) {
+                //This is not the first load
+                if (res.rows && res.rows.length > 0) {
+                    //alert(JSON.stringify(res.rows.item(0).settingsval));
+                    staffDataS = JSON.parse(res.rows.item(0).settingsval);
+                }
+                else {
+                    $.growl.error({ title: "", message: "No staff Data available for this Activity.", location: "tc", size: "large", fixed: "true" });
+                }
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    };
     $("#form1").find('select[name="SiteId_O_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
     $.each(siteData, function (key, val) {
         var option = $('<option />');
@@ -355,17 +390,18 @@ function syncIPHstaffData() {
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
-        switch (programId) {
-            case "NPH":
-                staffDataS = staffDataNPH;
-                break;
-            case "BPH":
-                staffDataS = staffDataBPH;
-                break;
-            case "IPH":
-                staffDataS = staffDataIPH;
-                break;
-        }
+        staffDataS = staffDataNPH;
+        //switch (programId) {
+        //    case "NPH":
+        //        staffDataS = staffDataNPH;
+        //        break;
+        //    case "BPH":
+        //        staffDataS = staffDataBPH;
+        //        break;
+        //    case "IPH":
+        //        staffDataS = staffDataIPH;
+        //        break;
+        //}
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
@@ -420,45 +456,43 @@ function syncTaxaData() {
 }
 function loadstaffData() {
     // Loading Team Defaults //
-    $.each(staffDataS.staffs.staff, function (key, val) {
-        var option = $('<option />');
-        option.attr('value', val.id).text(val.displayName);
-        $("#form1").find('select[name="ObservationStaffId_M_N"]').append(option);
-    });
-    staffData = '<option value="NONE">- select -</option>';
+    staffData = '<option value="0">- select -</option>';
     $.each(staffDataS.staffs.staff, function (key, val) {
         var option1 = '<option';
         option1 = option1 + ' value="' + val.id + '">';
         option1 = option1 + val.displayName + "</option>";
         staffData = staffData + option1;
     });
+    $("#form1").find('select[name="ObservationStaffId_M_N"]').find('option').remove().end().append($(staffData));
 }
 function loadSitePolygons() {
-    $.each(siteData, function (key, val) {
-        if (val.id === 99999) { return true; }
-        var wkt = new Wkt.Wkt();
-        wkt.read(val.locationDatum.wkt);
-        wkt.toObject();
+    $.each(ActivityData.activities, function (key1, val1) {
+        $.each(val1.sites, function (key, val) {
+            if (val.id === 99999) { return true; }
+            var wkt = new Wkt.Wkt();
+            wkt.read(val.locationDatum.wkt);
+            wkt.toObject();
 
-        var tC = [];
-        // Add each GPS entry to an array
-        for (var k = 0; k < wkt.toJson().coordinates[0].length; k++) {
-            var latlngc = new google.maps.LatLng(wkt.toJson().coordinates[0][k][1], wkt.toJson().coordinates[0][k][0]);
-            tC.push(latlngc);
-        };
-        // Plot the GPS entries as a line on the Google Map
-        var tP = new google.maps.Polygon({
-            map: map,
-            path: tC,
-            strokeColor: "#FF0000",
-            strokeOpacity: 1.0,
-            strokeWeight: 2,
-            fillOpacity: 0.0
-        });
-        //mapc.fitBounds(trackCoords);
-        tP.setMap(map);
-        google.maps.event.addListener(tP, 'click', function (event) {
-            placeMarker(event.latLng);
+            var tC = [];
+            // Add each GPS entry to an array
+            for (var k = 0; k < wkt.toJson().coordinates[0].length; k++) {
+                var latlngc = new google.maps.LatLng(wkt.toJson().coordinates[0][k][1], wkt.toJson().coordinates[0][k][0]);
+                tC.push(latlngc);
+            };
+            // Plot the GPS entries as a line on the Google Map
+            var tP = new google.maps.Polygon({
+                map: map,
+                path: tC,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+                fillOpacity: 0.0
+            });
+            //mapc.fitBounds(trackCoords);
+            tP.setMap(map);
+            google.maps.event.addListener(tP, 'click', function (event) {
+                placeMarker(event.latLng);
+            });
         });
     });
 }
@@ -543,16 +577,16 @@ function loadPathSample() {
     that.find('select[name^="PathSevCode"]').find('option').remove().end().append($(severity));
     that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
-    })
+    });
     that.find('img').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
-    })
+    });
     that.find('select').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
-    })
+    });
     that.find('textarea').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
-    })
+    });
     //that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     $('#samples').append(that);
@@ -1130,10 +1164,10 @@ function loadModal(pagename) {
                 var mm = today.getMonth() + 1; //January is 0!
                 var yyyy = today.getFullYear();
                 if (dd < 10) {
-                    dd = '0' + dd;
+                    dd = '0' + dd
                 }
                 if (mm < 10) {
-                    mm = '0' + mm;
+                    mm = '0' + mm
                 }
                 today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString();
                 $('#form1').find('select[id="ObservationStaffId"]').find('option').remove().end().append($(staffData));
@@ -1190,16 +1224,25 @@ function objectifyPHFormforSave(formArray) {
                 continue;
             }
             if (formArray[i]['name'].startsWith('TargetObservedCode')) {
+                if ($("input[name='" + formArray[i]['name'] + "']:checked").length === 0) {
+                    formArray[i]['value'] = "";
+                }
                 if ($("input[name='" + formArray[i]['name'] + "']:checked").length === 1) {
                     formArray[i]['value'] = $("input[name='" + formArray[i]['name'] + "']:checked").val();
                 }
             }
             if (formArray[i]['name'].startsWith('CountList')) {
+                if ($("input[name='" + formArray[i]['name'] + "']:checked").length === 0) {
+                    formArray[i]['value'] = "";
+                }
                 if ($("input[name='" + formArray[i]['name'] + "']:checked").length === 1) {
                     formArray[i]['value'] = $("input[name='" + formArray[i]['name'] + "']:checked").val();
                 }
             }
             if (formArray[i]['name'].startsWith('HostFlag')) {
+                if ($("input[name='" + formArray[i]['name'] + "']:checked").length === 0) {
+                    formArray[i]['value'] = "";
+                }
                 if ($("input[name='" + formArray[i]['name'] + "']:checked").length === 1) {
                     formArray[i]['value'] = $("input[name='" + formArray[i]['name'] + "']:checked").val();
                 }
@@ -1403,7 +1446,13 @@ function objectifyPHFormforSubmit(data) {//serialize data function
     if (jsonData.PlantSampleTab.length === 0) { delete jsonData.PlantSampleTab; }
     else {
         $.each(jsonData.PlantSampleTab, function (i, item) {
+            delete item.PrelimTaxonTextH;
+            delete item.HostTaxonTextH;
             if (item.AdditionalCollectorTab.length === 0) { delete item.AdditionalCollectorTab };
+            if (item.AdditionalCollectorTab && item.AdditionalCollectorTab.length > 0) {
+                var arr = $.unique(item.AdditionalCollectorTab);
+                item.AdditionalCollectorTab = arr;
+            };
             if (item.EntoLifeStgTab && item.EntoLifeStgTab.length === 0) { delete item.EntoLifeStgTab };
             if (item.PlantPartTab && item.PlantPartTab.length === 0) { delete item.PlantPartTab };
             if (item.PlantPreservationTab && item.PlantPreservationTab.length === 0) { delete item.PlantPreservationTab };
@@ -1449,6 +1498,7 @@ function objectifyPHFormforSubmit(data) {//serialize data function
     };
     $.each(jsonData.PlantObsTab, function (i, item) {
         delete item.CountList;
+        delete item.PlantTaxonTextH;
         if (item.HostStatAreaNo === 0) { delete item.HostStatAreaNo };
         if (item.HostStatCount === 0) { delete item.HostStatCount };
         if (item.PlantObsTargetTab && item.PlantObsTargetTab.length === 0) { delete item.PlantObsTargetTab };
@@ -1473,6 +1523,7 @@ function objectifyPHFormforSubmit(data) {//serialize data function
             delete item.PlantLifeStgCode;
         }
         $.each(item.PlantObsTargetTab, function (i, item1) {
+            delete item1.TargetTaxonTextH;
             if (item1.TargetTaxonId > 0) {
                 delete item1.TargetTaxonText;
             }
@@ -1914,6 +1965,7 @@ function BindAutoCompleteB(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.hostweed').find("input.taxonIDB").val(selectedItemValue);
+                e.closest('.hostweed').find("input.taxonHTextB").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -1931,6 +1983,7 @@ function BindAutoCompleteE(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.entobox').find("input.taxonIDE").val(selectedItemValue);
+                e.closest('.entobox').find("input.taxonHTextE").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -1948,6 +2001,7 @@ function BindAutoCompleteP(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.pathbox').find("input.taxonIDP").val(selectedItemValue);
+                e.closest('.pathbox').find("input.taxonHTextP").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -1965,6 +2019,7 @@ function BindAutoCompleteET(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.entotarget').find("input.taxonIDET").val(selectedItemValue);
+                e.closest('.entotarget').find("input.taxonHTextET").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -1982,6 +2037,7 @@ function BindAutoCompletePT(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.pathtarget').find("input.taxonIDPT").val(selectedItemValue);
+                e.closest('.pathtarget').find("input.taxonHTextPT").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -1999,6 +2055,7 @@ function BindAutoCompleteBS(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.sample').find("input.taxonIDBS").val(selectedItemValue);
+                e.closest('.sample').find("input.taxonHTextBS").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -2016,6 +2073,7 @@ function BindAutoCompleteES(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.sample').find("input.taxonIDES").val(selectedItemValue);
+                e.closest('.sample').find("input.taxonHTextES").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -2033,6 +2091,7 @@ function BindAutoCompleteHES(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.sample').find("input.taxonIDHES").val(selectedItemValue);
+                e.closest('.sample').find("input.taxonHTextHES").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -2050,6 +2109,7 @@ function BindAutoCompletePS(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.sample').find("input.taxonIDPS").val(selectedItemValue);
+                e.closest('.sample').find("input.taxonHTextPS").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -2067,6 +2127,7 @@ function BindAutoCompleteHPS(e) {
             onSelectItemEvent: function () {
                 var selectedItemValue = e.getSelectedItemData().id;
                 e.closest('.sample').find("input.taxonIDHPS").val(selectedItemValue);
+                e.closest('.sample').find("input.taxonHTextHPS").val(e.getSelectedItemData().name);
             }
         },
         adjustWidth: false
@@ -2922,63 +2983,121 @@ $(document).on('click', 'a.downloadMaps', function (e) {
     getFileandExtract(url, mapset, 1, numfiles);
 });
 $(document).on('focus', 'select[name="SiteId_O_N"]', function (e) {
-    lastValue = $(this).val();
-}).on('change', 'select[name="SiteId_O_N"]', function (e) {
-    var that = $(this);
-    if (that.val() === "0" || lastValue === "0") return;
-    if (curDiscipline === "B" && numPlants === 0 && bsamples === 0) return;
-    if (curDiscipline === "E" && numEntoHosts === 0 && esamples === 0) return;
-    if (curDiscipline === "P" && numPathHosts === 0 && psamples === 0) return;
-    $.confirm({
-        title: 'Confirm Remove!',
-        content: 'Your observations for the currently selected Site will be erased. Do you want to continue?',
-        buttons: {
-            Ok: function () {
-                var str = that.val();
-                //if (str === 99999) {
-                //    //alert('NewSite selected');
-                //    var xlat = $('#form1').find('input.obslat');
-                //    var xlng = $('#form1').find('input.obslng');
-                //    var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
-                //    if (xlat.val() !== "") { cLatitude = xlat.val(); }
-                //    if (xlng.val() !== "") { cLongitude = xlng.val(); }
-                //    if (xwkt.val() !== "") { cWkt = xwkt.val(); }
-                //    xlat.val("");
-                //    xlng.val("");
-                //    xwkt.val("");
-                //}
-                //else {
-                //    //alert('Existing site selected');
-                //    var xlat = $('#form1').find('input.obslat');
-                //    var xlng = $('#form1').find('input.obslng');
-                //    var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
-                //    if (cLatitude !== "") { xlat.val(cLatitude); }
-                //    if (cLongitude !== "") { xlng.val(cLongitude); }
-                //    if (cWkt !== "") { xwkt.val(cWkt); }
-                //}
-                bsamples = 0;
-                esamples = 0;
-                psamples = 0;
-                numPlants = 0;
-                numEntoHosts = 0;
-                numEntoTargets = 0;
-                numPathHosts = 0;
-                numPathTargets = 0;
-                $('#hostweeds').empty();
-                $('#samples').empty();
-                $('#numEntoHosts').text("");
-                $('#numPathHosts').text("");
-                $('#numPlants').text("");
-                $('#numSamples').text("");
-                $('#numAttachments').text("");
-                loadSiteData(str);
-            },
-            cancel: function () {
-                that.val(lastValue);
-            }
+    lastSiteValue = $(this).val();
+})
+    .on('change', 'select[name="SiteId_O_N"]', function (e) {
+        var that = $(this);
+        var str = that.val();
+        //if (that.val() === "0" || lastSiteValue === "0") return;
+        if (that.val() === "0") return;
+        if (curDiscipline === "B" && numPlants === 0 && bsamples === 0) {
+            loadSiteData(str);
+            return;
         }
+        if (curDiscipline === "E" && numEntoHosts === 0 && esamples === 0) {
+            loadSiteData(str);
+            return;
+        }
+        if (curDiscipline === "P" && numPathHosts === 0 && psamples === 0) {
+            loadSiteData(str);
+            return;
+        }
+        $.confirm({
+            title: 'Confirm Remove!',
+            content: 'Your observations for the currently selected Site will be erased. Do you want to continue?',
+            buttons: {
+                Ok: function () {
+                    //if (str === 99999) {
+                    //    //alert('NewSite selected');
+                    //    var xlat = $('#form1').find('input.obslat');
+                    //    var xlng = $('#form1').find('input.obslng');
+                    //    var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+                    //    if (xlat.val() !== "") { cLatitude = xlat.val(); }
+                    //    if (xlng.val() !== "") { cLongitude = xlng.val(); }
+                    //    if (xwkt.val() !== "") { cWkt = xwkt.val(); }
+                    //    xlat.val("");
+                    //    xlng.val("");
+                    //    xwkt.val("");
+                    //}
+                    //else {
+                    //    //alert('Existing site selected');
+                    //    var xlat = $('#form1').find('input.obslat');
+                    //    var xlng = $('#form1').find('input.obslng');
+                    //    var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+                    //    if (cLatitude !== "") { xlat.val(cLatitude); }
+                    //    if (cLongitude !== "") { xlng.val(cLongitude); }
+                    //    if (cWkt !== "") { xwkt.val(cWkt); }
+                    //}
+                    bsamples = 0;
+                    esamples = 0;
+                    psamples = 0;
+                    numPlants = 0;
+                    numEntoHosts = 0;
+                    numEntoTargets = 0;
+                    numPathHosts = 0;
+                    numPathTargets = 0;
+                    $('#hostweeds').empty();
+                    $('#samples').empty();
+                    $('#numEntoHosts').text("");
+                    $('#numPathHosts').text("");
+                    $('#numPlants').text("");
+                    $('#numSamples').text("");
+                    $('#numAttachments').text("");
+                    loadSiteData(str);
+                },
+                cancel: function () {
+                    that.val(lastSiteValue);
+                }
+            }
+        });
     });
-});
+$(document).on('focus', 'select[name="SurvActivityId_M_N"]', function (e) {
+    lastSurvActValue = $(this).val();
+})
+    .on('change', 'select[name="SurvActivityId_M_N"]', function (e) {
+        var that = $(this);
+        var str = that.val();
+        if (that.val() === "0") return;
+        if (curDiscipline === "B" && numPlants === 0 && bsamples === 0) {
+            refreshActivityData(str);
+            return;
+        }
+        if (curDiscipline === "E" && numEntoHosts === 0 && esamples === 0) {
+            refreshActivityData(str);
+            return;
+        }
+        if (curDiscipline === "P" && numPathHosts === 0 && psamples === 0) {
+            refreshActivityData(str);
+            return;
+        }
+        $.confirm({
+            title: 'Confirm Remove!',
+            content: 'Your observations for the currently selected Activity will be erased. Do you want to continue?',
+            buttons: {
+                Ok: function () {
+                    bsamples = 0;
+                    esamples = 0;
+                    psamples = 0;
+                    numPlants = 0;
+                    numEntoHosts = 0;
+                    numEntoTargets = 0;
+                    numPathHosts = 0;
+                    numPathTargets = 0;
+                    $('#hostweeds').empty();
+                    $('#samples').empty();
+                    $('#numEntoHosts').text("");
+                    $('#numPathHosts').text("");
+                    $('#numPlants').text("");
+                    $('#numSamples').text("");
+                    $('#numAttachments').text("");
+                    refreshActivityData(str);
+                },
+                cancel: function () {
+                    that.val(lastSurvActValue);
+                }
+            }
+        });
+    });
 function getFileandExtract(url, mapset, i, n) {
     t1 = performance.now();
     t3 = t3 + Math.round((t1 - t0));
@@ -3186,13 +3305,23 @@ $(document).on('click', "#addPlantObsAttachment", function () {
         $(this).attr('id', $(this).attr('name') + '_' + Idx + '_H');
         $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
     });
-    $('#PlantObsAttachments').append(that1);
+    switch (curDiscipline) {
+        case 'B':
+            $(this).closest('.hostweed').find('#PlantObsAttachments').append(that1);
+            break;
+        case 'E':
+            $(this).closest('.entobox').find('#PlantObsAttachments').append(that1);
+            break;
+        case 'P':
+            $(this).closest('.pathbox').find('#PlantObsAttachments').append(that1);
+            break;
+    }
     numAttachments++;
     $('#numAttachments').text(numAttachments);
 });
 $(document).on('click', ".removePlantObsAttachment", function () {
     var x = $(this);
-    if (numAttachments > 1) {
+    if (numAttachments > 0) {
         $.confirm({
             title: 'Confirm Remove!',
             content: 'Do you want to remove this attachment?',
@@ -3226,13 +3355,13 @@ $(document).on('click', "#addPlantSampleAttachment", function () {
         $(this).attr('id', $(this).attr('name') + '_' + Idx + '_S');
         $(this).attr('name', $(this).attr('name') + '_' + Idx + '_S');
     });
-    $('#PlantSampleAttachments').append(that1);
+    $(this).closest('.sample').find('#PlantSampleAttachments').append(that1);
     numAttachments++;
     $('#numAttachments').text(numAttachments);
 });
 $(document).on('click', ".removePlantSampleAttachment", function () {
     var x = $(this);
-    if (numAttachments > 1) {
+    if (numAttachments > 0) {
         $.confirm({
             title: 'Confirm Remove!',
             content: 'Do you want to remove this attachment?',
@@ -3272,7 +3401,7 @@ $(document).on('click', "#addPlantAttachment", function () {
 });
 $(document).on('click', ".removePlantAttachment", function () {
     var x = $(this);
-    if (numAttachments > 1) {
+    if (numAttachments > 0) {
         $.confirm({
             title: 'Confirm Remove!',
             content: 'Do you want to remove this attachment?',
@@ -3471,43 +3600,87 @@ function getTaxonText(id) {
             break;
     }
 }
-$(document).on('keydown', '.taxonTextP', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDP').val(''); }
+$(document).on('blur', '.taxonTextP', function () {
+    var x = $(this).closest('.pathbox');
+    if ($(this).val() !== x.find('.taxonHTextP').val()) {
+        x.find('.taxonIDP').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextPT', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDPT').val(''); }
+$(document).on('blur', '.taxonTextPT', function () {
+    var x = $(this).closest('.pathbox');
+    if ($(this).val() !== x.find('.taxonHTextPT').val()) {
+        x.find('.taxonIDPT').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextE', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDE').val(''); }
+$(document).on('blur', '.taxonTextE', function () {
+    var x = $(this).closest('.entobox');
+    if ($(this).val() !== x.find('.taxonHTextE').val()) {
+        x.find('.taxonIDE').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextET', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDET').val(''); }
+$(document).on('blur', '.taxonTextET', function () {
+    var x = $(this).closest('.entobox');
+    if ($(this).val() !== x.find('.taxonHTextET').val()) {
+        x.find('.taxonIDET').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextB', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDB').val(''); }
+$(document).on('blur', '.taxonTextB', function () {
+    var x = $(this).closest('.hostweed');
+    if ($(this).val() !== x.find('.taxonHTextB').val()) {
+        x.find('.taxonIDB').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextBS', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDBS').val(''); }
+$(document).on('blur', '.taxonTextBS', function () {
+    var x = $(this).closest('.sample');
+    if ($(this).val() !== x.find('.taxonHTextBS').val()) {
+        x.find('.taxonIDBS').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextES', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDES').val(''); }
+$(document).on('blur', '.taxonTextES', function () {
+    var x = $(this).closest('.sample');
+    if ($(this).val() !== x.find('.taxonHTextES').val()) {
+        x.find('.taxonIDES').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextPS', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDPS').val(''); }
+$(document).on('blur', '.taxonTextPS', function () {
+    var x = $(this).closest('.sample');
+    if ($(this).val() !== x.find('.taxonHTextPS').val()) {
+        x.find('.taxonIDPS').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextHES', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDHES').val(''); }
+$(document).on('blur', '.taxonTextHES', function () {
+    var x = $(this).closest('.sample');
+    if ($(this).val() !== x.find('.taxonHTextHES').val()) {
+        x.find('.taxonIDHES').val('');
+    }
 });
-$(document).on('keydown', '.taxonTextHPS', function () {
-    var key = event.keyCode || event.charCode;
-    if (key == 8 || key == 46) { $('.taxonIDHPS').val(''); }
+$(document).on('blur', '.taxonTextHPS', function () {
+    var x = $(this).closest('.sample');
+    if ($(this).val() !== x.find('.taxonHTextHPS').val()) {
+        x.find('.taxonIDHPS').val('');
+    }
+});
+$(document).on('dblclick', 'div.hostweed', function () {
+    $(this).find("[data-action=expand]").trigger('click');
+});
+$(document).on('dblclick', 'div.pathbox', function () {
+    $(this).find("[data-action=expand]").trigger('click');
+});
+$(document).on('dblclick', 'div.entobox', function () {
+    $(this).find("[data-action=expand]").trigger('click');
+});
+$(document).on('dblclick', 'div.sample', function () {
+    $(this).find("[data-action=expand]").trigger('click');
+});
+$(document).on('contextmenu', 'div.hostweed', function () {
+    $(this).find("[data-action=collapse]").trigger('click');
+});
+$(document).on('contextmenu', 'div.pathbox', function () {
+    $(this).find("[data-action=collapse]").trigger('click');
+});
+$(document).on('contextmenu', 'div.entobox', function () {
+    $(this).find("[data-action=collapse]").trigger('click');
+});
+$(document).on('contextmenu', 'div.sample', function () {
+    $(this).find("[data-action=collapse]").trigger('click');
 });
