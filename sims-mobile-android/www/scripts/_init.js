@@ -100,17 +100,19 @@ function checkPermissions() {
 }
 function initSettings() {
     $('#mb6 .progText').text("Loading App Defaults ...");
-    db = window.sqlitePlugin.openDatabase({ name: "sims.db", location: 'default' });
-    db.transaction(function (tx) {
-        tx.executeSql("CREATE TABLE IF NOT EXISTS observations (id integer primary key, filedt text, data blob)");
-        tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key, settingstext text, settingsval text default '{}')");
-        tx.executeSql("CREATE TABLE IF NOT EXISTS phrefcodes (id integer primary key, settingstext text, settingsval text default '{}')");
-        tx.executeSql("CREATE TABLE IF NOT EXISTS activitydata (id integer primary key, settingstext text, settingsval text default '{}')");
-        tx.executeSql("CREATE TABLE IF NOT EXISTS staffdata (id integer primary key, settingstext text, settingsval text default '{}')");
-        tx.executeSql("CREATE TABLE IF NOT EXISTS taxadata (id integer primary key, settingstext text, settingsval text default '{}')");
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occurred while initializing the DB. " + err.message, location: "tc", size: "large" });
-    });
+    if (!db) {
+        db = window.sqlitePlugin.openDatabase({ name: "sims.db", location: 'default' });
+        db.transaction(function (tx) {
+            tx.executeSql("CREATE TABLE IF NOT EXISTS observations (id integer primary key, filedt text, data blob)");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key, settingstext text, settingsval text default '{}')");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS phrefcodes (id integer primary key, settingstext text, settingsval text default '{}')");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS activitydata (id integer primary key, settingstext text, settingsval text default '{}')");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS staffdata (id integer primary key, settingstext text, settingsval text default '{}')");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS taxadata (id integer primary key, settingstext text, settingsval text default '{}')");
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occurred while initializing the DB. " + err.message, location: "tc", size: "large" });
+        });
+    }
     //Loading PH reference codes
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM phrefcodes WHERE id = ?", [1], function (tx, res) {
@@ -152,49 +154,32 @@ function initSettings() {
                 //siteData = ActivityData.activities[0].sites;
                 //programId = ActivityData.activities[0].programId;
                 loadActivityData();
-                //Loading Staff Data
-                db.transaction(function (tx) {
-                    tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", [programId + 'staff'], function (tx, res) {
-                        //This is not the first load
-                        if (res.rows && res.rows.length > 0) {
-                            staffDataS = JSON.parse(res.rows.item(0).settingsval);
-                            loadstaffData();
-                        }
-                        else {
-                            //This is the first load
-                            syncstaffData();
-                            loadstaffData();
-                        }
-                    });
-                }, function (err) {
-                    $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-                });
             }
             else {
                 //This is the first load
                 syncActivityData();
                 loadActivityData();
-                db.transaction(function (tx) {
-                    tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", [programId + 'staff'], function (tx, res) {
-                        //This is not the first load
-                        if (res.rows && res.rows.length > 0) {
-                            //alert(JSON.stringify(res.rows.item(0).settingsval));
-                            staffDataS = JSON.parse(res.rows.item(0).settingsval);
-                            loadstaffData();
-                        }
-                        else {
-                            //This is the first load
-                            syncstaffData();
-                            loadstaffData();
-                        }
-                    });
-                }, function (err) {
-                    $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-                });
-            };
+            }
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while loading Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    //Loading Staff Data
+    db.transaction(function (tx) {
+        tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['NPHstaff'], function (tx, res) {
+            //This is not the first load
+            if (res.rows && res.rows.length > 0) {
+                staffDataS = JSON.parse(res.rows.item(0).settingsval);
+                loadstaffData();
+            }
+            else {
+                //This is the first load
+                syncstaffData();
+                loadstaffData();
+            }
+        });
+    }, function (err) {
+        $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
     });
     //Loading maps and Markers
     db.transaction(function (tx) {
@@ -306,10 +291,10 @@ function initSettings() {
                                 var mm = today.getMonth() + 1; //January is 0!
                                 var yyyy = today.getFullYear();
                                 if (dd < 10) {
-                                    dd = '0' + dd
+                                    dd = '0' + dd;
                                 }
                                 if (mm < 10) {
-                                    mm = '0' + mm
+                                    mm = '0' + mm;
                                 }
                                 today = dd.toString() + '/' + mm.toString() + '/' + yyyy.toString();
                                 db.transaction(function (tx) {
@@ -372,7 +357,7 @@ function initSettings() {
                                     $.growl.error({ title: "", message: "An error occured while updating data to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
                                 });
                                 //$.growl.notice({ title: "", message: "Data loaded!", location: "tc", size: "large", fixed: "true" });
-                                if ($("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
+                                //if ($("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
                             },
                             failure: function () {
                                 $.growl.error({ title: "", message: "Error!", location: "tc", size: "large", fixed: "true" });
@@ -386,7 +371,7 @@ function initSettings() {
                         $.growl.error({ title: "", message: "Error loading settings!", location: "tc", size: "large", fixed: "true" });
                     }
                 });
-            };
+            }
             loadSitePolygons();
             //if ($("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
         });
@@ -457,7 +442,7 @@ function loadMapMarkers() {
                 google.maps.event.addListener(markerCluster, 'clusterclick', function (cluster) {
                     map.setCenter(cluster.getCenter());
                 });
-                if ($("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
+                //if ($("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
             }
         });
     }, function (err) {
@@ -1712,6 +1697,7 @@ $(document).on('click', '.obsForm', function (e) {
 });
 $(document).on('click', '#showFormPH', function (e) {
     var zi;
+    curDiscipline = $('input[type=radio][name="optObs"]:checked').attr('data-discipline');
     var formName = $("input[name='optObs']:checked").val();
     if (formName) {
         zi = $('#modalPHMenu').css('z-index');

@@ -262,7 +262,7 @@ function syncstaffData() {
         "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing NPH Staff Data ...");
+            $('#mb6 .progText').text("Syncing Staff Data ...");
             $('#mb6 .progress').addClass('hide');
             $('#mb6 .fa-clock-o').addClass('hide');
         },
@@ -300,7 +300,7 @@ function syncstaffData() {
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + err.message, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + response.responseText, location: "tc", size: "large" });
     });
 }
 function syncBPHstaffData() {
@@ -310,7 +310,7 @@ function syncBPHstaffData() {
         "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing BPH Staff Data ...");
+            $('#mb6 .progText').text("Syncing Staff Data ...");
             $('#mb6 .progress').addClass('hide');
             $('#mb6 .fa-clock-o').addClass('hide');
         },
@@ -347,7 +347,7 @@ function syncBPHstaffData() {
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching BPH StaffData. " + err.message, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching BPH StaffData. " + response.responseText, location: "tc", size: "large" });
     });
 }
 function syncIPHstaffData() {
@@ -357,7 +357,7 @@ function syncIPHstaffData() {
         "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing IPH Staff Data ...");
+            $('#mb6 .progText').text("Syncing Staff Data ...");
             $('#mb6 .progress').addClass('hide');
             $('#mb6 .fa-clock-o').addClass('hide');
         },
@@ -405,7 +405,7 @@ function syncIPHstaffData() {
     }).fail(function (response) {
         $('#mb6 .progText').text("");
         $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + err.message, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + response.responseText, location: "tc", size: "large" });
     });
 }
 function syncTaxaData() {
