@@ -163,7 +163,7 @@ function initSettings() {
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while loading Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-        });
+    });
     //Loading Staff Data
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['NPHstaff'], function (tx, res) {
@@ -830,10 +830,10 @@ function exportTableToCSV($table, filename) {
         var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
         if (dd < 10) {
-            dd = '0' + dd
+            dd = '0' + dd;
         }
         if (mm < 10) {
-            mm = '0' + mm
+            mm = '0' + mm;
         }
         today = yyyy.toString() + mm.toString() + dd.toString();
         fs.getFile("Observations" + today + ".csv", { create: true, exclusive: false }, function (fileEntry) {
@@ -1028,8 +1028,8 @@ google.maps.Polygon.prototype.Contains = function (point) {
         if ((py > by || py < ay) || (px > Math.max(ax, bx))) return false;
         if (px < Math.min(ax, bx)) return true;
 
-        var red = (ax !==bx) ? ((by - ay) / (bx - ax)) : Infinity;
-        var blue = (ax !==px) ? ((py - ay) / (px - ax)) : Infinity;
+        var red = (ax !== bx) ? ((by - ay) / (bx - ax)) : Infinity;
+        var blue = (ax !== px) ? ((py - ay) / (px - ax)) : Infinity;
         return (blue >= red);
 
     }
@@ -1322,8 +1322,9 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
         });
 });
 $(document).on('click', '.export', function (event) {
-    var args = [$('#srchPHTable_wrapper'), 'export.csv'];
-    exportTableToCSV.apply(this, args);
+    //var args = [$('#srchPHTable_wrapper'), 'export.csv'];
+    //exportTableToCSV.apply(this, args);
+    exportObservationsToCSV();
 });
 $(document).on('click', '.sync', function (event) {
     var success = true;
@@ -1864,3 +1865,121 @@ $(document).on('click', 'a.btnError', function (e) {
     if (w) { w.focus(); }
     $('div.growl-close').triggerHandler('click');
 });
+function exportObservationsToCSV() {
+    var flatJSON = results.observations.map(record => flatten(record, {}, ''));
+    var csv = JSON.stringify(flatJSON);
+    csv = csv.replace(/_O_N_\d_T/g, '').replace(/_M_S_\d_T/g, '').replace(/_O_S_\d_T/g, '').replace(/_M_N_\d_H/g, '').replace(/_M_S_\d_H/g, '').replace(/_O_S_\d_H/g, '').replace(/_O_N_\d_H/g, '');
+    csv = csv.replace(/_M_S_\d_S/g, '').replace(/_O_N_\d_S/g, '').replace(/_M_S_\d_S/g, '').replace(/_M_D_\d_S/g, '').replace(/_O_S_\d_S/g, '');
+    csv = csv.replace(/_M_N/g, '').replace(/_O_N/g, '').replace(/_M_D/g, '').replace(/_M_S/g, '');
+    csv = csv.replace("[{", "").replace("}]", "").replace("},", "\r\n").replace(",{", "\r\n").replace("{", "").replace("}", "");
+    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (fs) {
+        //console.log('file system open:s ' + fs);
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        today = yyyy.toString() + mm.toString() + dd.toString();
+        fs.getDirectory("ESFA", { create: true, exclusive: false }, function (dirEntry) {
+            dirEntry.getFile("Observations" + today + ".csv", { create: true, exclusive: false }, function (fileEntry) {
+                console.log("fileEntry is file?" + fileEntry.isFile.toString());
+                fileEntry.createWriter(function (fileWriter) {
+                    fileWriter.onwriteend = function () {
+                        console.log("Successful file read...");
+                        //readFile(fileEntry);
+                    };
+                    fileWriter.onerror = function (e) {
+                        $.growl.error({ title: "", message: "Failed file read: " + e.toString(), location: "tc", size: "large" });
+                    };
+                    fileWriter.seek(0);
+                    var blob = new Blob([csv], { type: 'text/plain' });
+                    fileWriter.write(blob);
+                    $.growl.notice({ title: "", message: 'File saved to Local folder.', location: "tc", size: "large" });
+                });
+            });
+        });
+    });
+}
+function flatObjectToString(obj) {
+    var s = "";
+    Object.keys(obj).map(key => {
+        if (obj[key] === null) {
+            s += key + ":";
+        } else if (obj[key].toLocaleDateString) {
+            s += key + ": " + obj[key].toLocaleDateString() + "\n";
+        } else if (obj[key] instanceof Array) {
+            s += key + ":\n" + listToFlatString(obj[key]);
+        } else if (typeof obj[key] == "object") {
+            s += key + ":\n" + flatObjectToString(obj[key]);
+        } else {
+            s += key + ":" + obj[key];
+        }
+        s += "\n";
+    });
+    return s;
+}
+function listToFlatString(list) {
+    var s = "";
+    list.map(item => {
+        Object.keys(item).map(key => {
+            s += "";
+            if (item[key] instanceof Array) {
+                s += key + "\n" + listToFlatString(item[key]);
+            } else if (typeof item[key] === "object" && item[key] !== null) {
+                s += key + ": " + flatObjectToString(item[key]);
+            } else {
+                s += key + ": " + (item[key] === null ? "" : item[key].toLocaleDateString ? item[key].toLocaleDateString : item[key].toString());
+            }
+            s += "\n";
+        });
+    });
+    return s;
+}
+function flatten(object, addToList, prefix) {
+    Object.keys(object).map(key => {
+        if (object[key] === null) {
+            addToList[prefix + key] = "";
+        } else
+            if (object[key] instanceof Array) {
+                // addToList[prefix + key] = listToFlatString(object[key]);
+                for (i in object[key]) {
+                    //flatten(object[key][i], addToList, prefix + key + "." + i);
+                    flatten(object[key][i], addToList, '');
+                }
+            } else if (typeof object[key] === 'object' && !object[key].toLocaleDateString) {
+                //flatten(object[key], addToList, prefix + key + '.');
+                flatten(object[key], addToList, '');
+            } else {
+                addToList[prefix + key] = object[key];
+            }
+    });
+    return addToList;
+}
+function JSON2CSV(objArray) {
+    var array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
+    var str = '';
+    var line = '';
+
+    var head = array[0];
+    for (var index in array[0]) {
+        line += index + ',';
+    }
+    line = line.slice(0, -1);
+    str += line + '\r\n';
+
+    for (var i = 0; i < array.length; i++) {
+        var line = '';
+        for (var index in array[i]) {
+            line += array[i][index] + ',';
+        }
+
+        line = line.slice(0, -1);
+        str += line + '\r\n';
+    }
+    return str;
+}
