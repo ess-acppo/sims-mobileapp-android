@@ -163,7 +163,7 @@ function initSettings() {
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while loading Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-        });
+    });
     //Loading Staff Data
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['NPHstaff'], function (tx, res) {
@@ -755,19 +755,27 @@ function loadData() {
                     {
                         "data": "PlantDisciplineCode_M_S",
                         "render": function (data, type, row, meta) {
-                            if (data === 'S') return "Single";
-                            if (data === 'G') return "Group";
                             if (data === 'B') return "Botany";
                             if (data === 'E') return "Entomology";
                             if (data === 'P') return "Pathology";
                         }
                     },
-                    { "data": "SurvActivityId_M_N" },
-                    { "data": "SiteId_O_N" },
+                    {
+                        "data": "SurvActivityId_M_N",
+                        "render": function (data, type, row, meta) {
+                            return getSurvActivity(data);
+                        }
+                    },
+                    {
+                        "data": "SiteId_O_N",
+                        "render": function (data, type, row, meta) {
+                            return getSite(row.SurvActivityId_M_N, data);
+                        }
+                    },
                     {
                         "data": "ObservationDate_M_D",
                         "render": function (data, type, row, meta) {
-                            return moment(data).format("YYYY-MM-DD");
+                            return moment(data).format("YYYY-MM-DD HH:MM:SS");
                         }
                     },
                     { "data": "WaypointNumber_O_N" },
@@ -830,10 +838,10 @@ function exportTableToCSV($table, filename) {
         var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
         if (dd < 10) {
-            dd = '0' + dd
+            dd = '0' + dd;
         }
         if (mm < 10) {
-            mm = '0' + mm
+            mm = '0' + mm;
         }
         today = yyyy.toString() + mm.toString() + dd.toString();
         fs.getFile("Observations" + today + ".csv", { create: true, exclusive: false }, function (fileEntry) {
@@ -1028,8 +1036,8 @@ google.maps.Polygon.prototype.Contains = function (point) {
         if ((py > by || py < ay) || (px > Math.max(ax, bx))) return false;
         if (px < Math.min(ax, bx)) return true;
 
-        var red = (ax !==bx) ? ((by - ay) / (bx - ax)) : Infinity;
-        var blue = (ax !==px) ? ((py - ay) / (px - ax)) : Infinity;
+        var red = (ax !== bx) ? ((by - ay) / (bx - ax)) : Infinity;
+        var blue = (ax !== px) ? ((py - ay) / (px - ax)) : Infinity;
         return (blue >= red);
 
     }
@@ -1322,147 +1330,12 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
         });
 });
 $(document).on('click', '.export', function (event) {
-    var args = [$('#srchPHTable_wrapper'), 'export.csv'];
-    exportTableToCSV.apply(this, args);
+    //var args = [$('#srchPHTable_wrapper'), 'export.csv'];
+    //exportTableToCSV.apply(this, args);
+    exportObservationsToCSV();
 });
 $(document).on('click', '.sync', function (event) {
-    var success = true;
-    var noRowstoPush = true;
-    var rowsFailed = [];
-    var rowsFailedErr = [];
-    var rowsSuccess = [];
-    $.each(results.observations, function (index, value) {
-        if (value.status_M_N === 0) { return true };
-        noRowstoPush = false;
-        vError = 0;
-        vErrDescription = [];
-        vFailed = false;
-        CountListFlag = 0;
-        HostStatCountFlag = 0;
-        HostStatAreaFlag = 0;
-        PlantPreservationOtherFlag = 0;
-        PlantTargetObservedCodeFlag = 0;
-        var rowid = value.id_M_N;
-        var result = Iterate2(value);
-        if (result.vError === 0) {
-            var vpayload = JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value)));
-            $.confirm({
-                title: 'Payload Attempted!',
-                content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
-                columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                buttons: {
-                    ok: function () { },
-                    copy: {
-                        text: 'Copy', // With spaces and symbols
-                        action: function () {
-                            var copytext = this.$content.find("#Payload");
-                            copytext.select();
-                            document.execCommand("copy");
-                            return false;
-                        }
-                    }
-                }
-            });
-            //var payload = {
-            //    "value": vpayload.escapeSpecialChars() 
-            //};
-            $.ajax({
-                method: "POST",
-                async: false,
-                //url: "https://online-dev.agriculture.gov.au/psd.comr.svl/PlantHealthService/1.0/createPlantHealthObservation",
-                //"url": "https://online-sit.agriculture.gov.au/psd.comr.svl/PlantHealthService/1.0/createPlantHealthObservation",
-                "url": "https://online-uat.agriculture.gov.au/psd.comr.svl/PlantHealthService/1.0/createPlantHealthObservation",
-                //data: JSON.stringify(payload),
-                data: vpayload.escapeSpecialChars(),
-                contentType: "application/json",
-                dataType: "json",
-                beforeSend: function () {
-                    $('#Download').removeClass('btn-default');
-                    $('#Download').attr('disabled', true);
-                    $('#Download').addClass('disabled');
-                    $('#Sync').removeClass('btn-info');
-                    $('#Sync').attr('disabled', true);
-                    $('#Sync').addClass('disabled');
-                    $('#newObservation').removeClass('btn-default');
-                    $('#newObservation').attr('disabled', true);
-                    $('#newObservation').addClass('disabled');
-
-                    $('#mb6 .progText').text("Sync in progress ...");
-                    $('#mb6 .progress').addClass('hide');
-                    $('#mb6 .fa-clock-o').addClass('hide');
-                    $('#modalProgress').modal();
-                },
-                headers: {
-                    "authorization": authCode,
-                    "cache-control": "no-cache"
-                },
-                success: function (data, textStatus, XmlHttpRequest) {
-                    //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
-                    if (XmlHttpRequest.status === 200) {
-                        $.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
-                    }
-                    rowsSuccess.push(index);
-                },
-                complete: function () {
-                    //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
-                    //results.observations(value.id_M_N - 1).status_M_N = 2;
-                    //results.observations.splice(index, 1);
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
-                    $.dialog({
-                        title: 'Sync Failed!',
-                        content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
-                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
-                    });
-                }
-            });
-        }
-        else {
-            rowsFailed.push(rowid);
-            rowsFailedErr.push(result.vErrDescription);
-            success = false;
-            return false;
-        }
-    });
-    if (success === true && noRowstoPush === false) {
-        rowsSuccess.sort();
-        rowsSuccess.reverse();
-        $.each(rowsSuccess, function (index, value) {
-            results.observations.splice(value, 1);
-        });
-        db.transaction(function (tx) {
-            tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-                //alert("Dataset updated.");
-                //$.growl({ title: "", message: "Success! Observations " + rowsSuccess.join(',') + " synced to cloud.", location: "tc", size: "large" });
-                //$.growl({ title: "", message: "Observations synced to cloud.", location: "tc", size: "large" });
-            });
-        }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating records to database. " + err.message, location: "tc", size: "large" });
-        });
-    }
-    else if (success === false && noRowstoPush === false) { $.growl.error({ title: "", message: "Submit Failed for rows:" + rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
-    else if (success === true && noRowstoPush === true) { $.growl.notice({ title: "", message: "No records to Sync.", location: "tc", size: "large" }); }
-    syncPHRefCodes();
-    syncActivityData();
-    syncstaffData();
-    table.destroy();
-    loadData();
-    clearMarkers();
-    loadMapMarkers();
-    if (infoWindow) {
-        infoWindow.close();
-    }
-
-    $('#Download').addClass('btn-default');
-    $('#Sync').addClass('btn-info');
-    $('#newObservation').addClass('btn-default');
-    $('#Download').attr('disabled', false);
-    $('#Download').removeClass('disabled');
-    $('#Sync').attr('disabled', false);
-    $('#Sync').removeClass('disabled');
-    $('#newObservation').attr('disabled', false);
-    $('#newObservation').removeClass('disabled');
+    $.when(setTimeout(DisableForm(), 1000));
 });
 $(document).on('shown.bs.modal', '#modalPHGrid', function () {
     loadPHRefCodes();
@@ -1864,3 +1737,265 @@ $(document).on('click', 'a.btnError', function (e) {
     if (w) { w.focus(); }
     $('div.growl-close').triggerHandler('click');
 });
+function exportObservationsToCSV() {
+    var flatJSON = results.observations.map(record => flatten(record, {}, ''));
+    var csv = JSON.stringify(flatJSON);
+    csv = csv.replace(/_O_N_\d_T/g, '').replace(/_M_S_\d_T/g, '').replace(/_O_S_\d_T/g, '').replace(/_M_N_\d_H/g, '').replace(/_M_S_\d_H/g, '').replace(/_O_S_\d_H/g, '').replace(/_O_N_\d_H/g, '');
+    csv = csv.replace(/_M_S_\d_S/g, '').replace(/_O_N_\d_S/g, '').replace(/_M_S_\d_S/g, '').replace(/_M_D_\d_S/g, '').replace(/_O_S_\d_S/g, '');
+    csv = csv.replace(/_M_N/g, '').replace(/_O_N/g, '').replace(/_M_D/g, '').replace(/_M_S/g, '');
+    csv = csv.replace("[{", "").replace("}]", "").replace("},", "\r\n").replace(",{", "\r\n").replace("{", "").replace("}", "");
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    today = yyyy.toString() + mm.toString() + dd.toString();
+
+    var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+    savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.documentsLibrary;
+    savePicker.fileTypeChoices.insert("CSV", [".csv"]);
+    savePicker.suggestedFileName = "Observations" + today + ".csv";
+    savePicker.pickSaveFileAsync().then(function (file) {
+        if (file) {
+            Windows.Storage.CachedFileManager.deferUpdates(file);
+            Windows.Storage.FileIO.writeTextAsync(file, csv).done(function () {
+                Windows.Storage.CachedFileManager.completeUpdatesAsync(file).done(function (updateStatus) {
+                    if (updateStatus === Windows.Storage.Provider.FileUpdateStatus.complete) {
+                        $.growl.notice({ title: "", message: 'File saved to Downloads folder.', location: "tc", size: "large" });
+                    } else {
+                        $.growl.notice({ title: "", message: 'File save failed!', location: "tc", size: "large" });
+                    }
+                });
+            });
+        } else {
+            $.growl.notice({ title: "", message: 'Operation Cancelled!', location: "tc", size: "large" });
+        }
+    });
+}
+function flatObjectToString(obj) {
+    var s = "";
+    Object.keys(obj).map(key => {
+        if (obj[key] === null) {
+            s += key + ":";
+        } else if (obj[key].toLocaleDateString) {
+            s += key + ": " + obj[key].toLocaleDateString() + "\n";
+        } else if (obj[key] instanceof Array) {
+            s += key + ":\n" + listToFlatString(obj[key]);
+        } else if (typeof obj[key] === "object") {
+            s += key + ":\n" + flatObjectToString(obj[key]);
+        } else {
+            s += key + ":" + obj[key];
+        }
+        s += "\n";
+    });
+    return s;
+}
+function listToFlatString(list) {
+    var s = "";
+    list.map(item => {
+        Object.keys(item).map(key => {
+            s += "";
+            if (item[key] instanceof Array) {
+                s += key + "\n" + listToFlatString(item[key]);
+            } else if (typeof item[key] === "object" && item[key] !== null) {
+                s += key + ": " + flatObjectToString(item[key]);
+            } else {
+                s += key + ": " + (item[key] === null ? "" : item[key].toLocaleDateString ? item[key].toLocaleDateString : item[key].toString());
+            }
+            s += "\n";
+        });
+    });
+    return s;
+}
+function flatten(object, addToList, prefix) {
+    Object.keys(object).map(key => {
+        if (object[key] === null) {
+            addToList[prefix + key] = "";
+        } else
+            if (object[key] instanceof Array) {
+                // addToList[prefix + key] = listToFlatString(object[key]);
+                for (i in object[key]) {
+                    //flatten(object[key][i], addToList, prefix + key + "." + i);
+                    flatten(object[key][i], addToList, '');
+                }
+            } else if (typeof object[key] === 'object' && !object[key].toLocaleDateString) {
+                //flatten(object[key], addToList, prefix + key + '.');
+                flatten(object[key], addToList, '');
+            } else {
+                if (key === "SurvActivityId_M_N") {
+                    addToList[prefix + key] = getSurvActivity(object[key]);
+                }
+                else if (key === "SiteId_O_N") {
+                    addToList[prefix + key] = getSite(object["SurvActivityId_M_N"], object[key]);
+                }
+                else { addToList[prefix + key] = object[key]; }
+            }
+    });
+    return addToList;
+}
+function getSurvActivity(id) {
+    var arr = ActivityData.activities.filter(function (el) {
+        return (el.activityId === id);
+    });
+    if (arr && arr.length > 0) { return arr[0].activityName; } else { return ""; }
+}
+function getSite(ActivityId, id) {
+    var arr = ActivityData.activities.filter(function (el) {
+        return (el.activityId === ActivityId);
+    });
+    if (arr && arr.length > 0) {
+        var arr2 = arr[0].sites.filter(function (el) {
+            return (el.id === id);
+        });
+        if (arr2 && arr2.length > 0) { return arr2[0].name; } else { return ""; }
+    }
+    else { return ""; }
+}
+function DisableForm() {
+    $('#Download').removeClass('btn-default');
+    $('#Download').attr('disabled', true);
+    $('#Download').addClass('disabled');
+    $('#Sync').removeClass('btn-info');
+    $('#Sync').attr('disabled', true);
+    $('#Sync').addClass('disabled');
+    $('#newObservation').removeClass('btn-default');
+    $('#newObservation').attr('disabled', true);
+    $('#newObservation').addClass('disabled');
+
+    $('#mb6 .progText').text("Sync in progress ...");
+    $('#mb6 .progress').addClass('hide');
+    $('#mb6 .fa-clock-o').addClass('hide');
+    $('#modalProgress').modal();
+    setTimeout(StartSync, 1000);
+}
+function StartSync() {
+    var success = true;
+    var noRowstoPush = true;
+    var rowsFailed = [];
+    var rowsFailedErr = [];
+    var rowsSuccess = [];
+    $.each(results.observations, function (index, value) {
+        if (value.status_M_N === 0) { return true };
+        noRowstoPush = false;
+        vError = 0;
+        vErrDescription = [];
+        vFailed = false;
+        CountListFlag = 0;
+        HostStatCountFlag = 0;
+        HostStatAreaFlag = 0;
+        PlantPreservationOtherFlag = 0;
+        PlantTargetObservedCodeFlag = 0;
+        var rowid = value.id_M_N;
+        var result = Iterate2(value);
+        if (result.vError === 0) {
+            var vpayload = JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value)));
+            $.confirm({
+                title: 'Payload Attempted!',
+                content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
+                columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                buttons: {
+                    ok: function () { },
+                    copy: {
+                        text: 'Copy', // With spaces and symbols
+                        action: function () {
+                            var copytext = this.$content.find("#Payload");
+                            copytext.select();
+                            document.execCommand("copy");
+                            return false;
+                        }
+                    }
+                }
+            });
+            //var payload = {
+            //    "value": vpayload.escapeSpecialChars() 
+            //};
+            $.ajax({
+                method: "POST",
+                async: false,
+                url: "https://online-dev.agriculture.gov.au/psd.comr.svl/PlantHealthService/1.0/createPlantHealthObservation",
+                //"url": "https://online-sit.agriculture.gov.au/psd.comr.svl/PlantHealthService/1.0/createPlantHealthObservation",
+                //"url": "https://online-uat.agriculture.gov.au/psd.comr.svl/PlantHealthService/1.0/createPlantHealthObservation",
+                //data: JSON.stringify(payload),
+                data: vpayload.escapeSpecialChars(),
+                contentType: "application/json",
+                dataType: "json",
+                headers: {
+                    "authorization": authCode,
+                    "cache-control": "no-cache"
+                },
+                success: function (data, textStatus, XmlHttpRequest) {
+                    //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
+                    if (XmlHttpRequest.status === 200) {
+                        $.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
+                    }
+                    rowsSuccess.push(index);
+                },
+                complete: function () {
+                    //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
+                    //results.observations(value.id_M_N - 1).status_M_N = 2;
+                    //results.observations.splice(index, 1);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
+                    $.dialog({
+                        title: 'Sync Failed!',
+                        content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
+                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
+                    });
+                }
+            });
+        }
+        else {
+            rowsFailed.push(rowid);
+            rowsFailedErr.push(result.vErrDescription);
+            success = false;
+            return false;
+        }
+    });
+    if (success === true && noRowstoPush === false) {
+        rowsSuccess.sort();
+        rowsSuccess.reverse();
+        $.each(rowsSuccess, function (index, value) {
+            results.observations.splice(value, 1);
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                //alert("Dataset updated.");
+                //$.growl({ title: "", message: "Success! Observations " + rowsSuccess.join(',') + " synced to cloud.", location: "tc", size: "large" });
+                //$.growl({ title: "", message: "Observations synced to cloud.", location: "tc", size: "large" });
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating records to database. " + err.message, location: "tc", size: "large" });
+        });
+    }
+    else if (success === false && noRowstoPush === false) { $.growl.error({ title: "", message: "Submit Failed for rows:" + rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
+    else if (success === true && noRowstoPush === true) { $.growl.notice({ title: "", message: "No records to Sync.", location: "tc", size: "large" }); }
+    syncPHRefCodes();
+    syncActivityData();
+    syncstaffData();
+    table.destroy();
+    loadData();
+    clearMarkers();
+    loadMapMarkers();
+    if (infoWindow) {
+        infoWindow.close();
+    }
+    setTimeout(EnableForm(), 1000);
+}
+function EnableForm() {
+    $('#Download').addClass('btn-default');
+    $('#Sync').addClass('btn-info');
+    $('#newObservation').addClass('btn-default');
+    $('#Download').attr('disabled', false);
+    $('#Download').removeClass('disabled');
+    $('#Sync').attr('disabled', false);
+    $('#Sync').removeClass('disabled');
+    $('#newObservation').attr('disabled', false);
+    $('#newObservation').removeClass('disabled');
+}

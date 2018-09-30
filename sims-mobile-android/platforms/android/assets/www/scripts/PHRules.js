@@ -43,9 +43,9 @@ function syncPHRefCodes() {
     var settings = {
         "async": false,
         "crossDomain": true,
-        //"url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
         //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
-        "url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
+        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Reference Codes ...");
@@ -165,9 +165,9 @@ function syncActivityData() {
     var settings = {
         "async": false,
         "crossDomain": true,
-        //"url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
         //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
-        "url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
+        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Activity Data ...");
@@ -263,9 +263,9 @@ function syncstaffData() {
     var NPHsettings = {
         "async": false,
         "crossDomain": true,
-        //"url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
         //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
-        "url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
+        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Staff Data ...");
@@ -313,9 +313,9 @@ function syncBPHstaffData() {
     var BPHsettings = {
         "async": false,
         "crossDomain": true,
-        //"url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
         //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
-        "url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
+        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Staff Data ...");
@@ -362,9 +362,9 @@ function syncIPHstaffData() {
     var IPHsettings = {
         "async": false,
         "crossDomain": true,
-        //"url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
         //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
-        "url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
+        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Staff Data ...");
@@ -422,9 +422,9 @@ function syncTaxaData() {
     var Taxasettings = {
         "async": false,
         "crossDomain": true,
-        //"url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
+        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
         //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
-        "url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
+        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Syncing Taxa ...");
@@ -1180,10 +1180,10 @@ function loadModal(pagename) {
                 var mm = today.getMonth() + 1; //January is 0!
                 var yyyy = today.getFullYear();
                 if (dd < 10) {
-                    dd = '0' + dd
+                    dd = '0' + dd;
                 }
                 if (mm < 10) {
-                    mm = '0' + mm
+                    mm = '0' + mm;
                 }
                 today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString();
                 $('#form1').find('select[id="ObservationStaffId"]').find('option').remove().end().append($(staffData));
@@ -1716,6 +1716,10 @@ function Iterate(data) {
                     return false;
                 }
                 if (fMOC === 'M' && fNSD === 'S' && (value === '' || value === 'NONE')) {
+                    if (fname === 'PlantTaxonTextH') return true;
+                    if (fname === 'TargetTaxonTextH') return true;
+                    if (fname === 'PrelimTaxonTextH') return true;
+                    if (fname === 'HostTaxonTextH') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL.");
@@ -1914,6 +1918,10 @@ function Iterate2(data) {
                     return false;
                 }
                 if (fMOC === 'M' && fNSD === 'S' && (value === '' || value === 'NONE')) {
+                    if (fname === 'PlantTaxonTextH') return true;
+                    if (fname === 'TargetTaxonTextH') return true;
+                    if (fname === 'PrelimTaxonTextH') return true;
+                    if (fname === 'HostTaxonTextH') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
                     vErrDescription.push(fname + " field cannot be NULL.");

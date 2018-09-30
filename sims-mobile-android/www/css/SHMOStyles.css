@@ -128,19 +128,23 @@ html, body {
     z-index: 305;
 }
 
-#modalProgress .modal-dialog {
-    width: 50%;
-    z-index: 350;
-    top: 20%;
-    text-align: center;
+#modalProgress {
+    background-color: rgba(0,0,0,0.5);
 }
 
-#modalProgress .modal-content {
-    z-index: 350;
-    height: 100px;
-    border: 0px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.2);
-}
+    #modalProgress .modal-dialog {
+        width: 50%;
+        z-index: 350;
+        top: 20%;
+        text-align: center;
+    }
+
+    #modalProgress .modal-content {
+        z-index: 350;
+        height: 100px;
+        border: 0px;
+        box-shadow: 0 5px 15px rgba(0,0,0,.2);
+    }
 
 #mb3 {
     padding: 0;
