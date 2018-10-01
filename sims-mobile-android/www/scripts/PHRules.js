@@ -44,14 +44,10 @@ function syncPHRefCodes() {
     var settings = {
         "async": false,
         "crossDomain": true,
-        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
-        //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
-        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/referenceCodes",
+        "url": refCodesAddress,
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing Reference Codes ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
+            //$.growl.notice({ title: "", message: "Syncing reference codes ...", location: "bc", size: "small" });
         },
         "headers": {
             "authorization": authCode,
@@ -83,11 +79,8 @@ function syncPHRefCodes() {
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
-        $('#modalProgress').modal('hide');
     }).fail(function (response) {
-        $('#mb6 .progText').text("");
-        $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching reference codes.", location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching PH Reference Codes. " + response.responseText, location: "tc", size: "large", fixed: "true" });
     });
 }
 function loadPHRefCodes() {
@@ -166,14 +159,10 @@ function syncActivityData() {
     var settings = {
         "async": false,
         "crossDomain": true,
-        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
-        //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
-        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/activity",
+        "url": ActivityAddress,
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing Activity Data ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
+            //$.growl.notice({ title: "", message: "Syncing Activity Data ...", location: "bc", size: "small" });
         },
         "headers": {
             "authorization": authCode,
@@ -208,9 +197,7 @@ function syncActivityData() {
             $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
     }).fail(function (response) {
-        $('#mb6 .progText').text("");
-        $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching ActivityData. " + err.message, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching Activity Data. " + response.responseText, location: "tc", size: "large", fixed: "true" });
     });
 }
 function loadActivityData() {
@@ -264,14 +251,10 @@ function syncNPHstaffData() {
     var NPHsettings = {
         "async": false,
         "crossDomain": true,
-        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
-        //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
-        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/NPH/team",
+        "url": NPHStaffAddress,
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing NPH Staff Data ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
+            //$.growl.notice({ title: "", message: "Syncing NPH Staff Data ...", location: "bc", size: "small" });
         },
         "headers": {
             "authorization": authCode,
@@ -304,23 +287,17 @@ function syncNPHstaffData() {
             $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
     }).fail(function (response) {
-        $('#mb6 .progText').text("");
-        $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + response.responseText, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
     });
 }
 function syncBPHstaffData() {
     var BPHsettings = {
         "async": false,
         "crossDomain": true,
-        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
-        //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
-        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/BPH/team",
+        "url": BPHStaffAddress,
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing BPH Staff Data ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
+            //$.growl.notice({ title: "", message: "Syncing BPH Staff Data ...", location: "bc", size: "small" });
         },
         "headers": {
             "authorization": authCode,
@@ -352,23 +329,17 @@ function syncBPHstaffData() {
             $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
     }).fail(function (response) {
-        $('#mb6 .progText').text("");
-        $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching BPH StaffData. " + response.responseText, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching BPH StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
     });
 }
 function syncIPHstaffData() {
     var IPHsettings = {
         "async": false,
         "crossDomain": true,
-        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
-        //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
-        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/common/program/IPH/team",
+        "url": IPHStaffAddress,
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing IPH Staff Data ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
+            //$.growl.notice({ title: "", message: "Syncing IPH Staff Data ...", location: "bc", size: "small" });
         },
         "headers": {
             "authorization": authCode,
@@ -400,23 +371,17 @@ function syncIPHstaffData() {
             $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
     }).fail(function (response) {
-        $('#mb6 .progText').text("");
-        $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + response.responseText, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
     });
 }
 function syncTaxaData() {
     var Taxasettings = {
         "async": false,
         "crossDomain": true,
-        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
-        //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
-        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
+        "url": taxaAddress,
         "method": "GET",
         "beforeSend": function () {
-            $('#mb6 .progText').text("Syncing Taxa ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
+            //$.growl.notice({ title: "", message: "Syncing Taxa Data ...", location: "bc", size: "small" });
         },
         "headers": {
             "authorization": authCode,
@@ -448,9 +413,7 @@ function syncTaxaData() {
             $.growl.error({ title: "", message: "An error occured while updating Taxa Data to database. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
     }).fail(function (response) {
-        $('#mb6 .progText').text("");
-        $('#modalProgress').modal('hide');
-        $.growl.error({ title: "", message: "An error occurred while fetching Taxa Data. " + err.message, location: "tc", size: "large" });
+        $.growl.error({ title: "", message: "An error occurred while fetching Taxa Data. " + response.responseText, location: "tc", size: "large", fixed: "true" });
     });
 }
 function loadstaffData() {
@@ -2957,21 +2920,21 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
     //alert(event.type + ' callback');
     if ($(this).attr('name') === 'addlCollectors') {
         $('#Roles').modal();
-    };
+    }
     if ($(this).attr('name') === 'otherSample') {
         $(this).parent('div').parent('div').find('input[type="text"]').removeClass('hide');
-    };
+    }
     if ($(this).attr('name').startsWith('CountList') && $(this).val() === 'Count') {
         var that = $(this).parentsUntil('.hostweed').parent().find('div.countArea');
         that.find("input[type='number'][name^='HostStatAreaNo']").val(HostStatAreaNo);
         that.find("input[type='number'][name^='HostStatCount']").val(HostStatCount);
-        that.find("select[name^='PlantStatisticType']").val('C');
-        that.find("input[type='number'][name^='HostStatAreaNo']").addClass('hide');
-        that.find("input[type='number'][name^='HostStatCount']").removeClass('hide');
-        that.find("input[type='number'][name^='HostStatCount']").val(0);
-        that.find("input[type='number'][name^='HostStatCount']").text(0);
+        //that.find("select[name^='PlantStatisticType']").val('C');
+        //that.find("input[type='number'][name^='HostStatAreaNo']").addClass('hide');
+        //that.find("input[type='number'][name^='HostStatCount']").removeClass('hide');
+        //that.find("input[type='number'][name^='HostStatCount']").val(0);
+        //that.find("input[type='number'][name^='HostStatCount']").text(0);
         that.removeClass('hide');
-    };
+    }
     if ($(this).attr('name').startsWith('CountList') && $(this).val() === 'List') {
         var that = $(this).parentsUntil('.hostweed').parent().find('div.countArea');
         HostStatAreaNo = that.find("input[type='number'][name^='HostStatAreaNo']").val();
@@ -2979,7 +2942,7 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
         that.find("input[type='number'][name^='HostStatAreaNo']").val("0");
         that.find("input[type='number'][name^='HostStatCount']").val("0");
         that.addClass('hide');
-    };
+    }
 });
 $(document).on('change', 'select[name^="PlantStatisticType"]', function () {
     var str = $(this).val();
