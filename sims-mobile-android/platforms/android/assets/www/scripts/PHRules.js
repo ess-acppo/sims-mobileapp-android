@@ -1625,21 +1625,21 @@ function Iterate(data) {
                 if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && CountListFlag === 'Count' && plantDisciplineCode === 'B') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be empty.");
                     vFailed = true;
                     return false;
                 }
                 if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && plantDisciplineCode === 'E') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be empty.");
                     vFailed = true;
                     return false;
                 }
                 if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && plantDisciplineCode === 'P') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>HostStatCount and Area fields - both cannot be empty.");
                     vFailed = true;
                     return false;
                 }
@@ -1679,14 +1679,14 @@ function Iterate(data) {
                 }
                 if (fname === 'TargetObservedCode' && ftype === "T" && $('input[name="' + index + '"]:checked').length === 0 && value === "N") {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                     vFailed = true;
                     return false;
                 }
 
                 if (fname === 'CommentText' && ftype === "T" && value === "" && PlantTargetObservedCodeFlag === 1) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Comments Text for TargetObserved field cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Comments Text for TargetObserved field cannot be empty.");
                     PlantTargetObservedCodeFlag = 0;
                     vFailed = true;
                     return false;
@@ -1704,7 +1704,7 @@ function Iterate(data) {
                 }
                 if (fname === 'PlantPreservOtherText' && fNSD === 'S' && value === '' && PlantPreservationOtherFlag === 1) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>PlantPreservOtherText cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>PlantPreservOtherText cannot be empty.");
                     PlantPreservationOtherFlag = 0;
                     vFailed = true;
                     return false;
@@ -1722,14 +1722,14 @@ function Iterate(data) {
                     if (fname === 'HostTaxonTextH') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                     vFailed = true;
                     return false;
                 }
                 if (fMOC === 'M' && fNSD === 'D' && value === '') {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                     vFailed = true;
                     return false;
                 }
@@ -1739,7 +1739,7 @@ function Iterate(data) {
                     if (fname === 'HostStatAreaNo') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be NULL or ZERO.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                     vFailed = true;
                     return false;
                 }
@@ -1760,7 +1760,7 @@ function Iterate(data) {
                         return false;
                     }
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + fname + " field cannot be ZERO");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be ZERO");
                     vFailed = true;
                     return false;
                 }
@@ -1831,21 +1831,21 @@ function Iterate2(data) {
                 if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && CountListFlag === 'Count' && plantDisciplineCode === 'B') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
+                    vErrDescription.push("HostStatCount and Area fields - both cannot be empty.");
                     vFailed = true;
                     return false;
                 }
                 if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && plantDisciplineCode === 'E') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
+                    vErrDescription.push("HostStatCount and Area fields - both cannot be empty.");
                     vFailed = true;
                     return false;
                 }
                 if (fname === 'HostStatAreaNo' && value === 0 && HostStatCountFlag === 1 && plantDisciplineCode === 'P') {
                     //console.log('HostStatCount and Area fields - both cannot be NULL');
                     vError = 1;
-                    vErrDescription.push("HostStatCount and Area fields - both cannot be NULL.");
+                    vErrDescription.push("HostStatCount and Area fields - both cannot be empty.");
                     vFailed = true;
                     return false;
                 }
@@ -1888,7 +1888,7 @@ function Iterate2(data) {
 
                 if (fname === 'CommentText' && ftype === "T" && value === "" && PlantTargetObservedCodeFlag === 1) {
                     vError = 1;
-                    vErrDescription.push("Comments Text for TargetObserved field cannot be NULL.");
+                    vErrDescription.push("Comments Text for TargetObserved field cannot be empty.");
                     PlantTargetObservedCodeFlag = 0;
                     vFailed = true;
                     return false;
@@ -1906,7 +1906,7 @@ function Iterate2(data) {
                 }
                 if (fname === 'PlantPreservOtherText' && fNSD === 'S' && value === '' && PlantPreservationOtherFlag === 1) {
                     vError = 1;
-                    vErrDescription.push("PlantPreservOtherText cannot be NULL.");
+                    vErrDescription.push("PlantPreservOtherText cannot be empty.");
                     PlantPreservationOtherFlag = 0;
                     vFailed = true;
                     return false;
@@ -1924,14 +1924,14 @@ function Iterate2(data) {
                     if (fname === 'HostTaxonTextH') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push(fname + " field cannot be NULL.");
+                    vErrDescription.push($('[name="' + index + '"]').data("name") + " field cannot be empty.");
                     vFailed = true;
                     return false;
                 }
                 if (fMOC === 'M' && fNSD === 'D' && value === '') {
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push(fname + " field cannot be NULL.");
+                    vErrDescription.push($('[name="' + index + '"]').data("name") + " field cannot be empty.");
                     vFailed = true;
                     return false;
                 }
@@ -1941,7 +1941,7 @@ function Iterate2(data) {
                     if (fname === 'HostStatAreaNo') return true;
                     //console.log(index + ' field cannot be NULL');
                     vError = 1;
-                    vErrDescription.push(fname + " field cannot be NULL or ZERO.");
+                    vErrDescription.push($('[name="' + index + '"]').data("name") + " field cannot be empty.");
                     vFailed = true;
                     return false;
                 }
@@ -1956,7 +1956,7 @@ function Iterate2(data) {
                     if (fname === 'CollectedAltitudeNo') return true;
                     if (fname === 'WaypointNumber') return true;
                     vError = 1;
-                    vErrDescription.push(fname + " field cannot be ZERO");
+                    vErrDescription.push($('[name="' + index + '"]').data("name") + " field cannot be zero.");
                     vFailed = true;
                     return false;
                 }

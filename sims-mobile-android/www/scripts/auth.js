@@ -21,47 +21,45 @@ function initAuth() {
             }
         });
 };
-function authenticate(x, y) {
-    var settings = {
-        "async": false,
-        "crossDomain": true,
-        "url": "http://dev-sims.oztaxa.com/oAuth20/oAuth2API/token",
-        "beforeSend": function () {
-            s.classList.remove('hide');
-        },
-        "method": "POST",
-        "headers": {
-            "content-type": "application/x-www-form-urlencoded",
-            "cache-control": "no-cache"
-        },
-        "data": {
-            "grant_type": "password",
-            "username": x,
-            "password": y
-        }
-    };
-    $.ajax(settings).done(function (response) {
-        //alert(JSON.stringify(response));
-        s.classList.add('hide');
-        icon.classList.add('fa-check');
-        icon.classList.remove('fa-times');
-        text.innerHTML = 'Login success!';
-        $('#modalAuth').modal('hide');
-    }).fail(function (response) {
-        s.classList.add('hide');
-        icon.classList.add('fa-times');
-        icon.classList.remove('fa-check');
-        text.innerHTML = 'Login Failed!';
-    });
+//function authenticate(x, y) {
+//    var settings = {
+//        "async": false,
+//        "crossDomain": true,
+//        "url": "http://dev-sims.oztaxa.com/oAuth20/oAuth2API/token",
+//        "beforeSend": function () {
+//            s.classList.remove('hide');
+//        },
+//        "method": "POST",
+//        "headers": {
+//            "content-type": "application/x-www-form-urlencoded",
+//            "cache-control": "no-cache"
+//        },
+//        "data": {
+//            "grant_type": "password",
+//            "username": x,
+//            "password": y
+//        }
+//    };
+//    $.ajax(settings).done(function (response) {
+//        //alert(JSON.stringify(response));
+//        s.classList.add('hide');
+//        icon.classList.add('fa-check');
+//        icon.classList.remove('fa-times');
+//        text.innerHTML = 'Login success!';
+//        $('#modalAuth').modal('hide');
+//    }).fail(function (response) {
+//        s.classList.add('hide');
+//        icon.classList.add('fa-times');
+//        icon.classList.remove('fa-check');
+//        text.innerHTML = 'Login Failed!';
+//    });
 
-}
+//}
 function authenticate2(x, y) {
     $.ajax({
         "async": false,
         "crossDomain": true,
-        "url": "https://online-dev.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
-        //"url": "https://online-sit.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
-        //"url": "https://online-uat.agriculture.gov.au/ords-int/rest/sims/plant_health/taxa",
+        "url": authAddress,
         "method": "GET",
         "beforeSend": function () {
             $('#mb6 .progText').text("Authenticating ...");
@@ -75,7 +73,6 @@ function authenticate2(x, y) {
             $('.auth-password').addClass('disabled');
             $('.auth-send').attr('disabled', true);
             $('.auth-send').addClass('disabled');
-            fetchSettings();
         },
         "headers": {
             "authorization": "Basic " + btoa(x + ":" + y),
@@ -182,7 +179,6 @@ function authenticate3(x, y) {
             return;
         }
     };
-    fetchSettings();
     mypbkdf2.deriveKey(status_callback, result_callback);
 }
 function derive_key(u, p) {
@@ -247,65 +243,3 @@ $('#modalAuth').keypress(function (e) {
         }
     }
 });
-function fetchSettings() {
-    if (!db) {
-        db = window.sqlitePlugin.openDatabase({ name: "sims.db", location: 'default' });
-        db.transaction(function (tx) {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS observations (id integer primary key, filedt text, data blob)");
-            tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key, settingstext text, settingsval text default '{}')");
-            tx.executeSql("CREATE TABLE IF NOT EXISTS phrefcodes (id integer primary key, settingstext text, settingsval text default '{}')");
-            tx.executeSql("CREATE TABLE IF NOT EXISTS activitydata (id integer primary key, settingstext text, settingsval text default '{}')");
-            tx.executeSql("CREATE TABLE IF NOT EXISTS staffdata (id integer primary key, settingstext text, settingsval text default '{}')");
-            tx.executeSql("CREATE TABLE IF NOT EXISTS taxadata (id integer primary key, settingstext text, settingsval text default '{}')");
-        }, function (err) {
-            $.growl.error({ title: "", message: "An error occurred while initializing the DB. " + err.message, location: "tc", size: "large" });
-        });
-    }
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM settings WHERE id = ?", [1], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                resSettings = JSON.parse(res.rows.item(0).settingsval);
-                //console.log('0-' + JSON.stringify(resSettings));
-            }
-            else {
-                $.ajax({
-                    method: "GET",
-                    url: "data/settings.json",
-                    contentType: "json",
-                    success: function (dataS) {
-                        resSettings = JSON.parse(dataS);
-                        db.transaction(function (tx) {
-                            tx.executeSql("DELETE FROM settings", [], function (tx, res) {
-                                //alert("Rows deleted.");
-                            });
-                        }, function (err) {
-                            $.growl.error({ title: "", message: "An error occured while deleting settings from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-                        });
-                        db.transaction(function (tx) {
-                            tx.executeSql("INSERT INTO settings (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'appSettings', JSON.stringify(resSettings)], function (tx, res) {
-                                //alert("Row inserted.");
-                            });
-                        }, function (err) {
-                            $.growl.error({ title: "", message: "An error occured while updating settings to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-                        });
-                        db.transaction(function (tx) {
-                            tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
-                                //alert("Dataset updated.");
-                                //$.growl({ title: "", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
-                            });
-                        }, function (err) {
-                            $.growl.error({ title: "", message: "An error occured while updating settings to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-                        });
-                    },
-                    failure: function () {
-                        $.growl.error({ title: "", message: "Error loading settings!", location: "tc", size: "large", fixed: "true" });
-                    }
-                });
-                console.log('1-' +JSON.stringify(resSettings));
-            }
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured fetching app settings. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-}
