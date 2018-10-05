@@ -161,7 +161,6 @@ $('#modalAuth').keypress(function (e) {
     }
 });
 function DisableAuthForm(unameValue, pwdValue) {
-    $.growl.notice({ title: "", message: "Authenticating ...", location: "bc", size: "small" });
     $('.auth-username').attr('disabled', true);
     $('.auth-username').addClass('disabled');
     $('.auth-password').attr('disabled', true);

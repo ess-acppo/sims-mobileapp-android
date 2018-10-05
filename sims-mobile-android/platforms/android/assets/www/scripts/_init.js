@@ -2653,7 +2653,7 @@ function getFileandExtractAND(url, mapset, i, n) {
     $('#mb6 .progress').removeClass('hide');
     //$('#mb6 .fa-clock-o').removeClass('hide');
     url2 = url + mapset + pad(i, 2) + ".zip";
-    filename = pad(i, 2) + ".zip";
+    filename = mapset + pad(i, 2) + ".zip";
     var fileURL = cordova.file.externalRootDirectory + "maps/" + filename;
     var fileTransfer = new FileTransfer();
     fileTransfer.download(
@@ -2674,7 +2674,7 @@ function getFileandExtractAND(url, mapset, i, n) {
 function processZipAND(zipSource, destination, url, mapset, i, n) {
     // Handle the progress event
     t1 = performance.now();
-    t3 = t3 + Math.round((t1 - t0));
+    t3 = t3 + Math.round(t1 - t0);
     $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
     $('#mb6 .progress').removeClass('hide');
     //$('#mb6 .fa-clock-o').removeClass('hide');
