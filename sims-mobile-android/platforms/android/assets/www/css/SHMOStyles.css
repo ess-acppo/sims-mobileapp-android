@@ -72,7 +72,7 @@ html, body {
     height: 900px;
     /*padding: 25px;*/
     overflow-x: auto;
-    overflow-y: scroll;
+    overflow-y: auto;
     /*margin-right: 20px;*/
 }
 
@@ -92,10 +92,16 @@ html, body {
     /*margin-right: 20px;*/
 }
 
-
 #modalAuth .modal-dialog {
     margin: 4% auto;
     width: 50%;
+}
+
+#modalAuth .modal-body {
+    background: url("../images/dawr.png") no-repeat bottom left;
+    background-position-x: 0px;
+    background-position-y: 140px;
+    background-attachment: fixed;
 }
 
 #modalForm .modal-dialog {
@@ -771,6 +777,11 @@ table.dataTable {
     margin-bottom: 0px !important;
 }
 
+    table.dataTable tbody tr {
+        cursor: pointer;
+    }
+
+
 .sidebar-menu > li > a > .fa, .sidebar-menu > li > a > .glyphicon, .sidebar-menu > li > a > .fa {
     color: #fff;
     font-size: 14px;
@@ -916,8 +927,9 @@ hr {
         font-size: 1.6rem;
         line-height: 1.33;
         border-radius: 25px;
-        background-color: transparent;
-        color: #fff;
+        background-color: #fff;
+        opacity: 0.4;
+        color: #000;
         margin-right: 15px;
     }
 
@@ -1269,9 +1281,10 @@ text-right {
     }
 }
 
-label.mapNotes {
+label.mapNotes, label.mapBNotes {
     font-weight: 400;
     font-size: 1.3rem;
+    text-decoration: none;
 }
 
 .btnError {
