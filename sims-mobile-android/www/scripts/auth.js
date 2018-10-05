@@ -15,12 +15,7 @@ function initAuth() {
             s.classList.remove('hide');
             text = document.querySelector('.auth-result .text');
             icon = document.querySelector('.auth-result .fa');
-            if (statusElem.innerHTML === 'online') {
-                authenticate2(unameValue, pwdValue);
-            }
-            if (statusElem.innerHTML === 'offline') {
-                authenticate3(unameValue, pwdValue);
-            }
+            $.when(setTimeout(DisableAuthForm(unameValue, pwdValue), 1000));
         });
 }
 function authenticate2(x, y) {
@@ -29,21 +24,11 @@ function authenticate2(x, y) {
         "crossDomain": true,
         "url": authAddress,
         "method": "GET",
-        "beforeSend": function () {
-            $('.auth-username').attr('disabled', true);
-            $('.auth-username').addClass('disabled');
-            $('.auth-password').attr('disabled', true);
-            $('.auth-password').addClass('disabled');
-            $('.auth-send').attr('disabled', true);
-            $('.auth-send').addClass('disabled');
-        },
         "headers": {
             "authorization": "Basic " + btoa(x + ":" + y),
             "cache-control": "no-cache"
         },
         success: function (data, textStatus, XmlHttpRequest) {
-            //alert(JSON.stringify(response));
-            s.classList.add('hide');
             icon.classList.add('fa-check');
             icon.classList.remove('fa-times');
             text.innerHTML = 'Login success!';
@@ -51,22 +36,9 @@ function authenticate2(x, y) {
             authCode = "Basic " + btoa(x + ":" + y);
             initSettings();
             //$('#modalProgress').modal('hide');
-            $('.auth-username').attr('disabled', false);
-            $('.auth-username').removeClass('disabled');
-            $('.auth-password').attr('disabled', false);
-            $('.auth-password').removeClass('disabled');
-            $('.auth-send').attr('disabled', false);
-            $('.auth-send').removeClass('disabled');
             $('#modalAuth').modal('hide');
         },
         error: function (xhr, textStatus, errorThrown) {
-            $('.auth-username').attr('disabled', false);
-            $('.auth-username').removeClass('disabled');
-            $('.auth-password').attr('disabled', false);
-            $('.auth-password').removeClass('disabled');
-            $('.auth-send').attr('disabled', false);
-            $('.auth-send').removeClass('disabled');
-            s.classList.add('hide');
             icon.classList.add('fa-times');
             icon.classList.remove('fa-check');
             text.innerHTML = 'Login Failed!';
@@ -181,17 +153,38 @@ $('#modalAuth').keypress(function (e) {
     if (e.which === 13) {
         var unameValue = document.querySelector('.auth-username').value;
         var pwdValue = document.querySelector('.auth-password').value;
-
         s = document.querySelector('.auth-send .fa-spin');
         s.classList.remove('hide');
         text = document.querySelector('.auth-result .text');
         icon = document.querySelector('.auth-result .fa');
-
-        if (statusElem.innerHTML === 'online') {
-            authenticate2(unameValue, pwdValue);
-        }
-        if (statusElem.innerHTML === 'offline') {
-            authenticate3(unameValue, pwdValue);
-        }
+        $.when(setTimeout(DisableAuthForm(unameValue, pwdValue), 1000));
     }
 });
+function DisableAuthForm(unameValue, pwdValue) {
+    $('.auth-username').attr('disabled', true);
+    $('.auth-username').addClass('disabled');
+    $('.auth-password').attr('disabled', true);
+    $('.auth-password').addClass('disabled');
+    $('.auth-send').attr('disabled', true);
+    $('.auth-send').addClass('disabled');
+    s.classList.remove('hide');
+    setTimeout(StartAuth(unameValue, pwdValue), 1000);
+}
+function StartAuth(unameValue, pwdValue) {
+    if (statusElem.innerHTML === 'online') {
+        authenticate2(unameValue, pwdValue);
+    }
+    if (statusElem.innerHTML === 'offline') {
+        authenticate3(unameValue, pwdValue);
+    }
+    setTimeout(EnableAuthForm(), 500);
+}
+function EnableAuthForm() {
+    $('.auth-username').attr('disabled', false);
+    $('.auth-username').removeClass('disabled');
+    $('.auth-password').attr('disabled', false);
+    $('.auth-password').removeClass('disabled');
+    $('.auth-send').attr('disabled', false);
+    $('.auth-send').removeClass('disabled');
+    s.classList.add('hide');
+}
