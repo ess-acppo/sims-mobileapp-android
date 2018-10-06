@@ -42,7 +42,7 @@ function authenticate2(x, y) {
             icon.classList.add('fa-times');
             icon.classList.remove('fa-check');
             text.innerHTML = 'Login Failed!';
-            $.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText, location: "bc" });
+            $.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown, location: "bc" });
         }
     });
 }

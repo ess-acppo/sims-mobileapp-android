@@ -91,7 +91,6 @@ function syncPHRefCodes() {
         db.transaction(function (tx) {
             tx.executeSql("UPDATE phrefcodes SET settingsval = ? WHERE id = ?", [JSON.stringify(PHRefCodes), 1], function (tx, res) {
                 //alert("Dataset updated.");
-                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
             });
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating PHRefCodes to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
@@ -205,7 +204,6 @@ function syncTaxaData() {
         db.transaction(function (tx) {
             tx.executeSql("UPDATE taxadata SET settingsval = ? WHERE id = ?", [JSON.stringify(taxaData), 1], function (tx, res) {
                 //alert("Dataset updated.");
-                //$.growl({ title: "Changes Saved!", message: "Your changes have been saved!", location: "tc", size: "large", fixed: "true" });
             });
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating Taxa Data to database. " + err.message, location: "tc", size: "large", fixed: "true" });
@@ -355,17 +353,16 @@ function loadModal(pagename) {
         $('#form1').find("input[type=text],input[type=date],input[type=number], textarea").val("");
         $('#form1').find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
         $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
-        $.ajax({
-            beforeSend: function () {
-                loadPHRefCodes();
-                loadActivityData();
-                if (curIdx > -1) {
-                    var curActivity = results.observations[curPos].SurvActivityId_M_N;
-                    refreshActivityData(curActivity);
-                }
-                loadstaffData();
+        setTimeout(function (e) {
+            loadPHRefCodes();
+            loadActivityData();
+            if (curIdx > -1) {
+                var curActivity = results.observations[curPos].SurvActivityId_M_N;
+                refreshActivityData(curActivity);
             }
-        }).complete(function () {
+            loadstaffData();
+        }, 300);
+        setTimeout(function (e) {
             if (curIdx > -1) {
                 var data = results.observations[curPos];
                 //console.log(JSON.stringify(data));
@@ -912,7 +909,7 @@ function loadModal(pagename) {
                 if (mm < 10) {
                     mm = '0' + mm;
                 }
-                today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString();
+                today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString() + 'T00:00';
                 $('#form1').find('select[id="ObservationStaffId"]').find('option').remove().end().append($(staffData));
                 if (curIdx === -1) {
                     $('#form1').find("input[name^='Latitude']").val(curLat.toFixed(5));
@@ -920,7 +917,7 @@ function loadModal(pagename) {
                     $('#form1').find("input[type='text'][name^='ObservationWhereWktClob']").val(curWkt);
                     //getAltitude();
                 }
-                $('#form1').find("input[type='date'][name^='ObservationDatetime']").val(today);
+                $('#form1').find("input[name^='ObservationDatetime']").val(today);
                 if (results.observations.length === 0) {
                     $('#form1').find("input[type='number'][name^='id']").val(1);
                 } else { $('#form1').find("input[type='number'][name^='id']").val(results.observations[results.observations.length - 1].id_M_N + 1); }
@@ -932,7 +929,7 @@ function loadModal(pagename) {
                 $('.nextid').text('');
                 //loadSiteData($('#form1').find("select[name='SiteId_O_N']").val());
             }
-        });
+        }, 300);
     }).done(function () {
         $('#modalProgress').modal('hide');
         t1 = performance.now();
