@@ -56,6 +56,7 @@ var allLats = [];
 var allLngs = [];
 var curLats = [];
 var curLngs = [];
+var alltPs = [];
 var cLatitude;
 var cLongitude;
 var cWkt;
@@ -602,32 +603,26 @@ function clearMarkers() {
     markers = [];
 }
 function checkMapBoundsByLoc(location) {
-    var nM = new google.maps.Marker({
-        position: location,
-        map: map
+    var outofbounds = true;
+    $.each(alltPs, function (key, value) {
+        if (value.Contains(location)) {
+            outofbounds = false;
+        }
     });
-    var cLat = nM.getPosition().lat();
-    var cLng = nM.getPosition().lng();
-    //var arr = resSettings.settings.mapSets.filter(function (el) {
-    //    return (el.activeFlag === 1);
-    //});
-    if (cLat < resSettings.settings.mapSets[0].mapBounds.bottomLat || cLat > resSettings.settings.mapSets[0].mapBounds.topLat || cLng < resSettings.settings.mapSets[0].mapBounds.leftLng || cLng > resSettings.settings.mapSets[0].mapBounds.rightLng) {
+    if (outofbounds) {
         $.growl.warning({ title: "", message: "Location is outside map bounds!", location: "bc", size: "small" });
-        nM.setMap(null);
-        //return false;
     }
-    nM.setMap(null);
     return true;
 }
 function checkMapBoundsByPos(position) {
-    var cLat = position.coords.latitude;
-    var cLng = position.coords.longitude;
-    //var arr = resSettings.settings.mapSets.filter(function (el) {
-    //    return (el.activeFlag === 1);
-    //});
-    if (cLat < resSettings.settings.mapSets[0].mapBounds.bottomLat || cLat > resSettings.settings.mapSets[0].mapBounds.topLat || cLng < resSettings.settings.mapSets[0].mapBounds.leftLng || cLng > resSettings.settings.mapSets[0].mapBounds.rightLng) {
-        $.growl.warning({ title: "", message: "Location is outside map bounds!", location: "bc", size: "small" });
-        //return false;
+    var outofbounds = true;
+    $.each(alltPs, function (key, value) {
+        if (value.Contains(location)) {
+            outofbounds = false;
+        }
+    });
+    if (outofbounds) {
+            $.growl.warning({ title: "", message: "Location is outside map bounds!", location: "bc", size: "small" });
     }
     return true;
 }
@@ -699,7 +694,7 @@ function placeMarker(location) {
         curIdx = -1;
         switch (AppMode) {
             case 'IAH':
-                $('#modalMenu').modal();
+                $('#modalAHMenu').modal();
                 break;
             case 'AH':
                 $('#modalAHMenu').modal();
@@ -745,7 +740,7 @@ function getAltitude() {
             //$('#form1').find("input[type='text'][name='longitude']").val(position.coords.longitude);
             //alert(position.coords.altitude);
             if (position.coords.altitude) {
-                $('#form1').find("input[type='number'][name^='AltitudeNo']").val(Math.round(position.coords.altitude.toFixed(5)));
+                $('#form1').find("input[type='number'][name^='AltitudeNo']").val(Math.round(position.coords.altitude));
             }
         }, function () {
             $.growl.error({ title: "", message: "GetAltitude Failed on this platform.", location: "tc", size: "large" });
@@ -753,16 +748,16 @@ function getAltitude() {
     } else {
         // Browser doesn't support Geolocation
         $.growl.error({ title: "", message: "GeoLocation Failed.", location: "tc", size: "large" });
-    };
+    }
 }
 function downloadCSV() {
     $('#mt1').text('All Observations');
     switch (AppMode) {
         case "IAH":
-            $('#modalGrid').modal();
+            $('#modalAHGrid').modal();
             break;
         case "AH":
-            $('#modalGrid').modal();
+            $('#modalAHGrid').modal();
             break;
         case "PH":
             $('#modalPHGrid').modal();
@@ -946,7 +941,7 @@ function loadData() {
     }
     //table.column(10).visible(false);
 }
-$(document).on('click', '.export', function (event) {
+$(document).on('click', '#DownloadPH', function (event) {
     exportObservationsToCSV();
 });
 function objectifyForm(formArray) {//serialize data function
@@ -1123,9 +1118,11 @@ $(document).on('click', '#settings', function (e) {
             $(document).find('script[id="pageScript"]').remove();
             $('#mb5').load('settings.html');
         }
-    }).success(function (e) {
-        loadActivityData();
     }).complete(function (e) {
+        setTimeout(function (e) {
+            loadActivityData();
+            getStaffData(resSettings.settings.device.ownerTeam);
+        }, 300);
         $('#mb5').find('#appMode').val(AppMode);
         //var arr = resSettings.settings.mapSets.filter(function (el) {
         //    return (el.activeFlag === 1);
@@ -1141,10 +1138,8 @@ $(document).on('click', '#settings', function (e) {
         if (resSettings.settings.device.debugMode === 1) {
             $('#form3').find('input[id="debugMode"]').iCheck('check');
         }
-        $.when(getStaffData(resSettings.settings.device.ownerTeam)).then(function () {
-            $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(staffDataFull));
-            if (resSettings.settings.device.ownerId) { $('#form3').find('select[id="deviceOwner"]').val(resSettings.settings.device.ownerId); }
-        });
+        $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(staffDataFull));
+        if (resSettings.settings.device.ownerId) { $('#form3').find('select[id="deviceOwner"]').val(resSettings.settings.device.ownerId); }
         $('#form3').find('input[name="samplePrefix"]').val(resSettings.settings.device.samplePrefix);
         $('#form3').find('input[name="sampleCurrNum"]').val(resSettings.settings.device.currentSampleNumber);
         $('#form3').find('select[id="serverMode"]').val(resSettings.settings.app.serverMode);
@@ -1176,9 +1171,7 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     //if (ActiveMapset) { resSettings.settings.mapSets[ActiveMapset].activeFlag = 1; }
     resSettings.settings.mapSets[0].curActivity = $('#form3').find('select[id="curActivities"]').val();
     if (Number($('#form3').find('select[id="curActivities"]').val()) > 0)
-        $.when(getCurrentActivityBounds($('#form3').find('select[id="curActivities"]').val(), 10)).then(function () {
-            resSettings.settings.mapSets[0].mapCenter.lat = cX;
-            resSettings.settings.mapSets[0].mapCenter.lng = cY;
+        $.when(getMapBounds()).then(function () {
             resSettings.settings.mapSets[0].mapBounds.topLat = minX;
             resSettings.settings.mapSets[0].mapBounds.leftLng = minY;
             resSettings.settings.mapSets[0].mapBounds.bottomLat = maxX;
@@ -1296,8 +1289,8 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
             $('#modalProgress').modal('hide');
         });
 });
-$(document).on('click', '.sync', function (event) {
-    $.when(setTimeout(DisableForm(), 1000));
+$(document).on('click', '#SyncPH', function (event) {
+    $.when(setTimeout(DisableFormPH(), 1000));
 });
 $(document).on('shown.bs.modal', '#modalPHGrid', function () {
     loadPHRefCodes();
@@ -1305,20 +1298,20 @@ $(document).on('shown.bs.modal', '#modalPHGrid', function () {
     loadstaffData();
     loadData();
     if (statusElem.innerHTML === 'online') {
-        $('.sync').removeClass('hide');
+        $('#SyncPH').removeClass('hide');
     }
     if (statusElem.innerHTML === 'offline') {
-        $('.sync').addClass('hide');
+        $('#SyncPH').addClass('hide');
     }
 });
 $(document).on('hidden.bs.modal', '#modalPHGrid', function () {
     table.destroy();
 });
-$(document).on('shown.bs.modal', '#modalGrid', function () {
+$(document).on('shown.bs.modal', '#modalAHGrid', function () {
     loadAHDefaults();
     loadData();
 });
-$(document).on('hidden.bs.modal', '#modalGrid', function () {
+$(document).on('hidden.bs.modal', '#modalAHGrid', function () {
     table.destroy();
 });
 $(document).on('hidden.bs.modal', '#modalForm', function () {
@@ -1572,22 +1565,10 @@ $(document).on('change', 'input:checkbox', function (e) {
         $(this).val('N');
     }
 });
-$(document).on('click', '#newObservation', function () {
+$(document).on('click', '#newObservationPH', function () {
     curIdx = -2;
-    switch (AppMode) {
-        case 'IAH':
-            $('#modalMenu').modal();
-            break;
-        case 'AH':
-            $('#modalAHMenu').modal();
-            break;
-        case 'PH':
-            //var zi = $('#modalPHGrid').css('z-index');
-            //$('#modalPHMenu').css('z-index', zi + 100);
-            $('#modalPHGrid').modal('hide');
-            $('#modalPHMenu').modal();
-            break;
-    }
+    $('#modalPHGrid').modal('hide');
+    $('#modalPHMenu').modal();
 });
 $(document).on('click', 'a.btnBackupData', function (e) {
     backupDatabase();
@@ -1910,6 +1891,7 @@ function loadSitePolygons() {
             google.maps.event.addListener(tP, 'click', function (event) {
                 placeMarker(event.latLng);
             });
+            alltPs.push(tP);
         });
     });
 }
@@ -1931,150 +1913,162 @@ function getSite(ActivityId, id) {
     }
     else { return ""; }
 }
-function DisableForm() {
-    $('#Download').removeClass('btn-default');
-    $('#Download').attr('disabled', true);
-    $('#Download').addClass('disabled');
-    $('#Sync').removeClass('btn-info');
-    $('#Sync').attr('disabled', true);
-    $('#Sync').addClass('disabled');
-    $('#newObservation').removeClass('btn-default');
-    $('#newObservation').attr('disabled', true);
-    $('#newObservation').addClass('disabled');
+function DisableFormPH() {
+    $('#DownloadPH').removeClass('btn-default');
+    $('#DownloadPH').attr('disabled', true);
+    $('#DownloadPH').addClass('disabled');
+    $('#SyncPH').removeClass('btn-info');
+    $('#SyncPH').attr('disabled', true);
+    $('#SyncPH').addClass('disabled');
+    $('#newObservationPH').removeClass('btn-default');
+    $('#newObservationPH').attr('disabled', true);
+    $('#newObservationPH').addClass('disabled');
 
     $('#mb6 .progText').text("Sync in progress ...");
     $('#mb6 .progress').addClass('hide');
     $('#mb6 .fa-clock-o').addClass('hide');
     $('#modalProgress').modal();
-    setTimeout(StartSync, 1000);
+    setTimeout(StartSyncPH, 1000);
 }
-function StartSync() {
-    var success = true;
-    var noRowstoPush = true;
-    var rowsFailed = [];
-    var rowsFailedErr = [];
-    var rowsSuccess = [];
-    $.each(results.observations, function (index, value) {
-        if (value.status_M_N === 0) { return true };
-        noRowstoPush = false;
-        vError = 0;
-        vErrDescription = [];
-        vFailed = false;
-        CountListFlag = 0;
-        HostStatCountFlag = 0;
-        HostStatAreaFlag = 0;
-        PlantPreservationOtherFlag = 0;
-        PlantTargetObservedCodeFlag = 0;
-        var rowid = value.id_M_N;
-        var result = Iterate2(value);
-        if (result.vError === 0) {
-            var vpayload = JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value)));
-            if (debugMode === 1) {
-                $.confirm({
-                    title: 'Payload Attempted!',
-                    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
-                    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                    buttons: {
-                        ok: function () { },
-                        copy: {
-                            text: 'Copy', // With spaces and symbols
-                            action: function () {
-                                var copytext = this.$content.find("#Payload");
-                                copytext.select();
-                                document.execCommand("copy");
-                                return false;
+function StartSyncPH() {
+    var arr = results.observations.filter(function (el) {
+        return (el.status_M_N === 1);
+    });
+    if (arr && arr.length === 0) {
+        $.growl.notice({ title: "", message: "No records to Sync.", location: "bc", size: "small" });
+        setTimeout(EnableFormPH(), 1000);
+        return false;
+    }
+    else {
+        var success = true;
+        var noRowstoPush = true;
+        var rowsFailed = [];
+        var rowsFailedErr = [];
+        var rowsSuccess = [];
+        var logstr = "";
+        $.each(arr, function (index, value) {
+            vError = 0;
+            vErrDescription = [];
+            vFailed = false;
+            CountListFlag = 0;
+            HostStatCountFlag = 0;
+            HostStatAreaFlag = 0;
+            PlantPreservationOtherFlag = 0;
+            PlantTargetObservedCodeFlag = 0;
+            var rowid = value.id_M_N;
+            var result = Iterate2(value);
+            if (result.vError === 0) {
+                var vpayload = JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value)));
+                if (debugMode === 1) {
+                    $.confirm({
+                        title: 'Payload Attempted!',
+                        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
+                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                        buttons: {
+                            ok: function () { },
+                            copy: {
+                                text: 'Copy', // With spaces and symbols
+                                action: function () {
+                                    var copytext = this.$content.find("#Payload");
+                                    copytext.select();
+                                    document.execCommand("copy");
+                                    return false;
+                                }
                             }
                         }
+                    });
+                }
+                //var payload = {
+                //    "value": vpayload.escapeSpecialChars() 
+                //};
+                $.ajax({
+                    method: "POST",
+                    async: false,
+                    url: submitPHObsAddress,
+                    //data: JSON.stringify(payload),
+                    data: vpayload.escapeSpecialChars(),
+                    contentType: "application/json",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $('#mb6 .progText').text("Syncing " + index + " of " + arr.length + " records");
+                    },
+                    headers: {
+                        "authorization": authCode,
+                        "cache-control": "no-cache"
+                    },
+                    success: function (data, textStatus, XmlHttpRequest) {
+                        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
+                        if (XmlHttpRequest.status === 200) {
+                            //$.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
+                            logstr = logstr + vpayload.escapeSpecialChars() + "\r\n";
+                        }
+                        rowsSuccess.push(index);
+                    },
+                    complete: function (xhr, textStatus) {
+                        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
+                        //results.observations(value.id_M_N - 1).status_M_N = 2;
+                        //results.observations.splice(index, 1);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
+                        $.dialog({
+                            title: 'Sync Failed!',
+                            content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
+                            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
+                        });
                     }
                 });
             }
-            //var payload = {
-            //    "value": vpayload.escapeSpecialChars() 
-            //};
-            $.ajax({
-                method: "POST",
-                async: false,
-                url: submitPHObsAddress,
-                //data: JSON.stringify(payload),
-                data: vpayload.escapeSpecialChars(),
-                contentType: "application/json",
-                dataType: "json",
-                headers: {
-                    "authorization": authCode,
-                    "cache-control": "no-cache"
-                },
-                success: function (data, textStatus, XmlHttpRequest) {
-                    //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
-                    if (XmlHttpRequest.status === 200) {
-                        //$.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
-                        logRecord(vpayload.escapeSpecialChars() + "\r\n");
-                    }
-                    rowsSuccess.push(index);
-                },
-                complete: function () {
-                    //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
-                    //results.observations(value.id_M_N - 1).status_M_N = 2;
-                    //results.observations.splice(index, 1);
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
-                    $.dialog({
-                        title: 'Sync Failed!',
-                        content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
-                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
-                    });
-                }
+            else {
+                rowsFailed.push(rowid);
+                rowsFailedErr.push(result.vErrDescription);
+                success = false;
+                return false;
+            }
+        });
+        if (success === true) {
+            rowsSuccess.sort();
+            rowsSuccess.reverse();
+            $.each(rowsSuccess, function (index, value) {
+                results.observations.splice(value, 1);
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                    logRecord(logstr);
+                    //alert("Dataset updated.");
+                    //$.growl({ title: "", message: "Observations synced to cloud.", location: "tc", size: "large" });
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while updating records to database. " + err.message, location: "tc", size: "large" });
             });
         }
-        else {
-            rowsFailed.push(rowid);
-            rowsFailedErr.push(result.vErrDescription);
-            success = false;
-            return false;
+        else if (success === false) { $.growl.error({ title: "", message: rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
+        syncPHRefCodes();
+        syncActivityData();
+        syncBPHstaffData();
+        syncIPHstaffData();
+        syncNPHstaffData();
+        syncTaxaData();
+        table.destroy();
+        loadData();
+        clearMarkers();
+        loadMapMarkers();
+        if (infoWindow) {
+            infoWindow.close();
         }
-    });
-    if (success === true && noRowstoPush === false) {
-        rowsSuccess.sort();
-        rowsSuccess.reverse();
-        $.each(rowsSuccess, function (index, value) {
-            results.observations.splice(value, 1);
-        });
-        db.transaction(function (tx) {
-            tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-                //alert("Dataset updated.");
-                //$.growl({ title: "", message: "Observations synced to cloud.", location: "tc", size: "large" });
-            });
-        }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while updating records to database. " + err.message, location: "tc", size: "large" });
-        });
+        setTimeout(EnableFormPH(), 1000);
     }
-    else if (success === false && noRowstoPush === false) { $.growl.error({ title: "", message: rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
-    else if (success === true && noRowstoPush === true) { $.growl.notice({ title: "", message: "No records to Sync.", location: "bc", size: "small" }); }
-    syncPHRefCodes();
-    syncActivityData();
-    syncBPHstaffData();
-    syncIPHstaffData();
-    syncNPHstaffData();
-    syncTaxaData();
-    table.destroy();
-    loadData();
-    clearMarkers();
-    loadMapMarkers();
-    if (infoWindow) {
-        infoWindow.close();
-    }
-    setTimeout(EnableForm(), 1000);
 }
-function EnableForm() {
-    $('#Download').addClass('btn-default');
-    $('#Sync').addClass('btn-info');
-    $('#newObservation').addClass('btn-default');
-    $('#Download').attr('disabled', false);
-    $('#Download').removeClass('disabled');
-    $('#Sync').attr('disabled', false);
-    $('#Sync').removeClass('disabled');
-    $('#newObservation').attr('disabled', false);
-    $('#newObservation').removeClass('disabled');
+function EnableFormPH() {
+    $('#DownloadPH').addClass('btn-default');
+    $('#SyncPH').addClass('btn-info');
+    $('#newObservationPH').addClass('btn-default');
+    $('#DownloadPH').attr('disabled', false);
+    $('#DownloadPH').removeClass('disabled');
+    $('#SyncPH').attr('disabled', false);
+    $('#SyncPH').removeClass('disabled');
+    $('#newObservationPH').attr('disabled', false);
+    $('#newObservationPH').removeClass('disabled');
     $('#mb6 .progText').text("");
     $('#modalProgress').modal('hide');
 }
@@ -2247,15 +2241,22 @@ function getCurrentActivityTiles(str, zoom) {
             var pC1y = Math.floor(wC1.y * scale / TILE_SIZE) - 1;
             var pC2x = Math.floor(wC2.x * scale / TILE_SIZE) + 1;
             var pC2y = Math.floor(wC2.y * scale / TILE_SIZE) + 1;
-            $('#modalProgress').modal();
-            $('#mb6 .progText').text("Download in progress ...");
-            $('#mb6 .progress').removeClass('hide');
             tiles = 0;
             fetchAndSaveTile(pC1x, pC1y, zoom, pC2x, pC1y, pC2y);
         }
     }
 }
-function getCurrentActivityBounds(str, zoom) {
+function getMapBounds() {
+    if (allLats.length > 0 && allLngs.length > 0) {
+        allLats.sort();
+        allLngs.sort();
+        minX = allLats[0];
+        minY = allLngs[0];
+        maxX = allLats[allLats.length - 1];
+        maxY = allLngs[allLngs.length - 1];
+    }
+}
+function getCurrentActivityBounds(str) {
     if (Number(str) === 99999) { return true; }
     curLats = []; curLngs = [];
     var arr = ActivityData.activities.filter(function (el) {
@@ -2272,7 +2273,6 @@ function getCurrentActivityBounds(str, zoom) {
             }
         });
         if (curLats.length > 0 && curLngs.length > 0) {
-            var scale = 1 << zoom;
             cX = curLats[0];
             cY = curLngs[0];
             curLats.sort();
@@ -2349,7 +2349,7 @@ function exportObservationsToCSV() {
                     //readFile(fileEntry);
                 };
                 fileWriter.onerror = function (e) {
-                    $.growl.error({ title: "", message: "Failed file read: " + e.toString(), location: "tc", size: "large" });
+                    //$.growl.error({ title: "", message: "Failed file read: " + e.toString(), location: "tc", size: "large" });
                 };
                 fileWriter.seek(0);
                 var blob = new Blob([csv], { type: 'text/plain' });
@@ -2360,43 +2360,27 @@ function exportObservationsToCSV() {
     });
 }
 $(document).on('click', '.btnDownloadLogs', function (event) {
-    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fs) {
-        fs.getDirectory("Logs", { create: true, exclusive: false }, function (dirEntry) {
-            dirEntry.getFile("log.txt", { create: true, exclusive: false }, function (fileEntry) {
-                //console.log("fileEntry is file?" + fileEntry.isFile.toString());
-                fileEntry.file(function (file) {
-                    var reader = new FileReader();
-                    reader.onloadend = function () {
-                        //console.log("Successful file read: " + this.result);
-                        var logtext = this.result;
-                        var savePicker = new Windows.Storage.Pickers.FileSavePicker();
-                        savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.documentsLibrary;
-                        savePicker.fileTypeChoices.insert("TEXT", [".txt"]);
-                        savePicker.suggestedFileName = "log.txt";
-                        savePicker.pickSaveFileAsync().then(function (file) {
-                            if (file) {
-                                Windows.Storage.CachedFileManager.deferUpdates(file);
-                                Windows.Storage.FileIO.writeTextAsync(file, logtext).done(function () {
-                                    Windows.Storage.CachedFileManager.completeUpdatesAsync(file).done(function (updateStatus) {
-                                        if (updateStatus === Windows.Storage.Provider.FileUpdateStatus.complete) {
-                                            $.growl.notice({ title: "", message: 'File saved to Downloads folder.', location: "bc", size: "small" });
-                                        } else {
-                                            $.growl.error({ title: "", message: 'File save failed!', location: "tc", size: "large" });
-                                        }
-                                    });
-                                });
-                            } else {
-                                $.growl.notice({ title: "", message: 'Operation Cancelled!', location: "bc", size: "small" });
-                            }
-                        });
-                    };
-                    reader.readAsText(file);
-                }, function () {
-                    $.growl.error({ title: "", message: 'File read error!', location: "tc", size: "large" });
+    var fileName = cordova.file.directoryName + 'log.txt';
+    var directoryName = cordova.file.externalRootDirectory;
+
+    window.resolveLocalFileSystemURL(fileName, function (fileEntry) {
+        window.resolveLocalFileSystemURL(directoryName, function (directoryEntry) {
+            directoryEntry.getDirectory("Logs", { create: true, exclusive: false }, function (bkupdirectoryEntry) {
+                fileEntry.copyTo(bkupdirectoryEntry, name, function (cpfileEntry) {
+                    $.growl.notice({ title: "", message: 'File saved to Downloads folder.', location: "bc", size: "small" });
+                }, function (error) {
+                    $.growl.error({ title: "", message: 'Copy failed.', location: "bc", size: "small" });
                 });
+            }, function (error) {
+                $.growl.error({ title: "", message: 'File save failed!', location: "tc", size: "large" });
             });
+        }, function (error) {
+            $.growl.error({ title: "", message: 'Directory not found!', location: "tc", size: "large" });
         });
+    }, function (error) {
+        $.growl.error({ title: "", message: 'Log file not found!', location: "tc", size: "large" });
     });
+
 });
 $(document).on('click', '.btnClearLogs', function (event) {
     window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fs) {
