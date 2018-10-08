@@ -656,26 +656,6 @@ $(document).on('click', '.removeSyndrome', function (e) {
     });
 });
 
-$(document).on('click', '#showForm', function (e) {
-    var zi;
-    var formName = $("input[name='optObs']:checked").val();
-    zi = $('#modalMenu').css('z-index');
-    $('#modalForm').css('z-index', zi + 100);
-    $('#modalMenu').modal('hide');
-    loadModal(formName);
-    $('#modalForm').modal();
-});
-
-$(document).on('click', '#showFormAH', function (e) {
-    var zi;
-    var formName = $("input[name='optObs']:checked").val();
-    zi = $('#modalAHMenu').css('z-index');
-    $('#modalForm').css('z-index', zi + 100);
-    $('#modalAHMenu').modal('hide');
-    loadModal(formName);
-    $('#modalForm').modal();
-});
-
 $(document).on('hidden.bs.modal', '#modalMenu', function () {
     if (curIdx === 0) {
         newMarker.setMap(null);
@@ -911,7 +891,7 @@ $(document).on('click', '#bsInfo', function () {
     });
 });
 
-function loadModal(pagename) {
+function loadModalAH(pagename) {
     var t0, t1;
     $.ajax({
         url: "",
@@ -925,23 +905,14 @@ function loadModal(pagename) {
             $(document).find('script[id="pageScript"]').remove();
             $('#mb').load(pagename + '.html');
             t0 = performance.now();
-            if (pagename == 'mo_sngObservation') {
+            if (pagename === 'mo_sngObservation') {
                 loadAHDefaults();
-                if (curIdx == 0) {
+                if (curIdx === 0) {
                     getNextAnimalID();
                 }
             }
-            if (pagename == 'mo_grpObservation') {
+            if (pagename === 'mo_grpObservation') {
                 loadAHDefaults();
-            }
-            if (pagename == 'mo_BotObservation') {
-                loadPHDefaults();
-            }
-            if (pagename == 'mo_EntObservation') {
-                loadPHDefaults();
-            }
-            if (pagename == 'mo_PatObservation') {
-                loadPHDefaults();
             }
             //samples = 0;
             bsamples = 0;
@@ -963,7 +934,7 @@ function loadModal(pagename) {
                 var data = results.observations[curIdx - 1];
                 var px = 0;
                 console.log(JSON.stringify(data));
-                if (curObType < 2 && data.commonName != 'NONE') {
+                if (curObType < 2 && data.commonName !== 'NONE') {
                     $('#form1').find("#commonName").val(data.commonName);
                     loadCommonNameData(data.commonName, data.taxon);
                 }
@@ -982,7 +953,7 @@ function loadModal(pagename) {
                     }
                     console.timeEnd('load Modal 1');
                     console.time('load Modal 2');
-                    if (key.startsWith("sampleType_") && value != "") {
+                    if (key.startsWith("sampleType_") && value !== "") {
                         $.ajax({
                             url: "",
                             beforeSend: function (xhr) {
@@ -1007,7 +978,7 @@ function loadModal(pagename) {
                     }
                     console.timeEnd('load Modal 3');
                     console.time('load Modal 4');
-                    if (key.startsWith("fieldTest_") && value != "") {
+                    if (key.startsWith("fieldTest_") && value !== "") {
                         $.ajax({
                             url: "",
                             beforeSend: function (xhr) {
@@ -1020,18 +991,18 @@ function loadModal(pagename) {
                     }
                     console.timeEnd('load Modal 4');
                     console.time('load Modal 5');
-                    if (key == "extObs" && value == "on") {
+                    if (key == "extObs" && value === "on") {
                         $('#form1').find("input[name='extObserver']").removeClass('hide');
                         $('#form1').find("input[type='checkbox'][name='extObs']").iCheck('check');
                     }
-                    if (key == "extObs" && value == "off") {
+                    if (key == "extObs" && value === "off") {
                         $('#form1').find("input[name='extObserver']").addClass('hide');
                         $('#form1').find("input[type='checkbox'][name='extObs']").iCheck('uncheck');
                     }
-                    if (key == "pmConducted" && value == "Yes") {
+                    if (key == "pmConducted" && value === "Yes") {
                         $('#tabPM').removeClass('hide');
                     }
-                    if (key == "pmConducted" && value == "No") {
+                    if (key == "pmConducted" && value === "No") {
                         $('#tabPM').addClass('hide');
                     }
                     if (key.startsWith("pSampleId_") && value > 0) {
@@ -1042,7 +1013,7 @@ function loadModal(pagename) {
                         $('#addPreSelectedFieldTest').addClass('hide');
                         $('.preSelectedFieldTest').removeClass('hide');
                     }
-                    if (key.startsWith("plantPic_") && value != "") {
+                    if (key.startsWith("plantPic_") && value !== "") {
                         $('#form1').find("img[name='" + key + "']").attr("src", "images/" + value);
                     }
                     if (key.startsWith("statTypeVal_")) {

@@ -538,32 +538,8 @@
 <script type="text/javascript" id="pageScript">
     $('#mt').text('Single Domestic Animal');
     $('#mt2').text('Single Domestic Animal');
-    $('.timer').countimer({
-        autoStart: false
-    });
-    $(document).on('click', '#timerstart', function () {
-        $('.timer').countimer('start');
-    })
-    $(document).on('click', '#timerstop', function () {
-        $('.timer').countimer('stop');
-    })
-    $(document).on('click', '#timerrestart', function () {
-        $('.timer').countimer('restart');
-    })
     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
-    });
-    $('.datetimepicker').datetimepicker({
-        locale: "en-au",
-        format: "llll Z",
-        defaultDate: "1/1/2018",
-        sideBySide: true,
-        icons: {
-            time: "fa fa-clock-o",
-            date: "fa fa-calendar",
-            up: "fa fa-arrow-up",
-            down: "fa fa-arrow-down"
-        }
     });
 </script>

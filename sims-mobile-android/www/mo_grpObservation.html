@@ -339,27 +339,6 @@
 <script type="text/javascript" id="pageScript">
     $('#mt').text('Animal Group Summary');
     $('#mt2').text('Animal Group Summary');
-    $('.timer').countimer({
-        autoStart: false
-    });
-    $(document).on('click', '#timerstart', function () {
-        $('.timer').countimer('start');
-    })
-    $(document).on('click', '#timerstop', function () {
-        $('.timer').countimer('stop');
-    })
-    $(document).on('click', '#timerrestart', function () {
-        $('.timer').countimer('restart');
-    })
-    $('.datetimepicker').datetimepicker({
-        format: 'd-MMM-YYYY hh:mm Z',
-        defaultDate: Date.now()
-    });
-    $('.datepicker').datepicker({
-        format: 'd-MMM-YYYY hh:mm Z',
-        todayHighlight: true,
-        autoclose: true
-    });
     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'

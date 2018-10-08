@@ -693,9 +693,6 @@ function placeMarker(location) {
     else {
         curIdx = -1;
         switch (AppMode) {
-            case 'IAH':
-                $('#modalAHMenu').modal();
-                break;
             case 'AH':
                 $('#modalAHMenu').modal();
                 break;
@@ -753,9 +750,6 @@ function getAltitude() {
 function downloadCSV() {
     $('#mt1').text('All Observations');
     switch (AppMode) {
-        case "IAH":
-            $('#modalAHGrid').modal();
-            break;
         case "AH":
             $('#modalAHGrid').modal();
             break;
@@ -796,94 +790,47 @@ function loadData() {
     var data;
     var tab;
     switch (AppMode) {
-        //case "IAH":
-        //    data = jQuery.grep(results.observations, function (n, i) {
-        //        return (n.PlantDisciplineCode === 'S');
-        //    });
-        //    table = $('#srchTable').DataTable({
-        //        "data": data,
-        //        "columns": [
-        //            { "data": "surveillanceActivity" },
-        //            { "data": "commonName" },
-        //            {
-        //                "data": "sDate",
-        //                "render": function (data, type, row, meta) {
-        //                    return moment(data).format("DD/MM/YYYY");
-        //                }
-        //            },
-        //            { "data": "latitude" },
-        //            { "data": "longitude" },
-        //            { "data": "datum" },
-        //            { "data": "id" },
-        //            {
-        //                "data": "status",
-        //                "render": function (data, type, row, meta) {
-        //                    if (data === 0) return "Saved";
-        //                    if (data === 1) return "Submitted";
-        //                }
-        //            },
-        //            {
-        //                "data": "discipline",
-        //                "render": function (data, type, row, meta) {
-        //                    if (data === 'S') return "Single";
-        //                    if (data === 'G') return "Group";
-        //                    if (data === 'B') return "Botany";
-        //                    if (data === 'E') return "Entomology";
-        //                    if (data === 'P') return "Pathology";
-        //                }
-        //            }
-        //        ],
-        //        "paging": true,
-        //        "lengthChange": false,
-        //        "searching": true,
-        //        "ordering": true,
-        //        "info": false
-        //    });
-        //    break;
-        //case "AH":
-        //    data = jQuery.grep(results.observations, function (n, i) {
-        //        return (n.PlantDisciplineCode === 'S' || n.PlantDisciplineCode === 'G');
-        //    });
-        //    table = $('#srchTable').DataTable({
-        //        "data": data,
-        //        "columns": [
-        //            { "data": "surveillanceActivity" },
-        //            { "data": "commonName" },
-        //            {
-        //                "data": "sDate",
-        //                "render": function (data, type, row, meta) {
-        //                    return moment(data).format("DD/MM/YYYY");
-        //                }
-        //            },
-        //            { "data": "latitude" },
-        //            { "data": "longitude" },
-        //            { "data": "datum" },
-        //            { "data": "id" },
-        //            {
-        //                "data": "status",
-        //                "render": function (data, type, row, meta) {
-        //                    if (data === 0) return "Saved";
-        //                    if (data === 1) return "Submitted";
-        //                }
-        //            },
-        //            {
-        //                "data": "discipline",
-        //                "render": function (data, type, row, meta) {
-        //                    if (data === 'S') return "Single";
-        //                    if (data === 'G') return "Group";
-        //                    if (data === 'B') return "Botany";
-        //                    if (data === 'E') return "Entomology";
-        //                    if (data === 'P') return "Pathology";
-        //                }
-        //            }
-        //        ],
-        //        "paging": true,
-        //        "lengthChange": false,
-        //        "searching": true,
-        //        "ordering": true,
-        //        "info": false
-        //    });
-        //    break;
+        case "AH":
+            data = jQuery.grep(results.observations, function (n, i) {
+                return (n.PlantDisciplineCode === 'S' || n.PlantDisciplineCode === 'G');
+            });
+            table = $('#srchAHTable').DataTable({
+                "data": data,
+                "columns": [
+                    { "data": "surveillanceActivity" },
+                    { "data": "commonName" },
+                    {
+                        "data": "sDate",
+                        "render": function (data, type, row, meta) {
+                            return moment(data).format("DD/MM/YYYY");
+                        }
+                    },
+                    { "data": "latitude" },
+                    { "data": "longitude" },
+                    { "data": "datum" },
+                    { "data": "id" },
+                    {
+                        "data": "status",
+                        "render": function (data, type, row, meta) {
+                            if (data === 0) return "Saved";
+                            if (data === 1) return "Submitted";
+                        }
+                    },
+                    {
+                        "data": "discipline",
+                        "render": function (data, type, row, meta) {
+                            if (data === 'S') return "Single";
+                            if (data === 'G') return "Group";
+                        }
+                    }
+                ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": false
+            });
+            break;
         case "PH":
             data = jQuery.grep(results.observations, function (n, i) {
                 return (n.PlantDisciplineCode_M_S === 'P' || n.PlantDisciplineCode_M_S === 'E' || n.PlantDisciplineCode_M_S === 'B');
@@ -1290,6 +1237,9 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
         });
 });
 $(document).on('click', '#SyncPH', function (event) {
+    $('#mb6 .progText').text("Sync in progress ...");
+    $('#mb6 .progress').addClass('hide');
+    $('#mb6 .fa-clock-o').addClass('hide');
     $.when(setTimeout(DisableFormPH(), 1000));
 });
 $(document).on('shown.bs.modal', '#modalPHGrid', function () {
@@ -1304,17 +1254,32 @@ $(document).on('shown.bs.modal', '#modalPHGrid', function () {
         $('#SyncPH').addClass('hide');
     }
 });
+$(document).on('shown.bs.modal', '#modalAHGrid', function () {
+    //loadPHRefCodes();
+    //loadActivityData();
+    //loadstaffData();
+    loadData();
+    if (statusElem.innerHTML === 'online') {
+        $('#SyncAH').removeClass('hide');
+    }
+    if (statusElem.innerHTML === 'offline') {
+        $('#SyncAH').addClass('hide');
+    }
+});
 $(document).on('hidden.bs.modal', '#modalPHGrid', function () {
     table.destroy();
-});
-$(document).on('shown.bs.modal', '#modalAHGrid', function () {
-    loadAHDefaults();
-    loadData();
 });
 $(document).on('hidden.bs.modal', '#modalAHGrid', function () {
     table.destroy();
 });
 $(document).on('hidden.bs.modal', '#modalForm', function () {
+    //table.destroy();
+    //loadAHDefaults();
+    //loadData();
+    clearMarkers();
+    loadMapMarkers();
+});
+$(document).on('hidden.bs.modal', '#modalFormAH', function () {
     //table.destroy();
     //loadAHDefaults();
     //loadData();
@@ -1547,12 +1512,34 @@ $(document).on('click', '#showFormPH', function (e) {
         $('#modalPHMenu').modal('hide');
     }
 });
+$(document).on('click', '#showFormAH', function (e) {
+    var zi;
+    curDiscipline = $('input[type=radio][name="optObs"]:checked').attr('data-discipline');
+    var formName = $("input[name='optObs']:checked").val();
+    if (formName) {
+        zi = $('#modalAHMenu').css('z-index');
+        $('#modalFormAH').css('z-index', zi + 100);
+        loadModalAH(formName);
+        $('#modalFormAH').modal();
+        $('#modalAHMenu').modal('hide');
+    }
+});
 $(document).on('hidden.bs.modal', '#modalForm', function () {
     if (newMarker && (curIdx === -1 || curIdx === -2)) {
         newMarker.setMap(null);
     }
 });
+$(document).on('hidden.bs.modal', '#modalFormAH', function () {
+    if (newMarker && (curIdx === -1 || curIdx === -2)) {
+        newMarker.setMap(null);
+    }
+});
 $(document).on('hidden.bs.modal', '#modalPHMenu', function () {
+    if (newMarker && (curIdx === -1 || curIdx === -2)) {
+        newMarker.setMap(null);
+    }
+});
+$(document).on('hidden.bs.modal', '#modalAHMenu', function () {
     if (newMarker && (curIdx === -1 || curIdx === -2)) {
         newMarker.setMap(null);
     }
@@ -1912,165 +1899,6 @@ function getSite(ActivityId, id) {
         if (arr2 && arr2.length > 0) { return arr2[0].name; } else { return ""; }
     }
     else { return ""; }
-}
-function DisableFormPH() {
-    $('#DownloadPH').removeClass('btn-default');
-    $('#DownloadPH').attr('disabled', true);
-    $('#DownloadPH').addClass('disabled');
-    $('#SyncPH').removeClass('btn-info');
-    $('#SyncPH').attr('disabled', true);
-    $('#SyncPH').addClass('disabled');
-    $('#newObservationPH').removeClass('btn-default');
-    $('#newObservationPH').attr('disabled', true);
-    $('#newObservationPH').addClass('disabled');
-
-    $('#mb6 .progText').text("Sync in progress ...");
-    $('#mb6 .progress').addClass('hide');
-    $('#mb6 .fa-clock-o').addClass('hide');
-    $('#modalProgress').modal();
-    setTimeout(StartSyncPH, 1000);
-}
-function StartSyncPH() {
-    var arr = results.observations.filter(function (el) {
-        return (el.status_M_N === 1);
-    });
-    if (arr && arr.length === 0) {
-        $.growl.notice({ title: "", message: "No records to Sync.", location: "bc", size: "small" });
-        setTimeout(EnableFormPH(), 1000);
-        return false;
-    }
-    else {
-        var success = true;
-        var noRowstoPush = true;
-        var rowsFailed = [];
-        var rowsFailedErr = [];
-        var rowsSuccess = [];
-        var logstr = "";
-        $.each(arr, function (index, value) {
-            vError = 0;
-            vErrDescription = [];
-            vFailed = false;
-            CountListFlag = 0;
-            HostStatCountFlag = 0;
-            HostStatAreaFlag = 0;
-            PlantPreservationOtherFlag = 0;
-            PlantTargetObservedCodeFlag = 0;
-            var rowid = value.id_M_N;
-            var result = Iterate2(value);
-            if (result.vError === 0) {
-                var vpayload = JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(value)));
-                if (debugMode === 1) {
-                    $.confirm({
-                        title: 'Payload Attempted!',
-                        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
-                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                        buttons: {
-                            ok: function () { },
-                            copy: {
-                                text: 'Copy', // With spaces and symbols
-                                action: function () {
-                                    var copytext = this.$content.find("#Payload");
-                                    copytext.select();
-                                    document.execCommand("copy");
-                                    return false;
-                                }
-                            }
-                        }
-                    });
-                }
-                //var payload = {
-                //    "value": vpayload.escapeSpecialChars() 
-                //};
-                $.ajax({
-                    method: "POST",
-                    async: false,
-                    url: submitPHObsAddress,
-                    //data: JSON.stringify(payload),
-                    data: vpayload.escapeSpecialChars(),
-                    contentType: "application/json",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $('#mb6 .progText').text("Syncing " + index + " of " + arr.length + " records");
-                    },
-                    headers: {
-                        "authorization": authCode,
-                        "cache-control": "no-cache"
-                    },
-                    success: function (data, textStatus, XmlHttpRequest) {
-                        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
-                        if (XmlHttpRequest.status === 200) {
-                            //$.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
-                            logstr = logstr + vpayload.escapeSpecialChars() + "\r\n";
-                        }
-                        rowsSuccess.push(index);
-                    },
-                    complete: function (xhr, textStatus) {
-                        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
-                        //results.observations(value.id_M_N - 1).status_M_N = 2;
-                        //results.observations.splice(index, 1);
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
-                        $.dialog({
-                            title: 'Sync Failed!',
-                            content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
-                            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
-                        });
-                    }
-                });
-            }
-            else {
-                rowsFailed.push(rowid);
-                rowsFailedErr.push(result.vErrDescription);
-                success = false;
-                return false;
-            }
-        });
-        if (success === true) {
-            rowsSuccess.sort();
-            rowsSuccess.reverse();
-            $.each(rowsSuccess, function (index, value) {
-                results.observations.splice(value, 1);
-            });
-            db.transaction(function (tx) {
-                tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-                    logRecord(logstr);
-                    //alert("Dataset updated.");
-                    //$.growl({ title: "", message: "Observations synced to cloud.", location: "tc", size: "large" });
-                });
-            }, function (err) {
-                $.growl.error({ title: "", message: "An error occured while updating records to database. " + err.message, location: "tc", size: "large" });
-            });
-        }
-        else if (success === false) { $.growl.error({ title: "", message: rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
-        syncPHRefCodes();
-        syncActivityData();
-        syncBPHstaffData();
-        syncIPHstaffData();
-        syncNPHstaffData();
-        syncTaxaData();
-        table.destroy();
-        loadData();
-        clearMarkers();
-        loadMapMarkers();
-        if (infoWindow) {
-            infoWindow.close();
-        }
-        setTimeout(EnableFormPH(), 1000);
-    }
-}
-function EnableFormPH() {
-    $('#DownloadPH').addClass('btn-default');
-    $('#SyncPH').addClass('btn-info');
-    $('#newObservationPH').addClass('btn-default');
-    $('#DownloadPH').attr('disabled', false);
-    $('#DownloadPH').removeClass('disabled');
-    $('#SyncPH').attr('disabled', false);
-    $('#SyncPH').removeClass('disabled');
-    $('#newObservationPH').attr('disabled', false);
-    $('#newObservationPH').removeClass('disabled');
-    $('#mb6 .progText').text("");
-    $('#modalProgress').modal('hide');
 }
 function fetchSettings() {
     db.transaction(function (tx) {
@@ -2587,8 +2415,6 @@ $(document).on('click', 'a.downloadMaps', function (e) {
             db.transaction(function (tx) {
                 tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
                     $('#form3').find('label.mapNotes').text("Last downloaded on:" + new Date().toString());
-                    $('#modalProgress').modal('hide');
-                    $.growl.notice({ title: "", message: "Download complete", location: "bc", size: "small" });
                 });
             }, function (err) {
                 $.growl({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
@@ -2604,8 +2430,8 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
         xhr.responseType = 'blob';
         xhr.onloadstart = function () {
             tiles++;
-            $('#mb6 .progText').text("File " + tiles + ": Download in progress ...");
-            $('.progress-bar').css('width', Math.round(tiles % 500) + '%').attr('aria-valuenow', Math.round(tiles % 500)).text(Math.round(tiles % 500) + '%');
+            $('#mb6 .progText').text("Download in progress ...");
+            $('.progress-bar').css('width', Math.round(tiles % 100) + '%').attr('aria-valuenow', Math.round(tiles % 100)).text(Math.round(tiles % 100) + '%');
             $('#mb6 .progress').removeClass('hide');
         };
         xhr.onloadend = function () {
@@ -2626,6 +2452,11 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             } else {
                                                 i++;
+                                                if (i > xlimit) {
+                                                    $('#modalProgress').modal('hide');
+                                                    $('#mb6 .progText').text("");
+                                                    return false;
+                                                }
                                                 j = ystart;
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             }
