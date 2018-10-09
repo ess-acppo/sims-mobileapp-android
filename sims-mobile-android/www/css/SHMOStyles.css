@@ -109,7 +109,7 @@ html, body {
     z-index: 205;
 }
 
-#modalAHGrid .modal-dialog, #modalPHGrid .modal-dialog, #modalPHMenu .modal-dialog, #modalSettings .modal-dialog {
+#modalAHGrid .modal-dialog, #modalPHGrid .modal-dialog, #modalPHMenu .modal-dialog, #modalAHMenu .modal-dialog, #modalSettings .modal-dialog {
     margin: 1% auto;
     z-index: 102;
 }
@@ -1310,4 +1310,58 @@ label.mapNotes, label.mapBNotes {
     margin-left: 8px;
     margin-bottom: 8px;
     float: right;
+}
+
+.tabs-wrapper {
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 5px;
+    height: 50px;
+}
+
+#tabList {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    min-width: 3000px;
+    margin-left: 12px;
+    margin-top: 0px;
+}
+
+    #tabList li {
+        display: table-cell;
+        position: relative;
+        text-align: center;
+        cursor: grab;
+        cursor: -webkit-grab;
+        color: #efefef;
+        vertical-align: middle;
+    }
+
+.scroller {
+    text-align: center;
+    cursor: pointer;
+    display: none;
+    padding: 7px;
+    padding-top: 11px;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #fff;
+}
+
+.scroller-right {
+    float: right;
+    background-color: #ddd;
+    padding: 8px;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.scroller-left {
+    float: left;
+    background-color: #ddd;
+    padding: 8px;
+    font-weight: 700;
+    font-size: 2rem;
 }

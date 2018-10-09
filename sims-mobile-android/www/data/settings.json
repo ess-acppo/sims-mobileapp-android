@@ -36,6 +36,8 @@
       "samplePrefix": "XX",
       "sampleStartNumber": 0,
       "currentSampleNumber": 0,
+      "animalPrefix": "XX",
+      "currentAnimalNumber": 0,
       "debugMode": 0
     },
     "auth": {

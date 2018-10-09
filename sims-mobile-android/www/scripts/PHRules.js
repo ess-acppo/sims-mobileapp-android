@@ -55,6 +55,263 @@ var plantSampleAttachment = '<div class="row col-md-12 col-sm-12 col-xs-12 Plant
 var plantAttachment = '<div class="row col-md-12 col-sm-12 col-xs-12 PlantAttachment pl-0 pr-0 collapsed"><div class="form-group col-md-2 col-sm-2 col-xs-2"><img class="pp pull-right" src="images/plant.png" name="iPlantAttachment_M_S"></div><div class="form-group col-md-7 col-sm-8 col-xs-8"><input type="text" class="form-control" name="PlantAttachmentD_M_S" value=""><textarea class="form-control hide" name="PlantAttachment_M_S" rows="5" cols="5"></textarea></div><div class="form-group col-md-2 col-sm-1 col-xs-1"><i class="fa fa-remove text-info fa-2x removePlantAttachment" style="cursor:pointer;"></i></div></div>';
 /* PH Initialized variables */
 
+function syncActivityData() {
+    var settings = {
+        "async": false,
+        "crossDomain": true,
+        "url": ActivityAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing Activity Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(settings).done(function (data) {
+        ActivityData = data;
+        //siteData = data.activities[0].sites;
+        //programId = data.activities[0].programId;
+        lastSurvActValue = data.activities[0].activityId;
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO activitydata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'activity', JSON.stringify(ActivityData)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE activitydata SET settingsval = ? WHERE id = ?", [JSON.stringify(ActivityData), 1], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching Activity Data. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function loadActivityData() {
+    $("#form1").find('select[name="SurvActivityId_M_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(ActivityData.activities, function (key, val) {
+        if (val.programId === downerTeam) {
+            var option = $('<option />');
+            option.attr('value', val.activityId).text(val.activityName);
+            $("#form1").find('select[name="SurvActivityId_M_N"]').append(option);
+        }
+    });
+    $("#curActivities").find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(ActivityData.activities, function (key, val) {
+        if (val.programId === downerTeam) {
+            var option = $('<option />');
+            option.attr('value', val.activityId).text(val.activityName);
+            $("#curActivities").append(option);
+        }
+    });
+    $("#form1").find('select[name="SiteId_O_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(siteData, function (key, val) {
+        var option = $('<option />');
+        option.attr('value', val.id).text(val.name);
+        $("#form1").find('select[name="SiteId_O_N"]').append(option);
+    });
+    $("#form1").find('select[name="SiteId_O_N"]').append($('<option value="99999">New Site</option>'));
+}
+function refreshActivityData(str) {
+    var arr = ActivityData.activities.filter(function (el) {
+        return (el.activityId === Number(str));
+    });
+    if (arr && arr.length > 0) {
+        siteData = arr[0].sites;
+        programId = arr[0].programId;
+        lastSurvActValue = arr[0].activityId;
+        lastSiteValue = 0;
+        db.transaction(function (tx) {
+            tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", [programId + 'staff'], function (tx, res) {
+                //This is not the first load
+                if (res.rows && res.rows.length > 0) {
+                    //alert(JSON.stringify(res.rows.item(0).settingsval));
+                    staffDataS = JSON.parse(res.rows.item(0).settingsval);
+                }
+                else {
+                    $.growl.error({ title: "", message: "No staff Data available for this Activity.", location: "tc", size: "large", fixed: "true" });
+                }
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    };
+    $("#form1").find('select[name="SiteId_O_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(siteData, function (key, val) {
+        var option = $('<option />');
+        option.attr('value', val.id).text(val.name);
+        $("#form1").find('select[name="SiteId_O_N"]').append(option);
+    });
+    $("#form1").find('select[name="SiteId_O_N"]').append($('<option value="99999">New Site</option>'));
+}
+function syncNPHstaffData() {
+    var NPHsettings = {
+        "async": false,
+        "crossDomain": true,
+        "url": NPHStaffAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing NPH Staff Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(NPHsettings).done(function (data) {
+        //alert(JSON.stringify(xmlToJson(data)));
+        staffDataNPH = xmlToJson(data);
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM staffdata WHERE id = ?", [1], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting NPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'NPHstaff', JSON.stringify(staffDataNPH)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataNPH), 1], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function syncBPHstaffData() {
+    var BPHsettings = {
+        "async": false,
+        "crossDomain": true,
+        "url": BPHStaffAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing BPH Staff Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(BPHsettings).done(function (data) {
+        staffDataBPH = xmlToJson(data);
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM staffdata WHERE id = ?", [2], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting BPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [2, 'BPHstaff', JSON.stringify(staffDataBPH)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataBPH), 2], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching BPH StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function syncIPHstaffData() {
+    var IPHsettings = {
+        "async": false,
+        "crossDomain": true,
+        "url": IPHStaffAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing IPH Staff Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(IPHsettings).done(function (data) {
+        staffDataIPH = xmlToJson(data);
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM staffdata WHERE id = ?", [3], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting IPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [3, 'IPHstaff', JSON.stringify(staffDataIPH)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataIPH), 3], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function loadstaffData() {
+    // Loading StaffData for device Owner //
+    staffDataFull = '<option value="0">- select -</option>';
+    $.each(staffDataNPH.staffs.staff, function (key, val) {
+        var option1 = '<option';
+        option1 = option1 + ' value="' + val.id + '">';
+        option1 = option1 + val.displayName + "</option>";
+        staffDataFull = staffDataFull + option1;
+    });
+    // Loading StaffData per programID //
+    if (programId && programId !== "") {
+        switch (programId) {
+            case "NPH":
+                staffDataS = staffDataNPH;
+                break;
+            case "BPH":
+                staffDataS = staffDataBPH;
+                break;
+            case "IPH":
+                staffDataS = staffDataIPH;
+                break;
+        }
+    } else { staffDataS = staffDataNPH; }
+    staffData = '<option value="0">- select -</option>';
+    $.each(staffDataS.staffs.staff, function (key, val) {
+        var option1 = '<option';
+        option1 = option1 + ' value="' + val.id + '">';
+        option1 = option1 + val.displayName + "</option>";
+        staffData = staffData + option1;
+    });
+    $("#form1").find('select[name="ObservationStaffId_M_N"]').find('option').remove().end().append($(staffData));
+}
 function syncPHRefCodes() {
     // Loading Activity Defaults //
     var settings = {
@@ -2939,35 +3196,6 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
     };
     $(this).val('N');
 });
-$(document).on('click', '.getCoords', function (e) {
-    var xlat = $('#form1').find('input.obslat');
-    var xlng = $('#form1').find('input.obslng');
-    var xdat = $('#form1').find('select.obsdat');
-    var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
-    var siteID = Number($('#form1').find('select[name="SiteId_O_N"] option:selected').val());
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            if (siteID > 0 && siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
-                xlat.val(position.coords.latitude.toFixed(5));
-                xlng.val(position.coords.longitude.toFixed(5));
-                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
-                xdat.val("WGS84");
-            }
-            if ((siteID === 0 || siteID === 99999) && checkMapBoundsByPos(position)) {
-                xlat.val(position.coords.latitude.toFixed(5));
-                xlng.val(position.coords.longitude.toFixed(5));
-                xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
-                xdat.val("WGS84");
-            }
-        }, function () {
-            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "tc", size: "large" });
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        $.growl.error({ title: "", message: "Geolocation Failed!", location: "tc", size: "large" });
-    };
-    e.preventDefault();
-});
 $(document).on('click', '.getPlantCoords', function (e) {
     var xlat = $(this).closest('.hostweed').find('input.hostweedlat');
     var xlng = $(this).closest('.hostweed').find('input.hostweedlng');
@@ -3163,10 +3391,10 @@ $(document).on('change', 'select[name^="PlantStatisticType"]', function () {
         $(this).parent().parent().find("input[type='number'][name^='HostStatCount']").addClass('hide');
     }
 });
-$(document).on('focus', 'select[name="SiteId_O_N"]', function (e) {
+$(document).on('focus', '#SiteIdPH', function (e) {
     lastSiteValue = $(this).val();
 })
-    .on('change', 'select[name="SiteId_O_N"]', function (e) {
+    .on('change', '#SiteIdPH', function (e) {
         var that = $(this);
         var str = that.val();
         //if (that.val() === "0" || lastSiteValue === "0") return;
@@ -3232,10 +3460,10 @@ $(document).on('focus', 'select[name="SiteId_O_N"]', function (e) {
             }
         });
     });
-$(document).on('focus', 'select[name="SurvActivityId_M_N"]', function (e) {
+$(document).on('focus', '#SurvActivityIdPH', function (e) {
     lastSurvActValue = $(this).val();
 })
-    .on('change', 'select[name="SurvActivityId_M_N"]', function (e) {
+    .on('change', '#SurvActivityIdPH', function (e) {
         var that = $(this);
         var str = that.val();
         if (that.val() === "0") return;

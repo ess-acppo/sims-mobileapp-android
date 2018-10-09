@@ -1,0 +1,62 @@
+{
+  "activities": [
+    {
+      "activityId": 68,
+      "activityName": "Helicopter Pigging Sept 2018",
+      "programId": "NAF",
+      "expectedStartDate": "2018-09-21",
+      "expectedEndDate": "2018-09-30",
+      "sites": [
+        {
+          "id": 105,
+          "name": "Carpentaria",
+          "locationDatum": {
+            "wkt": "POLYGON ((139.83569 -17.60087, 139.46216 -18.68141, 140.3493 -19.22173, 140.78052 -18.41321, 140.74207 -17.4996, 140.11859 -17.70206, 139.83569 -17.60087))",
+            "srsName": "WGS84"
+          }
+        }
+      ],
+      "species": [
+        {
+          "speciesCode": "PIG",
+          "defaultSpecies": "Y",
+          "collectSamples": [
+            {
+              "sampleTypeCode": "BL",
+              "testFors": [
+                "3",
+                "7"
+              ]
+            },
+            {
+              "sampleTypeCode": "ED",
+              "testFors": [
+                "3"
+              ]
+            },
+            {
+              "sampleTypeCode": "LH",
+              "testFors": [
+                "28",
+                "6"
+              ]
+            }
+          ]
+        },
+        {
+          "speciesCode": "CTL",
+          "defaultSpecies": "N",
+          "collectSamples": [
+            {
+              "sampleTypeCode": "BL",
+              "testFors": [
+                "2",
+                "5"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

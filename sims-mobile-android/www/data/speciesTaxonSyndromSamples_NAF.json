@@ -1,0 +1,2391 @@
+{
+    "species": [
+        {
+            "speciesCode": "CTL",
+            "speciesName": "Cattle",
+            "taxa": [
+                {
+                    "id": 97139,
+                    "name": "Bos indicus"
+                },
+                {
+                    "id": 97313,
+                    "name": "Bos taurus"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "006"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "4",
+                            "testForName": "AKA",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "5",
+                            "testForName": "BEF",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "29",
+                            "testForName": "Anaplasmosis",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "4",
+                            "testForName": "AKA",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "5",
+                            "testForName": "BEF",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "29",
+                            "testForName": "Anaplasmosis",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "29",
+                            "testForName": "Anaplasmosis",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "BAN",
+            "speciesName": "Banteng",
+            "taxa": [
+                {
+                    "id": 97108,
+                    "name": "Bos javanicus D'Alton, 1823"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "005",
+                "007"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "29",
+                            "testForName": "Anaplasmosis",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "29",
+                            "testForName": "Anaplasmosis",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "29",
+                            "testForName": "Anaplasmosis",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "BUF",
+            "speciesName": "Buffalo",
+            "taxa": [
+                {
+                    "id": 97112,
+                    "name": "Bubalus bubalis (Linnaeus, 1758)"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "006"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "CAM",
+            "speciesName": "Camel",
+            "taxa": [
+                {
+                    "id": 97144,
+                    "name": "Camelus dromedarius Linnaeus, 1758"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "006"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "DER",
+            "speciesName": "Deer",
+            "taxa": [
+                {
+                    "id": 97152,
+                    "name": "Cervus timorensis Blainville, 1822"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "006"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "DOG",
+            "speciesName": "Dog",
+            "taxa": [
+                {
+                    "id": 102824,
+                    "name": "Canis lupis familiaris Linnaeus, 1758"
+                },
+                {
+                    "id": 102825,
+                    "name": "Canis familiaris dingo Meyer, 1793"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "005",
+                "006"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "17",
+                            "testForName": "EHR",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "17",
+                            "testForName": "EHR",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "19",
+                            "testForName": "ABL",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "17",
+                            "testForName": "EHR",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "DKY",
+            "speciesName": "Donkey",
+            "taxa": [
+                {
+                    "id": 97127,
+                    "name": "Equus asinus Linnaeus, 1758"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "005"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "GOT",
+            "speciesName": "Goat",
+            "taxa": [
+                {
+                    "id": 97081,
+                    "name": "Capra hircus Linnaeus, 1758"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "006"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "2",
+                            "testForName": "BTV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "HOR",
+            "speciesName": "Horse",
+            "taxa": [
+                {
+                    "id": 101193,
+                    "name": "Equus caballus Linnaeus, 1758"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "004",
+                "005"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "23",
+                            "testForName": "HEN",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "28",
+                            "testForName": "WNV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "28",
+                            "testForName": "WNV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "23",
+                            "testForName": "HEN",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "28",
+                            "testForName": "WNV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "23",
+                            "testForName": "HEN",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "28",
+                            "testForName": "WNV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "23",
+                            "testForName": "HEN",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "speciesCode": "PIG",
+            "speciesName": "Pig",
+            "taxa": [
+                {
+                    "id": 69162,
+                    "name": "Sus scrofa Linnaeus, 1758"
+                }
+            ],
+            "requiredSyndromes": [
+                "001",
+                "002",
+                "003",
+                "004",
+                "005",
+                "006",
+                "007"
+            ],
+            "possibleSamples": [
+                {
+                    "sampleTypeCode": "BL",
+                    "sampleTypeName": "Blood (Serum)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "7",
+                            "testForName": "CSF",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "11",
+                            "testForName": "PRRS",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "15",
+                            "testForName": "TGE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "16",
+                            "testForName": "TRI1",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "18",
+                            "testForName": "ASF",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "23",
+                            "testForName": "HEN",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "27",
+                            "testForName": "PEDV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "28",
+                            "testForName": "WNV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "LH",
+                    "sampleTypeName": "Blood (Lithium Heparin)",
+                    "testFors": [
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "28",
+                            "testForName": "WNV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "ED",
+                    "sampleTypeName": "Blood (EDTA)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "7",
+                            "testForName": "CSF",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "11",
+                            "testForName": "PRRS",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "18",
+                            "testForName": "ASF",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "23",
+                            "testForName": "HEN",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SM",
+                    "sampleTypeName": "Blood (Smear)",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "FL",
+                    "sampleTypeName": "Fluid",
+                    "testFors": [
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "28",
+                            "testForName": "WNV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "M",
+                    "sampleTypeName": "Maggots",
+                    "testFors": [
+                        {
+                            "testForCode": "8",
+                            "testForName": "SWF Exclusion",
+                            "commentRequired": "N"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "T",
+                    "sampleTypeName": "Tissue",
+                    "testFors": [
+                        {
+                            "testForCode": "3",
+                            "testForName": "Surra",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "6",
+                            "testForName": "JE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "7",
+                            "testForName": "CSF",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "10",
+                            "testForName": "Rabies",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "11",
+                            "testForName": "PRRS",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "15",
+                            "testForName": "TGE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "16",
+                            "testForName": "TRI1",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "23",
+                            "testForName": "HEN",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "24",
+                            "testForName": "Histopathology",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "27",
+                            "testForName": "PEDV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "28",
+                            "testForName": "WNV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SB",
+                    "sampleTypeName": "Swab (Bacterial)",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "SV",
+                    "sampleTypeName": "Swab (Viral)",
+                    "testFors": [
+                        {
+                            "testForCode": "12",
+                            "testForName": "AJD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "13",
+                            "testForName": "FMD",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "15",
+                            "testForName": "TGE",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "18",
+                            "testForName": "ASF",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "23",
+                            "testForName": "HEN",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "27",
+                            "testForName": "PEDV",
+                            "commentRequired": "Y"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "TK",
+                    "sampleTypeName": "Tick",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "F",
+                    "sampleTypeName": "Faeces",
+                    "testFors": [
+                        {
+                            "testForCode": "27",
+                            "testForName": "PEDV",
+                            "commentRequired": "N"
+                        },
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                },
+                {
+                    "sampleTypeCode": "O",
+                    "sampleTypeName": "Other",
+                    "testFors": [
+                        {
+                            "testForCode": "9",
+                            "testForName": "Other",
+                            "commentRequired": "Y"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
