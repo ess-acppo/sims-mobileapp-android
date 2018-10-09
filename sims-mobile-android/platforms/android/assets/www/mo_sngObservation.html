@@ -269,9 +269,6 @@
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*</span>Are maggots present?</label>
                         </div>
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                            <button type="button" class="btn btn-md btn-info hide" id="addMaggotSample"><i class="fa fa-plus"></i>&nbsp;Add Maggot Sample</button>
-                        </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12 addMaggotSamples hide">
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
@@ -280,12 +277,15 @@
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
                             <input type="radio" class="minimal" name="optMaggots" value="No" data-code="No" data-validate="Y">&nbsp;<label>No</label>
                         </div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <button type="button" class="btn btn-md btn-info pull-right hide" id="addMaggotSample"><i class="fa fa-plus"></i>&nbsp;Add Maggot Sample</button>
+                        </div>
                         <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="maggotSamples">
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12 defSyndromes">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                            <button type="button" class="btn btn-sm btn-circle btn-warning" id="noSyndromes"></button><i class="fa fa-eye-slash"></i>
+                            <i class="fa fa-remove fa-2x text-danger pull-right" id="noSyndromes"></i>
                             <h4 class="box-title">Syndromes</h4>
                             <label>Indicate if any of the following syndromes were found to be present:</label>
                         </div>
@@ -297,11 +297,11 @@
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-6 col-sm-6 col-xs-8">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" name="lstSyndromes" id="lstSyndromes"></select>
                         </div>
-                        <div class="form-group col-md-6 col-sm-6 col-xs-4">
-                            <button type="button" class="btn btn-md btn-info" id="addSyndrome"><i class="fa fa-plus"></i>&nbsp;Add Syndrome</button>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <button type="button" class="btn btn-md btn-info pull-right" id="addSyndrome"><i class="fa fa-plus"></i>&nbsp;Add Syndrome</button>
                         </div>
                         <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="addedSyndromes">
                         </div>
