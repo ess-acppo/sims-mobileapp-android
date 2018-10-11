@@ -1080,7 +1080,7 @@ $(document).on('click', '#Submit2', function (e) {
     vErrDescription = [];
     vFailed = false;
     attachmentFlag = 0;
-    CountListFlag = 0;
+    CountListFlag = '';
     HostStatCountFlag = 0;
     HostStatAreaFlag = 0;
     PlantPreservationOtherFlag = 0;
@@ -1215,9 +1215,11 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     resSettings.settings.device.ownerName = $('#form3').find('select[id="deviceOwner"]').text();
     if ($('#form3').find('input[id="debugMode"]').val() === 'Y') {
         resSettings.settings.device.debugMode = 1;
+        debugMode = 1;
     }
     if ($('#form3').find('input[id="debugMode"]').val() === 'N') {
         resSettings.settings.device.debugMode = 0;
+        debugMode = 0;
     }
     resSettings.settings.device.samplePrefix = $('#form3').find('input[name="samplePrefix"]').val();
     resSettings.settings.device.sampleStartNumber = $('#form3').find('input[name="sampleStartNum"]').val();
@@ -2471,18 +2473,18 @@ $(document).on('click', 'a.downloadBaseMaps', function (e) {
     var filename;
     var filenum = 0;
     t0 = performance.now();
-    $('#modalProgress').modal();
-    $('#mb6 .progText').text("Download in progress ...");
-    $('#mb6 .progress').removeClass('hide');
-    $('#mb6 .progTime').text(new Date().toString());
+    $('#modalDownload').modal();
+    $('#mb8 .progText').text("Download in progress ...");
+    $('#mb8 .progress').removeClass('hide');
+    $('#mb8 .progTime').text(new Date().toString());
     getFileandExtractAND(url, mapset, 1, numfiles);
 });
 $(document).on('click', 'a.downloadMaps', function (e) {
     var str = $('#curActivities').val();
     if (str === "0") { return true; }
-    $('#modalProgress').modal();
-    $('#mb6 .progText').text("Download in progress ...");
-    $('#mb6 .progress').removeClass('hide');
+    $('#modalDownload').modal();
+    $('#mb8 .progText').text("Download in progress ...");
+    $('#mb8 .progress').removeClass('hide');
     $.when(getCurrentActivityTiles(str, 10)).then(getCurrentActivityTiles(str, 11)).then(getCurrentActivityTiles(str, 12))
         .then(getCurrentActivityTiles(str, 13)).then(getCurrentActivityTiles(str, 14))
         .then(getCurrentActivityTiles(str, 15)).then(getCurrentActivityTiles(str, 16)).then(function () {
@@ -2505,9 +2507,9 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
         xhr.responseType = 'blob';
         xhr.onloadstart = function () {
             tiles++;
-            $('#mb6 .progText').text("Download in progress ...");
-            $('.progress-bar').css('width', Math.round(tiles % 100) + '%').attr('aria-valuenow', Math.round(tiles % 100)).text(Math.round(tiles % 100) + '%');
-            $('#mb6 .progress').removeClass('hide');
+            $('#mb8 .progText').text("File " + tiles + ": Download in progress ...");
+            $('#mb8 .progress-bar').css('width', Math.round(tiles % 100) + '%').attr('aria-valuenow', Math.round(tiles % 100)).text(Math.round(tiles % 100) + '%');
+            $('#mb8 .progress').removeClass('hide');
         };
         xhr.onloadend = function () {
             if (this.status === 200) {
@@ -2527,14 +2529,18 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             } else {
                                                 i++;
-                                                if (i > xlimit) {
-                                                    $('#modalProgress').modal('hide');
-                                                    $('#mb6 .progText').text("");
-                                                    return false;
-                                                }
+                                                //if (i > xlimit) {
+                                                //    $('#modalProgress').modal('hide');
+                                                //    $('#mb6 .progText').text("");
+                                                //    return false;
+                                                //}
                                                 j = ystart;
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             }
+                                        } else {
+                                            $('#modalDownload').modal('hide');
+                                            $('#mb8 .progText').text("");
+                                            return false;
                                         }
                                     };
                                     fileWriter.onerror = function (e) {
@@ -2555,9 +2561,9 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
 function getFileandExtractAND(url, mapset, i, n) {
     t1 = performance.now();
     t3 = t3 + Math.round(t1 - t0);
-    $('#mb6 .progText').text("File " + i + " out of " + n + ": Download in progress ...");
-    $('.progress-bar').css('width', '70%').attr('aria-valuenow', 100).text('70%');
-    $('#mb6 .progress').removeClass('hide');
+    $('#mb8 .progText').text("File " + i + " out of " + n + ": Download in progress ...");
+    $('#mb8 .progress-bar').css('width', '70%').attr('aria-valuenow', 100).text('70%');
+    $('#mb8 .progress').removeClass('hide');
     //$('#mb6 .fa-clock-o').removeClass('hide');
     url2 = url + mapset + pad(i, 2) + ".zip";
     filename = mapset + pad(i, 2) + ".zip";
@@ -2567,13 +2573,13 @@ function getFileandExtractAND(url, mapset, i, n) {
         url2,
         fileURL,
         function (entry) {
-            $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
+            $('#mb8 .progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
             setTimeout(processZipAND(fileURL, cordova.file.externalRootDirectory + "maps", url, mapset, i, n), 30000);
         },
         function (error) {
-            $('#mb6 .progText').text(error.source);
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
+            $('#mb8 .progText').text(error.source);
+            $('#mb8 .progress').addClass('hide');
+            $('#mb8 .fa-clock-o').addClass('hide');
         },
         null, {}
     );
@@ -2582,17 +2588,17 @@ function processZipAND(zipSource, destination, url, mapset, i, n) {
     // Handle the progress event
     t1 = performance.now();
     t3 = t3 + Math.round(t1 - t0);
-    $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
-    $('#mb6 .progress').removeClass('hide');
+    $('#mb8 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
+    $('#mb8 .progress').removeClass('hide');
     //$('#mb6 .fa-clock-o').removeClass('hide');
     //$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0).text('0%');  
 
     var progressHandler = function (progressEvent) {
         var percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-        $('#mb6 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
-        $('#mb6 .progress').removeClass('hide');
+        $('#mb8 .progText').text("Extracting Zip file " + i + " out of " + n + ". This might take a while ...");
+        $('#mb8 .progress').removeClass('hide');
         //$('#mb6 .fa-clock-o').removeClass('hide');
-        $('.progress-bar').css('width', percent + '%').attr('aria-valuenow', percent).text(percent + '%');
+        $('#mb8 .progress-bar').css('width', percent + '%').attr('aria-valuenow', percent).text(percent + '%');
     };
     // Proceed to unzip the file
     window.zip.unzip(zipSource, destination, (status) => {
@@ -2612,7 +2618,7 @@ function processZipAND(zipSource, destination, url, mapset, i, n) {
                     });
                 });
             }), 20000);
-            $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
+            $('#mb8 .progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
             i++;
             if (i > n) {
                 //resSettings.settings.mapSets[ActiveMapSet].downloaded = 1;
@@ -2625,7 +2631,7 @@ function processZipAND(zipSource, destination, url, mapset, i, n) {
                 }, function (err) {
                     $.growl.error({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
                 });
-                $('#modalProgress').modal('hide');
+                $('#modalDownload').modal('hide');
                 $('#form3').find('label.mapBNotes').text("Last downloaded on:" + new Date().toString());
                 //initSettings();
                 //$('#mb6 .progTime').text("");
