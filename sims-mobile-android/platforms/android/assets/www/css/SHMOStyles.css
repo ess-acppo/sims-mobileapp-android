@@ -162,9 +162,9 @@ html, body {
     /*margin-right: -20px;*/
 }
 
-.modal-body form {
-    /*margin-right: -20px;*/
-}
+    .modal-body form {
+        /*margin-right: -20px;*/
+    }
 
 .hostweed, .entobox, .pathbox {
     margin: 5px;
@@ -886,9 +886,9 @@ table.dataTable {
     padding-left: 0px;
 }
 
-.row .col-xs-2 {
-    padding-right: 0px;
-}
+    .row .col-xs-2 {
+        padding-right: 0px;
+    }
 
 .col-xs-1 {
     width: 10%;

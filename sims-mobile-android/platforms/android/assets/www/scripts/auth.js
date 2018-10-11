@@ -3,6 +3,7 @@ var text;
 var icon;
 var s;
 var authCode;
+var authURL;
 var curUser;
 /* Auth variables */
 
@@ -11,18 +12,19 @@ function initAuth() {
         .addEventListener('click', function () {
             var unameValue = document.querySelector('.auth-username').value;
             var pwdValue = document.querySelector('.auth-password').value;
+            authURL = fetchServerDetails($("#serverMode").val());
             s = document.querySelector('.auth-send .fa-spin');
             s.classList.remove('hide');
             text = document.querySelector('.auth-result .text');
             icon = document.querySelector('.auth-result .fa');
-            $.when(setTimeout(DisableAuthForm(unameValue, pwdValue), 1000));
+            $.when(setTimeout(DisableAuthForm(unameValue, pwdValue, authURL), 1000));
         });
 }
-function authenticate2(x, y) {
+function authenticate2(x, y, authURL) {
     $.ajax({
         "async": false,
         "crossDomain": true,
-        "url": authAddress,
+        "url": authURL,
         "method": "GET",
         "headers": {
             "authorization": "Basic " + btoa(x + ":" + y),
@@ -35,10 +37,22 @@ function authenticate2(x, y) {
             derive_key(x, y);
             authCode = "Basic " + btoa(x + ":" + y);
             initSettings();
-            //$('#modalProgress').modal('hide');
+            $('.auth-username').attr('disabled', false);
+            $('.auth-username').removeClass('disabled');
+            $('.auth-password').attr('disabled', false);
+            $('.auth-password').removeClass('disabled');
+            $('.auth-send').attr('disabled', false);
+            $('.auth-send').removeClass('disabled');
             $('#modalAuth').modal('hide');
         },
         error: function (xhr, textStatus, errorThrown) {
+            $('.auth-username').attr('disabled', false);
+            $('.auth-username').removeClass('disabled');
+            $('.auth-password').attr('disabled', false);
+            $('.auth-password').removeClass('disabled');
+            $('.auth-send').attr('disabled', false);
+            $('.auth-send').removeClass('disabled');
+            s.classList.add('hide');
             icon.classList.add('fa-times');
             icon.classList.remove('fa-check');
             text.innerHTML = 'Login Failed!';
@@ -153,14 +167,15 @@ $('#modalAuth').keypress(function (e) {
     if (e.which === 13) {
         var unameValue = document.querySelector('.auth-username').value;
         var pwdValue = document.querySelector('.auth-password').value;
+        authURL = fetchServerDetails($("#serverMode").val());
         s = document.querySelector('.auth-send .fa-spin');
         s.classList.remove('hide');
         text = document.querySelector('.auth-result .text');
         icon = document.querySelector('.auth-result .fa');
-        $.when(setTimeout(DisableAuthForm(unameValue, pwdValue), 1000));
+        $.when(setTimeout(DisableAuthForm(unameValue, pwdValue, authURL), 1000));
     }
 });
-function DisableAuthForm(unameValue, pwdValue) {
+function DisableAuthForm(unameValue, pwdValue, authURL) {
     $('.auth-username').attr('disabled', true);
     $('.auth-username').addClass('disabled');
     $('.auth-password').attr('disabled', true);
@@ -168,11 +183,11 @@ function DisableAuthForm(unameValue, pwdValue) {
     $('.auth-send').attr('disabled', true);
     $('.auth-send').addClass('disabled');
     s.classList.remove('hide');
-    setTimeout(StartAuth(unameValue, pwdValue), 1000);
+    setTimeout(StartAuth(unameValue, pwdValue, authURL), 1000);
 }
-function StartAuth(unameValue, pwdValue) {
+function StartAuth(unameValue, pwdValue, authURL) {
     if (statusElem.innerHTML === 'online') {
-        authenticate2(unameValue, pwdValue);
+        authenticate2(unameValue, pwdValue, authURL);
     }
     if (statusElem.innerHTML === 'offline') {
         authenticate3(unameValue, pwdValue);
