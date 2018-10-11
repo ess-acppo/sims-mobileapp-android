@@ -42,6 +42,8 @@ var curDiscipline;
 var resizeId;
 var firstLoad = 0;
 var numAttachments = 0;
+var numObsAttachments = 0;
+var numSampleAttachments = 0;
 var downerId;
 var downerTeam;
 var TILE_SIZE = 256;
@@ -76,6 +78,17 @@ var myLatLng;
 var paths = [];
 var trackPath;
 /* Framework Variables */
+
+/* AH Initialized variables */
+//var species = '<div class="row col-md-12 sims dynarow"><div class="form-group col-xs-2"><input type="text" class="form-control speciesText"/></div><div class="form-group col-xs-2"><label>Taxon Name<span class="bold-red">*</span></label></div><div class="form-group col-xs-2"><input type="text" class="form-control taxonText" placeholder="Taxon Name" name="taxonName"></div><div class="form-group col-xs-3" ><label>Number in Group<span class="bold-red">*</span></label></div><div class="form-group col-xs-1"><input type="text" class="form-control" placeholder="#" name="Number"></div><div class="form-group col-xs-1"><button type="button" class="btn btn-danger btn-circle btn-xs pull-right removeSpecies"><i class="fa fa-times-circle fa-2x"></i></button></div></div>';
+//var fieldtest = '<div class="row col-md-12 sims dynarow fieldtest"><div class="form-group col-xs-12"><label class="ftName">Field Test 1</label><i class="fa fa-times-circle fa-2x text-default removeFieldTest pull-right"></i></div><div class="form-group col-xs-6"><label>Fieldtest Name<span class="bold-red">*</span></label><input type="text" class="form-control hide" placeholder="Field Test ID" name="ftId"/><select class="form-control" name="fieldTest"></select></div><div class="form-group col-xs-6"><label>&nbsp;</label><br/><input type="checkbox" name="ftInvalid" class="minimal"><label>Invalid</label></div><div class="row col-xs-12 diseases indentLeft"></div><div class="form-group col-xs-11"><label>Field Test Comment</label><input type="text" class="form-control" name="ftComment"/></div></div>';
+//var preFieldtest = '<div class="row col-md-12 sims dynarow fieldtest"><div class="form-group col-xs-12"><label class="ftName">Field Test 1</label><i class="fa fa-times-circle fa-2x text-default removePreFieldTest pull-right"></i></div><div class="form-group col-xs-6"><label>Fieldtest Name<span class="bold-red">*</span></label><input type="text" class="form-control hide" placeholder="Field Test ID" name="ftId"/><select class="form-control" name="pFieldTest"></select></div><div class="form-group col-xs-6"><label>&nbsp;</label><br/><input type="checkbox" name="ftInvalid" class="minimal"><label>Invalid</label></div><div class="row col-xs-12 diseases indentLeft"></div><div class="form-group col-xs-11"><label>Field Test Comment</label><input type="text" class="form-control" name="ftComment"/></div></div>';
+///var maggotSample = '<div class="row col-md-12 sims dynarow maggotSample"><div class="form-group col-xs-12"><label class="sampleName">Maggot Sample 1</label><i class="fa fa-times-circle fa-2x text-default removeMaggotSample pull-right"></i></div><div class="form-group col-xs-12"><label>Sample Field Id<span class="bold-red">*</span></label><input type="text" class="form-control nextid" placeholder="Sample Field Id" name="msfieldID" value="1"></div><div class="form-group col-xs-12"><label>Sample Type<span class="bold-red">*</span></label><select class="form-control" name="msType"><option selected>Maggots</option></select></div><div class="form-group col-xs-12"><label>Pathogen/Test Type</label><br /><input type="checkbox" class="form-control minimal" name="swfExcl" value="swfExcl" checked><label>SWF Exclusion</label></div><div class="form-group col-xs-12"><label>Additional Comment</label><textarea class="form-control" rows="3" name="msNotes" placeholder="Notes ..."></textarea></div></div>';
+//var sample = '<div class="row col-md-12 sims dynarow sample"><div class="form-group col-xs-12"><label class="sampleName">Sample 1</label><i class="fa fa-times-circle fa-2x text-default removeSample pull-right"></i></div><div class="form-group col-xs-6"><label>Sample Field ID</label><input type="text" class="form-control nextid" readonly placeholder="Sample Field ID" value="1" name="sampleId"></div><div class="form-group col-xs-6"><label>Sample Type</label><select class="form-control" name="sampleType"></select></div><div class="form-group col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 sims testTypes indentLeft"></div></div><div class="form-group col-xs-12 border-bottom"><label>Additional Comments</label><textarea class="form-control" rows="6" name="sAddlComments"></textarea></div></div>';
+//var preSample = '<div class="row col-md-12 sims dynarow sample"><div class="form-group col-xs-12"><label class="sampleName">Sample 1</label><i class="fa fa-times-circle fa-2x text-default removePreSample pull-right"></i></div><div class="form-group col-xs-6"><label>Sample Field ID</label><input type="text" class="form-control nextid" readonly placeholder="Sample Field ID" value="" name="sampleId"></div><div class="form-group col-xs-6"><label>Sample Type</label><select class="form-control" name="sampleType"></select></div><div class="form-group col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 sims testTypes indentLeft"></div></div><div class="form-group col-xs-12 border-bottom"><label>Additional Comments</label><textarea class="form-control" rows="6" name="sAddlComments"></textarea></div></div>';
+//var samples = 0;
+//var fieldTests = 0;
+/* AH Initialized variables */
 
 /* Core Framework Code */
 if (!String.prototype.startsWith) {
@@ -137,6 +150,7 @@ google.maps.Polygon.prototype.Contains = function (point) {
         return (blue >= red);
 
     }
+
 }
 function pad(str, max) {
     str = str.toString();
@@ -341,7 +355,7 @@ function checkPermissions() {
 }
 function initSettings() {
     //$('#mb6 .progText').text("Loading App Defaults ...");
-    $.growl.notice({ title: "", message: "Loading PH Reference codes ...", location: "bc", size: "small" });
+    $.growl.notice({ title: "", message: "Loading ...", location: "bc", size: "small" });
     //Loading PH reference codes
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM phrefcodes WHERE id = ?", [1], function (tx, res) {
@@ -360,7 +374,7 @@ function initSettings() {
         $.growl.error({ title: "", message: "An error occured while loading PH RefenceCodes. ", location: "tc", size: "large", fixed: "true" });
     });
     //Loading taxa data
-    $.growl.notice({ title: "", message: "Loading PH Taxa ...", location: "bc", size: "small" });
+    //$.growl.notice({ title: "", message: "Loading PH Taxa ...", location: "bc", size: "small" });
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM taxadata WHERE id = ?", [1], function (tx, res) {
             //This is not the first load
@@ -376,7 +390,7 @@ function initSettings() {
         $.growl.error({ title: "", message: "An error occured while loading Taxa Data. ", location: "tc", size: "large", fixed: "true" });
     });
     //Loading Activity Data
-    $.growl.notice({ title: "", message: "Loading Activity Data ...", location: "bc", size: "small" });
+    //$.growl.notice({ title: "", message: "Loading Activity Data ...", location: "bc", size: "small" });
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM activitydata WHERE id = ?", [1], function (tx, res) {
             //This is not the first load
@@ -394,7 +408,7 @@ function initSettings() {
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while loading PH Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-        });
+    });
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM activitydataAH WHERE id = ?", [1], function (tx, res) {
             //This is not the first load
@@ -414,7 +428,7 @@ function initSettings() {
         $.growl.error({ title: "", message: "An error occured while loading AH Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
     });
     //Loading Staff Data
-    $.growl.notice({ title: "", message: "Loading PH Staff Data ...", location: "bc", size: "small" });
+    //$.growl.notice({ title: "", message: "Loading PH Staff Data ...", location: "bc", size: "small" });
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['BPHstaff'], function (tx, res) {
             //This is not the first load
@@ -458,7 +472,7 @@ function initSettings() {
         $.growl.error({ title: "", message: "An error occured while loading NPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
     });
     //Loading maps and Markers
-    $.growl.notice({ title: "", message: "Loading Maps ...", location: "bc", size: "small" });
+    //$.growl.notice({ title: "", message: "Loading Maps ...", location: "bc", size: "small" });
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM observations WHERE id = ?", [1], function (tx, res) {
             //This is not the first load
@@ -655,14 +669,15 @@ function checkMapBoundsByLoc(location) {
     return true;
 }
 function checkMapBoundsByPos(position) {
+    var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     var outofbounds = true;
     $.each(alltPs, function (key, value) {
-        if (value.Contains(location)) {
+        if (value.Contains(pos)) {
             outofbounds = false;
         }
     });
     if (outofbounds) {
-            $.growl.warning({ title: "", message: "Location is outside map bounds!", location: "bc", size: "small" });
+        $.growl.warning({ title: "", message: "Location is outside map bounds!", location: "bc", size: "small" });
     }
     return true;
 }
@@ -733,6 +748,9 @@ function placeMarker(location) {
     else {
         curIdx = -1;
         switch (AppMode) {
+            case 'IAH':
+                $('#modalAHMenu').modal();
+                break;
             case 'AH':
                 $('#modalAHMenu').modal();
                 break;
@@ -790,6 +808,9 @@ function getAltitude() {
 function downloadCSV() {
     $('#mt1').text('All Observations');
     switch (AppMode) {
+        case "IAH":
+            $('#modalAHGrid').modal();
+            break;
         case "AH":
             $('#modalAHGrid').modal();
             break;
@@ -830,6 +851,50 @@ function loadData() {
     var data;
     var tab;
     switch (AppMode) {
+        //case "IAH":
+        //    data = jQuery.grep(results.observations, function (n, i) {
+        //        return (n.PlantDisciplineCode === 'S');
+        //    });
+        //    table = $('#srchTable').DataTable({
+        //        "data": data,
+        //        "columns": [
+        //            { "data": "surveillanceActivity" },
+        //            { "data": "commonName" },
+        //            {
+        //                "data": "sDate",
+        //                "render": function (data, type, row, meta) {
+        //                    return moment(data).format("DD/MM/YYYY");
+        //                }
+        //            },
+        //            { "data": "latitude" },
+        //            { "data": "longitude" },
+        //            { "data": "datum" },
+        //            { "data": "id" },
+        //            {
+        //                "data": "status",
+        //                "render": function (data, type, row, meta) {
+        //                    if (data === 0) return "Saved";
+        //                    if (data === 1) return "Submitted";
+        //                }
+        //            },
+        //            {
+        //                "data": "discipline",
+        //                "render": function (data, type, row, meta) {
+        //                    if (data === 'S') return "Single";
+        //                    if (data === 'G') return "Group";
+        //                    if (data === 'B') return "Botany";
+        //                    if (data === 'E') return "Entomology";
+        //                    if (data === 'P') return "Pathology";
+        //                }
+        //            }
+        //        ],
+        //        "paging": true,
+        //        "lengthChange": false,
+        //        "searching": true,
+        //        "ordering": true,
+        //        "info": false
+        //    });
+        //    break;
         case "AH":
             data = jQuery.grep(results.observations, function (n, i) {
                 return (n.PlantDisciplineCode === 'S' || n.PlantDisciplineCode === 'G');
@@ -1129,7 +1194,7 @@ $(document).on('click', '#settings', function (e) {
         if (resSettings.settings.device.ownerId) { $('#form3').find('select[id="deviceOwner"]').val(resSettings.settings.device.ownerId); }
         $('#form3').find('input[name="samplePrefix"]').val(resSettings.settings.device.samplePrefix);
         $('#form3').find('input[name="sampleCurrNum"]').val(resSettings.settings.device.currentSampleNumber);
-        $('#form3').find('select[id="serverMode"]').val(resSettings.settings.app.serverMode);
+        //$('#form3').find('select[id="serverMode"]').val(resSettings.settings.app.serverMode);
     }).done(function () {
         $('#modalProgress').modal('hide');
         if (statusElem.innerHTML === 'online') {
@@ -1177,19 +1242,22 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     resSettings.settings.device.samplePrefix = $('#form3').find('input[name="samplePrefix"]').val();
     resSettings.settings.device.sampleStartNumber = $('#form3').find('input[name="sampleStartNum"]').val();
     resSettings.settings.device.currentSampleNumber = $('#form3').find('input[name="sampleCurrNum"]').val();
-    resSettings.settings.app.serverMode = $('#form3').find('select[id="serverMode"]').val();
+    //resSettings.settings.app.serverMode = $('#form3').find('select[id="serverMode"]').val();
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
-            if (resSettings.settings.app.serverMode !== $('#AppEnv').text()) {
-                clearCache();
+            //if (resSettings.settings.app.serverMode !== $('#AppEnv').text()) {
+            //    clearCache();
+            //    $('#modalSettings').modal('hide');
+            //    $.growl.warning({ title: "", message: "Please restart the app for the settings to take effect. ", location: "tc", size: "large" });
+            //} else {
+            //    $.when(fetchSettings()).then(initSettings()).done(function () {
+            //        $('#modalSettings').modal('hide');
+            //    });
+            //}
+            $.when(fetchSettings()).then(initSettings()).done(function () {
                 $('#modalSettings').modal('hide');
-                $.growl.warning({ title: "", message: "Please restart the app for the settings to take effect. ", location: "tc", size: "large" });
-            } else {
-                $.when(fetchSettings()).then(initSettings()).done(function () {
-                    $('#modalSettings').modal('hide');
-                });
-            }
+            });
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while updating settings. " + err.message, location: "tc", size: "large" });
@@ -1250,31 +1318,32 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
             $('#mb6 .progress').addClass('hide');
             $('#mb6 .fa-clock-o').addClass('hide');
         }
+
     }).complete(function (data) {
-            switch (curDiscipline) {
-                case "0":
-                    loadModal('mo_sngObservation');
-                    break;
-                case "1":
-                    loadModal('mo_grpObservation');
-                    break;
-                case "B":
-                    loadModal('mo_BotObservation');
-                    break;
-                case "E":
-                    loadModal('mo_EntObservation');
-                    break;
-                case "P":
-                    loadModal('mo_PatObservation');
-                    break;
-            }
-            //var zi = $('#modalPHGrid').css('z-index');
-            //$('#modalForm').css('z-index', zi + 100);
-            $('#modalPHGrid').modal('hide');
-            $('#modalForm').modal();
-        }).done(function () {
-            $('#modalProgress').modal('hide');
-        });
+        switch (curDiscipline) {
+            case "0":
+                loadModal('mo_sngObservation');
+                break;
+            case "1":
+                loadModal('mo_grpObservation');
+                break;
+            case "B":
+                loadModal('mo_BotObservation');
+                break;
+            case "E":
+                loadModal('mo_EntObservation');
+                break;
+            case "P":
+                loadModal('mo_PatObservation');
+                break;
+        }
+        //var zi = $('#modalPHGrid').css('z-index');
+        //$('#modalForm').css('z-index', zi + 100);
+        $('#modalPHGrid').modal('hide');
+        $('#modalForm').modal();
+    }).done(function () {
+        $('#modalProgress').modal('hide');
+    });
 });
 $(document).on('click', '#SyncPH', function (event) {
     $('#mb6 .progText').text("Sync in progress ...");
@@ -1295,6 +1364,7 @@ $(document).on('shown.bs.modal', '#modalPHGrid', function () {
     }
 });
 $(document).on('shown.bs.modal', '#modalAHGrid', function () {
+
     //loadPHRefCodes();
     //loadActivityData();
     //loadstaffData();
@@ -1335,9 +1405,11 @@ $(document).on('click', 'a.btnResetData', function (e) {
                         var mm = today.getMonth() + 1; //January is 0!
                         var yyyy = today.getFullYear();
                         if (dd < 10) {
+
                             dd = '0' + dd;
                         }
                         if (mm < 10) {
+
                             mm = '0' + mm;
                         }
                         today = dd.toString() + '/' + mm.toString() + '/' + yyyy.toString();
@@ -1618,6 +1690,263 @@ function getMapTiles(zoom) {
 /* SprinQ Framework Code */
 
 /* SIMS Framework */
+function syncActivityData() {
+    var settings = {
+        "async": false,
+        "crossDomain": true,
+        "url": ActivityAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing Activity Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(settings).done(function (data) {
+        ActivityData = data;
+        //siteData = data.activities[0].sites;
+        //programId = data.activities[0].programId;
+        lastSurvActValue = data.activities[0].activityId;
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO activitydata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'activity', JSON.stringify(ActivityData)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE activitydata SET settingsval = ? WHERE id = ?", [JSON.stringify(ActivityData), 1], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching Activity Data. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function loadActivityData() {
+    $("#form1").find('select[name="SurvActivityId_M_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(ActivityData.activities, function (key, val) {
+        if (val.programId === downerTeam) {
+            var option = $('<option />');
+            option.attr('value', val.activityId).text(val.activityName);
+            $("#form1").find('select[name="SurvActivityId_M_N"]').append(option);
+        }
+    });
+    $("#curActivities").find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(ActivityData.activities, function (key, val) {
+        if (val.programId === downerTeam) {
+            var option = $('<option />');
+            option.attr('value', val.activityId).text(val.activityName);
+            $("#curActivities").append(option);
+        }
+    });
+    $("#form1").find('select[name="SiteId_O_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(siteData, function (key, val) {
+        var option = $('<option />');
+        option.attr('value', val.id).text(val.name);
+        $("#form1").find('select[name="SiteId_O_N"]').append(option);
+    });
+    $("#form1").find('select[name="SiteId_O_N"]').append($('<option value="99999">New Site</option>'));
+}
+function refreshActivityData(str) {
+    var arr = ActivityData.activities.filter(function (el) {
+        return (el.activityId === Number(str));
+    });
+    if (arr && arr.length > 0) {
+        siteData = arr[0].sites;
+        programId = arr[0].programId;
+        lastSurvActValue = arr[0].activityId;
+        lastSiteValue = 0;
+        db.transaction(function (tx) {
+            tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", [programId + 'staff'], function (tx, res) {
+                //This is not the first load
+                if (res.rows && res.rows.length > 0) {
+                    //alert(JSON.stringify(res.rows.item(0).settingsval));
+                    staffDataS = JSON.parse(res.rows.item(0).settingsval);
+                }
+                else {
+                    $.growl.error({ title: "", message: "No staff Data available for this Activity.", location: "tc", size: "large", fixed: "true" });
+                }
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    };
+    $("#form1").find('select[name="SiteId_O_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
+    $.each(siteData, function (key, val) {
+        var option = $('<option />');
+        option.attr('value', val.id).text(val.name);
+        $("#form1").find('select[name="SiteId_O_N"]').append(option);
+    });
+    $("#form1").find('select[name="SiteId_O_N"]').append($('<option value="99999">New Site</option>'));
+}
+function syncNPHstaffData() {
+    var NPHsettings = {
+        "async": false,
+        "crossDomain": true,
+        "url": NPHStaffAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing NPH Staff Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(NPHsettings).done(function (data) {
+        //alert(JSON.stringify(xmlToJson(data)));
+        staffDataNPH = xmlToJson(data);
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM staffdata WHERE id = ?", [1], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting NPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'NPHstaff', JSON.stringify(staffDataNPH)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataNPH), 1], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating NPH StaffData to database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function syncBPHstaffData() {
+    var BPHsettings = {
+        "async": false,
+        "crossDomain": true,
+        "url": BPHStaffAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing BPH Staff Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(BPHsettings).done(function (data) {
+        staffDataBPH = xmlToJson(data);
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM staffdata WHERE id = ?", [2], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting BPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [2, 'BPHstaff', JSON.stringify(staffDataBPH)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataBPH), 2], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating BPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching BPH StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function syncIPHstaffData() {
+    var IPHsettings = {
+        "async": false,
+        "crossDomain": true,
+        "url": IPHStaffAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing IPH Staff Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(IPHsettings).done(function (data) {
+        staffDataIPH = xmlToJson(data);
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM staffdata WHERE id = ?", [3], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting IPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO staffdata (id, settingstext, settingsval) VALUES (?,?,?)", [3, 'IPHstaff', JSON.stringify(staffDataIPH)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE staffdata SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataIPH), 3], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating IPH StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function loadstaffData() {
+    // Loading StaffData for device Owner //
+    staffDataFull = '<option value="0">- select -</option>';
+    $.each(staffDataNPH.staffs.staff, function (key, val) {
+        var option1 = '<option';
+        option1 = option1 + ' value="' + val.id + '">';
+        option1 = option1 + val.displayName + "</option>";
+        staffDataFull = staffDataFull + option1;
+    });
+    // Loading StaffData per programID //
+    if (programId && programId !== "") {
+        switch (programId) {
+            case "NPH":
+                staffDataS = staffDataNPH;
+                break;
+            case "BPH":
+                staffDataS = staffDataBPH;
+                break;
+            case "IPH":
+                staffDataS = staffDataIPH;
+                break;
+        }
+    } else { staffDataS = staffDataNPH; }
+    staffData = '<option value="0">- select -</option>';
+    $.each(staffDataS.staffs.staff, function (key, val) {
+        var option1 = '<option';
+        option1 = option1 + ' value="' + val.id + '">';
+        option1 = option1 + val.displayName + "</option>";
+        staffData = staffData + option1;
+    });
+    $("#form1").find('select[name="ObservationStaffId_M_N"]').find('option').remove().end().append($(staffData));
+}
 function loadSitePolygons() {
     allLats = [];
     allLngs = [];
@@ -1678,7 +2007,8 @@ function fetchSettings() {
             if (res.rows && res.rows.length > 0) {
                 resSettings = JSON.parse(res.rows.item(0).settingsval);
                 //console.log('0-' + JSON.stringify(resSettings));
-                fetchServerDetails();
+
+                //fetchServerDetails($("#serverMode").val());
             }
             else {
                 $.ajax({
@@ -1708,7 +2038,8 @@ function fetchSettings() {
                         }, function (err) {
                             $.growl.error({ title: "", message: "An error occured while updating settings to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
                         });
-                        fetchServerDetails();
+
+                        //fetchServerDetails($("#serverMode").val());
                     },
                     failure: function () {
                         $.growl.error({ title: "", message: "Error loading settings!", location: "tc", size: "large", fixed: "true" });
@@ -1721,11 +2052,11 @@ function fetchSettings() {
         $.growl.error({ title: "", message: "An error occured fetching app settings. " + err.message, location: "tc", size: "large", fixed: "true" });
     });
 }
-function fetchServerDetails() {
+function fetchServerDetails(serverMode) {
     AppMode = resSettings.settings.app.appMode;
     settings.innerHTML = AppMode;
-    ServerMode = resSettings.settings.app.serverMode;
-    appEnv.innerHTML = ServerMode;
+    //ServerMode = resSettings.settings.app.serverMode;
+    appEnv.innerHTML = serverMode;
     downerId = resSettings.settings.device.ownerId;
     downerTeam = resSettings.settings.device.ownerTeam;
     debugMode = resSettings.settings.device.debugMode;
@@ -1733,28 +2064,53 @@ function fetchServerDetails() {
     sitServerAddress = resSettings.settings.app.sitServerAddress;
     uatServerAddress = resSettings.settings.app.uatServerAddress;
     prodServerAddress = resSettings.settings.app.prodServerAddress;
-    switch (ServerMode) {
+    switch (serverMode) {
         case "DEV":
             ServerAddress = devServerAddress;
+            authAddress = ServerAddress + resSettings.settings.app.authAddress;
+            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
             break;
         case "SIT":
             ServerAddress = sitServerAddress;
+            authAddress = ServerAddress + resSettings.settings.app.authAddress;
+            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
             break;
         case "UAT":
             ServerAddress = uatServerAddress;
+            authAddress = ServerAddress + resSettings.settings.app.authAddress;
+            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
             break;
         case "PROD":
             ServerAddress = prodServerAddress;
+            authAddress = (ServerAddress + resSettings.settings.app.authAddress).replace('int', 'ext');
+            ActivityAddress = (ServerAddress + resSettings.settings.app.activityAddress).replace('int', 'ext');
+            refCodesAddress = (ServerAddress + resSettings.settings.app.refCodesAddress).replace('int', 'ext');
+            BPHStaffAddress = (ServerAddress + resSettings.settings.app.BPHStaffAddress).replace('int', 'ext');
+            IPHStaffAddress = (ServerAddress + resSettings.settings.app.IPHStaffAddress).replace('int', 'ext');
+            NPHStaffAddress = (ServerAddress + resSettings.settings.app.NPHStaffAddress).replace('int', 'ext');
+            taxaAddress = (ServerAddress + resSettings.settings.app.taxaAddress).replace('int', 'ext');
+            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
             break;
     }
-    authAddress = ServerAddress + resSettings.settings.app.authAddress;
-    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
-    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
-    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
-    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
-    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
-    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
-    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+    return taxaAddress;
 }
 function clearCache() {
     db.transaction(function (tx) {
@@ -1872,6 +2228,7 @@ function getCurrentActivityBounds(str) {
             }
         });
         if (curLats.length > 0 && curLngs.length > 0) {
+
             cX = curLats[0];
             cY = curLngs[0];
             curLats.sort();
@@ -2189,6 +2546,8 @@ $(document).on('click', 'a.downloadMaps', function (e) {
             db.transaction(function (tx) {
                 tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
                     $('#form3').find('label.mapNotes').text("Last downloaded on:" + new Date().toString());
+
+
                 });
             }, function (err) {
                 $.growl({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
@@ -2356,4 +2715,4 @@ function processZipAND(zipSource, destination, url, mapset, i, n) {
 //    $('#mb6 .progTime').text(new Date().toString());
 //    getFileandExtractAND(url, mapset, 1, numfiles);
 //});
-/*Windows Only*/
+/*Android Only*/
