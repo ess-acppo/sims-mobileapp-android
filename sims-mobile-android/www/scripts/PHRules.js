@@ -3217,10 +3217,10 @@ $(document).on('change', 'select[name^="PlantStatisticType"]', function () {
         $(this).parent().parent().find("input[type='number'][name^='HostStatCount']").addClass('hide');
     }
 });
-$(document).on('focus', 'select[name="SiteId_O_N"]', function (e) {
+$(document).on('focus', '#SiteIdPH', function (e) {
     lastSiteValue = $(this).val();
 })
-    .on('change', 'select[name="SiteId_O_N"]', function (e) {
+    .on('change', '#SiteIdPH', function (e) {
         var that = $(this);
         var str = that.val();
         //if (that.val() === "0" || lastSiteValue === "0") return;
@@ -3289,10 +3289,10 @@ $(document).on('focus', 'select[name="SiteId_O_N"]', function (e) {
             }
         });
     });
-$(document).on('focus', 'select[name="SurvActivityId_M_N"]', function (e) {
+$(document).on('focus', '#SurvActivityIdPH', function (e) {
     lastSurvActValue = $(this).val();
 })
-    .on('change', 'select[name="SurvActivityId_M_N"]', function (e) {
+    .on('change', '#SurvActivityIdPH', function (e) {
         var that = $(this);
         var str = that.val();
         if (that.val() === "0") return;
@@ -3892,7 +3892,11 @@ function StartSyncPH() {
         table.destroy();
         loadData();
         clearMarkers();
-        loadMapMarkers();
+        if (AppMode === "PH") {
+            loadMapMarkers("PH");
+        } else if (AppMode === "AH") {
+            loadMapMarkers("AH");
+        }       
         if (infoWindow) {
             infoWindow.close();
         }

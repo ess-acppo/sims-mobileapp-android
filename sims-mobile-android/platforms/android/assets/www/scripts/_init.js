@@ -416,12 +416,11 @@ function initSettings() {
                 ActivityDataAH = JSON.parse(res.rows.item(0).settingsval);
                 //siteData = ActivityData.activities[0].sites;
                 //programId = ActivityData.activities[0].programId;
-                loadActivityDataAH();
+                $.when(loadActivityDataAH()).done(loadAHDefaults());
             }
             else {
                 //This is the first load
-                syncActivityDataAH();
-                loadActivityDataAH();
+                $.when(syncActivityDataAH()).then(loadActivityDataAH()).done(loadAHDefaults());
             }
         });
     }, function (err) {
@@ -507,7 +506,11 @@ function initSettings() {
             map = new google.maps.Map(document.getElementById("map"), mapOptions); map.mapTypes.set('xx', mymap); map.setMapTypeId('xx');
             if (res.rows && res.rows.length > 0) {
                 clearMarkers();
-                loadMapMarkers();
+                if (AppMode === "PH") {
+                    loadMapMarkers("PH");
+                } else if (AppMode === "AH") {
+                    loadMapMarkers("AH");
+                }       
                 google.maps.event.addListener(map, 'click', function (event) {
                     placeMarker(event.latLng);
                 });
@@ -553,7 +556,11 @@ function initSettings() {
                             $.growl.error({ title: "", message: "An error occured while loading observations to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
                         });
                         clearMarkers();
-                        loadMapMarkers();
+                        if (AppMode === "PH") {
+                            loadMapMarkers("PH");
+                        } else if (AppMode === "AH") {
+                            loadMapMarkers("AH");
+                        }       
                         google.maps.event.addListener(map, 'click', function (event) {
                             placeMarker(event.latLng);
                         });
@@ -571,7 +578,7 @@ function initSettings() {
         $.growl.error({ title: "", message: "An error occured while loading app settings. " + err.message, location: "tc", size: "large", fixed: "true" });
     });
 }
-function loadMapMarkers() {
+function loadMapMarkers(appMode) {
     db.readTransaction(function (tx) {
         tx.executeSql("SELECT * FROM observations WHERE id = ?", [1], function (tx, res) {
             if (res.rows && res.rows.length > 0) {
@@ -582,7 +589,11 @@ function loadMapMarkers() {
                         wkt.read(results.observations[i].ObservationWhereWktClob_M_S);
                         wkt.toObject();
                         var latLng = new google.maps.LatLng(wkt.toJson().coordinates[1], wkt.toJson().coordinates[0]);
-                        var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].PlantDisciplineCode_M_S.toString().trim();
+                        if (appMode === "PH") {
+                            var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].PlantDisciplineCode_M_S.toString().trim();
+                        } else if (appMode === "AH") {
+                            var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].AnimalDisciplineCode_M_S.toString().trim();
+                        }
                         var marker = new google.maps.Marker({
                             position: latLng,
                             map: map,
@@ -757,7 +768,7 @@ function placeMarker(location) {
             case 'PH':
                 $('#modalPHMenu').modal();
                 break;
-        };
+        }
     }
 }
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -851,81 +862,45 @@ function loadData() {
     var data;
     var tab;
     switch (AppMode) {
-        //case "IAH":
-        //    data = jQuery.grep(results.observations, function (n, i) {
-        //        return (n.PlantDisciplineCode === 'S');
-        //    });
-        //    table = $('#srchTable').DataTable({
-        //        "data": data,
-        //        "columns": [
-        //            { "data": "surveillanceActivity" },
-        //            { "data": "commonName" },
-        //            {
-        //                "data": "sDate",
-        //                "render": function (data, type, row, meta) {
-        //                    return moment(data).format("DD/MM/YYYY");
-        //                }
-        //            },
-        //            { "data": "latitude" },
-        //            { "data": "longitude" },
-        //            { "data": "datum" },
-        //            { "data": "id" },
-        //            {
-        //                "data": "status",
-        //                "render": function (data, type, row, meta) {
-        //                    if (data === 0) return "Saved";
-        //                    if (data === 1) return "Submitted";
-        //                }
-        //            },
-        //            {
-        //                "data": "discipline",
-        //                "render": function (data, type, row, meta) {
-        //                    if (data === 'S') return "Single";
-        //                    if (data === 'G') return "Group";
-        //                    if (data === 'B') return "Botany";
-        //                    if (data === 'E') return "Entomology";
-        //                    if (data === 'P') return "Pathology";
-        //                }
-        //            }
-        //        ],
-        //        "paging": true,
-        //        "lengthChange": false,
-        //        "searching": true,
-        //        "ordering": true,
-        //        "info": false
-        //    });
-        //    break;
         case "AH":
             data = jQuery.grep(results.observations, function (n, i) {
-                return (n.PlantDisciplineCode === 'S' || n.PlantDisciplineCode === 'G');
+                return (n.AnimalDisciplineCode_M_S === 'S' || n.AnimalDisciplineCode_M_S === 'G');
             });
             table = $('#srchAHTable').DataTable({
                 "data": data,
                 "columns": [
-                    { "data": "surveillanceActivity" },
+                    { "data": "id_M_N" },
+                    {
+                        "data": "AnimalDisciplineCode_M_S",
+                        "render": function (data, type, row, meta) {
+                            if (data === 'S') return "Single";
+                            if (data === 'G') return "Group";
+                        }
+                    },
+                    {
+                        "data": "SurvActivityId_M_N"
+                    },
+                    {
+                        "data": "SiteId_O_N"
+                    },
                     { "data": "commonName" },
                     {
                         "data": "sDate",
                         "render": function (data, type, row, meta) {
-                            return moment(data).format("DD/MM/YYYY");
+                            return moment(data).format("YYYY-MM-DD HH:MM:SS");
                         }
                     },
-                    { "data": "latitude" },
-                    { "data": "longitude" },
-                    { "data": "datum" },
-                    { "data": "id" },
                     {
-                        "data": "status",
+                        "data": null, //data is null since we want to access ALL data
+                        //for the sake of our calculation below
+                        "render": function (data, type, row) { return ("POINT ( " + data["longitude"] + " " + data["latitude"] + ")");}
+                    },
+                    { "data": "datum" },
+                    {
+                        "data": "status_M_N",
                         "render": function (data, type, row, meta) {
                             if (data === 0) return "Saved";
                             if (data === 1) return "Submitted";
-                        }
-                    },
-                    {
-                        "data": "discipline",
-                        "render": function (data, type, row, meta) {
-                            if (data === 'S') return "Single";
-                            if (data === 'G') return "Group";
                         }
                     }
                 ],
@@ -1006,95 +981,196 @@ function objectifyForm(formArray) {//serialize data function
     return returnArray;
 }
 $(document).on('click', '#Save', function (e) {
-    //var obj1 = JSON.stringify(objectifyForm(form1));
-    var obj = objectifyPHFormforSave(form1);
-    obj.status_M_N = 0;
-    if (debugMode === 1) {
-        $.confirm({
-            title: 'Payload Saved!',
-            content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
-            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-            buttons: {
-                ok: function () { },
-                copy: {
-                    text: 'Copy', // With spaces and symbols
-                    action: function () {
-                        var copytext = this.$content.find("#Payload");
-                        copytext.select();
-                        document.execCommand("copy");
-                        return false;
+    var obj;
+    switch (AppMode) {
+        case "PH":
+            //var obj1 = JSON.stringify(objectifyForm(form1));
+            obj = objectifyPHFormforSave(form1);
+            obj.status_M_N = 0;
+            if (debugMode === 1) {
+                $.confirm({
+                    title: 'Payload Saved!',
+                    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+                    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                    buttons: {
+                        ok: function () { },
+                        copy: {
+                            text: 'Copy', // With spaces and symbols
+                            action: function () {
+                                var copytext = this.$content.find("#Payload");
+                                copytext.select();
+                                document.execCommand("copy");
+                                return false;
+                            }
+                        }
                     }
-                }
+                });
             }
-        });
+            if (curIdx > 0) {
+                results.observations[curPos] = obj;
+            }
+            else {
+                //console.log(JSON.stringify(obj));
+                results.observations.push(obj);
+                curIdx = obj.id_M_N;
+                curPos = results.observations.length - 1;
+            }
+            db.transaction(function (tx) {
+                tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                    //alert("Dataset updated.");
+                    $.growl({ title: "", message: "Your changes have been saved!", location: "bc", size: "small" });
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
+            });
+            //$('#modalForm').modal('hide');
+            //clearMarkers();
+            //loadMapMarkers();
+            //if (infoWindow) {
+            //    infoWindow.close();
+            //}
+            break;
+        case "AH":
+            obj = objectifyForm(form1);
+            obj.status_M_N = 0;
+            if (debugMode === 1) {
+                $.confirm({
+                    title: 'Payload Saved!',
+                    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+                    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                    buttons: {
+                        ok: function () { },
+                        copy: {
+                            text: 'Copy', // With spaces and symbols
+                            action: function () {
+                                var copytext = this.$content.find("#Payload");
+                                copytext.select();
+                                document.execCommand("copy");
+                                return false;
+                            }
+                        }
+                    }
+                });
+            }
+            if (curIdx > 0) {
+                results.observations[curPos] = obj;
+            }
+            else {
+                //console.log(JSON.stringify(obj));
+                results.observations.push(obj);
+                curIdx = obj.id_M_N;
+                curPos = results.observations.length - 1;
+            }
+            db.transaction(function (tx) {
+                tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                    //alert("Dataset updated.");
+                    $.growl({ title: "", message: "Your changes have been saved!", location: "bc", size: "small" });
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
+            });
+            //$('#modalForm').modal('hide');
+            //clearMarkers();
+            //loadMapMarkers();
+            //if (infoWindow) {
+            //    infoWindow.close();
+            //}
+            break;
     }
-    if (curIdx > 0) {
-        results.observations[curPos] = obj;
-    }
-    else {
-        //console.log(JSON.stringify(obj));
-        results.observations.push(obj);
-        curIdx = obj.id_M_N;
-        curPos = results.observations.length - 1;
-    }
-    db.transaction(function (tx) {
-        tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-            //alert("Dataset updated.");
-            $.growl({ title: "", message: "Your changes have been saved!", location: "bc", size: "small" });
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
-    });
-    //$('#modalForm').modal('hide');
-    //clearMarkers();
-    //loadMapMarkers();
-    //if (infoWindow) {
-    //    infoWindow.close();
-    //}
+
 });
 $(document).on('click', '#SaveExit', function (e) {
-    //var obj1 = JSON.stringify(objectifyForm(form1));
-    var obj = objectifyPHFormforSave(form1);
-    obj.status_M_N = 0;
-    if (debugMode === 1) {
-        $.confirm({
-            title: 'Payload Saved!',
-            content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
-            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-            buttons: {
-                ok: function () { },
-                copy: {
-                    text: 'Copy', // With spaces and symbols
-                    action: function () {
-                        var copytext = this.$content.find("#Payload");
-                        copytext.select();
-                        document.execCommand("copy");
-                        return false;
+    var obj;
+    switch (AppMode) {
+        case "PH":
+            //var obj1 = JSON.stringify(objectifyForm(form1));
+            obj = objectifyPHFormforSave(form1);
+            obj.status_M_N = 0;
+            if (debugMode === 1) {
+                $.confirm({
+                    title: 'Payload Saved!',
+                    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+                    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                    buttons: {
+                        ok: function () { },
+                        copy: {
+                            text: 'Copy', // With spaces and symbols
+                            action: function () {
+                                var copytext = this.$content.find("#Payload");
+                                copytext.select();
+                                document.execCommand("copy");
+                                return false;
+                            }
+                        }
                     }
-                }
+                });
             }
-        });
+            if (curIdx > 0) {
+                results.observations[curPos] = obj;
+            }
+            else {
+                //console.log(JSON.stringify(obj));
+                results.observations.push(obj);
+                curIdx = obj.id_M_N;
+                //curIdx = results.observations.length;
+            }
+            db.transaction(function (tx) {
+                tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                    //alert("Dataset updated.");
+                    $.growl({ title: "", message: "Your changes have been saved!", location: "bc", size: "small" });
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
+            });
+            $('#modalForm').modal('hide');
+            break;
+        case "AH":
+            var obj1 = JSON.stringify(objectifyForm(form1));
+            console.log(obj1);
+            obj = objectifyForm(form1);
+            obj.status_M_N = 0;
+            if (debugMode === 1) {
+                $.confirm({
+                    title: 'Payload Saved!',
+                    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+                    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                    buttons: {
+                        ok: function () { },
+                        copy: {
+                            text: 'Copy', // With spaces and symbols
+                            action: function () {
+                                var copytext = this.$content.find("#Payload");
+                                copytext.select();
+                                document.execCommand("copy");
+                                return false;
+                            }
+                        }
+                    }
+                });
+            }
+            if (curIdx > 0) {
+                results.observations[curPos] = obj;
+            }
+            else {
+                //console.log(JSON.stringify(obj));
+                results.observations.push(obj);
+                curIdx = obj.id_M_N;
+                //curIdx = results.observations.length;
+            }
+            db.transaction(function (tx) {
+                tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                    //alert("Dataset updated.");
+                    $.growl({ title: "", message: "Your changes have been saved!", location: "bc", size: "small" });
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
+            });
+            $('#modalForm').modal('hide');
+            break;
     }
-    if (curIdx > 0) {
-        results.observations[curPos] = obj;
-    }
-    else {
-        //console.log(JSON.stringify(obj));
-        results.observations.push(obj);
-        curIdx = obj.id_M_N;
-        //curIdx = results.observations.length;
-    }
-    db.transaction(function (tx) {
-        tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-            //alert("Dataset updated.");
-            $.growl({ title: "", message: "Your changes have been saved!", location: "bc", size: "small" });
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
-    });
-    $('#modalForm').modal('hide');
 });
 $(document).on('click', '#Submit2', function (e) {
+    var obj;
     var rowsFailedErr = [];
     vError = 0;
     vErrDescription = [];
@@ -1105,56 +1181,114 @@ $(document).on('click', '#Submit2', function (e) {
     HostStatAreaFlag = 0;
     PlantPreservationOtherFlag = 0;
     PlantTargetObservedCodeFlag = 0;
-    var obj = objectifyPHFormforSave(form1);
-    //console.log(JSON.stringify(obj));
-    var result = Iterate(obj);
-    if (result.vError === 0) {
-        //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));
-        obj.status_M_N = 1;
-        if (debugMode === 1) {
-            $.confirm({
-                title: 'Payload marked for Submit!',
-                content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
-                columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                buttons: {
-                    ok: function () { },
-                    copy: {
-                        text: 'Copy', // With spaces and symbols
-                        action: function () {
-                            var copytext = this.$content.find("#Payload");
-                            copytext.select();
-                            document.execCommand("copy");
-                            return false;
+    var result;
+    switch (AppMode) {
+        case "PH":
+            obj = objectifyPHFormforSave(form1);
+            //console.log(JSON.stringify(obj));
+            result = Iterate(obj);
+            if (result.vError === 0) {
+                //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));
+                obj.status_M_N = 1;
+                if (debugMode === 1) {
+                    $.confirm({
+                        title: 'Payload marked for Submit!',
+                        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                        buttons: {
+                            ok: function () { },
+                            copy: {
+                                text: 'Copy', // With spaces and symbols
+                                action: function () {
+                                    var copytext = this.$content.find("#Payload");
+                                    copytext.select();
+                                    document.execCommand("copy");
+                                    return false;
+                                }
+                            }
                         }
-                    }
+                    });
                 }
-            });
-        }
-        if (curIdx > 0) {
-            results.observations[curPos] = obj;
-        }
-        else {
-            results.observations.push(obj);
-            curIdx = obj.id_M_N;
-            //curIdx = results.observations.length;
-        }
-        db.transaction(function (tx) {
-            tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
-                $.growl.notice({ title: "", message: "Observation marked for Sync.", location: "bc", size: "small" });
-            });
-        }, function (err) {
-            $.growl.error({ title: "", message: "An error occured while saving row to DB. " + err.message, location: "tc", size: "large" });
-        });
-        $('#modalForm').modal('hide');
-        //clearMarkers();
-        //loadMapMarkers();
-        //if (infoWindow) {
-        //    infoWindow.close();
-        //}
-    }
-    else {
-        rowsFailedErr.push(result.vErrDescription);
-        $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+                if (curIdx > 0) {
+                    results.observations[curPos] = obj;
+                }
+                else {
+                    results.observations.push(obj);
+                    curIdx = obj.id_M_N;
+                    //curIdx = results.observations.length;
+                }
+                db.transaction(function (tx) {
+                    tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                        $.growl.notice({ title: "", message: "Observation marked for Sync.", location: "bc", size: "small" });
+                    });
+                }, function (err) {
+                    $.growl.error({ title: "", message: "An error occured while saving row to DB. " + err.message, location: "tc", size: "large" });
+                });
+                $('#modalForm').modal('hide');
+                //clearMarkers();
+                //loadMapMarkers();
+                //if (infoWindow) {
+                //    infoWindow.close();
+                //}
+            }
+            else {
+                rowsFailedErr.push(result.vErrDescription);
+                $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+            }
+            break;
+        case "AH":
+            obj = objectifyForm(form1);
+            //console.log(JSON.stringify(obj));
+            result = IterateAH(obj);
+            if (result.vError === 0) {
+                //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));
+                obj.status_M_N = 1;
+                if (debugMode === 1) {
+                    $.confirm({
+                        title: 'Payload marked for Submit!',
+                        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + JSON.stringify(obj) + '</textarea></div>',
+                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                        buttons: {
+                            ok: function () { },
+                            copy: {
+                                text: 'Copy', // With spaces and symbols
+                                action: function () {
+                                    var copytext = this.$content.find("#Payload");
+                                    copytext.select();
+                                    document.execCommand("copy");
+                                    return false;
+                                }
+                            }
+                        }
+                    });
+                }
+                if (curIdx > 0) {
+                    results.observations[curPos] = obj;
+                }
+                else {
+                    results.observations.push(obj);
+                    curIdx = obj.id_M_N;
+                    //curIdx = results.observations.length;
+                }
+                db.transaction(function (tx) {
+                    tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                        $.growl.notice({ title: "", message: "Observation marked for Sync.", location: "bc", size: "small" });
+                    });
+                }, function (err) {
+                    $.growl.error({ title: "", message: "An error occured while saving row to DB. " + err.message, location: "tc", size: "large" });
+                });
+                $('#modalForm').modal('hide');
+                //clearMarkers();
+                //loadMapMarkers();
+                //if (infoWindow) {
+                //    infoWindow.close();
+                //}
+            }
+            else {
+                rowsFailedErr.push(result.vErrDescription);
+                $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+            }
+            break;
     }
 });
 $(document).on('click', '#settings', function (e) {
@@ -1289,7 +1423,11 @@ $(document).on('click', '#Delete', function (e) {
                 //table.destroy();
                 //loadData();
                 clearMarkers();
-                loadMapMarkers();
+                if (AppMode === "PH") {
+                    loadMapMarkers("PH");
+                } else if (AppMode === "AH") {
+                    loadMapMarkers("AH");
+                }               
                 if (infoWindow) {
                     infoWindow.close();
                 }
@@ -1347,6 +1485,44 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
         $('#modalProgress').modal('hide');
     });
 });
+$(document).on('click', '#srchAHTable tbody tr', function () {
+    if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+    }
+    else {
+        table.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+    }
+    var d = table.row(this).data();
+    curIdx = d.id_M_N;
+    curDiscipline = d.AnimalDisciplineCode_M_S;
+    curPos = table.row(this).index();
+    $.ajax({
+        url: "",
+        beforeSend: function (xhr) {
+            $('#modalProgress').modal();
+            $('#mb6 .progText').text("Loading ...");
+            $('#mb6 .progress').addClass('hide');
+            $('#mb6 .fa-clock-o').addClass('hide');
+        }
+
+    }).complete(function (data) {
+        switch (curDiscipline) {
+            case "S":
+                loadModalAH('mo_sngObservation');
+                break;
+            case "G":
+                loadModalAH('mo_grpObservation');
+                break;
+        }
+        //var zi = $('#modalPHGrid').css('z-index');
+        //$('#modalForm').css('z-index', zi + 100);
+        $('#modalAHGrid').modal('hide');
+        $('#modalForm').modal();
+    }).done(function () {
+        $('#modalProgress').modal('hide');
+    });
+});
 $(document).on('click', '#SyncPH', function (event) {
     $('#mb6 .progText').text("Sync in progress ...");
     $('#mb6 .progress').addClass('hide');
@@ -1366,10 +1542,8 @@ $(document).on('shown.bs.modal', '#modalPHGrid', function () {
     }
 });
 $(document).on('shown.bs.modal', '#modalAHGrid', function () {
-
-    //loadPHRefCodes();
-    //loadActivityData();
-    //loadstaffData();
+    loadActivityDataAH();
+    loadAHDefaults();
     loadData();
     if (statusElem.innerHTML === 'online') {
         $('#SyncAH').removeClass('hide');
@@ -1389,7 +1563,11 @@ $(document).on('hidden.bs.modal', '#modalForm', function () {
     //loadAHDefaults();
     //loadData();
     clearMarkers();
-    loadMapMarkers();
+    if (AppMode === "PH") {
+        loadMapMarkers("PH");
+    } else if (AppMode === "AH") {
+        loadMapMarkers("AH");
+    }       
 });
 $(document).on('click', 'a.btnResetData', function (e) {
     $.confirm({
@@ -1654,10 +1832,18 @@ $(document).on('change', 'input:checkbox', function (e) {
         $(this).val('N');
     }
 });
-$(document).on('click', '#newObservationPH', function () {
+$(document).on('click', '#newObservationAH', function () {
     curIdx = -2;
-    $('#modalPHGrid').modal('hide');
-    $('#modalPHMenu').modal();
+    switch (AppMode) {
+        case 'IAH':
+            $('#modalAHGrid').modal('hide');
+            $('#modalAHMenu').modal();
+            break;
+        case 'AH':
+            $('#modalAHGrid').modal('hide');
+            $('#modalAHMenu').modal();
+            break;
+    }
 });
 $(document).on('click', 'a.btnBackupData', function (e) {
     backupDatabase();
@@ -2044,11 +2230,6 @@ function fetchSettings() {
                         }, function (err) {
                             $.growl.error({ title: "", message: "An error occured while updating settings to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
                         });
-                        AppMode = resSettings.settings.app.appMode;
-                        settings.innerHTML = AppMode;
-                        downerId = resSettings.settings.device.ownerId;
-                        downerTeam = resSettings.settings.device.ownerTeam;
-                        debugMode = resSettings.settings.device.debugMode;
                         //fetchServerDetails($("#serverMode").val());
                     },
                     failure: function () {
