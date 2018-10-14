@@ -923,13 +923,25 @@ function loadModal(pagename) {
                 var dd = today.getDate();
                 var mm = today.getMonth() + 1; //January is 0!
                 var yyyy = today.getFullYear();
+                var hh = today.getHours();
+                var mi = today.getMinutes();
+                var ss = today.getSeconds();
                 if (dd < 10) {
                     dd = '0' + dd;
                 }
                 if (mm < 10) {
                     mm = '0' + mm;
                 }
-                today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString() + 'T00:01:01';
+                if (hh < 10) {
+                    hh = '0' + hh;
+                }
+                if (mi < 10) {
+                    mi = '0' + mi;
+                }
+                if (ss < 10) {
+                    ss = '0' + ss;
+                }
+                today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString() + 'T' + hh.toString() + ':' + mi.toString() + ':' + ss.toString();
                 $('#form1').find('select[id="ObservationStaffId"]').find('option').remove().end().append($(staffData));
                 if (curIdx === -1) {
                     $('#form1').find("input[name^='Latitude']").val(curLat.toFixed(5));
