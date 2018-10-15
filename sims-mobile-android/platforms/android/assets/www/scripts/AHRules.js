@@ -1,7 +1,6 @@
-﻿var bcs = '<div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="radio" class="minimal" name="optbodyCond" value="">&nbsp;<label class="bcstext"></label></div>';
-var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-12 col-sm-12 col-xs-12"><label class="syndromeText"></label></div><div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="radio" class="minimal" name="syndrome" data-code="Yes" data-validate="Y" value="Yes">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="radio" class="minimal" name="syndrome" data-code="Yes" data-validate="Y" value="No">&nbsp;<label>No</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6 defSyndComments"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="defSyndComments"></div></div>';
-//var syndrome = '<div class="row col-md-12  dynarow"><div class="form-group col-md-12 col-sm-12 col-xs-12"><i class="fa fa-remove fa-2x text-danger removeSyndrome pull-right"></i></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><label class="syndromeCode hide" name="syndCode"/><label class="syndromeText" name="syndText"/></div><div class="form-group col-xs-3"><input type="text" class="form-control" placeholder="Number" name="syndNumber"></div><div class="form-group col-xs-3"><input type="text" class="form-control" placeholder="Percent" name="syndPercent"></div><div class="form-group col-xs-11"><input type="text" class="form-control" placeholder="Syndrome Comments" name="syndComments"></div></div>';
-var syndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX"><div class="form-group col-md-12 col-sm-12 col-xs-12"><i class="fa fa-remove fa-2x text-danger removeSyndrome pull-right"></i><div class="form-group col-md-6 col-sm-6 col-xs-6"><label class="syndromeCode hide" name="syndCode"/><input type="radio" class="minimal" name="syndrome" value="Yes" checked>&nbsp;<label class="syndromeText" name="syndText"/></div></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="syndComments"></div></div>';
+﻿var bcs = '<div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="BodyConditionFlag_M_S" value="">&nbsp;<label class="bcstext"></label></div>';
+var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-12 col-sm-12 col-xs-12"><label class="syndromeText"></label></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N">&nbsp;<label>No</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6 defSyndComments"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
+var syndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX"><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="text" class="form-control syndromeCode" name="SyndromeCode_M_S"><input type="radio" class="minimal" name="syndrome" value="Yes" checked>&nbsp;<input type="text" class="form-control syndromeText" name="SyndromeText_M_S"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeSyndrome"><i class="fa fa-remove"></i></a></div></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
 var speciesTaxonSyndromSamples;
 var syndromes = 0;
 var syndromesData;
@@ -12,11 +11,12 @@ var defaultSpecies;
 var fieldTestsData;
 /* AH Initialized variables */
 var species = '<div class="row col-md-12 dynarow"><div class="form-group col-xs-2"><input type="text" class="form-control speciesText"/></div><div class="form-group col-xs-2"><label>Taxon Name<span class="bold-red">*</span></label></div><div class="form-group col-xs-2"><input type="text" class="form-control taxonText" placeholder="Taxon Name" name="taxonName"></div><div class="form-group col-xs-3" ><label>Number in Group<span class="bold-red">*</span></label></div><div class="form-group col-xs-1"><input type="text" class="form-control" placeholder="#" name="Number"></div><div class="form-group col-xs-1"><button type="button" class="btn btn-danger btn-circle btn-xs pull-right removeSpecies"><i class="fa fa-times-circle fa-2x"></i></button></div></div>';
-var fieldtest = '<div class="row col-md-12 dynarow fieldtest"><div class="form-group col-md-12 col-sm-12 col-xs-12"><label class="ftName">Field Test 1</label><i class="fa fa-remove fa-2x text-danger removeFieldTest pull-right"></i></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Fieldtest Name<span class="bold-red">*</span></label><input type="text" class="form-control hide" placeholder="Field Test ID" name="ftId"/><select class="form-control" name="fieldTest"></select></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>&nbsp;</label><br/><input type="checkbox" name="ftInvalid" class="minimal">&nbsp;<label>Invalid</label></div><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div><div class="form-group col-xs-11"><label>Field Test Comment</label><input type="text" class="form-control" name="ftComment"/></div></div>';
-var preFieldtest = '<div class="row col-md-12 dynarow fieldtest"><div class="form-group col-md-12 col-sm-12 col-xs-12"><label class="ftName">Field Test 1</label><i class="fa fa-remove fa-2x text-danger removePreFieldTest pull-right"></i></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Fieldtest Name<span class="bold-red">*</span></label><input type="text" class="form-control hide" placeholder="Field Test ID" name="ftId"/><select class="form-control" name="pFieldTest"></select></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>&nbsp;</label><br/><input type="checkbox" name="ftInvalid" class="minimal">&nbsp;<label>Invalid</label></div><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div><div class="form-group col-xs-11"><label>Field Test Comment</label><input type="text" class="form-control" name="ftComment"/></div></div>';
+var fieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*</span>Fieldtest Name</label><input type="text" class="form-control hide" placeholder="Field Test ID" name="FieldTestID_M_N" /><input type="text" class="form-control" placeholder="Field Test Name" name="FieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><select class="form-control" name="FieldTest_M_N"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="InvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12 diseases"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comment</label><input type="text" class="form-control" name="FieldTestComment_O_S" /></div></div></div>';
+var preFieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*</span>Fieldtest Name</label><input type="text" class="form-control hide" placeholder="Field Test ID" name="FieldTestID_M_N" /><input type="text" class="form-control" placeholder="Field Test Name" name="FieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><select class="form-control" name="FieldTest_M_N"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="InvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12 diseases"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comment</label><input type="text" class="form-control" name="FieldTestComment_O_S" /></div></div></div>';
 var maggotSample = '<div class="row col-md-12 dynarow maggotSample"><div class="form-group col-md-12 col-sm-12 col-xs-12"><i class="fa fa-remove fa-2x text-danger removeMaggotSample pull-right"></i><label class="sampleName">Maggot Sample</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Field Id<span class="bold-red">*</span></label><input type="text" class="form-control nextid" placeholder="Sample Field Id" name="msfieldID" value="1"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Type<span class="bold-red">*</span></label><select class="form-control" name="msType"><option selected>Maggots</option></select></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Pathogen/Test Type</label><br /><input type="checkbox" class="form-control minimal" name="swfExcl" value="swfExcl" checked>&nbsp;<label>SWF Exclusion</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Additional Comment</label><textarea class="form-control" rows="3" name="msNotes" placeholder="Notes ..."></textarea></div></div>';
-var sample = '<div class="row col-md-12 dynarow sample"><div class="form-group col-md-12 col-sm-12 col-xs-12"><label class="sampleName">Sample 1</label><i class="fa fa-remove fa-2x text-danger removeSample pull-right"></i></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Field ID</label><input type="text" class="form-control nextid" readonly placeholder="Sample Field ID" value="1" name="sampleId"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Type</label><select class="form-control" name="sampleType"></select></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 testTypes"></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12 border-bottom"><label>Additional Comments</label><textarea class="form-control" rows="6" name="sAddlComments"></textarea></div></div>';
-var preSample = '<div class="row col-md-12 dynarow sample"><div class="form-group col-md-12 col-sm-12 col-xs-12"><label class="sampleName">Sample 1</label><i class="fa fa-remove fa-2x text-danger removePreSample pull-right"></i></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Field ID</label><input type="text" class="form-control nextid" readonly placeholder="Sample Field ID" value="" name="sampleId"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Type</label><select class="form-control" name="sampleType"></select></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 testTypes"></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12 border-bottom"><label>Additional Comments</label><textarea class="form-control" rows="6" name="sAddlComments"></textarea></div></div>';
+var animalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeAnimalSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control" name="SampleType_M_N" data-name="Sample-Number of Units" data-section="AnimalSampleTab"></select></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 testTypes"></div></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="6" name="AdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
+var preAnimalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control" name="SampleType_M_N" data-name="Sample-Number of Units" data-section="AnimalSampleTab"></select></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 testTypes"></div></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="6" name="AdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
+var animalAttachment = '<div class="form-group col-md-2 col-sm-2 col-xs-2"><img class="pp pull-right" src="images/plant.png" name="iAnimalAttachment_M_S"></div><div class="form-group col-md-7 col-sm-8 col-xs-8"><input type="text" class="form-control" name="AnimalAttachmentD_M_S" value=""><textarea class="form-control hide" name="AnimalAttachment_M_S" rows="5" cols="5"></textarea></div><div class="form-group col-md-2 col-sm-1 col-xs-1"><i class="fa fa-remove text-info fa-2x removeAnimalAttachment" style="cursor:pointer;"></i></div></div>';
 var samples = 0;
 var fieldTests = 0;
 var ActivityDataAH;
@@ -89,6 +89,7 @@ function syncActivityDataAH() {
         db.transaction(function (tx) {
             tx.executeSql("UPDATE activitydataAH SET settingsval = ? WHERE id = ?", [JSON.stringify(ActivityDataAH), 1], function (tx, res) {
                 //alert("Dataset updated.");
+                loadActivityDataAH();
             });
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
@@ -112,13 +113,13 @@ function loadActivityDataAH() {
             $("#curActivities").append(option);
         }
     });
-    $("#SiteIdAH").find('option').remove().end().append($('<option value="0">- select -</option>'));
-    $.each(siteData, function (key, val) {
-        var option = $('<option />');
-        option.attr('value', val.id).text(val.name);
-        $("#form1").find('select[id="SiteIdAH"]').append(option);
-    });
-    $("#SiteIdAH").append($('<option value="99999">New Site</option>'));
+    //$("#SiteIdAH").find('option').remove().end().append($('<option value="0">- select -</option>'));
+    //$.each(siteData, function (key, val) {
+    //    var option = $('<option />');
+    //    option.attr('value', val.id).text(val.name);
+    //    $("#form1").find('select[id="SiteIdAH"]').append(option);
+    //});
+    //$("#SiteIdAH").append($('<option value="99999">New Site</option>'));
 }
 function refreshActivityDataAH(str) {
     var arr = ActivityDataAH.activities.filter(function (el) {
@@ -143,14 +144,14 @@ function refreshActivityDataAH(str) {
         //}, function (err) {
         //    $.growl.error({ title: "", message: "An error occured while loading staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
         //});
-    };
-    $("#SiteIdAH").find('option').remove().end().append($('<option value="0">- select -</option>'));
-    $.each(siteData, function (key, val) {
-        var option = $('<option />');
-        option.attr('value', val.id).text(val.name);
-        $("#SiteIdAH").append(option);
-    });
-    $("#SiteIdAH").append($('<option value="99999">New Site</option>'));
+    }
+    //$("#SiteIdAH").find('option').remove().end().append($('<option value="0">- select -</option>'));
+    //$.each(siteData, function (key, val) {
+    //    var option = $('<option />');
+    //    option.attr('value', val.id).text(val.name);
+    //    $("#SiteIdAH").append(option);
+    //});
+    //$("#SiteIdAH").append($('<option value="99999">New Site</option>'));
 }
 function loadAHDefaults() {
     // Loading Team Defaults //
@@ -158,7 +159,7 @@ function loadAHDefaults() {
         $.each(data.staffs.staff, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.id).text(val.displayName);
-            $("#form1").find('#userName').append(option);
+            $("#form1").find('#ObservationStaffId').append(option);
         });
     }); 
     // Loading speciesTaxonSyndromSamples Defaults //
@@ -274,7 +275,7 @@ $(document).on('change', 'select[id="commonName"]', function () {
                 $('.sample').remove(); //Clear all Samples
                 $.each(def[0].defaultSamples, function (key, val) { //For each default Sample
                     samples = samples + 1;
-                    var that2 = $(preSample);
+                    var that2 = $(preAnimalSample);
                     that2.find("input[type='checkbox']").iCheck({
                         checkboxClass: 'icheckbox_square-blue',
                         radioClass: 'iradio_square-blue'
@@ -571,7 +572,7 @@ function loadCommonNameData(d, e) {
         //console.time('Samples');
         $('.sample').remove();
         samples = samples + 1;
-        var that2 = $(preSample);
+        var that2 = $(preAnimalSample);
         that2.find("input[type='checkbox']").iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue'
@@ -663,10 +664,10 @@ function loadCommonNameData(d, e) {
     }
 }
 $(document).on('ifChecked', '.defSyndromeX input[type="radio"].minimal', function (event) {
-    if ($(this).val() === 'Yes') {
+    if ($(this).val() === 'Y') {
         $(this).parent().parent().parent().find('div.defSyndComments').removeClass('hide');
     }
-    if ($(this).val() === 'No') {
+    if ($(this).val() === 'N') {
         $(this).parent().parent().parent().find('div.defSyndComments').find('input[type=text]').val('');
         $(this).parent().parent().parent().parent().find('div.defSyndComments').addClass('hide');
     }
@@ -677,9 +678,8 @@ function getNextAnimalID(e) {
     resSettings.settings.device.currentAnimalNumber = nextID;
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
-            //alert("Row inserted.");
-            //return e + pad(nextID.toString(), 4);
-            $("#form1").find('input[type="text"].nextid').last().val(e + pad(nextID.toString(), 6));
+            //$("#form1").find('input[type="text"].nextid').last().val(e + pad(nextID.toString(), 6));
+            $("#form1").find('input[type="text"].nextid').last().val(nextID.toString());
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "tc", size: "large" });
@@ -843,7 +843,7 @@ $(document).on('click', '.removePreFieldTest', function (e) {
 $(document).on('click', '#addSample', function (e) {
     samples = samples + 1;
     //var nextID = getNextID('SAMPLE');
-    var that = $(sample);
+    var that = $(animalSample);
     that.find("input[type='checkbox']").iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
@@ -1091,10 +1091,10 @@ function loadModalAH(pagename) {
                             $('#form1').find("input[name='extObserver']").addClass('hide');
                             $('#form1').find("input[type='checkbox'][name='extObs']").iCheck('uncheck');
                         }
-                        if (key === "pmConducted" && value === "Yes") {
+                        if (key === "pmConducted" && value === "Y") {
                             $('#tabPM').removeClass('hide');
                         }
-                        if (key === "pmConducted" && value === "No") {
+                        if (key === "pmConducted" && value === "N") {
                             $('#tabPM').addClass('hide');
                         }
                         if (key.startsWith("pSampleId_") && value > 0) {
@@ -1133,27 +1133,38 @@ function loadModalAH(pagename) {
                     var dd = today.getDate();
                     var mm = today.getMonth() + 1; //January is 0!
                     var yyyy = today.getFullYear();
+                    var hh = today.getHours();
+                    var mi = today.getMinutes();
+                    var ss = today.getSeconds();
                     if (dd < 10) {
                         dd = '0' + dd;
                     }
                     if (mm < 10) {
                         mm = '0' + mm;
                     }
-                    today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString() + 'T00:01:01';
+                    if (hh < 10) {
+                        hh = '0' + hh;
+                    }
+                    if (mi < 10) {
+                        mi = '0' + mi;
+                    }
+                    if (ss < 10) {
+                        ss = '0' + ss;
+                    }
+                    today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString() + 'T' + hh.toString() + ':' + mi.toString() + ':' + ss.toString();
                     if (curIdx === -1) {
                         $('#form1').find("input[name^='Latitude']").val(curLat.toFixed(5));
                         $('#form1').find("input[name^='Longitude']").val(curLng.toFixed(5));
                         $('#form1').find("input[type='text'][name^='ObservationWhereWktClob']").val(curWkt);
                         //getAltitude();
                     }
-                    $('#form1').find("input[name='sDate']").val(today);
+                    $('#form1').find("input[name='ObservationDatetime_M_D']").val(today);
                     if (results.observations.length === 0) {
                         $('#form1').find("input[type='number'][name^='id']").val(1);
                     } else { $('#form1').find("input[type='number'][name^='id']").val(results.observations[results.observations.length - 1].id_M_N + 1); }
                     $('#form1').find("input[type='number'][name^='SubmittedByStaffId']").val(resSettings.settings.device.ownerId);
                     $('#form1').find("input[type='number'][name='status_M_N']").val("0");
-                    $('#form1').find("input[type='text'][name='age']").inputmask("99:99");
-                    $('#form1').find("input[type='text'][name='AnimalNumber']").val(getNextAnimalID(resSettings.settings.device.animalPrefix));
+                    $('#form1').find("input[type='text'][name='AnimalNumber_M_N']").val(getNextAnimalID(resSettings.settings.device.animalPrefix));
                     $('#form1').find("input[type='text'][name='AnimalDisciplineCode_M_S']").val(curDiscipline);
                     $('.nextid').text('');
                 }
@@ -1165,74 +1176,45 @@ function loadModalAH(pagename) {
             $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>&nbsp;" + Math.round((t1 - t0)) + " ms");
         });
 }
-$(document).on('ifClicked', 'input[type="radio"].minimal', function (event) {
-    //alert(event.type + ' callback');
-    event.preventDefault();
-    $('#form1').find("input[type='radio'][name='" + $(this).attr('name') + "']").val($(this).parent('div').next().text());
-});
-$(document).on('change', 'input:radio', function (e) {
-    e.preventDefault();
-    if ($(this).is(":checked")) {
-        $('#form1').find("input[type='radio'][name='" + $(this).attr('name') + "']").val($(this).next().text());
-    }
-});
-$('input[type="checkbox"].minimal').on('ifClicked', function (event) {
-    //alert(event.type + ' callback');
-    event.preventDefault();
-    var nam = $(this).attr('name').split('-')[0];
-    var idx = $(this).attr('name').split('-')[1];
-    if (nam === 'weed' && $('input[type=checkbox][name=both-' + idx + ']').val() === 'on') {
-        $.growl.warning({ title: "Plant Health Rules", message: "Operation Not Allowed!", location: "bc", size: "large" });
-        $(this).val('off');
-        $(this).iCheck('uncheck');
-        return;
-    }
-    if (nam === 'both' && $('input[type=checkbox][name=weed-' + idx + ']').val() === 'on') {
-        $.growl.warning({ title: "Plant Health Rules", message: "Operation Not Allowed!", location: "bc", size: "large" });
-        $(this).val('off');
-        $(this).iCheck('uncheck');
-        return;
-    }
-    $(this).val('on');
-});
 $(document).on('ifChecked', 'input[type="checkbox"].minimal', function (event) {
     //alert(event.type + ' callback');
-    if ($(this).attr('name') === 'extObs') {
-        $('input[name="extObserver"').removeClass('hide');
+    if ($(this).attr('name') === 'externalObserverFlag_O_S') {
+        $('input[name="externalObserver_O_S"').removeClass('hide');
     }
-    if ($(this).attr('name').startsWith('ftInvalid')) {
+    if ($(this).attr('name').startsWith('InvalidFlag_M_S')) {
         $(this).closest('.row').find('.diseases').empty();
         $(this).closest('.row').find('select').val("NONE");
     }
-    $(this).val('on');
+    $(this).val('Y');
 });
 $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event) {
     //alert(event.type + ' callback');
-    if ($(this).attr('name') === 'extObs') {
-        $('input[name="extObserver"').addClass('hide');
+    if ($(this).attr('name') === 'externalObserverFlag_O_S') {
+        $('input[name="externalObserver_O_S"').addClass('hide');
     }
-    $(this).val('off');
+    $(this).val('N');
 });
 $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
-    //alert(event.type + ' callback');
-    if ($(this).attr('name') === 'optSyndromes' && $(this).val() === 'Yes') {
-        $('.addedSyndrome').removeClass('hide');
-        $('.addedSyndrome').next('div').removeClass('hide');
-    }
-    if ($(this).attr('name') === 'optSyndromes' && $(this).val() === 'No') {
-        $('.addedSyndrome').addClass('hide');
-        $('.addedSyndrome').next('div').addClass('hide');
-    }
-    if ($(this).attr('name') === 'optWounds' && $(this).val() === 'Yes') {
+    //Group Observation Stuff
+    //if ($(this).attr('name') === 'optSyndromes' && $(this).val() === 'Y') {
+    //    $('.addedSyndrome').removeClass('hide');
+    //    $('.addedSyndrome').next('div').removeClass('hide');
+    //}
+    //if ($(this).attr('name') === 'optSyndromes' && $(this).val() === 'N') {
+    //    $('.addedSyndrome').addClass('hide');
+    //    $('.addedSyndrome').next('div').addClass('hide');
+    //}
+    //Group Observation Stuff
+    if ($(this).attr('name') === 'woundsPresent_M_S' && $(this).val() === 'Y') {
         $('.addMaggotSamples').removeClass('hide');
     }
-    if ($(this).attr('name') === 'optWounds' && $(this).val() === 'No') {
+    if ($(this).attr('name') === 'woundsPresent_M_S' && $(this).val() === 'N') {
         $('.addMaggotSamples').addClass('hide');
     }
-    if ($(this).attr('name') === 'pmConducted' && $(this).val() === 'Yes') {
+    if ($(this).attr('name') === 'postMortemConducted_M_S' && $(this).val() === 'Y') {
         $('#tabPM').removeClass('hide');
     }
-    if ($(this).attr('name') === 'pmConducted' && $(this).val() === 'No') {
+    if ($(this).attr('name') === 'postMortemConducted_M_S' && $(this).val() === 'N') {
         $('#tabPM').addClass('hide');
     }
     //if ($(this).attr('name') == 'optINT' && $(this).val() == 'Yes') {
@@ -1265,13 +1247,13 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
     //if ($(this).attr('name') == 'optMUS' && $(this).val() == 'No') {
     //    $('#divMUS').addClass('hide');
     //};
-    if ($(this).attr('name') === 'optMaggots' && $(this).val() === 'Yes') {
+    if ($(this).attr('name') === 'maggotsPresent_M_S' && $(this).val() === 'Y') {
         $('#addMaggotSample').removeClass('hide');
-        $('.maggotSamples').removeClass('hide');
+        $('#maggotSamples').removeClass('hide');
     }
-    if ($(this).attr('name') === 'optMaggots' && $(this).val() === 'No') {
+    if ($(this).attr('name') === 'maggotsPresent_M_S' && $(this).val() === 'N') {
         $('#addMaggotSample').addClass('hide');
-        $('.maggotSamples').addClass('hide');
+        $('#maggotSamples').addClass('hide');
     }
 });
 
@@ -1279,19 +1261,19 @@ function IterateAH(data) {
     return true;
 }
 
-$(document).on('focus', "#SiteIdAH", function (e) {
-    lastSiteValue = $(this).val();
-})
-    .on('change', "#SiteIdAH", function (e) {
-        var that = $(this);
-        var str = that.val();
-        //if (that.val() === "0" || lastSiteValue === "0") return;
-        if (that.val() === "0") return;
-        if (curDiscipline === "S") {
-            //loadSiteData(str);
-            return;
-        }
-    });
+//$(document).on('focus', "#SiteIdAH", function (e) {
+//    lastSiteValue = $(this).val();
+//})
+//    .on('change', "#SiteIdAH", function (e) {
+//        var that = $(this);
+//        var str = that.val();
+//        //if (that.val() === "0" || lastSiteValue === "0") return;
+//        if (that.val() === "0") return;
+//        if (curDiscipline === "SF") {
+//            //loadSiteData(str);
+//            return;
+//        }
+//    });
 $(document).on('focus', "#SurvActivityIdAH", function (e) {
     lastSurvActValue = $(this).val();
 })
@@ -1299,13 +1281,74 @@ $(document).on('focus', "#SurvActivityIdAH", function (e) {
         var that = $(this);
         var str = that.val();
         if (that.val() === "0") return;
-        if (curDiscipline === "S") {
+        if (curDiscipline === "SF") {
             refreshActivityDataAH(str);
             //loadstaffData();
             //$('#form1').find("select[name^='ObservationStaffId']").val(resSettings.settings.device.ownerId);
             return;
         }
     });
+
+$(document).on('click', '.getAHCoords', function (e) {
+    var xlat = $('#form1').find('input.obslat');
+    var xlng = $('#form1').find('input.obslng');
+    var xdat = $('#form1').find('select.obsdat');
+    var xwkt = $('#form1').find('input[name^="ObservationWhereWktClob"]');
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            xlat.val(position.coords.latitude.toFixed(5));
+            xlng.val(position.coords.longitude.toFixed(5));
+            xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
+            xdat.val("WGS84");
+        }, function () {
+            $.growl.error({ title: "", message: "GPS GetCurrentPosition Failed!", location: "tc", size: "large" });
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        $.growl.error({ title: "", message: "Geolocation Failed!", location: "tc", size: "large" });
+    }
+    e.preventDefault();
+});
+$(document).on('click', "#addAnimalAttachment", function () {
+    var Idx = numAttachments;
+    var that1 = $(animalAttachment);
+    //that1.find('input[type=hidden]').each(function () {
+    //    $(this).attr('name', $(this).attr('name') + '_' + Idx + '_H');
+    //});
+    that1.find('input[type=text]').each(function () {
+        $(this).attr('id', $(this).attr('name') + '_' + Idx);
+        $(this).attr('name', $(this).attr('name') + '_' + Idx);
+    });
+    that1.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + Idx);
+    });
+    that1.find('img').each(function () {
+        $(this).attr('id', $(this).attr('name') + '_' + Idx);
+        $(this).attr('name', $(this).attr('name') + '_' + Idx);
+    });
+    $('#attachments').append(that1);
+    numAttachments++;
+    $('#numAttachments').text(numAttachments);
+});
+$(document).on('click', ".removeAnimalAttachment", function () {
+    var x = $(this);
+    if (numAttachments > 0) {
+        $.confirm({
+            title: 'Confirm Remove!',
+            content: 'Do you want to remove this attachment?',
+            buttons: {
+                Ok: function () {
+                    x.closest('.AnimalAttachment').remove();
+                    numAttachments--;
+                    $('#numAttachments').text(numAttachments);
+                },
+                cancel: function () {
+                    //close
+                }
+            }
+        });
+    }
+});
 
 /* tab scroller */
 var widthOfList = function () {

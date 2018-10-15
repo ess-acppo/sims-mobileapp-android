@@ -3,7 +3,6 @@ var mapPath;
 var emptyTilePath;
 var greenTilePath;
 var AppMode;
-var ServerMode;
 var debugMode;
 var ServerAddress;
 var devServerAddress;
@@ -150,8 +149,7 @@ google.maps.Polygon.prototype.Contains = function (point) {
         return (blue >= red);
 
     }
-
-}
+};
 function pad(str, max) {
     str = str.toString();
     return str.length < max ? pad("0" + str, max) : str;
@@ -347,7 +345,7 @@ function checkPermissions() {
         function success(status) {
             if (!status.hasPermission) error();
         }, function error() {
-            console.warn('Camera permission not granted!');
+            console.warn('Location permission not granted!');
         });
     function error() {
         console.warn('Error granting permission!');
@@ -413,14 +411,15 @@ function initSettings() {
         tx.executeSql("SELECT * FROM activitydataAH WHERE id = ?", [1], function (tx, res) {
             //This is not the first load
             if (res.rows && res.rows.length > 0) {
-                ActivityDataAH = JSON.parse(res.rows.item(0).settingsval);
-                //siteData = ActivityData.activities[0].sites;
-                //programId = ActivityData.activities[0].programId;
-                $.when(loadActivityDataAH()).done(loadAHDefaults());
+                $.when(function () {
+                    ActivityDataAH = JSON.parse(res.rows.item(0).settingsval);
+                    //siteData = ActivityData.activities[0].sites;
+                    //programId = ActivityData.activities[0].programId;
+                }).then(syncActivityDataAH()).done(loadAHDefaults());
             }
             else {
                 //This is the first load
-                $.when(syncActivityDataAH()).then(loadActivityDataAH()).done(loadAHDefaults());
+                $.when(syncActivityDataAH()).done(loadAHDefaults());
             }
         });
     }, function (err) {
@@ -510,7 +509,7 @@ function initSettings() {
                     loadMapMarkers("PH");
                 } else if (AppMode === "AH") {
                     loadMapMarkers("AH");
-                }       
+                }
                 google.maps.event.addListener(map, 'click', function (event) {
                     placeMarker(event.latLng);
                 });
@@ -560,7 +559,7 @@ function initSettings() {
                             loadMapMarkers("PH");
                         } else if (AppMode === "AH") {
                             loadMapMarkers("AH");
-                        }       
+                        }
                         google.maps.event.addListener(map, 'click', function (event) {
                             placeMarker(event.latLng);
                         });
@@ -768,7 +767,7 @@ function placeMarker(location) {
             case 'PH':
                 $('#modalPHMenu').modal();
                 break;
-        }
+        };
     }
 }
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -864,7 +863,7 @@ function loadData() {
     switch (AppMode) {
         case "AH":
             data = jQuery.grep(results.observations, function (n, i) {
-                return (n.AnimalDisciplineCode_M_S === 'S' || n.AnimalDisciplineCode_M_S === 'G');
+                return (n.AnimalDisciplineCode_M_S === 'SF' || n.AnimalDisciplineCode_M_S === 'G');
             });
             table = $('#srchAHTable').DataTable({
                 "data": data,
@@ -873,15 +872,12 @@ function loadData() {
                     {
                         "data": "AnimalDisciplineCode_M_S",
                         "render": function (data, type, row, meta) {
-                            if (data === 'S') return "Single";
+                            if (data === 'SF') return "Single Feral";
                             if (data === 'G') return "Group";
                         }
                     },
                     {
                         "data": "SurvActivityId_M_N"
-                    },
-                    {
-                        "data": "SiteId_O_N"
                     },
                     { "data": "commonName" },
                     {
@@ -893,7 +889,7 @@ function loadData() {
                     {
                         "data": null, //data is null since we want to access ALL data
                         //for the sake of our calculation below
-                        "render": function (data, type, row) { return ("POINT ( " + data["longitude"] + " " + data["latitude"] + ")");}
+                        "render": function (data, type, row) { return ("POINT ( " + data["longitude"] + " " + data["latitude"] + ")"); }
                     },
                     { "data": "datum" },
                     {
@@ -1182,10 +1178,17 @@ $(document).on('click', '#Submit2', function (e) {
     PlantPreservationOtherFlag = 0;
     PlantTargetObservedCodeFlag = 0;
     var result;
+    var preVal;
     switch (AppMode) {
         case "PH":
             obj = objectifyPHFormforSave(form1);
             //console.log(JSON.stringify(obj));
+            preVal = preValidate();
+            if (preVal.vError !== 0) {
+                rowsFailedErr.push(preVal.vErrDescription);
+                $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+                return false;
+            }
             result = Iterate(obj);
             if (result.vError === 0) {
                 //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));
@@ -1307,7 +1310,7 @@ $(document).on('click', '#settings', function (e) {
     }).complete(function (e) {
         setTimeout(function (e) {
             loadActivityData();
-            getStaffData(resSettings.settings.device.ownerTeam);
+            $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
         }, 300);
         $('#mb5').find('#appMode').val(AppMode);
         //var arr = resSettings.settings.mapSets.filter(function (el) {
@@ -1320,15 +1323,14 @@ $(document).on('click', '#settings', function (e) {
         if (resSettings.settings.device.ownerTeam) { $('#form3').find('select[id="doTeam"]').val(resSettings.settings.device.ownerTeam); }
         if (resSettings.settings.device.debugMode === 0) {
             $('#form3').find('input[id="debugMode"]').iCheck('uncheck');
+            $('#showPayloads').addClass('hide');
         }
         if (resSettings.settings.device.debugMode === 1) {
             $('#form3').find('input[id="debugMode"]').iCheck('check');
+            $('#showPayloads').removeClass('hide');
         }
-        $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(staffDataFull));
-        if (resSettings.settings.device.ownerId) { $('#form3').find('select[id="deviceOwner"]').val(resSettings.settings.device.ownerId); }
         $('#form3').find('input[name="samplePrefix"]').val(resSettings.settings.device.samplePrefix);
         $('#form3').find('input[name="sampleCurrNum"]').val(resSettings.settings.device.currentSampleNumber);
-        //$('#form3').find('select[id="serverMode"]').val(resSettings.settings.app.serverMode);
     }).done(function () {
         $('#modalProgress').modal('hide');
         if (statusElem.innerHTML === 'online') {
@@ -1343,7 +1345,7 @@ $(document).on('click', '#settings', function (e) {
 $(document).on('click', '#SaveSettingsExit', function (e) {
     var v_appMode = $('#form3').find('#appMode').val();
     if (!v_appMode) {
-        $.growl.warning({ title: "", message: "Provide a valid mode.", location: "tc", size: "large" });
+        $.growl.warning({ title: "", message: "Provide a valid mode: PH!", location: "tc", size: "large" });
         return false;
     }
     /* Set AppMode */
@@ -1378,19 +1380,9 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     resSettings.settings.device.samplePrefix = $('#form3').find('input[name="samplePrefix"]').val();
     resSettings.settings.device.sampleStartNumber = $('#form3').find('input[name="sampleStartNum"]').val();
     resSettings.settings.device.currentSampleNumber = $('#form3').find('input[name="sampleCurrNum"]').val();
-    //resSettings.settings.app.serverMode = $('#form3').find('select[id="serverMode"]').val();
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
-            //if (resSettings.settings.app.serverMode !== $('#AppEnv').text()) {
-            //    clearCache();
-            //    $('#modalSettings').modal('hide');
-            //    $.growl.warning({ title: "", message: "Please restart the app for the settings to take effect. ", location: "tc", size: "large" });
-            //} else {
-            //    $.when(fetchSettings()).then(initSettings()).done(function () {
-            //        $('#modalSettings').modal('hide');
-            //    });
-            //}
             $.when(fetchSettings()).then(initSettings()).done(function () {
                 $('#modalSettings').modal('hide');
             });
@@ -1427,7 +1419,7 @@ $(document).on('click', '#Delete', function (e) {
                     loadMapMarkers("PH");
                 } else if (AppMode === "AH") {
                     loadMapMarkers("AH");
-                }               
+                }  
                 if (infoWindow) {
                     infoWindow.close();
                 }
@@ -1458,32 +1450,32 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
             $('#mb6 .progress').addClass('hide');
             $('#mb6 .fa-clock-o').addClass('hide');
         }
-
-    }).complete(function (data) {
-        switch (curDiscipline) {
-            case "0":
-                loadModal('mo_sngObservation');
-                break;
-            case "1":
-                loadModal('mo_grpObservation');
-                break;
-            case "B":
-                loadModal('mo_BotObservation');
-                break;
-            case "E":
-                loadModal('mo_EntObservation');
-                break;
-            case "P":
-                loadModal('mo_PatObservation');
-                break;
-        }
-        //var zi = $('#modalPHGrid').css('z-index');
-        //$('#modalForm').css('z-index', zi + 100);
-        $('#modalPHGrid').modal('hide');
-        $('#modalForm').modal();
-    }).done(function () {
-        $('#modalProgress').modal('hide');
-    });
+    })
+        .complete(function (data) {
+            switch (curDiscipline) {
+                case "0":
+                    loadModal('mo_sngObservation');
+                    break;
+                case "1":
+                    loadModal('mo_grpObservation');
+                    break;
+                case "B":
+                    loadModal('mo_BotObservation');
+                    break;
+                case "E":
+                    loadModal('mo_EntObservation');
+                    break;
+                case "P":
+                    loadModal('mo_PatObservation');
+                    break;
+            }
+            //var zi = $('#modalPHGrid').css('z-index');
+            //$('#modalForm').css('z-index', zi + 100);
+            $('#modalPHGrid').modal('hide');
+            $('#modalForm').modal();
+        }).done(function () {
+            $('#modalProgress').modal('hide');
+        });
 });
 $(document).on('click', '#srchAHTable tbody tr', function () {
     if ($(this).hasClass('selected')) {
@@ -1508,7 +1500,7 @@ $(document).on('click', '#srchAHTable tbody tr', function () {
 
     }).complete(function (data) {
         switch (curDiscipline) {
-            case "S":
+            case "SF":
                 loadModalAH('mo_sngObservation');
                 break;
             case "G":
@@ -1524,9 +1516,6 @@ $(document).on('click', '#srchAHTable tbody tr', function () {
     });
 });
 $(document).on('click', '#SyncPH', function (event) {
-    $('#mb6 .progText').text("Sync in progress ...");
-    $('#mb6 .progress').addClass('hide');
-    $('#mb6 .fa-clock-o').addClass('hide');
     $.when(setTimeout(DisableFormPH(), 1000));
 });
 $(document).on('shown.bs.modal', '#modalPHGrid', function () {
@@ -1567,7 +1556,7 @@ $(document).on('hidden.bs.modal', '#modalForm', function () {
         loadMapMarkers("PH");
     } else if (AppMode === "AH") {
         loadMapMarkers("AH");
-    }       
+    }  
 });
 $(document).on('click', 'a.btnResetData', function (e) {
     $.confirm({
@@ -1585,12 +1574,10 @@ $(document).on('click', 'a.btnResetData', function (e) {
                         var mm = today.getMonth() + 1; //January is 0!
                         var yyyy = today.getFullYear();
                         if (dd < 10) {
-
-                            dd = '0' + dd;
+                            dd = '0' + dd
                         }
                         if (mm < 10) {
-
-                            mm = '0' + mm;
+                            mm = '0' + mm
                         }
                         today = dd.toString() + '/' + mm.toString() + '/' + yyyy.toString();
                         db.transaction(function (tx) {
@@ -1686,7 +1673,7 @@ $(document).on('click', 'a.btnSync', function (e) {
         }
     });
 });
-$(document).on('click', '.showPayloads', function (e) {
+$(document).on('click', '#showPayloads', function (e) {
     if (debugMode === 1) {
         $.confirm({
             title: 'Activity Data',
@@ -1711,25 +1698,7 @@ $(document).on('click', '.showPayloads', function (e) {
                                                 content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadTD">' + JSON.stringify(taxaData) + '</textarea></div>',
                                                 columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
                                                 buttons: {
-                                                    Ok: function () {
-                                                        $.confirm({
-                                                            title: 'Settings',
-                                                            content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadRS">' + JSON.stringify(resSettings) + '</textarea></div>',
-                                                            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                                                            buttons: {
-                                                                Ok: function () { },
-                                                                copy: {
-                                                                    text: 'Copy', // With spaces and symbols
-                                                                    action: function () {
-                                                                        var copytext = this.$content.find("#PayloadRS");
-                                                                        copytext.select();
-                                                                        document.execCommand("copy");
-                                                                        return false;
-                                                                    }
-                                                                }
-                                                            }
-                                                        });
-                                                    },
+                                                    Ok: function () { },
                                                     copy: {
                                                         text: 'Copy', // With spaces and symbols
                                                         action: function () {
@@ -1832,18 +1801,10 @@ $(document).on('change', 'input:checkbox', function (e) {
         $(this).val('N');
     }
 });
-$(document).on('click', '#newObservationAH', function () {
+$(document).on('click', '#newObservationPH', function () {
     curIdx = -2;
-    switch (AppMode) {
-        case 'IAH':
-            $('#modalAHGrid').modal('hide');
-            $('#modalAHMenu').modal();
-            break;
-        case 'AH':
-            $('#modalAHGrid').modal('hide');
-            $('#modalAHMenu').modal();
-            break;
-    }
+    $('#modalPHGrid').modal('hide');
+    $('#modalPHMenu').modal();
 });
 $(document).on('click', 'a.btnBackupData', function (e) {
     backupDatabase();
@@ -2194,13 +2155,12 @@ function fetchSettings() {
             //This is not the first load
             if (res.rows && res.rows.length > 0) {
                 resSettings = JSON.parse(res.rows.item(0).settingsval);
-                //console.log('0-' + JSON.stringify(resSettings));
-                //fetchServerDetails($("#serverMode").val());
                 AppMode = resSettings.settings.app.appMode;
                 settings.innerHTML = AppMode;
                 downerId = resSettings.settings.device.ownerId;
                 downerTeam = resSettings.settings.device.ownerTeam;
                 debugMode = resSettings.settings.device.debugMode;
+                $("#serverMode").val(resSettings.settings.app.serverMode);
             }
             else {
                 $.ajax({
@@ -2229,8 +2189,14 @@ function fetchSettings() {
                             });
                         }, function (err) {
                             $.growl.error({ title: "", message: "An error occured while updating settings to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-                        });
-                        //fetchServerDetails($("#serverMode").val());
+                            });
+                        resSettings = JSON.parse(res.rows.item(0).settingsval);
+                        AppMode = resSettings.settings.app.appMode;
+                        settings.innerHTML = AppMode;
+                        downerId = resSettings.settings.device.ownerId;
+                        downerTeam = resSettings.settings.device.ownerTeam;
+                        debugMode = resSettings.settings.device.debugMode;
+                        $("#serverMode").val(resSettings.settings.app.serverMode);
                     },
                     failure: function () {
                         $.growl.error({ title: "", message: "Error loading settings!", location: "tc", size: "large", fixed: "true" });
@@ -2246,7 +2212,6 @@ function fetchSettings() {
 function fetchServerDetails(serverMode) {
     AppMode = resSettings.settings.app.appMode;
     settings.innerHTML = AppMode;
-    //ServerMode = resSettings.settings.app.serverMode;
     appEnv.innerHTML = serverMode;
     downerId = resSettings.settings.device.ownerId;
     downerTeam = resSettings.settings.device.ownerTeam;
@@ -2302,6 +2267,19 @@ function fetchServerDetails(serverMode) {
             break;
     }
     return taxaAddress;
+}
+function updateSettings(serverMode) {
+    if (serverMode !== resSettings.settings.app.serverMode) {
+        resSettings.settings.app.serverMode = serverMode;
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
+                //Updated serverMode to current.
+                $.growl.notice({ title: "", message: "Syncing app cache ... ", location: "bc", size: "small" });
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating settings. " + err.message, location: "tc", size: "large" });
+        });
+    }
 }
 function clearCache() {
     db.transaction(function (tx) {
@@ -2419,7 +2397,6 @@ function getCurrentActivityBounds(str) {
             }
         });
         if (curLats.length > 0 && curLngs.length > 0) {
-
             cX = curLats[0];
             cY = curLngs[0];
             curLats.sort();

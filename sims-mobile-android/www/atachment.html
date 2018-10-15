@@ -36,3 +36,56 @@
         <i class="fa fa-remove text-info fa-2x removePlantAttachment" style="cursor:pointer;"></i>
     </div>
 </div>
+
+<div class="row col-md-12 col-sm-12 col-xs-12 AnimalAttachment pl-0 pr-0 collapsed">
+    <div class="form-group col-md-2 col-sm-2 col-xs-2">
+        <img class="pp pull-right" src="images/plant.png" name="iAnimalAttachment_M_S">
+    </div>
+    <div class="form-group col-md-7 col-sm-8 col-xs-8">
+        <input type="text" class="form-control" name="AnimalAttachmentD_M_S" value="">
+        <textarea class="form-control hide" name="AnimalAttachment_M_S" rows="5" cols="5"></textarea>
+    </div>
+    <div class="form-group col-md-2 col-sm-1 col-xs-1">
+        <i class="fa fa-remove text-info fa-2x removeAnimalAttachment" style="cursor:pointer;"></i>
+    </div>
+</div>
+
+<div class="form-group col-md-3 col-sm-3 col-xs-3 ripple">
+    <input type="radio" class="minimal" name="BodyConditionFlag_M_S" value="">&nbsp;
+    <label class="bcstext"></label>
+</div>
+
+<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX">
+    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+        <label class="syndromeText"></label>
+    </div>
+    <div class="form-group col-md-3 col-sm-3 col-xs-3 ripple">
+        <input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y">&nbsp;
+        <label>Yes</label>
+    </div>
+    <div class="form-group col-md-3 col-sm-3 col-xs-3 ripple">
+        <input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N">&nbsp;
+        <label>No</label>
+    </div>
+    <div class="form-group col-md-6 col-sm-6 col-xs-6 defSyndComments">
+        <label><span class="bold-red">*</span>Comments</label>
+        <input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S">
+    </div>
+</div>
+
+<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX">
+    <div class="row col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group col-md-6 col-sm-6 col-xs-6">
+            <input type="text" class="form-control syndromeCode" name="SyndromeCode_M_S">
+            <input type="radio" class="minimal" name="syndrome" value="Yes" checked>&nbsp;
+            <input type="text" class="form-control syndromeText" name="SyndromeText_M_S">
+        </div>
+        <div class="form-group col-md-6 col-sm-6 col-xs-6">
+            <a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeSyndrome"><i class="fa fa-remove"></i></a>
+        </div>
+    </div>
+    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+        <label><span class="bold-red">*</span>Comments</label>
+        <input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S">
+    </div>
+</div>
