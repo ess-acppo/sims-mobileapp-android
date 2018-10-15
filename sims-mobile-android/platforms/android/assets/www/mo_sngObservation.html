@@ -69,6 +69,7 @@
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*</span>Taxon</label>
                             <select class="form-control" name="taxon_M_N" id="taxon">
+                                <option value="NONE">- select -</option>
                             </select>
                         </div>
                     </div>
@@ -196,11 +197,13 @@
                         <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="maggotSamples">
                         </div>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12 defSyndromes">
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
                             <button type="button" class="btn btn-md btn-info pull-right" id="noSyndromes"><i class="fa fa-eye-slash"></i>&nbsp;No Syndromes Found</button>
                             <h4 class="box-title">Syndromes</h4>
                             <label>Indicate if any of the following syndromes were found to be present:</label>
+                        </div>
+                        <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="defSyndromes">
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -242,7 +245,7 @@
                 <div class="tab-pane" id="tab_3">
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
-                            <button type="button" class="btn btn-md btn-default" id="addSample"><i class="fa fa-plus"></i>&nbsp;Add Sample</button>
+                            <button type="button" class="btn btn-md btn-default" id="addAnimalSample"><i class="fa fa-plus"></i>&nbsp;Add Sample</button>
                             <button type="button" class="btn btn-md btn-default hide" id="addPreSelectedSample"><i class="fa fa-thermometer"></i>Pre-Selected</button>
                         </div>
                     </div>

@@ -2853,16 +2853,16 @@ $(document).on('click', '#addBotanySample', function (e) {
     //that.find('select[name^="HostIdentifiedUserId"]').find('option').remove().end().append($(staffData));
     that.find('input').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
-    })
+    });
     that.find('img').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
-    })
+    });
     that.find('select').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
-    })
+    });
     that.find('textarea').each(function () {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
-    })
+    });
     that.find("input[name^='CollectedSampleCount']").val('1');
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');

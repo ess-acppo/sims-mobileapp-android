@@ -877,11 +877,11 @@ function loadData() {
                         }
                     },
                     {
-                        "data": "SurvActivityId_M_N"
+                        "data": "activityId_M_N"
                     },
-                    { "data": "commonName" },
+                    { "data": "commonName_M_S" },
                     {
-                        "data": "sDate",
+                        "data": "dateTime_M_D",
                         "render": function (data, type, row, meta) {
                             return moment(data).format("YYYY-MM-DD HH:MM:SS");
                         }
@@ -889,9 +889,9 @@ function loadData() {
                     {
                         "data": null, //data is null since we want to access ALL data
                         //for the sake of our calculation below
-                        "render": function (data, type, row) { return ("POINT ( " + data["longitude"] + " " + data["latitude"] + ")"); }
+                        "render": function (data, type, row) { return ("POINT ( " + data["Longitude_M_N"] + " " + data["Latitude_M_N"] + ")"); }
                     },
-                    { "data": "datum" },
+                    { "data": "ObservWhereGpsDatumId_M_S" },
                     {
                         "data": "status_M_N",
                         "render": function (data, type, row, meta) {
@@ -1027,7 +1027,7 @@ $(document).on('click', '#Save', function (e) {
             //}
             break;
         case "AH":
-            obj = objectifyForm(form1);
+            obj = objectifyAHFormforSave(form1);
             obj.status_M_N = 0;
             if (debugMode === 1) {
                 $.confirm({
@@ -1121,9 +1121,9 @@ $(document).on('click', '#SaveExit', function (e) {
             $('#modalForm').modal('hide');
             break;
         case "AH":
-            var obj1 = JSON.stringify(objectifyForm(form1));
+            var obj1 = JSON.stringify(objectifyAHFormforSave(form1));
             console.log(obj1);
-            obj = objectifyForm(form1);
+            obj = objectifyAHFormforSave(form1);
             obj.status_M_N = 0;
             if (debugMode === 1) {
                 $.confirm({
@@ -1240,7 +1240,7 @@ $(document).on('click', '#Submit2', function (e) {
             }
             break;
         case "AH":
-            obj = objectifyForm(form1);
+            obj = objectifyAHFormforSave(form1);
             //console.log(JSON.stringify(obj));
             result = IterateAH(obj);
             if (result.vError === 0) {
