@@ -1,6 +1,6 @@
 ﻿var bcs = '<div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="bodyConditionScore_M_N" value="0" data-code="0" data-validate="Y">&nbsp;<label class="bcstext"></label></div>';
-var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="text" class="form-control" name="SyndromeCode_M_S" value=""></div><div class="form-group col-md-9 col-sm-9 col-xs-9"><input type="text" class="form-control" name="SyndromeText_M_S" value=""></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N">&nbsp;<label>No</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6 defSyndComments hide"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
-var syndrome = '<div class="form-group col-md-6 col-sm-6 col-xs-9"><div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="text" class="form-control" name="SyndromeCode_M_S" value=""></div><div class="form-group col-md-9 col-sm-9 col-xs-9"><input type="text" class="form-control" name="SyndromeText_M_S" value=""></div></div><div class="form-group col-md-6 col-sm-6 col-xs-3"><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
+var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-3 col-sm-3 col-xs-3"><label>Code</label><input type="text" class="form-control" name="SyndromeCode_M_S" readonly value=""></div><div class="form-group col-md-9 col-sm-9 col-xs-9"><label>Syndrome Text</label><input type="text" class="form-control" name="SyndromeText_M_S" readonly value=""></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N">&nbsp;<label>No</label></div><div class="form-group col-md-12 col-sm-12 col-xs-12 defSyndComments hide"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
+var syndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX"><div class="form-group col-md-2 col-sm-2 col-xs-2"><label>Code</label><input type="text" class="form-control" name="XSyndromeCode_M_S" readonly value=""></div><div class="form-group col-md-8 col-sm-8 col-xs-8"><label>Syndrome Text</label><input type="text" class="form-control" name="XSyndromeText_M_S" readonly value=""></div><div class="form-group col-md-2 col-sm-2 col-xs-2"><a href="#" class="form-control btn btn-md btn-danger text-arrows removeSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="XSyndromeComments_O_S"></div></div>';
 var speciesTaxonSyndromSamples;
 var syndromes = 0;
 var syndromesData;
@@ -11,8 +11,8 @@ var defaultSpecies;
 var fieldTestsData;
 /* AH Initialized variables */
 var species = '<div class="row col-md-12 dynarow"><div class="form-group col-xs-2"><input type="text" class="form-control speciesText"/></div><div class="form-group col-xs-2"><label>Taxon Name<span class="bold-red">*</span></label></div><div class="form-group col-xs-2"><input type="text" class="form-control taxonText" placeholder="Taxon Name" name="taxonName"></div><div class="form-group col-xs-3" ><label>Number in Group<span class="bold-red">*</span></label></div><div class="form-group col-xs-1"><input type="text" class="form-control" placeholder="#" name="Number"></div><div class="form-group col-xs-1"><button type="button" class="btn btn-danger btn-circle btn-xs pull-right removeSpecies"><i class="fa fa-times-circle fa-2x"></i></button></div></div>';
-var fieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*</span>Fieldtest Name</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test ID</label><input type="text" class="form-control" placeholder="Field Test ID" readonly name="FieldTestID_M_N" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Name</label><input type="text" class="form-control" placeholder="Field Test Name" name="FieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test</label><select class="form-control fieldTest" name="FieldTests_M_S"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="InvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Diseases</label><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comments</label><textarea class="form-control" rows="5" name="FieldTestComment_O_S" data-name="FieldTest-Additional Comments" data-section="AnimalFieldTestTab"></textarea></div></div></div>';
-var preFieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*</span>Fieldtest Name</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test ID</label><input type="text" class="form-control" placeholder="Field Test ID" readonly name="PFieldTestID_M_N" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Name</label><input type="text" class="form-control" placeholder="Field Test Name" name="PFieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test</label><select class="form-control fieldTest" name="PFieldTests_M_S"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="PInvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Diseases</label><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comments</label><textarea class="form-control" rows="5" name="PFieldTestComment_O_S" data-name="FieldTest-Additional Comments" data-section="AnimalFieldTestTab"></textarea></div></div></div>';
+var fieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*</span>Fieldtest ID</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control" placeholder="Field Test ID" readonly name="FieldTestID_M_N" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Name</label><input type="text" class="form-control" placeholder="Field Test Name" name="FieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test</label><select class="form-control fieldTest" name="FieldTests_M_S"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="InvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Diseases</label><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comments</label><textarea class="form-control" rows="5" name="FieldTestComment_O_S" data-name="FieldTest-Additional Comments" data-section="AnimalFieldTestTab"></textarea></div></div></div>';
+var preFieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*</span>Fieldtest ID</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control" placeholder="Field Test ID" readonly name="PFieldTestID_M_N" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Name</label><input type="text" class="form-control" placeholder="Field Test Name" name="PFieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test</label><select class="form-control fieldTest" name="PFieldTests_M_S"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="PInvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Diseases</label><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comments</label><textarea class="form-control" rows="5" name="PFieldTestComment_O_S" data-name="FieldTest-Additional Comments" data-section="AnimalFieldTestTab"></textarea></div></div></div>';
 var maggotSample = '<div class="row col-md-12 dynarow maggotSample"><div class="form-group col-md-12 col-sm-12 col-xs-12"><i class="fa fa-remove fa-2x text-danger removeMaggotSample pull-right"></i><label class="sampleName">Maggot Sample</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Field Id<span class="bold-red">*</span></label><input type="text" class="form-control nextid" placeholder="Sample Field Id" name="msfieldID" value="1"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Type<span class="bold-red">*</span></label><select class="form-control" name="msType"><option selected>Maggots</option></select></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Pathogen/Test Type</label><br /><input type="checkbox" class="form-control minimal" name="swfExcl" value="swfExcl" checked>&nbsp;<label>SWF Exclusion</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Additional Comment</label><textarea class="form-control" rows="3" name="msNotes" placeholder="Notes ..."></textarea></div></div>';
 var animalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeAnimalSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control" placeholder="Sample Field ID" name="SampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control sampleType" name="SampleType_M_S" data-name="Sample-Type" data-section="AnimalSampleTab"></select></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"></div></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="AdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
 var preAnimalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control nextid" placeholder="Sample Field ID" name="PSampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control sampleType" name="PSampleType_M_S" data-name="Sample-Type" data-section="AnimalSampleTab"></select></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"></div></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="PAdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
@@ -176,7 +176,8 @@ function loadAHDefaults() {
     $.getJSON("data/referenceCodes.json", function (data) {
         $.each(data.AnimalHealthReferenceCodes.BodyConditionScore, function (key, val) {
             var v_bcs = $(bcs);
-            v_bcs.find('input[type="radio"][name="bodyConditionScore_M_N"]').val(val.code).data("code", val.code);
+            v_bcs.find('input[type="radio"][name="bodyConditionScore_M_N"]').val(val.code);
+            v_bcs.find('input[type="radio"][name="bodyConditionScore_M_N"]').attr("data-code", val.code);
             v_bcs.find('.bcstext').text(val.desc);
             $("#form1").find(".body_condition_score").append(v_bcs);
             v_bcs.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
@@ -420,12 +421,11 @@ $(document).on('change', 'select.sampleType', function () {
             $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
         });
 });
-function loadPathogens(e) {
-    var str = e.val();
-    var nxtTF = e.parent().next('div').find('.testTypes');
-    if (str !== 'NONE') {
+function loadPathogens(e, f) {
+    var nxtTF = $('.sample').eq(f-1).find('.testTypes');
+    if (e !== 'NONE') {
         var arr = jQuery.grep(possibleSamples, function (n, i) {
-            return (n.sampleTypeCode === str);
+            return (n.sampleTypeCode === e);
         });
         nxtTF.empty();
         var count = 0;
@@ -467,7 +467,7 @@ $(document).on('change', 'select.fieldTest', function () {
                 });
                 $.each(arr[0].diseases.disease, function (key, val) {
                     diseases = diseases + 1;
-                    var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" value="Negative">&nbsp;<label>Negative</label></div>';
+                    var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
                     nxtD.append($(disease));
                     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                         checkboxClass: 'icheckbox_square-blue',
@@ -483,18 +483,17 @@ $(document).on('change', 'select.fieldTest', function () {
             $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
         });
 });
-function loadDiseases(e) {
-    var nxtD = e.parent().parent().find('.diseases');
-    var str = e.val();
+function loadDiseases(e, f) {
+    var nxtD = $('.fieldtest').eq(f-1).find('.diseases');
     var diseases = 0;
-    if (str !== 'NONE') {
+    if (e !== 'NONE') {
         nxtD.empty();
         var arr = jQuery.grep(fieldTestsData, function (n, i) {
-            return (n.fieldTestCde === str);
+            return (n.fieldTestCde === e);
         });
         $.each(arr[0].diseases.disease, function (key, val) {
             diseases = diseases + 1;
-            var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" value="Negative">&nbsp;<label>Negative</label></div>';
+            var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
             nxtD.append($(disease));
             nxtD.find("input[type='checkbox']").iCheck({
                 checkboxClass: 'icheckbox_square-blue',
@@ -697,49 +696,14 @@ function getNextAnimalID(e) {
         $.growl.error({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "tc", size: "large" });
     });
 }
-//function getNextAnimalID() {
-//    //Read from DB
-//    db.transaction(function (tx) {
-//        tx.executeSql("SELECT * FROM seqnum WHERE id = ? and attrname = ?", [2, 'animalid'], function (tx, res) {
-//            if (res.rows && res.rows.length > 0) {
-//                var nextID = res.rows.item(0).attrval + 1;
-//                db.transaction(function (tx) {
-//                    tx.executeSql("UPDATE seqnum set attrval = ? where id = ?", [nextID, 2], function (tx, res) {
-//                        //alert("Row inserted.");
-//                        //return e + pad(nextID.toString(), 4);
-//                        return nextID;
-//                        //$("#form1").find('input[type="text"].nextid').first().val(nextID);
-//                    });
-//                }, function (err) {
-//                    $.growl({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
-//                });
-//            }
-//            else {
-//                db.transaction(function (tx) {
-//                    tx.executeSql("INSERT INTO seqnum (id, attrname, attrval) VALUES (?,?,?)", [2, 'animalid', 1], function (tx, res) {
-//                        //alert("Row inserted.");
-//                        //return e + pad('1', 4);
-//                        return 1;
-//                        //$("#form1").find('input[type="text"].nextid').first().val(1);
-//                    });
-//                }, function (err) {
-//                    $.growl({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "bc", size: "large" });
-//                });
-//            }
-//        });
-//    }, function (err) {
-//        $.growl({ title: "", message: "An error occured while retrieving next ID. " + err.message, location: "bc", size: "large" });
-//    });
-//}
 $(document).on('click', '#addSyndrome', function (e) {
     syndromes = syndromes + 1;
     var that = $(syndrome);
-    that.find('input[name^="SyndromeText_M_S"]').val($('#lstSyndromes option:selected').text());
-    that.find('input[name^="SyndromeCode_M_S"]').val($('#lstSyndromes option:selected').val());
-    that.find('input[name^="SyndromeText_M_S"]').attr("name", "SyndromeText_M_S_" + syndromes);
-    that.find("input[name^='SyndromeCode_M_S']").attr("name", "SyndromeCode_M_S_" + syndromes);
-    that.find("input[name^='SyndromeFlag_M_S']").attr("name", "SyndromeFlag_M_S_" + syndromes);
-    that.find("input[name^='SyndromeComments_O_S']").attr("name", "SyndromeComments_O_S_" + syndromes);
+    that.find('input[name^="XSyndromeText_M_S"]').val($('#lstSyndromes option:selected').text());
+    that.find('input[name^="XSyndromeCode_M_S"]').val($('#lstSyndromes option:selected').val());
+    that.find('input[name^="XSyndromeText_M_S"]').attr("name", "XSyndromeText_M_S_" + syndromes);
+    that.find("input[name^='XSyndromeCode_M_S']").attr("name", "XSyndromeCode_M_S_" + syndromes);
+    that.find("input[name^='XSyndromeComments_O_S']").attr("name", "XSyndromeComments_O_S_" + syndromes);
     that.find("input[type='checkbox']").iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
@@ -1047,6 +1011,16 @@ function loadModalAH(pagename) {
                             $('#form1').find("input[name^='Longitude']").val(wkt.toJson().coordinates[0]);
                             $('#form1').find("input[name^='Latitude']").val(wkt.toJson().coordinates[1]);
                         }
+                        if (key.startsWith("XSyndromeCode_M_S") && value !== "") {
+                            $.ajax({
+                                url: "",
+                                beforeSend: function (xhr) {
+                                    $('#addSyndrome').trigger("click");
+                                }
+                            }).complete(function (e) {
+                                $('#form1').find("input[type='text'][name='" + key + "']").val(value);
+                            });
+                        }
                         if (key.startsWith("SampleFieldLabelText_M_S") && value > 0) {
                             $.ajax({
                                 url: "",
@@ -1062,7 +1036,7 @@ function loadModalAH(pagename) {
                                 url: "",
                                 beforeSend: function (xhr) {
                                     $('#form1').find("select[name='" + key + "']").val(value);
-                                    loadPathogens($('#form1').find("select[name='" + key + "']"));
+                                    loadPathogens(value, samples);
                                 }
                             }).complete(function (e) {
                                 $('#form1').find("select[name='" + key + "']").val(value);
@@ -1083,7 +1057,7 @@ function loadModalAH(pagename) {
                                 url: "",
                                 beforeSend: function (xhr) {
                                     $('#form1').find("select[name='" + key + "']").val(value);
-                                    loadDiseases($('#form1').find("select[name='" + key + "']"));
+                                    loadDiseases(value, fieldTests);
                                 }
                             }).complete(function (e) {
                                 $('#form1').find("select[name='" + key + "']").val(value);
@@ -1103,8 +1077,8 @@ function loadModalAH(pagename) {
                         if (key === "ageClass_M_S" && value !== "") {
                             $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
                         }
-                        if (key === "bodyConditionScore_M_N" && value !== "0") {
-                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        if (key === "bodyConditionScore_M_N" && value > 0) {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value=" + value + "]").iCheck('check');
                         }
                         if (key === "woundsPresent_M_S" && value !== "") {
                             $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
@@ -1315,7 +1289,7 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
 });
 
 function IterateAH(data) {
-    return true;
+    return { "vError": 0, "vErrDescription": "" };
 }
 
 //$(document).on('focus', "#SiteIdAH", function (e) {
@@ -1407,30 +1381,25 @@ $(document).on('click', ".removeAnimalAttachment", function () {
     }
 });
 function objectifyAHFormforSave(formArray) {
-    var plantDisciplineCode;
-    var addlObserver = 1;
-    var vattachment = 1;
-    var obsAttachment = 1;
-    var sampleAttachment = 1;
     var observation = {};
     for (var i = 0; i < formArray.length; i++) {
         if (formArray[i]['name'].length > 0) {
-            //if (formArray[i]['name'].startsWith('AdditionalObservers')) { continue; }
-            //if (formArray[i]['name'].startsWith('AdditionalCollectors')) { continue; }
-            //if (formArray[i]['name'].startsWith('PlantStatisticType')) { continue; }
-            //if (formArray[i]['name'].startsWith('Latitude')) { continue; }
-            //if (formArray[i]['name'].startsWith('Longitude')) { continue; }
             var fname = formArray[i]['name'].split("_")[0];
             var fMOC = formArray[i]['name'].split("_")[1];
             var fNSD = formArray[i]['name'].split("_")[2];
             var fnum = formArray[i]['name'].split("_")[3];
             var ftype = formArray[i]['name'].split("_")[4];
-            if (fNSD === 'N') {
-                observation[formArray[i]['name']] = Number(formArray[i]['value']);
+            if ($("[name='" + formArray[i]['name'] + "']").is(':radio')) {
+                if (fNSD === 'N') {
+                    observation[formArray[i]['name']] = Number($("[name='" + formArray[i]['name'] + "']:checked").val());
+                }
+                else {
+                    observation[formArray[i]['name']] = $("[name='" + formArray[i]['name'] + "']:checked").val();
+                }
             }
             else {
-                if ($("[name='" + formArray[i]['name'] + "']").is(':radio')) {
-                    observation[formArray[i]['name']] = $("[name='" + formArray[i]['name'] + "']:checked").val();
+                if (fNSD === 'N') {
+                    observation[formArray[i]['name']] = Number(formArray[i]['value']);
                 }
                 else {
                     observation[formArray[i]['name']] = formArray[i]['value'];
@@ -1440,9 +1409,154 @@ function objectifyAHFormforSave(formArray) {
     }
     return observation;
 }
+function packageAHFormforSubmit(data) {
+    var modData = JSON.parse(JSON.stringify(data));
+    var feralAnimalObservations = { "activityId": "", "submittedBy": "", "feralAnimalObservation": [] };
+    var observation = {};
+    var locationDatum = { "srsName": "", "wkt": "" };
+    var animalConditionChoice = {
+        "bodyConditionScore": 0,
+        "wound": {
+            "woundsPresent": "N",
+            "maggotsPresent": "N"
+        },
+        "syndrome": [],
+        "additionalObservations": ""
+    };
+    var postMortem = {
+        "postMortemConducted": "N",
+        "postMortemBodySystems": [ { "postMortemBodySystem": [] } ]
+    };
+    var syndrome = {};
+    var postMortemBodySystem = [{}];
+    var extObsrvrFlag = 0;
+    $.each(modData, function (index, value) {
+        if (isNaN(index)) {
+            var fname = index.split("_")[0];
+            var fMOC = index.split("_")[1];
+            var fNSD = index.split("_")[2];
+            var fnum = index.split("_")[3];
+            var ftype = index.split("_")[4];
+
+            if (fNSD === 'N') { value = Number(value); }
+
+            if (fname === 'activityId') { feralAnimalObservations.activityId = value; return true; }
+            if (fname === 'submittedBy') { feralAnimalObservations.submittedBy = value; return true; }
+            if (fname === 'AnimalDisciplineCode') { return true; }
+            if (fname === 'Latitude') { return true; }
+            if (fname === 'Longitude') { return true; }
+
+            if (fname === 'ObservationStaffId') { observation['observer'] = value; return true; }
+            if (fname === 'externalObserverFlag' && value === 'Y') {
+                extObsrvrFlag = 1;
+                return true;
+            }
+            if (fname === 'externalObserver_O_S' && value !== '' && extObsrvrFlag === 1) {
+                observation['externalObserver'] = value;
+                return true;
+            }
+            if (fname === 'ObservWhereGpsDatumId') { locationDatum.srsName = value; return true; }
+            if (fname === 'ObservationWhereWktClob') {
+                locationDatum.wkt = value;
+                observation['locationDatum'] = locationDatum;
+                return true;
+            }
+            if (fname === 'bodyConditionScore') {
+                animalConditionChoice.bodyConditionScore = value;
+                return true;
+            }
+            if (fname === 'woundsPresent') {
+                animalConditionChoice.woundsPresent = value;
+                return true;
+            }
+            if (fname === 'maggotsPresent') {
+                animalConditionChoice.maggotsPresent = value;
+                return true;
+            }
+            if (fname === 'Syndromes') { return true; }
+            if (fname === 'SyndromeCode' || fname === 'XSyndromeCode') {
+                //var syndrome = { "name": "", "id": 0, "present": "", "comment": "" };
+                syndrome = {};
+                syndrome['id'] = value;
+                return true;
+            }
+            if (fname === 'SyndromeText' || fname === 'XSyndromeText') {
+                syndrome['name'] = value;
+                return true;
+            }
+            if (fname === 'SyndromeFlag' || fname === 'XSyndromeFlag') {
+                syndrome['present'] = value;
+                return true;
+            }
+            if (fname === 'SyndromeComments' || fname === 'XSyndromeComments') {
+                syndrome['comment'] = value;
+                animalConditionChoice.syndrome.push(syndrome);
+                return true;
+            }
+            if (fname === 'additionalObservations') {
+                animalConditionChoice.additionalObservations = value;
+                observation['animalConditionChoice'] = animalConditionChoice;
+                return true;
+            }
+            if (fname.startsWith('BodySystemCode')) {
+                //var postMortemBodySystem = [{ "bodySystemCde": "", "abnormalDetection": "", "grossFindings": "" }];
+                postMortemBodySystem = [{}];
+                postMortemBodySystem[0]['bodySystemCde'] = value;
+                return true;
+            }
+            if (fname === 'IntegumentFlag') {
+                postMortemBodySystem[0]['abnormalDetection'] = value;
+                return true;
+            }
+            if (fname === 'IntGrossFindings') {
+                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortem.postMortemBodySystems.push(postMortemBodySystem);
+                return true;
+            }
+            if (fname === 'HeadNeckFlag') {
+                postMortemBodySystem[0]['abnormalDetection'] = value;
+                return true;
+            }
+            if (fname === 'HeadNeckGrossFindings') {
+                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortem.postMortemBodySystems.push(postMortemBodySystem);
+                return true;
+            }
+            if (fname === 'ThoraxFlag') {
+                postMortemBodySystem[0]['abnormalDetection'] = value;
+                return true;
+            }
+            if (fname === 'ThoraxGrossFindings') {
+                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortem.postMortemBodySystems.push(postMortemBodySystem);
+                return true;
+            }
+            if (fname === 'AbdomenFlag') {
+                postMortemBodySystem[0]['abnormalDetection'] = value;
+                return true;
+            }
+            if (fname === 'AbdomenGrossFindings') {
+                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortem.postMortemBodySystems.push(postMortemBodySystem);
+                return true;
+            }
+            if (fname === 'MuscSkeletalFlag') {
+                postMortemBodySystem[0]['abnormalDetection'] = value;
+                return true;
+            }
+            if (fname === 'MuscSkeletalGrossFindings') {
+                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortem.postMortemBodySystems.push(postMortemBodySystem);
+                return true;
+            }
+            observation[index] = value;
+        }
+    });
+    feralAnimalObservations.feralAnimalObservation.push(observation);
+    return feralAnimalObservations;
+}
 function objectifyAHFormforSubmit(data) {//serialize data function
     var modData = JSON.parse(JSON.stringify(data));
-    delete modData.TimeHourCount_M_S;
     var jsonStr = JSON.stringify(modData);
     jsonStr = jsonStr.replace(/_O_N_\d_T/g, '').replace(/_M_S_\d_T/g, '').replace(/_O_S_\d_T/g, '').replace(/_M_N_\d_H/g, '').replace(/_M_S_\d_H/g, '').replace(/_O_S_\d_H/g, '').replace(/_O_N_\d_H/g, '');
     jsonStr = jsonStr.replace(/_M_S_\d_S/g, '').replace(/_O_N_\d_S/g, '').replace(/_M_S_\d_S/g, '').replace(/_M_D_\d_S/g, '').replace(/_O_S_\d_S/g, '');
@@ -1457,7 +1571,7 @@ function preValidateAH() {
     return true;
 }
 function Iterate2AH(data) {
-    return true;
+    return { "vError": 0, "vErrDescription": "" };
 }
 function SubmitRecordAH(formArray) {//serialize data function
     var guid1 = guid().toUpperCase();
@@ -1474,13 +1588,167 @@ function SubmitRecordAH(formArray) {//serialize data function
                 "value": ""
             }]
         },
-        "body": {
-            "feralAnimalObservations": ""
-        }
+        "body": {}
     };
-    formArray["submittedBy"] = resSettings.settings.device.ownerId;
-    obsWrapper.body.feralAnimalObservations = formArray;
+    //feralAnimalObservation.push(formArray);
+    //feralAnimalObservations['submittedBy'] = resSettings.settings.device.ownerId;
+    //feralAnimalObservations['feralAnimalObservation'] = feralAnimalObservation;
+    obsWrapper.body = formArray;
     return obsWrapper;
+}
+function DisableFormAH() {
+    $('#DownloadAH').removeClass('btn-default');
+    $('#DownloadAH').attr('disabled', true);
+    $('#DownloadAH').addClass('disabled');
+    $('#SyncAH').removeClass('btn-info');
+    $('#SyncAH').attr('disabled', true);
+    $('#SyncAH').addClass('disabled');
+    $('#newObservationAH').removeClass('btn-default');
+    $('#newObservationAH').attr('disabled', true);
+    $('#newObservationAH').addClass('disabled');
+
+    $('#mb6 .progText').text("Sync in progress ...");
+    $('#mb6 .progress').addClass('hide');
+    $('#mb6 .fa-clock-o').addClass('hide');
+    $('#modalProgress').modal();
+    setTimeout(StartSyncAH, 1000);
+}
+function StartSyncAH() {
+    var success = true;
+    var rowsFailed = [];
+    var rowsFailedErr = [];
+    var rowsSuccess = [];
+    var logstr = "";
+    var arr = results.observations.filter(function (el) {
+        return (el.status_M_N === 1 && (el.AnimalDisciplineCode_M_S === 'SF' || el.AnimalDisciplineCode_M_S === 'G'));
+    });
+    if (arr && arr.length === 0) {
+        $.growl.notice({ title: "", message: "No records to Sync.", location: "bc", size: "small" });
+        setTimeout(EnableFormPH(), 300);
+        return false;
+    }
+    else {
+        $.each(results.observations, function (index, value) {
+            if (value.status_M_N === 0 || value.PlantDisciplineCode_M_S === 'P' || value.PlantDisciplineCode_M_S === 'E' || value.PlantDisciplineCode_M_S === 'B') { return true; }
+            vError = 0;
+            vErrDescription = [];
+            vFailed = false;
+            var rowid = value.id_M_N;
+            var result = Iterate2AH(value);
+            if (result.vError === 0) {
+                //var vpayload = JSON.stringify(SubmitRecordAH(objectifyAHFormforSubmit(packageAHFormforSubmit(value))));
+                var vpayload = JSON.stringify(packageAHFormforSubmit(value));
+                console.log(vpayload);
+                //if (debugMode === 1) {
+                //    $.confirm({
+                //        title: 'Payload Attempted!',
+                //        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
+                //        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                //        buttons: {
+                //            ok: function () { },
+                //            copy: {
+                //                text: 'Copy', // With spaces and symbols
+                //                action: function () {
+                //                    var copytext = this.$content.find("#Payload");
+                //                    copytext.select();
+                //                    document.execCommand("copy");
+                //                    return false;
+                //                }
+                //            }
+                //        }
+                //    });
+                //}
+                //var payload = {
+                //    "value": vpayload.escapeSpecialChars() 
+                //};
+                //$.ajax({
+                //    method: "POST",
+                //    async: false,
+                //    url: "https://online-dev.agriculture.gov.au/psd.comr.svl/FeralAnimalService/1.0/createFeralAnimalObservation",
+                //    //data: JSON.stringify(payload),
+                //    data: vpayload.escapeSpecialChars(),
+                //    contentType: "application/json",
+                //    dataType: "json",
+                //    headers: {
+                //        "authorization": authCode,
+                //        "cache-control": "no-cache"
+                //    },
+                //    success: function (data, textStatus, XmlHttpRequest) {
+                //        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
+                //        if (XmlHttpRequest.status === 200) {
+                //            //$.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
+                //            logstr = logstr + vpayload.escapeSpecialChars() + "\r\n";
+                //        }
+                //        rowsSuccess.push(index);
+                //    },
+                //    complete: function (xhr, textStatus) {
+                //        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
+                //        //results.observations(value.id_M_N - 1).status_M_N = 2;
+                //        //results.observations.splice(index, 1);
+                //    },
+                //    error: function (xhr, textStatus, errorThrown) {
+                //        //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
+                //        $.dialog({
+                //            title: 'Sync Failed!',
+                //            content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
+                //            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
+                //        });
+                //    }
+                //});
+            }
+            else {
+                rowsFailed.push(rowid);
+                rowsFailedErr.push(result.vErrDescription);
+                success = false;
+                return false;
+            }
+        });
+        if (success === true) {
+            rowsSuccess.sort();
+            rowsSuccess.reverse();
+            $.each(rowsSuccess, function (index, value) {
+                results.observations.splice(value, 1);
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
+                    logRecord(logstr);
+                    //alert("Dataset updated.");
+                    //$.growl({ title: "", message: "Observations synced to cloud.", location: "tc", size: "large" });
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while updating records to database. " + err.message, location: "tc", size: "large" });
+            });
+        }
+        else if (success === false) { $.growl.error({ title: "", message: rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
+        syncActivityDataAH();
+        //loadActivityDataAH();
+        //loadAHDefaults();
+        table.destroy();
+        loadData();
+        clearMarkers();
+        if (AppMode === "PH") {
+            loadMapMarkers("PH");
+        } else if (AppMode === "AH") {
+            loadMapMarkers("AH");
+        }
+        if (infoWindow) {
+            infoWindow.close();
+        }
+        setTimeout(EnableFormAH(), 1000);
+    }
+}
+function EnableFormAH() {
+    $('#DownloadAH').addClass('btn-default');
+    $('#SyncAH').addClass('btn-info');
+    $('#newObservationAH').addClass('btn-default');
+    $('#DownloadAH').attr('disabled', false);
+    $('#DownloadAH').removeClass('disabled');
+    $('#SyncAH').attr('disabled', false);
+    $('#SyncAH').removeClass('disabled');
+    $('#newObservationAH').attr('disabled', false);
+    $('#newObservationAH').removeClass('disabled');
+    $('#mb6 .progText').text("");
+    $('#modalProgress').modal('hide');
 }
 
 /* tab scroller */

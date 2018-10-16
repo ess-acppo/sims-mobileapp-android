@@ -225,7 +225,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label>Additional Observations</label>
-                            <textarea class="form-control" rows="6" name="additionalObservations_O_S" style="height:80px;"></textarea>
+                            <textarea class="form-control" rows="6" name="notes_O_S" style="height:80px;"></textarea>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -262,6 +262,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-xs-4">
                             <label>Integument</label>
+                            <input type="hidden" name="BodySystemCodeIN" value="IN"/>
                         </div>
                         <div class="form-group col-xs-3">
                             <input type="radio" class="minimal" name="IntegumentFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
@@ -277,6 +278,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-xs-4">
                             <label>Head / Neck</label>
+                            <input type="hidden" name="BodySystemCodeHN" value="HN" />
                         </div>
                         <div class="form-group col-xs-3">
                             <input type="radio" class="minimal" name="HeadNeckFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
@@ -292,6 +294,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-xs-4">
                             <label>Thorax</label>
+                            <input type="hidden" name="BodySystemCodeTH" value="TH" />
                         </div>
                         <div class="form-group col-xs-3">
                             <input type="radio" class="minimal" name="ThoraxFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
@@ -307,6 +310,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-xs-4">
                             <label>Abdomen</label>
+                            <input type="hidden" name="BodySystemCodeAB" value="AB" />
                         </div>
                         <div class="form-group col-xs-3">
                             <input type="radio" class="minimal" name="AbdomenFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
@@ -322,6 +326,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-xs-4">
                             <label>Musculoskeletal</label>
+                            <input type="hidden" name="BodySystemCodeMU" value="MU" />
                         </div>
                         <div class="form-group col-xs-3">
                             <input type="radio" class="minimal" name="MuscSkeletalFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>

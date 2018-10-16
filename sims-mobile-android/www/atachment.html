@@ -57,10 +57,12 @@
 
 <div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX">
     <div class="form-group col-md-3 col-sm-3 col-xs-3">
-        <input type="text" class="form-control" name="SyndromeCode_M_S" value="">
+        <label>Code</label>
+        <input type="text" class="form-control" name="SyndromeCode_M_S" readonly value="">
     </div>
     <div class="form-group col-md-9 col-sm-9 col-xs-9">
-        <input type="text" class="form-control" name="SyndromeText_M_S" value="">
+        <label>Syndrome Text</label>
+        <input type="text" class="form-control" name="SyndromeText_M_S" readonly value="">
     </div>
     <div class="form-group col-md-3 col-sm-3 col-xs-3 ripple">
         <input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y">&nbsp;
@@ -70,26 +72,26 @@
         <input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N">&nbsp;
         <label>No</label>
     </div>
-    <div class="form-group col-md-6 col-sm-6 col-xs-6 defSyndComments hide">
+    <div class="form-group col-md-12 col-sm-12 col-xs-12 defSyndComments hide">
         <label><span class="bold-red">*</span>Comments</label>
         <input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S">
     </div>
 </div>
 
 <div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX">
-    <div class="form-group col-md-6 col-sm-6 col-xs-9">
-        <div class="form-group col-md-3 col-sm-3 col-xs-3">
-            <input type="text" class="form-control" name="SyndromeCode_M_S" value="">
-        </div>
-        <div class="form-group col-md-9 col-sm-9 col-xs-9">
-            <input type="text" class="form-control" name="SyndromeText_M_S" value="">
-        </div>
+    <div class="form-group col-md-2 col-sm-2 col-xs-2">
+        <label>Code</label>
+        <input type="text" class="form-control" name="XSyndromeCode_M_S" readonly value="">
     </div>
-    <div class="form-group col-md-6 col-sm-6 col-xs-3">
-        <a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeSyndrome"><i class="fa fa-remove"></i></a>
+    <div class="form-group col-md-8 col-sm-8 col-xs-8">
+        <label>Syndrome Text</label>
+        <input type="text" class="form-control" name="XSyndromeText_M_S" readonly value="">
     </div>
-    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+    <div class="form-group col-md-2 col-sm-2 col-xs-2">
+        <a href="#" class="form-control btn btn-md btn-danger text-arrows removeSyndrome"><i class="fa fa-remove"></i></a>
+    </div>
+    <div class="form-group col-md-12 col-sm-12 col-xs-12">
         <label><span class="bold-red">*</span>Comments</label>
-        <input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S">
+        <input type="text" class="form-control" placeholder="Syndrome Comments" name="XSyndromeComments_O_S">
     </div>
 </div>

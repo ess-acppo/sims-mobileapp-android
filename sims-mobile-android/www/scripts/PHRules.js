@@ -3783,16 +3783,16 @@ function StartSyncPH() {
     var rowsSuccess = [];
     var logstr = "";
     var arr = results.observations.filter(function (el) {
-        return (el.status_M_N === 1);
+        return (el.status_M_N === 1 && (el.PlantDisciplineCode_M_S === 'P' || el.PlantDisciplineCode_M_S === 'E' || el.PlantDisciplineCode_M_S === 'B'));
     });
     if (arr && arr.length === 0) {
         $.growl.notice({ title: "", message: "No records to Sync.", location: "bc", size: "small" });
-        setTimeout(EnableFormPH(), 1000);
+        setTimeout(EnableFormPH(), 300);
         return false;
     }
     else {
         $.each(results.observations, function (index, value) {
-            if (value.status_M_N === 0) { return true; }
+            if (value.status_M_N === 0 || value.AnimalDisciplineCode_M_S === 'SF' || value.AnimalDisciplineCode_M_S === 'G') { return true; }
             vError = 0;
             vErrDescription = [];
             vFailed = false;
