@@ -173,7 +173,7 @@ html, body {
     overflow-y: hidden;
 }
 
-.sample, .PlantAttachment, .PlantObsAttachment, .PlantSampleAttachment {
+.sample, .PlantAttachment, .PlantObsAttachment, .PlantSampleAttachment, .fieldtest {
     margin: 5px;
     border: 1px solid #ddd;
     border-radius: 2px;
@@ -1350,7 +1350,6 @@ label.mapNotes, label.mapBNotes {
 .scroller {
     text-align: center;
     cursor: pointer;
-    display: none;
     padding: 7px;
     padding-top: 11px;
     white-space: nowrap;

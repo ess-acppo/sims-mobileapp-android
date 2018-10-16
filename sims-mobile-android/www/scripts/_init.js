@@ -839,11 +839,11 @@ function launchModal(e, f) {
         return (el.id_M_N === e);
     });
     switch (f) {
-        case 0:
-            loadModal('mo_sngObservation');
+        case 'SF':
+            loadModalAH('mo_sngObservation');
             break;
-        case 1:
-            loadModal('mo_grpObservation');
+        case 'G':
+            loadModalAH('mo_grpObservation');
             break;
         case 'B':
             loadModal('mo_BotObservation');
@@ -1121,8 +1121,8 @@ $(document).on('click', '#SaveExit', function (e) {
             $('#modalForm').modal('hide');
             break;
         case "AH":
-            var obj1 = JSON.stringify(objectifyAHFormforSave(form1));
-            console.log(obj1);
+            //var obj1 = JSON.stringify(objectifyAHFormforSave(form1));
+            //console.log(obj1);
             obj = objectifyAHFormforSave(form1);
             obj.status_M_N = 0;
             if (debugMode === 1) {

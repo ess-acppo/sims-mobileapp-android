@@ -1,6 +1,6 @@
-﻿var bcs = '<div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="BodyConditionFlag_M_S" value="">&nbsp;<label class="bcstext"></label></div>';
-var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="text" class="form-control" name="SyndromeCode_M_S" value=""></div><div class="form-group col-md-9 col-sm-9 col-xs-9"><input type="text" class="form-control" name="SyndromeText_M_S" value=""></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N">&nbsp;<label>No</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6 defSyndComments"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
-var syndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX"><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="text" class="form-control" name="SyndromeCode_M_S" value=""></div><div class="form-group col-md-9 col-sm-9 col-xs-9"><input type="text" class="form-control" name="SyndromeText_M_S" value=""></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeSyndrome"><i class="fa fa-remove"></i></a></div></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
+﻿var bcs = '<div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="bodyConditionScore_M_N" value="0" data-code="0" data-validate="Y">&nbsp;<label class="bcstext"></label></div>';
+var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="text" class="form-control" name="SyndromeCode_M_S" value=""></div><div class="form-group col-md-9 col-sm-9 col-xs-9"><input type="text" class="form-control" name="SyndromeText_M_S" value=""></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-3 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N">&nbsp;<label>No</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6 defSyndComments hide"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
+var syndrome = '<div class="form-group col-md-6 col-sm-6 col-xs-9"><div class="form-group col-md-3 col-sm-3 col-xs-3"><input type="text" class="form-control" name="SyndromeCode_M_S" value=""></div><div class="form-group col-md-9 col-sm-9 col-xs-9"><input type="text" class="form-control" name="SyndromeText_M_S" value=""></div></div><div class="form-group col-md-6 col-sm-6 col-xs-3"><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
 var speciesTaxonSyndromSamples;
 var syndromes = 0;
 var syndromesData;
@@ -11,11 +11,11 @@ var defaultSpecies;
 var fieldTestsData;
 /* AH Initialized variables */
 var species = '<div class="row col-md-12 dynarow"><div class="form-group col-xs-2"><input type="text" class="form-control speciesText"/></div><div class="form-group col-xs-2"><label>Taxon Name<span class="bold-red">*</span></label></div><div class="form-group col-xs-2"><input type="text" class="form-control taxonText" placeholder="Taxon Name" name="taxonName"></div><div class="form-group col-xs-3" ><label>Number in Group<span class="bold-red">*</span></label></div><div class="form-group col-xs-1"><input type="text" class="form-control" placeholder="#" name="Number"></div><div class="form-group col-xs-1"><button type="button" class="btn btn-danger btn-circle btn-xs pull-right removeSpecies"><i class="fa fa-times-circle fa-2x"></i></button></div></div>';
-var fieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*</span>Fieldtest Name</label><input type="text" class="form-control hide" placeholder="Field Test ID" name="FieldTestID_M_N" /><input type="text" class="form-control" placeholder="Field Test Name" name="FieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><select class="form-control" name="FieldTest_M_N"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="InvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12 diseases"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comment</label><input type="text" class="form-control" name="FieldTestComment_O_S" /></div></div></div>';
-var preFieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*</span>Fieldtest Name</label><input type="text" class="form-control hide" placeholder="Field Test ID" name="FieldTestID_M_N" /><input type="text" class="form-control" placeholder="Field Test Name" name="FieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><select class="form-control" name="FieldTest_M_N"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="InvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12 diseases"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comment</label><input type="text" class="form-control" name="FieldTestComment_O_S" /></div></div></div>';
+var fieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*</span>Fieldtest Name</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test ID</label><input type="text" class="form-control" placeholder="Field Test ID" readonly name="FieldTestID_M_N" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Name</label><input type="text" class="form-control" placeholder="Field Test Name" name="FieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test</label><select class="form-control fieldTest" name="FieldTests_M_S"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="InvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Diseases</label><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comments</label><textarea class="form-control" rows="5" name="FieldTestComment_O_S" data-name="FieldTest-Additional Comments" data-section="AnimalFieldTestTab"></textarea></div></div></div>';
+var preFieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*</span>Fieldtest Name</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test ID</label><input type="text" class="form-control" placeholder="Field Test ID" readonly name="PFieldTestID_M_N" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Name</label><input type="text" class="form-control" placeholder="Field Test Name" name="PFieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test</label><select class="form-control fieldTest" name="PFieldTests_M_S"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="PInvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Diseases</label><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comments</label><textarea class="form-control" rows="5" name="PFieldTestComment_O_S" data-name="FieldTest-Additional Comments" data-section="AnimalFieldTestTab"></textarea></div></div></div>';
 var maggotSample = '<div class="row col-md-12 dynarow maggotSample"><div class="form-group col-md-12 col-sm-12 col-xs-12"><i class="fa fa-remove fa-2x text-danger removeMaggotSample pull-right"></i><label class="sampleName">Maggot Sample</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Field Id<span class="bold-red">*</span></label><input type="text" class="form-control nextid" placeholder="Sample Field Id" name="msfieldID" value="1"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Sample Type<span class="bold-red">*</span></label><select class="form-control" name="msType"><option selected>Maggots</option></select></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Pathogen/Test Type</label><br /><input type="checkbox" class="form-control minimal" name="swfExcl" value="swfExcl" checked>&nbsp;<label>SWF Exclusion</label></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label>Additional Comment</label><textarea class="form-control" rows="3" name="msNotes" placeholder="Notes ..."></textarea></div></div>';
-var animalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeAnimalSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control" name="SampleType_M_N" data-name="Sample-Number of Units" data-section="AnimalSampleTab"></select></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 testTypes"></div></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="6" name="AdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
-var preAnimalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control nextid" placeholder="Sample Field ID" name="SampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control" name="SampleType_M_N" data-name="Sample-Number of Units" data-section="AnimalSampleTab"></select></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 testTypes"></div></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="6" name="AdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
+var animalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeAnimalSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control" placeholder="Sample Field ID" name="SampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control sampleType" name="SampleType_M_S" data-name="Sample-Type" data-section="AnimalSampleTab"></select></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"></div></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="AdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
+var preAnimalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control nextid" placeholder="Sample Field ID" name="PSampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control sampleType" name="PSampleType_M_S" data-name="Sample-Type" data-section="AnimalSampleTab"></select></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"></div></div></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="PAdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
 var animalAttachment = '<div class="form-group col-md-2 col-sm-2 col-xs-2"><img class="pp pull-right" src="images/plant.png" name="iAnimalAttachment_M_S"></div><div class="form-group col-md-7 col-sm-8 col-xs-8"><input type="text" class="form-control" name="AnimalAttachmentD_M_S" value=""><textarea class="form-control hide" name="AnimalAttachment_M_S" rows="5" cols="5"></textarea></div><div class="form-group col-md-2 col-sm-1 col-xs-1"><i class="fa fa-remove text-info fa-2x removeAnimalAttachment" style="cursor:pointer;"></i></div></div>';
 var samples = 0;
 var fieldTests = 0;
@@ -165,7 +165,7 @@ function loadAHDefaults() {
     // Loading speciesTaxonSyndromSamples Defaults //
     $.getJSON("data/speciesTaxonSyndromSamples_NAF.json", function (data) {
         speciesTaxonSyndromSamples = data.species;
-        $("#form1").find('#commonName').find('option').remove().end().append('<option value="NONE">- select -</option>');
+        $("#form1").find('#commonName').find('option').remove().end().append('<option value="0">- select -</option>');
         $.each(data.species, function (key, val) {
             var option = $('<option />');
             option.attr('value', val.speciesCode).text(val.speciesName);
@@ -176,7 +176,7 @@ function loadAHDefaults() {
     $.getJSON("data/referenceCodes.json", function (data) {
         $.each(data.AnimalHealthReferenceCodes.BodyConditionScore, function (key, val) {
             var v_bcs = $(bcs);
-            v_bcs.find('input[type="radio"][name="BodyConditionFlag_M_S"]').val(val.description);
+            v_bcs.find('input[type="radio"][name="bodyConditionScore_M_N"]').val(val.code).data("code", val.code);
             v_bcs.find('.bcstext').text(val.desc);
             $("#form1").find(".body_condition_score").append(v_bcs);
             v_bcs.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
@@ -222,7 +222,7 @@ $(document).on('change', 'select[id="commonName"]', function () {
         }
     }).complete(function (e) {
             var str = $("#commonName option:selected").val();
-            if (str !== 'NONE') {
+            if (str !== '0') {
                 //Filter data from speciesTaxonSyndromSamples
                 var arr = jQuery.grep(speciesTaxonSyndromSamples, function (n, i) {
                     return (n.speciesCode === str);
@@ -246,10 +246,11 @@ $(document).on('change', 'select[id="commonName"]', function () {
                     var cidx = arr[0].requiredSyndromes[x];
                     syndromes = syndromes + 1;
                     var that = $(defSyndrome);
-                    that.find('input[name^="SyndromeText_M_S"]').text(syndromesData[idx - 1].desc);
+                    that.find('input[name^="SyndromeText_M_S"]').val(syndromesData[idx - 1].desc);
+                    that.find('input[name^="SyndromeCode_M_S"]').val(syndromesData[idx - 1].code);
                     that.find('input[name^="SyndromeText_M_S"]').attr("name", "SyndromeText_M_S_" + syndromes);
                     that.find("input[name^='SyndromeCode_M_S']").attr("name", "SyndromeCode_M_S_" + syndromes);
-                    that.find(".defSyndComments").addClass('hide');
+                    that.find("input[name^='SyndromeFlag_M_S']").attr("name", "SyndromeFlag_M_S_" + syndromes);
                     that.find("input[name^='SyndromeComments_O_S']").attr("name", "SyndromeComments_O_S_" + syndromes);
                     $('#defSyndromes').append(that);
                     that.find("input[type='checkbox']").iCheck({
@@ -280,26 +281,23 @@ $(document).on('change', 'select[id="commonName"]', function () {
                 $.each(def[0].defaultSamples, function (key, val) { //For each default Sample
                     samples = samples + 1;
                     var that2 = $(preAnimalSample);
-                    that2.find("input[type='checkbox']").iCheck({
-                        checkboxClass: 'icheckbox_square-blue',
-                        radioClass: 'iradio_square-blue'
-                    });
-                    that2.find("input[type='radio']").iCheck({
-                        checkboxClass: 'icheckbox_square-blue',
-                        radioClass: 'iradio_square-blue'
-                    });
-                    that2.find('select[name="sampleType"]').find('option').remove().end().append($(sampleTypes));
-                    that2.find("input[name='sampleId']").attr("id", "pSampleId_" + samples);
+                    that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
+                    that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
+                    //that2.find("select[name='PSampleType_M_S']:not([value^='" + val.sampleTypeCode + "'])").remove();
+                    that2.find('.badge').text(samples);
                     //that2.find("input[name='sampleId']").val($("#form1").find('input[type="text"][name="animalNumber"]').val());
-                    that2.find("input[id='pSampleId_" + samples + "']").attr("name", "pSampleId_" + samples);
-                    that2.find(".sampleName").text("Sample " + samples);
-                    that2.find("select[name='sampleType']").attr("id", "sampleType_" + samples);
-                    that2.find("select[name='sampleType']").val(val.sampleTypeCode);
-                    that2.find("select[id='sampleType_" + samples + "']").attr("name", "pSampleType_" + samples);
-                    that2.find("select[id='sampleType_" + samples + "']").addClass("sampleType");
-                    that2.find("#sampleType_" + samples + " :not([value^='" + val.sampleTypeCode + "'])").remove();
-                    that2.find("textarea[name='sAddlComments']").attr("id", "pSAddlComments_" + samples);
-                    that2.find("textarea[id='pSAddlComments_" + samples + "']").attr("name", "pSAddlComments_" + samples);
+                    that2.find('input').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                    });
+                    that2.find('img').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                    });
+                    that2.find('select').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                    });
+                    that2.find('textarea').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                    });
                     //Load default pathogens in the sample dropdownlist
                     var divTestTypes = that2.find(".testTypes");
                     var count = 0;
@@ -308,16 +306,8 @@ $(document).on('change', 'select[id="commonName"]', function () {
                     });
                     $.each(arr1[0].testFors, function (key2, val2) {
                         count++;
-                        var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name=pTestType_' + samples + '_' + val2.testForCode + ' value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+                        var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '" value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
                         divTestTypes.append($(option));
-                    });
-                    that2.find("input[type='checkbox']").iCheck({
-                        checkboxClass: 'icheckbox_square-blue',
-                        radioClass: 'iradio_square-blue'
-                    });
-                    that2.find("input[type='radio']").iCheck({
-                        checkboxClass: 'icheckbox_square-blue',
-                        radioClass: 'iradio_square-blue'
                     });
                     //Check the default pathogens
                     $.each(val.testFors, function (key3, val3) {
@@ -326,6 +316,14 @@ $(document).on('change', 'select[id="commonName"]', function () {
                     divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
                     that2.addClass('preSelectedSample');
                     that2.addClass('hide');
+                    that2.find("input[type='checkbox']").iCheck({
+                        checkboxClass: 'icheckbox_square-blue',
+                        radioClass: 'iradio_square-blue'
+                    });
+                    that2.find("input[type='radio']").iCheck({
+                        checkboxClass: 'icheckbox_square-blue',
+                        radioClass: 'iradio_square-blue'
+                    });
                     $('#addPreSelectedSample').removeClass('hide');
                     $('#samples').append(that2);
                 });
@@ -334,25 +332,28 @@ $(document).on('change', 'select[id="commonName"]', function () {
                 $.each(def[0].fieldTests, function (key, val) { //For each default Field Test
                     fieldTests = fieldTests + 1;
                     var that3 = $(preFieldtest);
-                    that3.find("select[name='pFieldTest']").attr("id", "pFieldTest_" + fieldTests);
-                    that3.find('select[id="pFieldTest_' + fieldTests + '"]').find('option').remove().end().append($(defFieldTests));
-                    that3.find('select[id="pFieldTest_' + fieldTests + '"]').val(val.fieldTestCde);
-                    that3.find(".ftName").text("Field Test " + fieldTests);
-                    that3.find("select[id='pfieldTest_" + fieldTests + "']").attr("name", "pFieldTest_" + fieldTests);
-                    that3.find("#pFieldTest" + fieldTests + " :not([value^='" + val.fieldTestCde + "'])").remove();
-                    that3.find("input[name='ftId']").attr("id", "pFtId_" + fieldTests);
-                    that3.find("input[id='pFtId_" + fieldTests + "']").attr("name", "pFtId_" + fieldTests);
-                    that3.find("input[name='ftInvalid']").attr("id", "pFtInvalid_" + fieldTests);
-                    that3.find("input[id='pFtInvalid_" + fieldTests + "']").attr("name", "pFtInvalid_" + fieldTests);
-                    that3.find("input[id='pFtInvalid_" + fieldTests + "']").val("N");
-                    that3.find("input[name='ftComment']").attr("id", "pFtComment_" + fieldTests);
-                    that3.find("input[id='pFtComment_" + fieldTests + "']").attr("name", "pFtComment_" + fieldTests);
+                    that3.find('select[name="PFieldTests_M_S"]').find('option').remove().end().append($(defFieldTests)).val(val.fieldTestCde);
+                    //that3.find('select[name="FieldTests_M_S"]:not([value^="' + val.fieldTestCde + '"])').remove();
+                    that3.find("input[name='PInvalidFlag_M_S']").val("N");
+                    that.find('.badge').text(fieldTests);
+                    that3.find('input').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+                    });
+                    that3.find('img').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+                    });
+                    that3.find('select').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+                    });
+                    that3.find('textarea').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+                    });
                     var selectFT = that3.find('.diseases');
                     var diseases = 0;
                     selectFT.empty();
                     $.each(val.diseases, function (key2, val2) {
                         diseases = diseases + 1;
-                        var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val2[0].diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="pFtResult_' + fieldTests + '_' + val2[0].diseaseCde + '" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="pFtResult_' + fieldTests + '_' + val2[0].diseaseCde + '" value="Negative">&nbsp;<label>Negative</label></div>';
+                        var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val2[0].diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="PFieldTestResult_' + fieldTests + '_FT_' + val2[0].diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="PFieldTestResult_' + fieldTests + '_FT_' + val2[0].diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
                         selectFT.append($(disease));
                     });
                     that3.find("input[type='checkbox']").iCheck({
@@ -379,7 +380,7 @@ $(document).on('change', 'select[id="commonName"]', function () {
 $(document).on('change', 'select.sampleType', function () {
     var that = this;
     var str = $(that).val();
-    var nxtTF = $(this).parent().next('div').find('.testTypes');
+    var nxtTF = $(this).closest('.sample').find('.testTypes');
     var t0, t1;
     $.ajax({
         url: "",
@@ -399,7 +400,7 @@ $(document).on('change', 'select.sampleType', function () {
                 $.each(arr[0].testFors, function (key, val) {
                     count++;
                     //Raj! Change the fieldnames as per sample# here
-                    var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name=testType_' + samples + '_' + val.testForCode + ' value="N">&nbsp;<label>' + val.testForName + '</label></div>';
+                    var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="TestFor_M_S_' + samples + '_' + val.testForCode + '" value="' + val.testForCode + '">&nbsp;<label>' + val.testForName + '</label></div>';
                     nxtTF.append($(option));
                 });
                 nxtTF.find("input[type='checkbox']").iCheck({
@@ -431,7 +432,7 @@ function loadPathogens(e) {
         $.each(arr[0].testFors, function (key, val) {
             count++;
             //Raj! Change the fieldnames as per sample# here
-            var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name=testType_' + samples + '_' + val.testForCode + ' value="N">&nbsp;<label>' + val.testForName + '</label></div>';
+            var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="TestFor_M_S_' + samples + '_' + val.testForCode + '" value="' + val.testForCode + '">&nbsp;<label>' + val.testForName + '</label></div>';
             nxtTF.append($(option));
         });
         nxtTF.find("input[type='checkbox']").iCheck({
@@ -446,7 +447,7 @@ function loadPathogens(e) {
 }
 $(document).on('change', 'select.fieldTest', function () {
     var that = this;
-    var nxtD = $(this).parent().parent().find('.diseases');
+    var nxtD = $(this).closest('.fieldtest').find('.diseases');
     var t0, t1;
     $.ajax({
         url: "",
@@ -466,7 +467,7 @@ $(document).on('change', 'select.fieldTest', function () {
                 });
                 $.each(arr[0].diseases.disease, function (key, val) {
                     diseases = diseases + 1;
-                    var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="ftResult_' + fieldTests + '_' + val.diseaseCde + '" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="ftResult_' + fieldTests + '_' + val.diseaseCde + '" value="Negative">&nbsp;<label>Negative</label></div>';
+                    var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" value="Negative">&nbsp;<label>Negative</label></div>';
                     nxtD.append($(disease));
                     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                         checkboxClass: 'icheckbox_square-blue',
@@ -493,7 +494,7 @@ function loadDiseases(e) {
         });
         $.each(arr[0].diseases.disease, function (key, val) {
             diseases = diseases + 1;
-            var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="ftResult_' + fieldTests + '_' + val.diseaseCde + '" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="ftResult_' + fieldTests + '_' + val.diseaseCde + '" value="Negative">&nbsp;<label>Negative</label></div>';
+            var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" value="Negative">&nbsp;<label>Negative</label></div>';
             nxtD.append($(disease));
             nxtD.find("input[type='checkbox']").iCheck({
                 checkboxClass: 'icheckbox_square-blue',
@@ -511,7 +512,7 @@ function loadCommonNameData(d, e) {
     samples = 0;
     fieldTests = 0;
     var str = d;
-    if (str !== 'NONE') {
+    if (str !== '0') {
         $('#form1').find("#commonName").val(str);
         //Filter data from speciesTaxonSyndromSamples
         var arr = jQuery.grep(speciesTaxonSyndromSamples, function (n, i) {
@@ -545,15 +546,21 @@ function loadCommonNameData(d, e) {
             var cidx = arr[0].requiredSyndromes[x];
             syndromes = syndromes + 1;
             var that = $(defSyndrome);
-            that.find('.syndromeText').text(syndromesData[idx - 1].description);
-            that.find('.syndromeText').attr("name", "syndText" + syndromes);
-            that.find("input[name='syndrome']").attr("name", "syndrome" + syndromes);
-            that.find("input[name='defSyndComments']").attr("name", "defSyndComments" + syndromes);
-            that.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            that.find('input[name^="SyndromeText_M_S"]').val(syndromesData[idx - 1].desc);
+            that.find('input[name^="SyndromeCode_M_S"]').val(syndromesData[idx - 1].code);
+            that.find('input[name^="SyndromeText_M_S"]').attr("name", "SyndromeText_M_S_" + syndromes);
+            that.find("input[name^='SyndromeCode_M_S']").attr("name", "SyndromeCode_M_S_" + syndromes);
+            that.find("input[name^='SyndromeFlag_M_S']").attr("name", "SyndromeFlag_M_S_" + syndromes);
+            that.find("input[name^='SyndromeComments_O_S']").attr("name", "SyndromeComments_O_S_" + syndromes);
+            $('#defSyndromes').append(that);
+            that.find("input[type='checkbox']").iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue'
             });
-            that.insertAfter($('.defSyndromes'))
+            that.find("input[type='radio']").iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
             $('#lstSyndromes option[value="' + cidx + '"]').remove();
         };
         //console.timeEnd('Syndromes 2');
@@ -574,97 +581,98 @@ function loadCommonNameData(d, e) {
         });
         //Load default samples to the dropdownlist
         //console.time('Samples');
-        $('.sample').remove();
-        samples = samples + 1;
-        var that2 = $(preAnimalSample);
-        that2.find("input[type='checkbox']").iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue'
+        $('.sample').remove(); //Clear all Samples
+        $.each(def[0].defaultSamples, function (key, val) { //For each default Sample
+            samples = samples + 1;
+            var that2 = $(preAnimalSample);
+            that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
+            that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
+            //that2.find("select[name='PSampleType_M_S']:not([value^='" + val.sampleTypeCode + "'])").remove();
+            that2.find('.badge').text(samples);
+            //that2.find("input[name='sampleId']").val($("#form1").find('input[type="text"][name="animalNumber"]').val());
+            that2.find('input').each(function () {
+                $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+            });
+            that2.find('img').each(function () {
+                $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+            });
+            that2.find('select').each(function () {
+                $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+            });
+            that2.find('textarea').each(function () {
+                $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+            });
+            //Load default pathogens in the sample dropdownlist
+            var divTestTypes = that2.find(".testTypes");
+            var count = 0;
+            var arr1 = jQuery.grep(possibleSamples, function (n, i) {
+                return (n.sampleTypeCode === val.sampleTypeCode);
+            });
+            $.each(arr1[0].testFors, function (key2, val2) {
+                count++;
+                var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="PTestFor_M_S__' + samples + '_' + val2.testForCode + '" value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+                divTestTypes.append($(option));
+            });
+            //Check the default pathogens
+            $.each(val.testFors, function (key3, val3) {
+                divTestTypes.find("input[type='checkbox'][value='" + val3.testForCode + "']").val("Y").iCheck('check');
+            });
+            divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
+            that2.addClass('preSelectedSample');
+            that2.addClass('hide');
+            that2.find("input[type='checkbox']").iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+            that2.find("input[type='radio']").iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+            $('#addPreSelectedSample').removeClass('hide');
+            $('#samples').append(that2);
         });
-        that2.find("input[type='radio']").iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue'
-        });
-        that2.find('select[name="sampleType"]').find('option').remove().end().append($(sampleTypes));
-        that2.find("input[name='sampleId']").attr("id", "pSampleId_" + samples);
-        //that2.find("input[name='sampleId']").val($("#form1").find('input[type="text"][name="animalNumber"]').val());
-        that2.find("input[id='pSampleId_" + samples + "']").attr("name", "pSampleId_" + samples);
-        that2.find(".sampleName").text("Sample " + samples);
-        that2.find("select[name='sampleType']").attr("id", "sampleType_" + samples);
-        that2.find("select[name='sampleType']").val(def[0].defaultSamples[0].sampleTypeCode);
-        that2.find("select[id='sampleType_" + samples + "']").attr("name", "pSampleType_" + samples);
-        that2.find("select[id='sampleType_" + samples + "']").addClass("sampleType");
-        that2.find("#sampleType_" + samples + " :not([value^='" + def[0].defaultSamples[0].sampleTypeCode + "'])").remove();
-        that2.find("textarea[name='sAddlComments']").attr("id", "pSAddlComments_" + samples);
-        that2.find("textarea[id='pSAddlComments_" + samples + "']").attr("name", "pSAddlComments_" + samples);
-        //console.timeEnd('Samples');
-        //Load default pathogens in the sample dropdownlist
-        //console.time('pathogens');
-        var divTestTypes = that2.find(".testTypes");
-        var count = 0;
-        var arr1 = jQuery.grep(possibleSamples, function (n, i) {
-            return (n.sampleTypeCode === def[0].defaultSamples[0].sampleTypeCode);
-        });
-        $.each(arr1[0].testFors, function (key, val) {
-            count++;
-            var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name=pTestType_' + samples + '_' + val.testForCode + ' value="' + val.testForCode + '">&nbsp;<label>' + val.testForName + '</label></div>';
-            divTestTypes.append($(option));
-        });
-        that2.find("input[type='checkbox']").iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue'
-        });
-        that2.find("input[type='radio']").iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue'
-        });
-        $.each(def[0].defaultSamples[0].testFors, function (key, val) {
-            divTestTypes.find("input[type='checkbox'][value='" + val.testForCode + "']").val("Y").iCheck('check');
-        });
-        divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
-        that2.addClass('preSelectedSample');
-        that2.addClass('hide');
-        $('#addPreSelectedSample').removeClass('hide');
-        $('#samples').append(that2);      
-        //console.timeEnd('pathogens');
+        $('.fieldtest').remove(); //Clear all Field Tests
         //Load default fieldtests
-        //console.time('fieldtests');
-        $('.fieldtest').remove();
-        fieldTests = fieldTests + 1;
-        var that3 = $(preFieldtest);
-        that3.find("select[name='pFieldTest']").attr("id", "pFieldTest_" + fieldTests);
-        that3.find('select[id="pFieldTest_' + fieldTests + '"]').find('option').remove().end().append($(defFieldTests));
-        that3.find('select[id="pFieldTest_' + fieldTests + '"]').val(def[0].fieldTests[0].fieldTestCde);
-        that3.find(".ftName").text("Field Test " + fieldTests);
-        that3.find("select[id='pFieldTest_" + fieldTests + "']").attr("name", "pFieldTest_" + fieldTests);
-        that3.find("#pFieldTest_" + fieldTests + " :not([value^='" + def[0].fieldTests[0].fieldTestCde + "'])").remove();
-        that3.find("input[name='ftId']").attr("id", "pFtId_" + fieldTests);
-        that3.find("input[id='pFtId_" + fieldTests + "']").attr("name", "pFtId_" + fieldTests);
-        that3.find("input[name='ftInvalid']").attr("id", "pFtInvalid_" + fieldTests);
-        that3.find("input[id='pFtInvalid_" + fieldTests + "']").attr("name", "pFtInvalid_" + fieldTests);
-        that3.find("input[name='ftComment']").attr("id", "pFtComment_" + fieldTests);
-        that3.find("input[id='pFtComment_" + fieldTests + "']").attr("name", "pFtComment_" + fieldTests);
-        var selectFT = that3.find('.diseases');
-        var diseases = 0;
-        selectFT.empty();
-        $.each(def[0].fieldTests[0].diseases, function (key, val) {
-            diseases = diseases + 1;
-            var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val[0].diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="pFtResult_' + fieldTests + '_' + val[0].diseaseCde + '" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="pFtResult_' + fieldTests + '_' + val[0].diseaseCde + '" value="Negative">&nbsp;<label>Negative</label></div>';
-            selectFT.append($(disease));
-        });
-        that3.find("input[type='checkbox']").iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue'
-        });
-        that3.find("input[type='radio']").iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue'
-        });
-        that3.addClass('preSelectedFieldTest');
-        that3.addClass('hide');
-        $('#addPreSelectedFieldTest').removeClass('hide');
-        $('#fieldtests').append(that3);
-        //console.timeEnd('fieldtests');
+        $.each(def[0].fieldTests, function (key, val) { //For each default Field Test
+            fieldTests = fieldTests + 1;
+            var that3 = $(preFieldtest);
+            that3.find('select[name="PFieldTests_M_S"]').find('option').remove().end().append($(defFieldTests)).val(val.fieldTestCde);
+            //that3.find('select[name="PFieldTests_M_S"]:not([value^="' + val.fieldTestCde + '"])').remove();
+            that3.find("input[name='PInvalidFlag_M_S']").val("N");
+            that.find('.badge').text(fieldTests);
+            that3.find('input').each(function () {
+                $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+            });
+            that3.find('img').each(function () {
+                $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+            });
+            that3.find('select').each(function () {
+                $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+            });
+            that3.find('textarea').each(function () {
+                $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+            });
+            var selectFT = that3.find('.diseases');
+            var diseases = 0;
+            selectFT.empty();
+            $.each(val.diseases, function (key2, val2) {
+                diseases = diseases + 1;
+                var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val2[0].diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="PFieldTestResult_' + fieldTests + '_FT_' + val2[0].diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="PFieldTestResult_' + fieldTests + '_FT_' + val2[0].diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
+                selectFT.append($(disease));
+            });
+            that3.find("input[type='checkbox']").iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+            that3.find("input[type='radio']").iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
+            });
+            that3.addClass('preSelectedFieldTest');
+            that3.addClass('hide');
+            $('#addPreSelectedFieldTest').removeClass('hide');
+            $('#fieldtests').append(that3);
+        });        
     }
 }
 $(document).on('ifChecked', '.defSyndromeX input[type="radio"].minimal', function (event) {
@@ -726,13 +734,16 @@ function getNextAnimalID(e) {
 $(document).on('click', '#addSyndrome', function (e) {
     syndromes = syndromes + 1;
     var that = $(syndrome);
-    that.find('.syndromeCode').text($('#lstSyndromes option:selected').val());
-    that.find('.syndromeText').text($('#lstSyndromes option:selected').text());
-    that.find('.syndromeCode').attr("name", "syndCode" + syndromes);
-    that.find('.syndromeText').attr("name", "syndText" + syndromes);
-    //that.find("input[name='syndNumber']").attr("name", "syndNumber" + syndromes);
-    //that.find("input[name='syndPercent']").attr("name", "syndPercent" + syndromes);
-    that.find("input[name='syndComments']").attr("name", "syndComments" + syndromes);
+    that.find('input[name^="SyndromeText_M_S"]').val($('#lstSyndromes option:selected').text());
+    that.find('input[name^="SyndromeCode_M_S"]').val($('#lstSyndromes option:selected').val());
+    that.find('input[name^="SyndromeText_M_S"]').attr("name", "SyndromeText_M_S_" + syndromes);
+    that.find("input[name^='SyndromeCode_M_S']").attr("name", "SyndromeCode_M_S_" + syndromes);
+    that.find("input[name^='SyndromeFlag_M_S']").attr("name", "SyndromeFlag_M_S_" + syndromes);
+    that.find("input[name^='SyndromeComments_O_S']").attr("name", "SyndromeComments_O_S_" + syndromes);
+    that.find("input[type='checkbox']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
     that.find("input[type='radio']").iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
@@ -751,7 +762,7 @@ $(document).on('click', '.removeSyndrome', function (e) {
                 var option = $('<option />');
                 option.attr('value', $(this).parent().parent().find('.syndromeCode').text()).text(x.parent().parent().find('.syndromeText').text());
                 $('#lstSyndromes').append(option);
-                x.parent().parent().remove();
+                x.closest('.syndromeX').remove();
             },
             cancel: function () {
                 //close
@@ -790,26 +801,29 @@ $(document).on('click', '#addFieldTest', function (e) {
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue'
     });
-    that.find('select[name="fieldTest"]').find('option').remove().end().append($(defFieldTests));
-    that.find(".ftName").text("Field Test " + fieldTests);
-    that.find("select[name='fieldTest']").attr("id", "fieldTest_" + fieldTests);
-    that.find("select[id='fieldTest_" + fieldTests + "']").addClass("fieldTest");
-    that.find("select[id='fieldTest_" + fieldTests + "']").attr("name", "fieldTest_" + fieldTests);
-    that.find("input[name='ftId']").attr("id", "ftId_" + fieldTests);
-    that.find("input[id='ftId_" + fieldTests + "']").attr("name", "ftId_" + fieldTests);
-    that.find("input[name='ftId_" + fieldTests + "']").val($("#form1").find('input[type="text"][name="animalNumber"]').val());
-    that.find("input[name='ftInvalid']").attr("id", "ftInvalid_" + fieldTests);
-    that.find("input[id='ftInvalid_" + fieldTests + "']").attr("name", "ftInvalid_" + fieldTests);
-    that.find("input[id='ftInvalid_" + fieldTests + "']").val("N");
-    that.find("input[name='ftComment']").attr("id", "ftComment_" + fieldTests);
-    that.find("input[id='ftComment_" + fieldTests + "']").attr("name", "ftComment_" + fieldTests);
+    that.find("input[name='FieldTestID_M_N']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
+    that.find('select[name="FieldTests_M_S"]').find('option').remove().end().append($(defFieldTests));
+    that.find("input[name='InvalidFlag_M_S']").val("N");
+    that.find('.badge').text(fieldTests);
+    that.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+    });
+    that.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+    });
+    that.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+    });
+    that.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+    });
     $('#fieldtests').append(that);      
 });
 $(document).on('click', '#addPreSelectedFieldTest', function (e) {
     fieldTests = fieldTests + 1;
     $('#addPreSelectedFieldTest').addClass('hide');
     $('.preSelectedFieldTest').removeClass('hide');
-    $('.preSelectedFieldTest').find("input[placeholder='Field Test ID']").val($("#form1").find('input[type="text"][name="animalNumber"]').val());
+    $('.preSelectedFieldTest').find("input[name^='PFieldTestID_M_N']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
 });
 $(document).on('click', '.removeFieldTest', function (e) {
     var x = $(this);
@@ -819,7 +833,7 @@ $(document).on('click', '.removeFieldTest', function (e) {
         buttons: {
             Ok: function () {
                 fieldTests = fieldTests - 1;
-                $(this).parent().parent().remove();
+                x.closest('.fieldtest').remove();
             },
             cancel: function () {
                 //close
@@ -836,7 +850,7 @@ $(document).on('click', '.removePreFieldTest', function (e) {
                 fieldTests = fieldTests - 1;
                 $('.preSelectedFieldTest').addClass('hide');
                 $('#addPreSelectedFieldTest').removeClass('hide');
-                $('.preSelectedFieldTest').find("input[placeholder='Field Test ID']").val("");
+                $('.preSelectedFieldTest').find("input[name='FieldTestID_M_N']").val("");
             },
             cancel: function () {
                 //close
@@ -869,14 +883,14 @@ $(document).on('click', '#addAnimalSample', function (e) {
         $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
     });
     that.find('.badge').text(samples);
-    that.find('select[name^="SampleType_M_N"]').find('option').remove().end().append($(sampleTypes)).addClass("sampleType");
+    that.find('select[name^="SampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
     that.find("input[name^='SampleFieldLabelText']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
     $('#samples').append(that);
 });
 $(document).on('click', '#addPreSelectedSample', function (e) {
     $('#addPreSelectedSample').addClass('hide');
     $('.preSelectedSample').removeClass('hide');
-    $('.preSelectedSample').find("input[placeholder='Sample Field ID']").val($("#form1").find('input[type="text"][name="animalNumber"]').val());
+    $('.preSelectedSample').find("input[name^='PSampleFieldLabelText']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
 });
 $(document).on('click', '.removeAnimalSample', function (e) {
     var x = $(this);
@@ -886,7 +900,7 @@ $(document).on('click', '.removeAnimalSample', function (e) {
         buttons: {
             Ok: function () {
                 samples = samples - 1;
-                x.parent().parent().remove();
+                x.closest('.sample').remove();
             },
             cancel: function () {
                 //close
@@ -900,7 +914,7 @@ $(document).on('click', '.removePreSample', function (e) {
         content: 'Do you want to remove this sample?',
         buttons: {
             Ok: function () {
-                $('.preSelectedSample').find("input[placeholder='Sample Field ID']").val("");
+                $('.preSelectedSample').find("input[name^='SampleFieldLabelText']").val("");
                 $('.preSelectedSample').addClass('hide');
                 $('#addPreSelectedSample').removeClass('hide');
             },
@@ -943,15 +957,15 @@ $(document).on('click', '.removeMaggotSample', function (e) {
 });
 $(document).on('click', '#btnNAD', function (e) {
     $(':radio[name=IntegumentFlag_M_S]').eq(1).iCheck('check');
-    $(':radio[name=IntegumentFlag_M_S]').eq(1).val("N");
+    //$(':radio[name=IntegumentFlag_M_S]').eq(1).val("N");
     $(':radio[name=HeadNeckFlag_M_S]').eq(1).iCheck('check');
-    $(':radio[name=HeadNeckFlag_M_S]').eq(1).val("N");
+    //$(':radio[name=HeadNeckFlag_M_S]').eq(1).val("N");
     $(':radio[name=ThoraxFlag_M_S]').eq(1).iCheck('check');
-    $(':radio[name=ThoraxFlag_M_S]').eq(1).val("N");
+    //$(':radio[name=ThoraxFlag_M_S]').eq(1).val("N");
     $(':radio[name=AbdomenFlag_M_S]').eq(1).iCheck('check');
-    $(':radio[name=AbdomenFlag_M_S]').eq(1).val("N");
+    //$(':radio[name=AbdomenFlag_M_S]').eq(1).val("N");
     $(':radio[name=MuscSkeletalFlag_M_S]').eq(1).iCheck('check');
-    $(':radio[name=MuscSkeletalFlag_M_S]').eq(1).val("N");
+    //$(':radio[name=MuscSkeletalFlag_M_S]').eq(1).val("N");
     //$('#divINT').addClass('hide');
     //$('#divNEC').addClass('hide');
     //$('#divTHO').addClass('hide');
@@ -1016,19 +1030,15 @@ function loadModalAH(pagename) {
                 if (pagename === 'mo_sngObservation') {
                     loadActivityDataAH();
                     loadAHDefaults();
-                    if (curIdx > -1) {
-                        if (data.commonName !== 'NONE') {
-                            $('#form1').find("#commonName").val(data.commonName);
-                            loadCommonNameData(data.commonName, data.taxon);
-                        }
-                    }
                 }
             }, 200);
             setTimeout(function (e) {
                 if (curIdx > -1) {
                     var data = results.observations[curPos];
+                    if (data.commonName !== '0') {
+                        loadCommonNameData(data.commonName_M_S, data.taxon_M_N);
+                    }
                     //console.log(JSON.stringify(data));
-                    //console.time('load Modal');
                     $.each(data, function (key, value) {
                         if (key.startsWith('ObservationWhereWktClob') && value !== "") {
                             var wkt = new Wkt.Wkt();
@@ -1037,7 +1047,7 @@ function loadModalAH(pagename) {
                             $('#form1').find("input[name^='Longitude']").val(wkt.toJson().coordinates[0]);
                             $('#form1').find("input[name^='Latitude']").val(wkt.toJson().coordinates[1]);
                         }
-                        if (key.startsWith("sampleId_") && value > 0) {
+                        if (key.startsWith("SampleFieldLabelText_M_S") && value > 0) {
                             $.ajax({
                                 url: "",
                                 beforeSend: function (xhr) {
@@ -1047,9 +1057,7 @@ function loadModalAH(pagename) {
                                 $('#form1').find("input[type='text'][name='" + key + "']").val(value);
                             });
                         }
-                        //console.timeEnd('load Modal 1');
-                        //console.time('load Modal 2');
-                        if (key.startsWith("sampleType_") && value !== "") {
+                        if (key.startsWith("SampleType_M_S") && value !== "") {
                             $.ajax({
                                 url: "",
                                 beforeSend: function (xhr) {
@@ -1060,9 +1068,7 @@ function loadModalAH(pagename) {
                                 $('#form1').find("select[name='" + key + "']").val(value);
                             });
                         }
-                        //console.timeEnd('load Modal 2');
-                        //console.time('load Modal 3');
-                        if (key.startsWith("ftId_") && value > 0) {
+                        if (key.startsWith("FieldTestID") && value > 0) {
                             $.ajax({
                                 url: "",
                                 beforeSend: function (xhr) {
@@ -1072,9 +1078,7 @@ function loadModalAH(pagename) {
                                 $('#form1').find("input[type='text'][name='" + key + "']").val(value);
                             });
                         }
-                        //console.timeEnd('load Modal 3');
-                        //console.time('load Modal 4');
-                        if (key.startsWith("fieldTest_") && value !== "") {
+                        if (key.startsWith("FieldTests_M_S") && value !== "") {
                             $.ajax({
                                 url: "",
                                 beforeSend: function (xhr) {
@@ -1085,8 +1089,6 @@ function loadModalAH(pagename) {
                                 $('#form1').find("select[name='" + key + "']").val(value);
                             });
                         }
-                        //console.timeEnd('load Modal 4');
-                        //console.time('load Modal 5');
                         if (key === "externalObserverFlag_O_S" && value === "Y") {
                             $('#form1').find("input[name='externalObserver_O_S']").removeClass('hide');
                             $('#form1').find("input[type='checkbox'][name='externalObserverFlag_O_S']").iCheck('check');
@@ -1095,44 +1097,92 @@ function loadModalAH(pagename) {
                             $('#form1').find("input[name='externalObserver_O_S']").addClass('hide');
                             $('#form1').find("input[type='checkbox'][name='externalObserverFlag_O_S']").iCheck('uncheck');
                         }
-                        if (key === "postMortemConducted_M_S" && value === "Y") {
-                            $('#tabPM').removeClass('hide');
+                        if (key === "gender_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
                         }
-                        if (key === "postMortemConducted_M_S" && value === "N") {
-                            $('#tabPM').addClass('hide');
+                        if (key === "ageClass_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
                         }
-                        if (key.startsWith("pSampleId_") && value > 0) {
+                        if (key === "bodyConditionScore_M_N" && value !== "0") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key === "woundsPresent_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                            if (value === 'Y') {
+                                $('.addMaggotSamples').removeClass('hide');
+                            }
+                            if (value === 'N') {
+                                $('.addMaggotSamples').addClass('hide');
+                            }
+                        }
+                        if (key === "maggotsPresent_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                            if (value === 'Y') {
+                                $('#addMaggotSample').removeClass('hide');
+                                $('#maggotSamples').removeClass('hide');
+                            }
+                            if (value === 'N') {
+                                $('#addMaggotSample').addClass('hide');
+                                $('#maggotSamples').addClass('hide');
+                            }
+                        }
+                        if (key.startsWith("SyndromeFlag_M_S") && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key === "postMortemConducted_M_S" && value !== "") {
+                            if (value === "Y") {
+                                $('#form1').find("input[type='radio'][name='" + key + "'][value='Y']").iCheck('check');
+                                $('#tabPM').removeClass('hide');
+                                reAdjust();
+                            }
+                            if (value === "N") {
+                                $('#form1').find("input[type='radio'][name='" + key + "'][value='N']").iCheck('check');
+                                $('#tabPM').addClass('hide');
+                                reAdjust();
+                            }
+                        }
+                        if (key === "IntegumentFlag_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key === "HeadNeckFlag_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key === "ThoraxFlag_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key === "AbdomenFlag_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key === "MuscSkeletalFlag_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key.startsWith("PFieldTestResult") && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key.startsWith("FieldTestResult") && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key.startsWith('PSampleFieldLabelText_M_S') && value > 0) {
                             $('#addPreSelectedSample').addClass('hide');
                             $('.preSelectedSample').removeClass('hide');
                         }
-                        if (key.startsWith("pFtId_") && value > 0) {
+                        if (key.startsWith('PFieldTestID_M_N') && value > 0) {
                             $('#addPreSelectedFieldTest').addClass('hide');
                             $('.preSelectedFieldTest').removeClass('hide');
                         }
-                        if (key.startsWith("plantPic_") && value !== "") {
-                            $('#form1').find("img[name='" + key + "']").attr("src", "images/" + value);
-                        }
-                        if (key.startsWith("statTypeVal_")) {
-                            $('#form1').find("input[type='button'][name='" + key + "']").prop('value', value);
-                        }
-                        //console.timeEnd('load Modal 5');
-                        //console.time('load Modal 6');
                         $('#form1').find("input[type='text'][name='" + key + "']").val(value);
                         $('#form1').find("input[type='number'][name='" + key + "']").val(value);
                         $('#form1').find("input[type='datetime-local'][name='" + key + "']").val(value);
                         $('#form1').find("input[type='checkbox'][name='" + key + "']").val(value);
                         $('#form1').find("input[type='checkbox'][name='" + key + "'][value='Y']").iCheck('check');
                         $('#form1').find("input[type='checkbox'][name='" + key + "'][value='N']").iCheck('uncheck');
-                        $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
-                        //$('#form1').find("input[type='radio'][name='" + key + "']").val(value);
+                        //$('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
                         $('#form1').find("select[name='" + key + "']").val(value);
                         $('#form1').find("textarea[name='" + key + "']").val(value);
-                        //console.timeEnd('load Modal 6');
                     });
                     $('#form1').find("input[type='number'][name^='id']").val(curIdx);
                     $('#form1').find("input[type='number'][name='status_M_N']").val(curIdx);
                     $('.nextid').text('');
-                    //console.timeEnd('load Modal');
                 }
                 else {
                     var today = new Date();
@@ -1169,6 +1219,7 @@ function loadModalAH(pagename) {
                         $('#form1').find("input[type='number'][name^='id']").val(1);
                     } else { $('#form1').find("input[type='number'][name^='id']").val(results.observations[results.observations.length - 1].id_M_N + 1); }
                     $('#form1').find("input[type='number'][name^='submittedBy_M_N']").val(resSettings.settings.device.ownerId);
+                    $('#form1').find("select[name^='ObservationStaffId']").val(resSettings.settings.device.ownerId);
                     $('#form1').find("input[type='number'][name='status_M_N']").val("0");
                     $('#form1').find("input[type='text'][name='animalNumber_M_S']").val(getNextAnimalID(resSettings.settings.device.animalPrefix));
                     $('#form1').find("input[type='text'][name='AnimalDisciplineCode_M_S']").val(curDiscipline);
@@ -1367,8 +1418,8 @@ function objectifyAHFormforSave(formArray) {
             //if (formArray[i]['name'].startsWith('AdditionalObservers')) { continue; }
             //if (formArray[i]['name'].startsWith('AdditionalCollectors')) { continue; }
             //if (formArray[i]['name'].startsWith('PlantStatisticType')) { continue; }
-            if (formArray[i]['name'].startsWith('Latitude')) { continue; }
-            if (formArray[i]['name'].startsWith('Longitude')) { continue; }
+            //if (formArray[i]['name'].startsWith('Latitude')) { continue; }
+            //if (formArray[i]['name'].startsWith('Longitude')) { continue; }
             var fname = formArray[i]['name'].split("_")[0];
             var fMOC = formArray[i]['name'].split("_")[1];
             var fNSD = formArray[i]['name'].split("_")[2];
@@ -1377,7 +1428,14 @@ function objectifyAHFormforSave(formArray) {
             if (fNSD === 'N') {
                 observation[formArray[i]['name']] = Number(formArray[i]['value']);
             }
-            else { observation[formArray[i]['name']] = formArray[i]['value']; }
+            else {
+                if ($("[name='" + formArray[i]['name'] + "']").is(':radio')) {
+                    observation[formArray[i]['name']] = $("[name='" + formArray[i]['name'] + "']:checked").val();
+                }
+                else {
+                    observation[formArray[i]['name']] = formArray[i]['value'];
+                }
+            }
         }
     }
     return observation;
