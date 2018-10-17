@@ -1024,6 +1024,20 @@ function loadModalAH(pagename) {
                             $('#form1').find("input[name^='Longitude']").val(wkt.toJson().coordinates[0]);
                             $('#form1').find("input[name^='Latitude']").val(wkt.toJson().coordinates[1]);
                         }
+                        if (key.startsWith("AnimalAttachmentD_M_S") && value !== "") {
+                            $.ajax({
+                                url: "",
+                                beforeSend: function (xhr) {
+                                    $("#addAnimalAttachment").trigger("click");
+                                }
+                            }).complete(function (e) {
+                                $('#form1').find("input[type='text'][name='" + key + "']").val(value);
+                            });
+                        }
+                        if (key.startsWith("AnimalAttachment_M_S") && value !== "") {
+                            $('#form1').find("img[name^='i" + key + "']").attr("src", "data:image/jpeg;base64," + value);
+                            $('#form1').find("textarea[name^='" + key + "']").val(value);
+                        }
                         if (key.startsWith("XSyndromeCode_M_S") && value !== "") {
                             $.ajax({
                                 url: "",
@@ -1445,12 +1459,13 @@ function packageAHFormforSubmit(data) {
         "postMortemBodySystems": []
     };
     var sample = { "id": 0, "fieldId": "", "typeCde": "", "comment": "", "sampleTests": { "sampleTest": [] }, "attachments": { "attachment": [] }};
-    var attachment = [{"id": 0, "sequenceNum": 0, "type": "", "name": "", "description": "", "content": ""}];
+    var attachment = {"id": 0, "sequenceNum": 0, "type": "", "name": "", "description": "", "content": ""};
     var syndrome = { "name": "", "id": 0, "present": "", "comment": "" };
     var postMortemBodySystem = [{ "bodySystemCde": "", "abnormalDetection": "", "grossFindings": "" }];
     var extObsrvrFlag = 0;
     var pSampleFlag = 0;
     var sampleCount = 0;
+    var attachmentCnt = 0;
     $.each(modData, function (index, value) {
         if (isNaN(index)) {
             var fname = index.split("_")[0];
@@ -1578,6 +1593,23 @@ function packageAHFormforSubmit(data) {
                 observation['postMortem'] = postMortem;
                 return true;
             }
+            /* attachments */
+            if (fname === 'AnimalAttachmentD' && value !== "") {
+                attachment = { "id": 0, "sequenceNum": 0, "type": "", "name": "", "description": "", "content": "" };
+                attachmentCnt++;
+                attachment.id = attachmentCnt;
+                attachment.sequenceNum = attachmentCnt;
+                attachment.type = "image/jpeg";
+                attachment.name = value.replace(' ', '_') + '.jpg';
+                attachment.description = value;
+                return true;
+            }
+            if (fname === 'AnimalAttachment' && value !== "") {
+                attachment.content = value;
+                observation.attachments.attachment.push(attachment);
+                return true;
+            }
+            /* attachments */
 
             /* Maggot sample */
             if (fname === 'MSampleFieldLabelText' && value > 0) { pSampleFlag = 1; }
@@ -1693,8 +1725,7 @@ function objectifyAHFormforSubmit(data) {//serialize data function
         $.each(item.samples.sample, function (j, itemx) {
             if (itemx.attachments.attachment.length === 0) { delete itemx.attachments; }
         });
-    });
-    
+    });  
     CleanUp(jsonData);
     delete jsonData.status;
     delete jsonData.id;
