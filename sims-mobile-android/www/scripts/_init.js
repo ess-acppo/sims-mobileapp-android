@@ -353,7 +353,7 @@ function checkPermissions() {
 }
 function initSettings() {
     //$('#mb6 .progText').text("Loading App Defaults ...");
-    $.growl.notice({ title: "", message: "Loading ...", location: "bc", size: "small" });
+    //$.growl.notice({ title: "", message: "Loading ...", location: "bc", size: "small" });
     //Loading PH reference codes
     db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM phrefcodes WHERE id = ?", [1], function (tx, res) {
@@ -1117,8 +1117,8 @@ $(document).on('click', '#SaveExit', function (e) {
             $('#modalForm').modal('hide');
             break;
         case "AH":
-            var obj1 = JSON.stringify(objectifyAHFormforSave(form1));
-            console.log(obj1);
+            //var obj1 = JSON.stringify(objectifyAHFormforSave(form1));
+            //console.log(obj1);
             obj = objectifyAHFormforSave(form1);
             obj.status_M_N = 0;
             if (debugMode === 1) {
@@ -1237,7 +1237,7 @@ $(document).on('click', '#Submit2', function (e) {
             break;
         case "AH":
             obj = objectifyAHFormforSave(form1);
-            //console.log(JSON.stringify(obj));
+            console.log(JSON.stringify(obj));
             result = IterateAH(obj);
             if (result.vError === 0) {
                 //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));

@@ -173,7 +173,7 @@ html, body {
     overflow-y: hidden;
 }
 
-.sample, .PlantAttachment, .PlantObsAttachment, .PlantSampleAttachment, .fieldtest {
+.sample, .maggotSample, .PlantAttachment, .AnimalAttachment, .PlantObsAttachment, .PlantSampleAttachment, .fieldtest {
     margin: 5px;
     border: 1px solid #ddd;
     border-radius: 2px;
@@ -1085,7 +1085,8 @@ div.dataTables_filter {
     border-radius: 3px;
     border: 2px solid #eee;
     margin: 0.05rem;
-    padding-right: 14px;
+    padding-right: 7px;
+    padding-left:7px;
     padding-top: 8px;
     margin-bottom: 8px;
 }

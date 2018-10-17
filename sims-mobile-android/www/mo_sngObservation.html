@@ -24,12 +24,6 @@
                         <a href="#tab_5" data-toggle="tab"><i class="fa fa-eye mxr-5"></i>Post Mortem</a>
                     </li>
                     <li class="ripple">
-                        <a href="#tab_4" data-toggle="tab">
-                            <i class="fa fa-flask mxr-5"></i>Field Tests
-                            <span data-toggle="tooltip" class="badge" data-original-title="3" id="numFieldTests"></span>
-                        </a>
-                    </li>
-                    <li class="ripple">
                         <a href="#tab_6" data-toggle="tab">
                             <i class="fa fa-paperclip mxr-5"></i>Attachments
                             <span data-toggle="tooltip" class="badge" data-original-title="3" id="numAttachments"></span>
@@ -68,7 +62,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*</span>Taxon</label>
-                            <select class="form-control" name="taxon_M_N" id="taxon">
+                            <select class="form-control" name="taxon_M_S" id="taxon">
                                 <option value="NONE">- select -</option>
                             </select>
                         </div>
@@ -197,22 +191,22 @@
                         <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="maggotSamples">
                         </div>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                            <button type="button" class="btn btn-md btn-info pull-right" id="noSyndromes"><i class="fa fa-eye-slash"></i>&nbsp;No Syndromes Found</button>
                             <h4 class="box-title">Syndromes</h4>
                             <label>Indicate if any of the following syndromes were found to be present:</label>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <button type="button" class="btn btn-md btn-info pull-right" id="noSyndromes"><i class="fa fa-eye-slash"></i>&nbsp;No Syndromes Found</button>
                         </div>
                         <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="defSyndromes">
                         </div>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
                             <h4 class="box-title">Added Syndromes</h4>
                             <label>Additional Syndromes can be added from the list below:</label>
                         </div>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" name="Syndromes" id="lstSyndromes"></select>
                         </div>
@@ -255,100 +249,97 @@
                 <div class="tab-pane" id="tab_5">
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                            <button type="button" class="btn btn-md btn-info pull-right" id="btnNAD"><i class="fa fa-eye-slash"></i>&nbsp;Nothing Abnormal Detected</button>
                             <h4>Body Systems</h4>
                         </div>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-xs-4">
-                            <label>Integument</label>
-                            <input type="hidden" name="BodySystemCodeIN" value="IN"/>
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            <button type="button" class="btn btn-md btn-info pull-right" id="btnNAD"><i class="fa fa-eye-slash"></i>&nbsp;Nothing Abnormal Detected</button>
                         </div>
-                        <div class="form-group col-xs-3">
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                            <label>Integument</label>
+                            <input type="hidden" name="BodySystemCodeIN" value="IN" />
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="IntegumentFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="IntegumentFlag_M_S" value="N" data-code="N" data-validate="Y">&nbsp;<label>No</label>
                         </div>
+                        <div class="form-group col-md-12 col-sm-12 col-sm-12">
+                            <label>Gross Findings</label>
+                            <textarea class="form-control" rows="3" name="IntGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-12">
-                        <label>Gross Findings</label>
-                        <textarea class="form-control" rows="3" name="IntGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-xs-4">
+
+                    <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label>Head / Neck</label>
                             <input type="hidden" name="BodySystemCodeHN" value="HN" />
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="HeadNeckFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="HeadNeckFlag_M_S" value="N" data-code="N" data-validate="Y">&nbsp;<label>No</label>
                         </div>
+                        <div class="form-group col-md-12 col-sm-12 col-sm-12">
+                            <label>Gross Findings</label>
+                            <textarea class="form-control" rows="3" name="HeadNeckGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-12">
-                        <label>Gross Findings</label>
-                        <textarea class="form-control" rows="3" name="HeadNeckGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-xs-4">
+
+                    <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label>Thorax</label>
                             <input type="hidden" name="BodySystemCodeTH" value="TH" />
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="ThoraxFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="ThoraxFlag_M_S" value="N" data-code="N" data-validate="Y">&nbsp;<label>No</label>
                         </div>
+                        <div class="form-group col-md-12 col-sm-12 col-sm-12">
+                            <label>Gross Findings</label>
+                            <textarea class="form-control" rows="3" name="ThoraxGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-12">
-                        <label>Gross Findings</label>
-                        <textarea class="form-control" rows="3" name="ThoraxGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-xs-4">
+
+                    <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label>Abdomen</label>
                             <input type="hidden" name="BodySystemCodeAB" value="AB" />
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="AbdomenFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="AbdomenFlag_M_S" value="N" data-code="N" data-validate="Y">&nbsp;<label>No</label>
                         </div>
+                        <div class="form-group col-md-12 col-sm-12 col-sm-12">
+                            <label>Gross Findings</label>
+                            <textarea class="form-control" rows="3" name="AbdomenGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-12">
-                        <label>Gross Findings</label>
-                        <textarea class="form-control" rows="3" name="AbdomenGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-xs-4">
+
+                    <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label>Musculoskeletal</label>
                             <input type="hidden" name="BodySystemCodeMU" value="MU" />
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="MuscSkeletalFlag_M_S" value="Y" data-code="Y" data-validate="Y">&nbsp;<label>Yes</label>
                         </div>
-                        <div class="form-group col-xs-3">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             <input type="radio" class="minimal" name="MuscSkeletalFlag_M_S" value="N" data-code="N" data-validate="Y">&nbsp;<label>No</label>
                         </div>
-                    </div>
-                    <div class="form-group col-sm-12">
-                        <label>Gross Findings</label>
-                        <textarea class="form-control" rows="3" name="MuscSkeletalGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
-                    </div>
-                </div>
-                <div class="tab-pane" id="tab_4">
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
-                            <button type="button" class="btn btn-md btn-default" id="addFieldTest"><i class="fa fa-plus"></i>&nbsp;Add FieldTest</button>
-                            <button type="button" class="btn btn-md btn-default hide" id="addPreSelectedFieldTest"><i class="fa fa-flask"></i>Pre-Selected</button>
+                        <div class="form-group col-md-12 col-sm-12 col-sm-12">
+                            <label>Gross Findings</label>
+                            <textarea class="form-control" rows="3" name="MuscSkeletalGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings"></textarea>
                         </div>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="fieldtests">
-                    </div>
+
                 </div>
                 <div class="tab-pane" id="tab_6">
                     <div class="row col-md-12 col-sm-12 col-xs-12 pr-0 mxrm-5">
