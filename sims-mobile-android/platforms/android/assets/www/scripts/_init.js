@@ -2035,13 +2035,13 @@ function fetchServerDetails(serverMode) {
             break;
         case "PROD":
             ServerAddress = prodServerAddress;
-            authAddress = (ServerAddress + resSettings.settings.app.authAddress);
-            ActivityAddress = (ServerAddress + resSettings.settings.app.activityAddress);
-            refCodesAddress = (ServerAddress + resSettings.settings.app.refCodesAddress);
-            BPHStaffAddress = (ServerAddress + resSettings.settings.app.BPHStaffAddress);
-            IPHStaffAddress = (ServerAddress + resSettings.settings.app.IPHStaffAddress);
-            NPHStaffAddress = (ServerAddress + resSettings.settings.app.NPHStaffAddress);
-            taxaAddress = (ServerAddress + resSettings.settings.app.taxaAddress);
+            authAddress = ServerAddress + resSettings.settings.app.authAddress;
+            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
             submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
             break;
     }
