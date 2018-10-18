@@ -2461,6 +2461,17 @@ function getStaffData(str) {
                 staffDataFull = staffDataFull + option1;
             });
             break;
+        case "NAF":
+            staffDataFull = "";
+            $.getJSON("data/staff_team.json", function (data) {
+                $.each(data.staffs.staff, function (key, val) {
+                    var option1 = '<option';
+                    option1 = option1 + ' value="' + val.id + '">';
+                    option1 = option1 + val.displayName + "</option>";
+                    staffDataFull = staffDataFull + option1;
+                });
+            }); 
+            break;
     }
     return staffDataFull;
 }

@@ -11,12 +11,15 @@ var uatServerAddress;
 var prodServerAddress;
 var authAddress;
 var ActivityAddress;
+var ActivityAddressAH;
 var refCodesAddress;
+var refCodesAddressAH;
 var BPHStaffAddress;
 var IPHStaffAddress;
 var NPHStaffAddress;
 var taxaAddress;
 var submitPHObsAddress;
+var submitAHObsAddress;
 var infoWindow;
 var zoomlevel = document.getElementById('zoomlevel');
 var settings = document.getElementById('AppMode');
@@ -65,6 +68,7 @@ var staffData;
 var staffDataNPH;
 var staffDataBPH;
 var staffDataIPH;
+var staffDataNAF;
 var staffDataS;
 var staffDataFull;
 var track_id = '';
@@ -352,123 +356,166 @@ function checkPermissions() {
     }
 }
 function initSettings() {
-    //$('#mb6 .progText').text("Loading App Defaults ...");
-    //$.growl.notice({ title: "", message: "Loading ...", location: "bc", size: "small" });
-    //Loading PH reference codes
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM phrefcodes WHERE id = ?", [1], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                PHRefCodes = JSON.parse(res.rows.item(0).settingsval);
-                loadPHRefCodes();
-            }
-            else {
-                //This is the first load
-                syncPHRefCodes();
-                loadPHRefCodes();
-            }
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while loading PH RefenceCodes. ", location: "tc", size: "large", fixed: "true" });
-    });
-    //Loading taxa data
-    //$.growl.notice({ title: "", message: "Loading PH Taxa ...", location: "bc", size: "small" });
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM taxadata WHERE id = ?", [1], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                taxaData = JSON.parse(res.rows.item(0).settingsval);
-            }
-            else {
-                //This is the first load
-                syncTaxaData();
-            }
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while loading Taxa Data. ", location: "tc", size: "large", fixed: "true" });
-    });
-    //Loading Activity Data
-    //$.growl.notice({ title: "", message: "Loading Activity Data ...", location: "bc", size: "small" });
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM activitydata WHERE id = ?", [1], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                ActivityData = JSON.parse(res.rows.item(0).settingsval);
-                //siteData = ActivityData.activities[0].sites;
-                //programId = ActivityData.activities[0].programId;
-                loadActivityData();
-            }
-            else {
-                //This is the first load
-                syncActivityData();
-                loadActivityData();
-            }
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while loading PH Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM activitydataAH WHERE id = ?", [1], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                $.when(function () {
-                    ActivityDataAH = JSON.parse(res.rows.item(0).settingsval);
-                    //siteData = ActivityData.activities[0].sites;
-                    //programId = ActivityData.activities[0].programId;
-                }).then(syncActivityDataAH()).done(loadAHDefaults());
-            }
-            else {
-                //This is the first load
-                $.when(syncActivityDataAH()).done(loadAHDefaults());
-            }
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while loading AH Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    //Loading Staff Data
-    //$.growl.notice({ title: "", message: "Loading PH Staff Data ...", location: "bc", size: "small" });
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['BPHstaff'], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                staffDataBPH = JSON.parse(res.rows.item(0).settingsval);
-            }
-            else {
-                //This is the first load
-                syncBPHstaffData();
-            }
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while loading BPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['IPHstaff'], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                staffDataIPH = JSON.parse(res.rows.item(0).settingsval);
-            }
-            else {
-                //This is the first load
-                syncIPHstaffData();
-            }
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while loading IPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['NPHstaff'], function (tx, res) {
-            //This is not the first load
-            if (res.rows && res.rows.length > 0) {
-                staffDataNPH = JSON.parse(res.rows.item(0).settingsval);
-            }
-            else {
-                //This is the first load
-                syncNPHstaffData();
-            }
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while loading NPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
+    switch (AppMode) {
+        case "PH":
+            //$('#mb6 .progText').text("Loading App Defaults ...");
+            //$.growl.notice({ title: "", message: "Loading ...", location: "bc", size: "small" });
+            //Loading PH reference codes
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM phrefcodes WHERE id = ?", [1], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        PHRefCodes = JSON.parse(res.rows.item(0).settingsval);
+                        loadPHRefCodes();
+                    }
+                    else {
+                        //This is the first load
+                        syncPHRefCodes();
+                        loadPHRefCodes();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading PH RefenceCodes. ", location: "tc", size: "large", fixed: "true" });
+            });
+            //Loading taxa data
+            //$.growl.notice({ title: "", message: "Loading PH Taxa ...", location: "bc", size: "small" });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM taxadata WHERE id = ?", [1], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        taxaData = JSON.parse(res.rows.item(0).settingsval);
+                    }
+                    else {
+                        //This is the first load
+                        syncTaxaData();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading Taxa Data. ", location: "tc", size: "large", fixed: "true" });
+            });
+            //Loading Activity Data
+            //$.growl.notice({ title: "", message: "Loading Activity Data ...", location: "bc", size: "small" });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM activitydata WHERE id = ?", [1], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        ActivityData = JSON.parse(res.rows.item(0).settingsval);
+                        //siteData = ActivityData.activities[0].sites;
+                        //programId = ActivityData.activities[0].programId;
+                        loadActivityData();
+                    }
+                    else {
+                        //This is the first load
+                        syncActivityData();
+                        loadActivityData();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading PH Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            //Loading Staff Data
+            //$.growl.notice({ title: "", message: "Loading PH Staff Data ...", location: "bc", size: "small" });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['BPHstaff'], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        staffDataBPH = JSON.parse(res.rows.item(0).settingsval);
+                    }
+                    else {
+                        //This is the first load
+                        syncBPHstaffData();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading BPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['IPHstaff'], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        staffDataIPH = JSON.parse(res.rows.item(0).settingsval);
+                    }
+                    else {
+                        //This is the first load
+                        syncIPHstaffData();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading IPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM staffdata WHERE settingstext = ?", ['NPHstaff'], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        staffDataNPH = JSON.parse(res.rows.item(0).settingsval);
+                        loadstaffData();
+                    }
+                    else {
+                        //This is the first load
+                        syncNPHstaffData();
+                        loadstaffData();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading NPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            break;
+        case "AH":
+            //Loading PH reference codes
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM ahrefcodes WHERE id = ?", [1], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        AHRefCodes = JSON.parse(res.rows.item(0).settingsval);
+                        loadAHRefCodes();
+                    }
+                    else {
+                        //This is the first load
+                        syncAHRefCodes();
+                        loadAHRefCodes();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading PH RefenceCodes. ", location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM activitydataAH WHERE id = ?", [1], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        $.when(function () {
+                            ActivityDataAH = JSON.parse(res.rows.item(0).settingsval);
+                            //siteData = ActivityData.activities[0].sites;
+                            //programId = ActivityData.activities[0].programId;
+                        }).then(syncActivityDataAH()).done(loadActivityDataAH());
+                    }
+                    else {
+                        //This is the first load
+                        $.when(syncActivityDataAH()).done(loadActivityDataAH());
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading AH Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+                });
+            //Loading Staff Data
+            //$.growl.notice({ title: "", message: "Loading PH Staff Data ...", location: "bc", size: "small" });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM staffdataAH WHERE settingstext = ?", ['NAFstaff'], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        staffDataNAF = JSON.parse(res.rows.item(0).settingsval);
+                        loadstaffDataAH();
+                    }
+                    else {
+                        //This is the first load
+                        syncNAFstaffData();
+                        loadstaffDataAH();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading BPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            break;
+    }
     //Loading maps and Markers
     //$.growl.notice({ title: "", message: "Loading Maps ...", location: "bc", size: "small" });
     db.transaction(function (tx) {
@@ -507,7 +554,8 @@ function initSettings() {
                 clearMarkers();
                 if (AppMode === "PH") {
                     loadMapMarkers("PH");
-                } else if (AppMode === "AH") {
+                }
+                if (AppMode === "AH") {
                     loadMapMarkers("AH");
                 }
                 google.maps.event.addListener(map, 'click', function (event) {
@@ -557,7 +605,8 @@ function initSettings() {
                         clearMarkers();
                         if (AppMode === "PH") {
                             loadMapMarkers("PH");
-                        } else if (AppMode === "AH") {
+                        }
+                        if (AppMode === "AH") {
                             loadMapMarkers("AH");
                         }
                         google.maps.event.addListener(map, 'click', function (event) {
@@ -569,7 +618,6 @@ function initSettings() {
                     }
                 });
             }
-            loadstaffData();
             loadSitePolygons();
             if ($("#modalProgress").data('bs.modal') && $("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
         });
@@ -582,47 +630,73 @@ function loadMapMarkers(appMode) {
         tx.executeSql("SELECT * FROM observations WHERE id = ?", [1], function (tx, res) {
             if (res.rows && res.rows.length > 0) {
                 results = JSON.parse(res.rows.item(0).data);
-                for (var i = 0; i < results.observations.length; i++) {
-                    if (results.observations[i].ObservationWhereWktClob_M_S && results.observations[i].ObservationWhereWktClob_M_S !== '') {
-                        var wkt = new Wkt.Wkt();
-                        wkt.read(results.observations[i].ObservationWhereWktClob_M_S);
-                        wkt.toObject();
-                        var latLng = new google.maps.LatLng(wkt.toJson().coordinates[1], wkt.toJson().coordinates[0]);
-                        if (appMode === "PH") {
-                            var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].PlantDisciplineCode_M_S.toString().trim();
-                        } else if (appMode === "AH") {
-                            var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].AnimalDisciplineCode_M_S.toString().trim();
-                        }
-                        var marker = new google.maps.Marker({
-                            position: latLng,
-                            map: map,
-                            title: ti
-                        });
-                        markers.push(marker);
-                        google.maps.event.addListener(marker, 'click', function () {
-                            curIdx = this.title.split("/")[0];
-                            var curD = "'" + this.title.split("/")[1].toString().trim() + "'";
-                            curLat = this.getPosition().lat();
-                            curLng = this.getPosition().lng();
-                            //curAlt = this.getPosition().altitude();
-                            if (infoWindow) {
-                                infoWindow.close();
+                if (results.observations && results.observations.length > 0) {
+                    for (var i = 0; i < results.observations.length; i++) {
+                        if (results.observations[i].ObservationWhereWktClob_M_S && results.observations[i].ObservationWhereWktClob_M_S !== '') {
+                            var wkt = new Wkt.Wkt();
+                            wkt.read(results.observations[i].ObservationWhereWktClob_M_S);
+                            wkt.toObject();
+                            var latLng = new google.maps.LatLng(wkt.toJson().coordinates[1], wkt.toJson().coordinates[0]);
+                            if (appMode === "PH" && results.observations[i].PlantDisciplineCode_M_S) {
+                                var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].PlantDisciplineCode_M_S.toString().trim();
+                                var marker = new google.maps.Marker({
+                                    position: latLng,
+                                    map: map,
+                                    title: ti
+                                });
+                                markers.push(marker);
+                                google.maps.event.addListener(marker, 'click', function () {
+                                    curIdx = this.title.split("/")[0];
+                                    var curD = "'" + this.title.split("/")[1].toString().trim() + "'";
+                                    curLat = this.getPosition().lat();
+                                    curLng = this.getPosition().lng();
+                                    //curAlt = this.getPosition().altitude();
+                                    if (infoWindow) {
+                                        infoWindow.close();
+                                    }
+                                    infoWindow = new google.maps.InfoWindow({
+                                        content: '<div id="content"><h4>Observation ' + this.title + '</h4><div id="bodyContent">' +
+                                        '<i class="fa fa-pencil fa-2x text-info" onclick="launchModal(' + curIdx + ',' + curD + ')"></i><label class="text-info">Edit</label></div></div>'
+                                    });
+                                    infoWindow.setPosition(this.position);
+                                    infoWindow.open(map);
+                                    map.setCenter(this.position);
+                                });
                             }
-                            infoWindow = new google.maps.InfoWindow({
-                                content: '<div id="content"><h4>Observation ' + this.title + '</h4><div id="bodyContent">' +
-                                '<i class="fa fa-pencil fa-2x text-info" onclick="launchModal(' + curIdx + ',' + curD + ')"></i><label class="text-info">Edit</label></div></div>'
-                            });
-                            infoWindow.setPosition(this.position);
-                            infoWindow.open(map);
-                            map.setCenter(this.position);
-                        });
+                            if (appMode === "AH" && results.observations[i].AnimalDisciplineCode_M_S) {
+                                var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].AnimalDisciplineCode_M_S.toString().trim();
+                                var marker = new google.maps.Marker({
+                                    position: latLng,
+                                    map: map,
+                                    title: ti
+                                });
+                                markers.push(marker);
+                                google.maps.event.addListener(marker, 'click', function () {
+                                    curIdx = this.title.split("/")[0];
+                                    var curD = "'" + this.title.split("/")[1].toString().trim() + "'";
+                                    curLat = this.getPosition().lat();
+                                    curLng = this.getPosition().lng();
+                                    //curAlt = this.getPosition().altitude();
+                                    if (infoWindow) {
+                                        infoWindow.close();
+                                    }
+                                    infoWindow = new google.maps.InfoWindow({
+                                        content: '<div id="content"><h4>Observation ' + this.title + '</h4><div id="bodyContent">' +
+                                        '<i class="fa fa-pencil fa-2x text-info" onclick="launchModal(' + curIdx + ',' + curD + ')"></i><label class="text-info">Edit</label></div></div>'
+                                    });
+                                    infoWindow.setPosition(this.position);
+                                    infoWindow.open(map);
+                                    map.setCenter(this.position);
+                                });
+                            }
+                        }
                     }
+                    var mcOptions = { gridSize: 50, maxZoom: 9, imagePath: 'mapfiles/markers2/m' };
+                    markerCluster = new MarkerClusterer(map, markers, mcOptions);
+                    google.maps.event.addListener(markerCluster, 'clusterclick', function (cluster) {
+                        map.setCenter(cluster.getCenter());
+                    });
                 }
-                var mcOptions = { gridSize: 50, maxZoom: 9, imagePath: 'mapfiles/markers2/m' };
-                markerCluster = new MarkerClusterer(map, markers, mcOptions);
-                google.maps.event.addListener(markerCluster, 'clusterclick', function (cluster) {
-                    map.setCenter(cluster.getCenter());
-                });
                 //if ($("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
             }
         });
@@ -1413,7 +1487,8 @@ $(document).on('click', '#Delete', function (e) {
                 clearMarkers();
                 if (AppMode === "PH") {
                     loadMapMarkers("PH");
-                } else if (AppMode === "AH") {
+                }
+                if (AppMode === "AH") {
                     loadMapMarkers("AH");
                 }  
                 if (infoWindow) {
@@ -1553,7 +1628,8 @@ $(document).on('hidden.bs.modal', '#modalForm', function () {
     clearMarkers();
     if (AppMode === "PH") {
         loadMapMarkers("PH");
-    } else if (AppMode === "AH") {
+    }
+    if (AppMode === "AH") {
         loadMapMarkers("AH");
     }  
 });
@@ -1573,10 +1649,10 @@ $(document).on('click', 'a.btnResetData', function (e) {
                         var mm = today.getMonth() + 1; //January is 0!
                         var yyyy = today.getFullYear();
                         if (dd < 10) {
-                            dd = '0' + dd
+                            dd = '0' + dd;
                         }
                         if (mm < 10) {
-                            mm = '0' + mm
+                            mm = '0' + mm;
                         }
                         today = dd.toString() + '/' + mm.toString() + '/' + yyyy.toString();
                         db.transaction(function (tx) {
@@ -1595,43 +1671,12 @@ $(document).on('click', 'a.btnResetData', function (e) {
                         });
                         clearMarkers();
                         results = JSON.parse(data);
-                        for (var i = 0; i < results.observations.length; i++) {
-                            if (results.observations[i].ObservationWhereWktClob_M_S && results.observations[i].ObservationWhereWktClob_M_S !== '') {
-                                var wkt = new Wkt.Wkt();
-                                wkt.read(results.observations[i].ObservationWhereWktClob_M_S);
-                                wkt.toObject();
-                                var latLng = new google.maps.LatLng(wkt.toJson().coordinates[1], wkt.toJson().coordinates[0]);
-                                var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].PlantDisciplineCode_M_S.toString().trim();
-                                var marker = new google.maps.Marker({
-                                    position: latLng,
-                                    map: map,
-                                    title: ti
-                                });
-                                markers.push(marker);
-                                google.maps.event.addListener(marker, 'click', function () {
-                                    curIdx = this.title.split("/")[0];
-                                    var curD = "'" + this.title.split("/")[1].toString().trim() + "'";
-                                    curLat = this.getPosition().lat();
-                                    curLng = this.getPosition().lng();
-                                    //curAlt = this.getPosition().altitude();
-                                    if (infoWindow) {
-                                        infoWindow.close();
-                                    }
-                                    infoWindow = new google.maps.InfoWindow({
-                                        content: '<div id="content"><h4>Observation ' + this.title + '</h4><div id="bodyContent">' +
-                                        '<i class="fa fa-pencil fa-2x text-info" onclick="launchModal(' + curIdx + ',' + curD + ')"></i><label class="text-info">Edit</label></div></div>'
-                                    });
-                                    infoWindow.setPosition(this.position);
-                                    infoWindow.open(map);
-                                    map.setCenter(this.position);
-                                });
-                            }
+                        if (AppMode === "PH") {
+                            loadMapMarkers("PH");
                         }
-                        var mcOptions = { gridSize: 50, maxZoom: 9, imagePath: 'mapfiles/markers2/m' };
-                        markerCluster = new MarkerClusterer(map, markers, mcOptions);
-                        google.maps.event.addListener(markerCluster, 'clusterclick', function (cluster) {
-                            map.setCenter(cluster.getCenter());
-                        });
+                        if (AppMode === "AH") {
+                            loadMapMarkers("AH");
+                        }
                         db.transaction(function (tx) {
                             tx.executeSql("UPDATE observations SET data = ?,filedt = ? WHERE id = ?", [JSON.stringify(results), today, 1], function (tx, res) {
                                 //alert("Dataset updated.");
@@ -1655,16 +1700,18 @@ $(document).on('click', 'a.btnResetData', function (e) {
 $(document).on('click', 'a.btnSync', function (e) {
     $.confirm({
         title: 'Confirm Data Sync!',
-        content: 'Do you want to sync application data with the Server?<br/>Note that Observations will not be Synced!',
+        content: 'Do you want to sync application data with the Server?<br/>Note: <b>Observations will not be Synced.</b>',
         buttons: {
             Ok: function () {
-                syncPHRefCodes();
-                syncActivityData();
-                syncBPHstaffData();
-                syncIPHstaffData();
-                syncNPHstaffData();
-                syncTaxaData();
-                $.growl.notice({ title: "", message: "Sync Complete!.", location: "bc", size: "small" });
+                $.when(clearCache()).then(fetchSettings()).then(initSettings()).done(function () {
+                    $.growl.notice({ title: "", message: "Sync Complete!.", location: "bc", size: "small" });
+                });
+                //syncPHRefCodes();
+                //syncActivityData();
+                //syncBPHstaffData();
+                //syncIPHstaffData();
+                //syncNPHstaffData();
+                //syncTaxaData();
             },
             cancel: function () {
                 //close
@@ -2160,6 +2207,7 @@ function fetchSettings() {
                 downerTeam = resSettings.settings.device.ownerTeam;
                 debugMode = resSettings.settings.device.debugMode;
                 $("#serverMode").val(resSettings.settings.app.serverMode);
+                $("#appMode2").val(resSettings.settings.app.appMode);
             }
             else {
                 $.ajax({
@@ -2196,6 +2244,7 @@ function fetchSettings() {
                         downerTeam = resSettings.settings.device.ownerTeam;
                         debugMode = resSettings.settings.device.debugMode;
                         $("#serverMode").val(resSettings.settings.app.serverMode);
+                        $("#appMode2").val(resSettings.settings.app.appMode);
                     },
                     failure: function () {
                         $.growl.error({ title: "", message: "Error loading settings!", location: "tc", size: "large", fixed: "true" });
@@ -2267,9 +2316,17 @@ function fetchServerDetails(serverMode) {
     }
     return taxaAddress;
 }
-function updateSettings(serverMode) {
+function updateSettings(serverMode, appMode) {
+    var changeFlag = 0;
     if (serverMode !== resSettings.settings.app.serverMode) {
         resSettings.settings.app.serverMode = serverMode;
+        changeFlag = 1;
+    }
+    if (appMode !== resSettings.settings.app.appMode) {
+        resSettings.settings.app.appMode = appMode;
+        changeFlag = 1;
+    }
+    if (changeFlag === 1) {
         db.transaction(function (tx) {
             tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
                 //Updated serverMode to current.
@@ -2280,55 +2337,77 @@ function updateSettings(serverMode) {
         });
     }
 }
-function clearCache() {
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
-            //alert("Rows deleted.");
-            ActivityData = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM phrefcodes", [], function (tx, res) {
-            //alert("Rows deleted.");
-            PHRefCodes = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM staffdata WHERE id = ?", [1], function (tx, res) {
-            //alert("Rows deleted.");
-            staffDataNPH = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting NPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM staffdata WHERE id = ?", [2], function (tx, res) {
-            //alert("Rows deleted.");
-            staffDataBPH = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting BPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM staffdata WHERE id = ?", [3], function (tx, res) {
-            //alert("Rows deleted.");
-            staffDataIPH = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting IPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM taxadata", [], function (tx, res) {
-            //alert("Rows deleted.");
-            taxaData = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting Taxa Data from database. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
+function clearCache(appMode) {
+    switch (appMode) {
+        case "PH":
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    ActivityData = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM phrefcodes", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    PHRefCodes = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM staffdata WHERE id = ?", [1], function (tx, res) {
+                    //alert("Rows deleted.");
+                    staffDataNPH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting NPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM staffdata WHERE id = ?", [2], function (tx, res) {
+                    //alert("Rows deleted.");
+                    staffDataBPH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting BPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM staffdata WHERE id = ?", [3], function (tx, res) {
+                    //alert("Rows deleted.");
+                    staffDataIPH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting IPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM taxadata", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    taxaData = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting Taxa Data from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            break;
+        case "AH":
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM activitydataAH", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    ActivityDataAH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+                });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM staffdataAH", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    staffdataAH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting StaffData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            break;
+    }
 }
 function getCurrentActivityTiles(str, zoom) {
     if (Number(str) === 99999) { return true; }
@@ -2419,6 +2498,7 @@ function initLoad() {
         tx.executeSql("CREATE TABLE IF NOT EXISTS activitydata (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS staffdata (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS taxadata (id integer primary key, settingstext text, settingsval text default '{}')");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS ahrefcodes (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS activitydataAH (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS staffdataAH (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS seqnum (id integer primary key, attrname text, attrval int default 0)");
