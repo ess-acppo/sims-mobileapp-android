@@ -998,6 +998,7 @@ function loadModalAH(pagename) {
             t0 = performance.now();
             samples = 0;
             fieldTests = 0;
+            numAttachments = 0;
         }
     }).complete(function (e) {
         $('#form1').find("input[type=text],input[type=date],input[type=number], textarea").val("");
@@ -1005,6 +1006,10 @@ function loadModalAH(pagename) {
         $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
             setTimeout(function (e) {
                 if (pagename === 'mo_sngObservation') {
+                    loadActivityDataAH();
+                    loadAHDefaults();
+                }
+                if (pagename === 'mo_grpObservation') {
                     loadActivityDataAH();
                     loadAHDefaults();
                 }
@@ -1104,6 +1109,18 @@ function loadModalAH(pagename) {
                         }
                         if (key === "ageClass_M_S" && value !== "") {
                             $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key === "obsProximity_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                        }
+                        if (key === "optSyndromes_M_S" && value !== "") {
+                            $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
+                            if (value === 'Y') {
+                                $('.syndromes').removeClass('hide');
+                            }
+                            if (value === 'N') {
+                                $('.syndromes').addClass('hide');
+                            }
                         }
                         if (key === "bodyConditionScore_M_N" && value > 0) {
                             $('#form1').find("input[type='radio'][name='" + key + "'][value=" + value + "]").iCheck('check');
@@ -1258,14 +1275,12 @@ $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event)
 });
 $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
     //Group Observation Stuff
-    //if ($(this).attr('name') === 'optSyndromes' && $(this).val() === 'Y') {
-    //    $('.addedSyndrome').removeClass('hide');
-    //    $('.addedSyndrome').next('div').removeClass('hide');
-    //}
-    //if ($(this).attr('name') === 'optSyndromes' && $(this).val() === 'N') {
-    //    $('.addedSyndrome').addClass('hide');
-    //    $('.addedSyndrome').next('div').addClass('hide');
-    //}
+    if ($(this).attr('name') === 'optSyndromes_M_S' && $(this).val() === 'Y') {
+        $('.syndromes').removeClass('hide');
+    }
+    if ($(this).attr('name') === 'optSyndromes_M_S' && $(this).val() === 'N') {
+        $('.syndromes').addClass('hide');
+    }
     //Group Observation Stuff
     if ($(this).attr('name') === 'woundsPresent_M_S' && $(this).val() === 'Y') {
         $('.addMaggotSamples').removeClass('hide');
@@ -1454,6 +1469,10 @@ function packageAHFormforSubmit(data) {
         "syndrome": [],
         "additionalObservations": ""
     };
+    var syndromes = {
+        "syndrome": [],
+        "additionalObservations": ""
+    };
     var postMortem = {
         "postMortemConducted": "",
         "postMortemBodySystems": []
@@ -1466,6 +1485,7 @@ function packageAHFormforSubmit(data) {
     var pSampleFlag = 0;
     var sampleCount = 0;
     var attachmentCnt = 0;
+    var discipline = "";
     $.each(modData, function (index, value) {
         if (isNaN(index)) {
             var fname = index.split("_")[0];
@@ -1476,7 +1496,7 @@ function packageAHFormforSubmit(data) {
 
             if (fname === 'activityId') { feralAnimalObservations.activityId = value; return true; }
             if (fname === 'submittedBy') { feralAnimalObservations.submittedBy = value; return true; }
-            if (fname === 'AnimalDisciplineCode') { return true; }
+            if (fname === 'AnimalDisciplineCode') { discipline = value; return true; }
             if (fname === 'Latitude') { return true; }
             if (fname === 'Longitude') { return true; }
 
@@ -1487,6 +1507,26 @@ function packageAHFormforSubmit(data) {
             if (fname === 'ageClass') { observation['ageClass'] = value; return true; }
             if (fname === 'dateTime') { observation['dateTime'] = value; return true; }
             if (fname === 'ObservationStaffId') { observation['observer'] = value; return true; }
+
+            /* group animal stuff */
+            if (fname === 'groupNum') { observation['groupNum'] = value; return true; }
+            if (fname === 'obsProximity') { observation['obsProximity'] = value; return true; }
+            if (fname === 'adultNumber') { observation['adultNumber'] = value; return true; }
+            if (fname === 'adultPercent') { observation['adultPercent'] = value; return true; }
+            if (fname === 'maleNumber') { observation['maleNumber'] = value; return true; }
+            if (fname === 'malePercent') { observation['malePercent'] = value; return true; }
+            if (fname === 'juvNumber') { observation['juvenileNumber'] = value; return true; }
+            if (fname === 'juvPercent') { observation['juvenilePercent'] = value; return true; }
+            if (fname === 'femaleNumber') { observation['femaleNumber'] = value; return true; }
+            if (fname === 'femalePercent') { observation['femalePercent'] = value; return true; }
+            if (fname === 'aunkNumber') { observation['adultUnknownkNumber'] = value; return true; }
+            if (fname === 'aunkPercent') { observation['adultUnknownPercent'] = value; return true; }
+            if (fname === 'gunkNumber') { observation['genderUnknownNumber'] = value; return true; }
+            if (fname === 'gunkpercent') { observation['genderUnknownPercent'] = value; return true; }
+            if (fname === 'optSyndromes') { observation['syndromesFlag'] = value; return true; }
+
+            /* group animal stuff */
+
             if (fname === 'externalObserverFlag' && value === 'Y') {
                 extObsrvrFlag = 1;
                 return true;
@@ -1530,12 +1570,19 @@ function packageAHFormforSubmit(data) {
             }
             if (fname === 'SyndromeComments' || fname === 'XSyndromeComments') {
                 syndrome['comment'] = value;
-                animalConditionChoice.syndrome.push(syndrome);
+                if (discipline === 'SF') { animalConditionChoice.syndrome.push(syndrome); }
+                if (discipline === 'G') { syndromes.syndrome.push(syndrome); }
                 return true;
             }
-            if (fname === 'additionalObservations') {
-                animalConditionChoice.additionalObservations = value;
-                observation['animalConditionChoice'] = animalConditionChoice;
+            if (fname === 'additionalObservations') {               
+                if (discipline === 'SF') {
+                    animalConditionChoice.additionalObservations = value;
+                    observation['animalConditionChoice'] = animalConditionChoice;
+                }
+                if (discipline === 'G') {
+                    syndromes.additionalObservations = value;
+                    observation['syndromes'] = syndromes;
+                }               
                 return true;
             }
             if (fname === 'postMortemConducted') {
@@ -1722,9 +1769,11 @@ function objectifyAHFormforSubmit(data) {//serialize data function
     $.each(jsonData.feralAnimalObservation, function (i, item) {
         if (item.samples.sample.length === 0) { delete item.samples; }
         if (item.attachments.attachment.length === 0) { delete item.attachments; }
-        $.each(item.samples.sample, function (j, itemx) {
-            if (itemx.attachments.attachment.length === 0) { delete itemx.attachments; }
-        });
+        if (item.samples) {
+            $.each(item.samples.sample, function (j, itemx) {
+                if (itemx.attachments.attachment.length === 0) { delete itemx.attachments; }
+            });
+        }
     });  
     CleanUp(jsonData);
     delete jsonData.status;
@@ -1800,63 +1849,63 @@ function StartSyncAH() {
             var result = Iterate2AH(value);
             if (result.vError === 0) {
                 var vpayload = JSON.stringify(SubmitRecordAH(objectifyAHFormforSubmit(packageAHFormforSubmit(value))));
-                //console.log(vpayload);
-                if (debugMode === 1) {
-                    $.confirm({
-                        title: 'Payload Attempted!',
-                        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
-                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                        buttons: {
-                            ok: function () { },
-                            copy: {
-                                text: 'Copy', // With spaces and symbols
-                                action: function () {
-                                    var copytext = this.$content.find("#Payload");
-                                    copytext.select();
-                                    document.execCommand("copy");
-                                    return false;
-                                }
-                            }
-                        }
-                    });
-                }
-                var payload = {
-                    "value": vpayload.escapeSpecialChars() 
-                };
-                $.ajax({
-                    method: "POST",
-                    async: false,
-                    url: "https://online-dev.agriculture.gov.au/psd.comr.svl/FeralAnimalService/1.0/createFeralAnimalObservation",
-                    //data: JSON.stringify(payload),
-                    data: vpayload.escapeSpecialChars(),
-                    contentType: "application/json",
-                    dataType: "json",
-                    headers: {
-                        "authorization": authCode,
-                        "cache-control": "no-cache"
-                    },
-                    success: function (data, textStatus, XmlHttpRequest) {
-                        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
-                        if (XmlHttpRequest.status === 200) {
-                            //$.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
-                            logstr = logstr + vpayload.escapeSpecialChars() + "\r\n";
-                        }
-                        rowsSuccess.push(index);
-                    },
-                    complete: function (xhr, textStatus) {
-                        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
-                        //results.observations(value.id_M_N - 1).status_M_N = 2;
-                        //results.observations.splice(index, 1);
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
-                        $.dialog({
-                            title: 'Sync Failed!',
-                            content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
-                            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
-                        });
-                    }
-                });
+                console.log(vpayload);
+                //if (debugMode === 1) {
+                //    $.confirm({
+                //        title: 'Payload Attempted!',
+                //        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
+                //        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                //        buttons: {
+                //            ok: function () { },
+                //            copy: {
+                //                text: 'Copy', // With spaces and symbols
+                //                action: function () {
+                //                    var copytext = this.$content.find("#Payload");
+                //                    copytext.select();
+                //                    document.execCommand("copy");
+                //                    return false;
+                //                }
+                //            }
+                //        }
+                //    });
+                //}
+                //var payload = {
+                //    "value": vpayload.escapeSpecialChars() 
+                //};
+                //$.ajax({
+                //    method: "POST",
+                //    async: false,
+                //    url: "https://online-dev.agriculture.gov.au/psd.comr.svl/FeralAnimalService/1.0/createFeralAnimalObservation",
+                //    //data: JSON.stringify(payload),
+                //    data: vpayload.escapeSpecialChars(),
+                //    contentType: "application/json",
+                //    dataType: "json",
+                //    headers: {
+                //        "authorization": authCode,
+                //        "cache-control": "no-cache"
+                //    },
+                //    success: function (data, textStatus, XmlHttpRequest) {
+                //        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
+                //        if (XmlHttpRequest.status === 200) {
+                //            //$.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
+                //            logstr = logstr + vpayload.escapeSpecialChars() + "\r\n";
+                //        }
+                //        rowsSuccess.push(index);
+                //    },
+                //    complete: function (xhr, textStatus) {
+                //        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
+                //        //results.observations(value.id_M_N - 1).status_M_N = 2;
+                //        //results.observations.splice(index, 1);
+                //    },
+                //    error: function (xhr, textStatus, errorThrown) {
+                //        //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
+                //        $.dialog({
+                //            title: 'Sync Failed!',
+                //            content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
+                //            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
+                //        });
+                //    }
+                //});
             }
             else {
                 rowsFailed.push(rowid);

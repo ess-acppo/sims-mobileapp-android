@@ -3194,6 +3194,7 @@ $(document).on('click', '.getSampleCoords', function (e) {
     e.preventDefault();
 });
 $(document).on('click', 'img.pp', function () {
+    $.growl.notice({ title: "", message: "Loading Camera ...", location: "bc", size: "small" });
     var that = $(this);
     var ppname = that.attr("name");
     var inpname = that.attr("name").substr(1, that.attr("name").length - 1);
