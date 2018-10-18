@@ -17,6 +17,7 @@ var refCodesAddressAH;
 var BPHStaffAddress;
 var IPHStaffAddress;
 var NPHStaffAddress;
+var NAFStaffAddress;
 var taxaAddress;
 var submitPHObsAddress;
 var submitAHObsAddress;
@@ -2257,7 +2258,7 @@ function fetchSettings() {
         $.growl.error({ title: "", message: "An error occured fetching app settings. " + err.message, location: "tc", size: "large", fixed: "true" });
     });
 }
-function fetchServerDetails(serverMode) {
+function fetchServerDetails(serverMode, appMode) {
     AppMode = resSettings.settings.app.appMode;
     settings.innerHTML = AppMode;
     appEnv.innerHTML = serverMode;
@@ -2268,53 +2269,93 @@ function fetchServerDetails(serverMode) {
     sitServerAddress = resSettings.settings.app.sitServerAddress;
     uatServerAddress = resSettings.settings.app.uatServerAddress;
     prodServerAddress = resSettings.settings.app.prodServerAddress;
-    switch (serverMode) {
-        case "DEV":
-            ServerAddress = devServerAddress;
-            authAddress = ServerAddress + resSettings.settings.app.authAddress;
-            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
-            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
-            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
-            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
-            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
-            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
-            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+    switch (appMode) {
+        case "PH":
+            switch (serverMode) {
+                case "DEV":
+                    ServerAddress = devServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddress;
+                    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+                    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+                    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+                    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+                    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+                    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+                    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+                    break;
+                case "SIT":
+                    ServerAddress = sitServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddress;
+                    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+                    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+                    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+                    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+                    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+                    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+                    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+                    break;
+                case "UAT":
+                    ServerAddress = uatServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddress;
+                    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+                    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+                    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+                    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+                    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+                    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+                    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+                    break;
+                case "PROD":
+                    ServerAddress = prodServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddress;
+                    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+                    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+                    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+                    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+                    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+                    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+                    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+                    break;
+            }
             break;
-        case "SIT":
-            ServerAddress = sitServerAddress;
-            authAddress = ServerAddress + resSettings.settings.app.authAddress;
-            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
-            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
-            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
-            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
-            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
-            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
-            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
-            break;
-        case "UAT":
-            ServerAddress = uatServerAddress;
-            authAddress = ServerAddress + resSettings.settings.app.authAddress;
-            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
-            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
-            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
-            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
-            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
-            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
-            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
-            break;
-        case "PROD":
-            ServerAddress = prodServerAddress;
-            authAddress = (ServerAddress + resSettings.settings.app.authAddress).replace('int', 'ext');
-            ActivityAddress = (ServerAddress + resSettings.settings.app.activityAddress).replace('int', 'ext');
-            refCodesAddress = (ServerAddress + resSettings.settings.app.refCodesAddress).replace('int', 'ext');
-            BPHStaffAddress = (ServerAddress + resSettings.settings.app.BPHStaffAddress).replace('int', 'ext');
-            IPHStaffAddress = (ServerAddress + resSettings.settings.app.IPHStaffAddress).replace('int', 'ext');
-            NPHStaffAddress = (ServerAddress + resSettings.settings.app.NPHStaffAddress).replace('int', 'ext');
-            taxaAddress = (ServerAddress + resSettings.settings.app.taxaAddress).replace('int', 'ext');
-            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+        case "AH":
+            switch (serverMode) {
+                case "DEV":
+                    ServerAddress = devServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddressAH;
+                    ActivityAddressAH = ServerAddress + resSettings.settings.app.activityAddressAH;
+                    refCodesAddressAH = ServerAddress + resSettings.settings.app.refCodesAddressAH;
+                    NAFStaffAddress = ServerAddress + resSettings.settings.app.NAFStaffAddress;
+                    submitAHObsAddress = ServerAddress + resSettings.settings.app.submitAHObsAddress;
+                    break;
+                case "SIT":
+                    ServerAddress = sitServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddressAH;
+                    ActivityAddressAH = ServerAddress + resSettings.settings.app.activityAddressAH;
+                    refCodesAddressAH = ServerAddress + resSettings.settings.app.refCodesAddressAH;
+                    NAFStaffAddress = ServerAddress + resSettings.settings.app.NAFStaffAddress;
+                    submitAHObsAddress = ServerAddress + resSettings.settings.app.submitAHObsAddress;
+                    break;
+                case "UAT":
+                    ServerAddress = uatServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddressAH;
+                    ActivityAddressAH = ServerAddress + resSettings.settings.app.activityAddressAH;
+                    refCodesAddressAH = ServerAddress + resSettings.settings.app.refCodesAddressAH;
+                    NAFStaffAddress = ServerAddress + resSettings.settings.app.NAFStaffAddress;
+                    submitAHObsAddress = ServerAddress + resSettings.settings.app.submitAHObsAddress;
+                    break;
+                case "PROD":
+                    ServerAddress = prodServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddressAH;
+                    ActivityAddressAH = ServerAddress + resSettings.settings.app.activityAddressAH;
+                    refCodesAddressAH = ServerAddress + resSettings.settings.app.refCodesAddressAH;
+                    NAFStaffAddress = ServerAddress + resSettings.settings.app.NAFStaffAddress;
+                    submitAHObsAddress = ServerAddress + resSettings.settings.app.submitAHObsAddress;
+                    break;
+            }
             break;
     }
-    return taxaAddress;
+    return authAddress;
 }
 function updateSettings(serverMode, appMode) {
     var changeFlag = 0;
@@ -2398,6 +2439,14 @@ function clearCache(appMode) {
             }, function (err) {
                 $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
                 });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM ahrefcodes", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    AHRefCodes = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
             db.transaction(function (tx) {
                 tx.executeSql("DELETE FROM staffdataAH", [], function (tx, res) {
                     //alert("Rows deleted.");

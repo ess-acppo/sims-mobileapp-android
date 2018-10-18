@@ -14,7 +14,7 @@ function initAuth() {
         .addEventListener('click', function () {
             var unameValue = document.querySelector('.auth-username').value;
             var pwdValue = document.querySelector('.auth-password').value;
-            authURL = fetchServerDetails($("#serverMode").val());
+            authURL = fetchServerDetails($("#serverMode").val(), $("#appMode2").val());
             ServMode = $("#serverMode").val();
             AppMode2 = $("#appMode2").val();
             s = document.querySelector('.auth-send .fa-spin');
@@ -171,7 +171,7 @@ $('#modalAuth').keypress(function (e) {
     if (e.which === 13) {
         var unameValue = document.querySelector('.auth-username').value;
         var pwdValue = document.querySelector('.auth-password').value;
-        authURL = fetchServerDetails($("#serverMode").val());
+        authURL = fetchServerDetails($("#serverMode").val(), $("#appMode2").val());
         ServMode = $("#serverMode").val();
         AppMode2 = $("#appMode2").val();
         s = document.querySelector('.auth-send .fa-spin');
