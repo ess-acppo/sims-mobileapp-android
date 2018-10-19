@@ -1330,6 +1330,12 @@ $(document).on('click', '#Submit2', function (e) {
         case "AH":
             obj = objectifyAHFormforSave(form1);
             console.log(JSON.stringify(obj));
+            preVal = preValidateAH();
+            if (preVal.vError !== 0) {
+                rowsFailedErr.push(preVal.vErrDescription);
+                $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+                return false;
+            }
             result = IterateAH(obj);
             if (result.vError === 0) {
                 //console.log(JSON.stringify(SubmitRecord(objectifyPHFormforSubmit(obj))));
@@ -1369,11 +1375,6 @@ $(document).on('click', '#Submit2', function (e) {
                     $.growl.error({ title: "", message: "An error occured while saving row to DB. " + err.message, location: "tc", size: "large" });
                 });
                 $('#modalForm').modal('hide');
-                //clearMarkers();
-                //loadMapMarkers();
-                //if (infoWindow) {
-                //    infoWindow.close();
-                //}
             }
             else {
                 rowsFailedErr.push(result.vErrDescription);

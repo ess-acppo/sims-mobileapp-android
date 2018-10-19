@@ -1,6 +1,6 @@
-﻿var bcs = '<div class="form-group col-md-3 col-sm-3 col-xs-12 ripple"><input type="radio" class="minimal" name="bodyConditionScore_M_N" value="0" data-code="0" data-validate="Y">&nbsp;<label class="bcstext"></label></div>';
-var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-3 col-sm-3 col-xs-3 hide"><label>Code</label><input type="text" class="form-control" name="SyndromeCode_M_S" readonly value=""></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label>Syndrome Text</label><input type="text" class="form-control" name="SyndromeText_M_S" readonly value=""></div><div class="form-group col-md-3 col-sm-3 col-xs-6 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-6 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N">&nbsp;<label>No</label></div><div class="form-group col-md-12 col-sm-12 col-xs-12 defSyndComments hide"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S"></div></div>';
-var syndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX"><div class="form-group col-md-2 col-sm-2 col-xs-2 hide"><label>Code</label><input type="text" class="form-control" name="XSyndromeCode_M_S" readonly value=""></div><div class="form-group col-md-10 col-sm-10 col-xs-10"><label>Syndrome Text</label><input type="text" class="form-control" name="XSyndromeText_M_S" readonly value=""></div><div class="form-group col-md-2 col-sm-2 col-xs-2"><a href="#" class="form-control btn btn-md btn-danger text-arrows removeSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="XSyndromeComments_O_S"></div></div>';
+﻿var bcs = '<div class="form-group col-md-3 col-sm-3 col-xs-12 ripple"><input type="radio" class="minimal" name="bodyConditionScore_M_N" value="0" data-code="0" data-validate="Y" data-name="Body Condition Score">&nbsp;<label class="bcstext"></label></div>';
+var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-3 col-sm-3 col-xs-3 hide"><label>Code</label><input type="text" class="form-control" name="SyndromeCode_M_S" readonly value="" data-name="Syndrome Code"></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label>Syndrome Text</label><input type="text" class="form-control" name="SyndromeText_M_S" readonly value="" data-name="Syndrome Text"></div><div class="form-group col-md-3 col-sm-3 col-xs-6 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y" data-name="Syndrome Yes/No Flag">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-6 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N" data-name="Syndrome Yes/No Flag">&nbsp;<label>No</label></div><div class="form-group col-md-12 col-sm-12 col-xs-12 defSyndComments hide"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S" data-name="Syndrome Comments"></div></div>';
+var syndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX"><div class="form-group col-md-2 col-sm-2 col-xs-2 hide"><label>Code</label><input type="text" class="form-control" name="XSyndromeCode_M_S" readonly value="" data-name="Syndrome Code"></div><div class="form-group col-md-10 col-sm-10 col-xs-10"><label>Syndrome Text</label><input type="text" class="form-control" name="XSyndromeText_M_S" readonly value="" data-name="Syndrome Text"></div><div class="form-group col-md-2 col-sm-2 col-xs-2"><a href="#" class="form-control btn btn-md btn-danger text-arrows removeSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="XSyndromeComments_O_S" data-name="Syndrome Comments"></div></div>';
 var speciesTaxonSyndromSamples;
 var syndromes = 0;
 var syndromesData;
@@ -74,6 +74,7 @@ function syncActivityDataAH() {
         });
 }
 function loadActivityDataAH() {
+    defaultSpecies = ActivityDataAH.activities[0].species;
     $("#SurvActivityIdAH").find('option').remove().end().append($('<option value="0">- select -</option>'));
     $.each(ActivityDataAH.activities, function (key, val) {
         if (val.programId === downerTeam) {
@@ -331,7 +332,7 @@ $(document).on('change', 'select[id="commonName"]', function () {
                     });
                     $.each(arr1[0].testFors, function (key2, val2) {
                         count++;
-                        var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '" value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+                        var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Preselected Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '" value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
                         divTestTypes.append($(option));
                     });
                     //Check the default pathogens
@@ -426,7 +427,7 @@ $(document).on('change', 'select.sampleType', function () {
                 $.each(arr[0].testFors, function (key, val) {
                     count++;
                     //Raj! Change the fieldnames as per sample# here
-                    var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="TestFor_M_S_' + samples + '_' + val.testForCode + '" value="' + val.testForCode + '">&nbsp;<label>' + val.testForName + '</label></div>';
+                    var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="TestFor_M_S_' + samples + '_' + val.testForCode + '" value="' + val.testForCode + '">&nbsp;<label>' + val.testForName + '</label></div>';
                     nxtTF.append($(option));
                 });
                 nxtTF.find("input[type='checkbox']").iCheck({
@@ -457,7 +458,7 @@ function loadPathogens(e, f) {
         $.each(arr[0].testFors, function (key, val) {
             count++;
             //Raj! Change the fieldnames as per sample# here
-            var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="TestFor_M_S_' + samples + '_' + val.testForCode + '" value="' + val.testForCode + '">&nbsp;<label>' + val.testForName + '</label></div>';
+            var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="TestFor_M_S_' + samples + '_' + val.testForCode + '" value="' + val.testForCode + '">&nbsp;<label>' + val.testForName + '</label></div>';
             nxtTF.append($(option));
         });
         nxtTF.find("input[type='checkbox']").iCheck({
@@ -492,7 +493,7 @@ $(document).on('change', 'select.fieldTest', function () {
                 });
                 $.each(arr[0].diseases.disease, function (key, val) {
                     diseases = diseases + 1;
-                    var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
+                    var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" data-name="Field Test - Result" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" data-name="Field Test - Result" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
                     nxtD.append($(disease));
                     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                         checkboxClass: 'icheckbox_square-blue',
@@ -518,7 +519,7 @@ function loadDiseases(e, f) {
         });
         $.each(arr[0].diseases.disease, function (key, val) {
             diseases = diseases + 1;
-            var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
+            var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val.diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" data-name="Field Test - Result" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" data-name="Field Test - Result" name="FieldTestResult_' + fieldTests + '_FT_' + val.diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
             nxtD.append($(disease));
             nxtD.find("input[type='checkbox']").iCheck({
                 checkboxClass: 'icheckbox_square-blue',
@@ -635,7 +636,7 @@ function loadCommonNameData(d, e) {
             });
             $.each(arr1[0].testFors, function (key2, val2) {
                 count++;
-                var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+                var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
                 divTestTypes.append($(option));
             });
             //Check the default pathogens
@@ -1034,7 +1035,7 @@ function loadModalAH(pagename) {
                     loadAHRefCodes();
                     loadActivityDataAH();
                     if (curIdx > -1) {
-                        var curActivity = results.observations[curPos].SurvActivityId_M_N;
+                        var curActivity = results.observations[curPos].activityId_M_N;
                         refreshActivityDataAH(curActivity);
                     }
                     loadstaffData();
@@ -1043,7 +1044,7 @@ function loadModalAH(pagename) {
                     loadAHRefCodes();
                     loadActivityDataAH();
                     if (curIdx > -1) {
-                        var curActivity = results.observations[curPos].SurvActivityId_M_N;
+                        var curActivity = results.observations[curPos].activityId_M_N;
                         refreshActivityDataAH(curActivity);
                     }
                     loadstaffData();
@@ -1368,9 +1369,6 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
         $('#maggotSamples').addClass('hide');
     }
 });
-function IterateAH(data) {
-    return { "vError": 0, "vErrDescription": "" };
-}
 $(document).on('focus', "#SurvActivityIdAH", function (e) {
     lastSurvActValue = $(this).val();
 })
@@ -1805,8 +1803,113 @@ function objectifyAHFormforSubmit(data) {//serialize data function
 function preValidateAH() {
     return true;
 }
+function IterateAH(data) {
+    var modData = JSON.parse(JSON.stringify(data));
+    //if (modData && modData.status_M_N) { delete modData.status_M_N; }
+    $.each(modData, function (index, value) {
+        if (isNaN(index)) {
+            var fname = index.split("_")[0];
+            var fMOC = index.split("_")[1];
+            var fNSD = index.split("_")[2];
+            var fnum = index.split("_")[3];
+            var ftype = index.split("_")[4];
+
+            if (fname === 'AnimalAttachmentD' && value === "") {
+                vError = 1;
+                vErrDescription.push("Please fill Attachment Name.");
+                vFailed = true;
+                return false;
+            }
+            if (fname === 'SubmittedByStaffId' && value < 2) {
+                vError = 1;
+                vErrDescription.push("Please set device Owner in Application Settings > Application menu before submission.");
+                vFailed = true;
+                return false;
+            }
+            if (fMOC === 'M' && fNSD === 'S' && (value === '' || value === 'NONE')) {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+            if (fMOC === 'M' && fNSD === 'D' && value === '') {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+            if (fMOC === 'M' && fNSD === 'N' && value === 0) {
+                if (fname === 'status') return true;
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+            if (fMOC === 'O' && fNSD === 'N' && value === 0) {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+        }
+    });
+    if (vFailed === true) {
+        return { "vError": vError, "vErrDescription": vErrDescription.join('<br/>') };
+    } else { return { "vError": 0, "vErrDescription": "" }; }
+}
 function Iterate2AH(data) {
-    return { "vError": 0, "vErrDescription": "" };
+    var modData = JSON.parse(JSON.stringify(data));
+    //if (modData && modData.status_M_N) { delete modData.status_M_N; }
+    $.each(modData, function (index, value) {
+        if (isNaN(index)) {
+            var fname = index.split("_")[0];
+            var fMOC = index.split("_")[1];
+            var fNSD = index.split("_")[2];
+            var fnum = index.split("_")[3];
+            var ftype = index.split("_")[4];
+
+            if (fname === 'AnimalAttachmentD' && value === "") {
+                vError = 1;
+                vErrDescription.push("Please fill Attachment Name.");
+                vFailed = true;
+                return false;
+            }
+            if (fname === 'SubmittedByStaffId' && value < 2) {
+                vError = 1;
+                vErrDescription.push("Please set device Owner in Application Settings > Application menu before submission.");
+                vFailed = true;
+                return false;
+            }
+            if (fMOC === 'M' && fNSD === 'S' && (value === '' || value === 'NONE')) {
+                vError = 1;
+                vErrDescription.push($('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+            if (fMOC === 'M' && fNSD === 'D' && value === '') {
+                vError = 1;
+                vErrDescription.push($('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+            if (fMOC === 'M' && fNSD === 'N' && value === 0) {
+                if (fname === 'status') return true;
+                vError = 1;
+                vErrDescription.push($('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+            if (fMOC === 'O' && fNSD === 'N' && value === 0) {
+                vError = 1;
+                vErrDescription.push($('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+        }
+    });
+    if (vFailed === true) {
+        return { "vError": vError, "vErrDescription": vErrDescription.join('<br/>') };
+    } else { return { "vError": 0, "vErrDescription": "" }; }
 }
 function SubmitRecordAH(formArray) {//serialize data function
     var fAOWrapper = { "feralAnimalObservations": [] };
@@ -1871,7 +1974,7 @@ function StartSyncAH() {
             var result = Iterate2AH(value);
             if (result.vError === 0) {
                 var vpayload = JSON.stringify(SubmitRecordAH(objectifyAHFormforSubmit(packageAHFormforSubmit(value))));
-                console.log(vpayload);
+                //console.log(vpayload);
                 if (debugMode === 1) {
                     $.confirm({
                         title: 'Payload Attempted!',
