@@ -56,6 +56,7 @@
       "activityAddressAH": "ords-ext/rest/sims/animal/feralActivity",
       "refCodesAddress": "ords-ext/rest/sims/plant_health/referenceCodes",
       "refCodesAddressAH": "ords-ext/rest/sims/animal/referenceCodes",
+      "speciesTaxonSyndromSamplesAddress": "ords-ext/rest/sims/animal/speciesTaxonSyndromeSamples/NAF",
       "BPHStaffAddress": "ords-ext/rest/sims/common/program/BPH/team",
       "IPHStaffAddress": "ords-ext/rest/sims/common/program/IPH/team",
       "NPHStaffAddress": "ords-ext/rest/sims/common/program/NPH/team",

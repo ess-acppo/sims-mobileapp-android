@@ -19,58 +19,34 @@ var preAnimalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample coll
 var animalAttachment = '<div class="row col-md-12 col-sm-12 col-xs-12 AnimalAttachment pl-0 pr-0 collapsed"><div class="form-group col-md-2 col-sm-2 col-xs-2"><img class="pp pull-right" src="images/plant.png" name="iAnimalAttachment_M_S"></div><div class="form-group col-md-7 col-sm-8 col-xs-8"><input type="text" class="form-control" name="AnimalAttachmentD_M_S" value=""><textarea class="form-control hide" name="AnimalAttachment_M_S" rows="5" cols="5"></textarea></div><div class="form-group col-md-2 col-sm-1 col-xs-1"><i class="fa fa-remove text-info fa-2x removeAnimalAttachment" style="cursor:pointer;"></i></div></div>';
 var samples = 0;
 var fieldTests = 0;
+var AHRefCodes;
 var ActivityDataAH;
+var commonNames;
+var bodyConditionScores;
 
 var hidWidth;
 var scrollBarWidths = 40;
 /* AH Initialized variables */
 
 function syncActivityDataAH() {
-    //var settings = {
-    //    "async": false,
-    //    "crossDomain": true,
-    //    "url": ActivityAddress,
-    //    "method": "GET",
-    //    "beforeSend": function () {
-    //        //$.growl.notice({ title: "", message: "Syncing Activity Data ...", location: "bc", size: "small" });
-    //    },
-    //    "headers": {
-    //        "authorization": authCode,
-    //        "cache-control": "no-cache"
-    //    }
-    //};
-    //$.ajax(settings).done(function (data) {
-    //    ActivityDataAH = data;
-    //    //siteData = data.activities[0].sites;
-    //    //programId = data.activities[0].programId;
-    //    lastSurvActValue = data.activities[0].activityId;
-    //    db.transaction(function (tx) {
-    //        tx.executeSql("DELETE FROM activitydataAH", [], function (tx, res) {
-    //            //alert("Rows deleted.");
-    //        });
-    //    }, function (err) {
-    //        $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-    //    });
-    //    db.transaction(function (tx) {
-    //        tx.executeSql("INSERT INTO activitydataAH (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'activity', JSON.stringify(ActivityDataAH)], function (tx, res) {
-    //            //alert("Row inserted.");
-    //        });
-    //    }, function (err) {
-    //        $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-    //    });
-    //    db.transaction(function (tx) {
-    //        tx.executeSql("UPDATE activitydataAH SET settingsval = ? WHERE id = ?", [JSON.stringify(ActivityDataAH), 1], function (tx, res) {
-    //            //alert("Dataset updated.");
-    //        });
-    //    }, function (err) {
-    //        $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-    //    });
-    //}).fail(function (response) {
-    //    $.growl.error({ title: "", message: "An error occurred while fetching Activity Data. " + response.responseText, location: "tc", size: "large", fixed: "true" });
-    //    });
-
-    $.getJSON("data/feralActivity.json", function (data) {
+    var settings = {
+        "async": false,
+        "crossDomain": true,
+        "url": ActivityAddressAH,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing Activity Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(settings).done(function (data) {
         ActivityDataAH = data;
+        //siteData = data.activities[0].sites;
+        programId = data.activities[0].programId;
+        defaultSpecies = data.activities[0].species;
         lastSurvActValue = data.activities[0].activityId;
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM activitydataAH", [], function (tx, res) {
@@ -89,12 +65,13 @@ function syncActivityDataAH() {
         db.transaction(function (tx) {
             tx.executeSql("UPDATE activitydataAH SET settingsval = ? WHERE id = ?", [JSON.stringify(ActivityDataAH), 1], function (tx, res) {
                 //alert("Dataset updated.");
-                loadActivityDataAH();
             });
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating ActivityData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
         });
-    });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching Activity Data. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+        });
 }
 function loadActivityDataAH() {
     $("#SurvActivityIdAH").find('option').remove().end().append($('<option value="0">- select -</option>'));
@@ -105,14 +82,6 @@ function loadActivityDataAH() {
             $("#SurvActivityIdAH").append(option);
         }
     });
-    $("#curActivities").find('option').remove().end().append($('<option value="0">- select -</option>'));
-    $.each(ActivityDataAH.activities, function (key, val) {
-        if (val.programId === downerTeam) {
-            var option = $('<option />');
-            option.attr('value', val.activityId).text(val.activityName);
-            $("#curActivities").append(option);
-        }
-    });
     //$("#SiteIdAH").find('option').remove().end().append($('<option value="0">- select -</option>'));
     //$.each(siteData, function (key, val) {
     //    var option = $('<option />');
@@ -121,15 +90,126 @@ function loadActivityDataAH() {
     //});
     //$("#SiteIdAH").append($('<option value="99999">New Site</option>'));
 }
+function syncAHRefCodes() {
+    var settings = {
+        "async": false,
+        "crossDomain": true,
+        "url": refCodesAddressAH,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing reference codes ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(settings).done(function (data) {
+        //alert(JSON.stringify(response));
+        AHRefCodes = data;
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM ahrefcodes", [], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting AHRefCodes from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO ahrefcodes (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'refcodes', JSON.stringify(AHRefCodes)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating AHRefCodes to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE ahrefcodes SET settingsval = ? WHERE id = ?", [JSON.stringify(AHRefCodes), 1], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating AHRefCodes to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching AH Reference Codes. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function syncspeciesTaxonSyndromSamples() {
+    var settings = {
+        "async": false,
+        "crossDomain": true,
+        "url": speciesTaxonSyndromSamplesAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing reference codes ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(settings).done(function (data) {
+        //alert(JSON.stringify(response));
+        speciesTaxonSyndromSamples = data;
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM ahrefcodes WHERE id = ?", [2], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting AHRefCodes2 from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO ahrefcodes (id, settingstext, settingsval) VALUES (?,?,?)", [2, 'refcodes', JSON.stringify(speciesTaxonSyndromSamples)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating AHRefCodes to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE ahrefcodes SET settingsval = ? WHERE id = ?", [JSON.stringify(speciesTaxonSyndromSamples), 2], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating AHRefCodes2 to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching AH Reference2 Codes. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
+function loadAHRefCodes() {
+    $("#commonName").find('option').remove().end().append('<option value="0">- select -</option>');
+    $.each(speciesTaxonSyndromSamples.species, function (key, val) {
+        var option = $('<option />');
+        option.attr('value', val.speciesCode).text(val.speciesName);
+        $("#commonName").append(option);
+    });
+    $.each(AHRefCodes.AnimalHealthReferenceCodes.BodyConditionScore, function (key, val) {
+        var v_bcs = $(bcs);
+        v_bcs.find('input[type="radio"][name="bodyConditionScore_M_N"]').val(val.code);
+        v_bcs.find('input[type="radio"][name="bodyConditionScore_M_N"]').attr("data-code", val.code);
+        v_bcs.find('.bcstext').text(val.desc);
+        $("#form1").find(".body_condition_score").append(v_bcs);
+        v_bcs.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue'
+        });
+    });
+    syndromesData = AHRefCodes.AnimalHealthReferenceCodes.Syndrome;
+    $("#form1").find('#lstSyndromes').find('option').remove().end();
+    $.each(AHRefCodes.AnimalHealthReferenceCodes.Syndrome, function (key, val) {
+        var option = $('<option />');
+        option.attr('value', val.code).text(val.desc);
+        $("#form1").find('#lstSyndromes').append(option);
+    });
+}
 function refreshActivityDataAH(str) {
     var arr = ActivityDataAH.activities.filter(function (el) {
         return (el.activityId === Number(str));
     });
     if (arr && arr.length > 0) {
-        siteData = arr[0].sites;
+        //siteData = arr[0].sites;
         programId = arr[0].programId;
+        defaultSpecies = arr[0].species;
         lastSurvActValue = arr[0].activityId;
-        lastSiteValue = 0;
+        //lastSiteValue = 0;
         //db.transaction(function (tx) {
         //    tx.executeSql("SELECT * FROM staffdataAH WHERE settingstext = ?", [programId + 'staff'], function (tx, res) {
         //        //This is not the first load
@@ -153,63 +233,6 @@ function refreshActivityDataAH(str) {
     //});
     //$("#SiteIdAH").append($('<option value="99999">New Site</option>'));
 }
-function loadAHDefaults() {
-    // Loading Team Defaults //
-    $.getJSON("data/staff_team.json", function (data) {
-        $.each(data.staffs.staff, function (key, val) {
-            var option = $('<option />');
-            option.attr('value', val.id).text(val.displayName);
-            $("#form1").find('#ObservationStaffId').append(option);
-        });
-    }); 
-    // Loading speciesTaxonSyndromSamples Defaults //
-    $.getJSON("data/speciesTaxonSyndromSamples_NAF.json", function (data) {
-        speciesTaxonSyndromSamples = data.species;
-        $("#form1").find('#commonName').find('option').remove().end().append('<option value="0">- select -</option>');
-        $.each(data.species, function (key, val) {
-            var option = $('<option />');
-            option.attr('value', val.speciesCode).text(val.speciesName);
-            $("#form1").find('#commonName').append(option);
-        });
-    }); 
-    // Loading Body Condition Scores //
-    $.getJSON("data/referenceCodes.json", function (data) {
-        $.each(data.AnimalHealthReferenceCodes.BodyConditionScore, function (key, val) {
-            var v_bcs = $(bcs);
-            v_bcs.find('input[type="radio"][name="bodyConditionScore_M_N"]').val(val.code);
-            v_bcs.find('input[type="radio"][name="bodyConditionScore_M_N"]').attr("data-code", val.code);
-            v_bcs.find('.bcstext').text(val.desc);
-            $("#form1").find(".body_condition_score").append(v_bcs);
-            v_bcs.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
-            });
-        });
-        syndromesData = data.AnimalHealthReferenceCodes.Syndrome;
-        $("#form1").find('#lstSyndromes').find('option').remove().end();
-        $.each(data.AnimalHealthReferenceCodes.Syndrome, function (key, val) {
-            var option = $('<option />');
-            option.attr('value', val.code).text(val.desc);
-            $("#form1").find('#lstSyndromes').append(option);
-        });
-    }); 
-    // Loading fieldTest Defaults //
-    defFieldTests = '<option value="NONE">- select -</option>';
-    $.getJSON("data/fieldTests.json", function (data) {
-        fieldTestsData = data.fieldTests.fieldTest;
-        $.each(data.fieldTests.fieldTest, function (key, val) {
-            var option = '<option';
-            option = option + ' value="' + val.fieldTestCde + '">';
-            option = option + val.fieldTestName + "</option>";
-            defFieldTests = defFieldTests + option;
-        });
-    }); 
-    $.getJSON("data/activity.json", function (data) {
-        defaultSpecies = data.activities.activity.metadata.species;
-        $.each(defaultSpecies, function (key, val) {
-        });
-    }); 
-}
 $(document).on('change', 'select[id="commonName"]', function () {
     var t0,t1;
     $.ajax({
@@ -225,7 +248,7 @@ $(document).on('change', 'select[id="commonName"]', function () {
             var str = $("#commonName option:selected").val();
             if (str !== '0') {
                 //Filter data from speciesTaxonSyndromSamples
-                var arr = jQuery.grep(speciesTaxonSyndromSamples, function (n, i) {
+                var arr = jQuery.grep(speciesTaxonSyndromSamples.species, function (n, i) {
                     return (n.speciesCode === str);
                 });
                 //Load Taxa for selected species
@@ -280,12 +303,12 @@ $(document).on('change', 'select[id="commonName"]', function () {
                 });
                 //Load default samples to the dropdownlist
                 $('.sample').remove(); //Clear all Samples
-                $.each(def[0].defaultSamples, function (key, val) { //For each default Sample
+                $.each(def[0].collectSamples, function (key, val) { //For each default Sample
                     samples = samples + 1;
                     var that2 = $(preAnimalSample);
                     that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
                     that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
-                    //that2.find("select[name='PSampleType_M_S']:not([value^='" + val.sampleTypeCode + "'])").remove();
+                    that2.find("select[name='PSampleType_M_S'] :not(option[value='" + val.sampleTypeCode + "'])").remove();
                     that2.find('.badge').text(samples);
                     //that2.find("input[name='sampleId']").val($("#form1").find('input[type="text"][name="animalNumber"]').val());
                     that2.find('input').each(function () {
@@ -313,7 +336,8 @@ $(document).on('change', 'select[id="commonName"]', function () {
                     });
                     //Check the default pathogens
                     $.each(val.testFors, function (key3, val3) {
-                        divTestTypes.find("input[type='checkbox'][value='" + val3.testForCode + "']").val("Y").iCheck('check');
+                        divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').iCheck('check');
+                        divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').val("Y");
                     });
                     divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
                     that2.addClass('preSelectedSample');
@@ -515,7 +539,7 @@ function loadCommonNameData(d, e) {
     if (str !== '0') {
         $('#form1').find("#commonName").val(str);
         //Filter data from speciesTaxonSyndromSamples
-        var arr = jQuery.grep(speciesTaxonSyndromSamples, function (n, i) {
+        var arr = jQuery.grep(speciesTaxonSyndromSamples.species, function (n, i) {
             return (n.speciesCode === str);
         });
 
@@ -583,12 +607,12 @@ function loadCommonNameData(d, e) {
         //Load default samples to the dropdownlist
         //console.time('Samples');
         $('.sample').remove(); //Clear all Samples
-        $.each(def[0].defaultSamples, function (key, val) { //For each default Sample
+        $.each(def[0].collectSamples, function (key, val) { //For each default Sample
             samples = samples + 1;
             var that2 = $(preAnimalSample);
             that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
             that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
-            //that2.find("select[name='PSampleType_M_S']:not([value^='" + val.sampleTypeCode + "'])").remove();
+            that2.find("select[name='PSampleType_M_S'] :not(option[value='" + val.sampleTypeCode + "'])").remove();
             that2.find('.badge').text(samples);
             //that2.find("input[name='sampleId']").val($("#form1").find('input[type="text"][name="animalNumber"]').val());
             that2.find('input').each(function () {
@@ -611,12 +635,13 @@ function loadCommonNameData(d, e) {
             });
             $.each(arr1[0].testFors, function (key2, val2) {
                 count++;
-                var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '" value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+                var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
                 divTestTypes.append($(option));
             });
             //Check the default pathogens
             $.each(val.testFors, function (key3, val3) {
-                divTestTypes.find("input[type='checkbox'][value='" + val3.testForCode + "']").val("Y").iCheck('check');
+                divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').iCheck('check');
+                divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').val("Y");
             });
             divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
             that2.addClass('preSelectedSample');
@@ -1006,12 +1031,22 @@ function loadModalAH(pagename) {
         $('#form1').find("input[type='radio'].minimal").iCheck('uncheck');
             setTimeout(function (e) {
                 if (pagename === 'mo_sngObservation') {
+                    loadAHRefCodes();
                     loadActivityDataAH();
-                    loadAHDefaults();
+                    if (curIdx > -1) {
+                        var curActivity = results.observations[curPos].SurvActivityId_M_N;
+                        refreshActivityDataAH(curActivity);
+                    }
+                    loadstaffData();
                 }
                 if (pagename === 'mo_grpObservation') {
+                    loadAHRefCodes();
                     loadActivityDataAH();
-                    loadAHDefaults();
+                    if (curIdx > -1) {
+                        var curActivity = results.observations[curPos].SurvActivityId_M_N;
+                        refreshActivityDataAH(curActivity);
+                    }
+                    loadstaffData();
                 }
             }, 200);
             setTimeout(function (e) {
@@ -1333,24 +1368,9 @@ $(document).on('ifChecked', 'input[type="radio"].minimal', function (event) {
         $('#maggotSamples').addClass('hide');
     }
 });
-
 function IterateAH(data) {
     return { "vError": 0, "vErrDescription": "" };
 }
-
-//$(document).on('focus', "#SiteIdAH", function (e) {
-//    lastSiteValue = $(this).val();
-//})
-//    .on('change', "#SiteIdAH", function (e) {
-//        var that = $(this);
-//        var str = that.val();
-//        //if (that.val() === "0" || lastSiteValue === "0") return;
-//        if (that.val() === "0") return;
-//        if (curDiscipline === "SF") {
-//            //loadSiteData(str);
-//            return;
-//        }
-//    });
 $(document).on('focus', "#SurvActivityIdAH", function (e) {
     lastSurvActValue = $(this).val();
 })
@@ -1365,7 +1385,6 @@ $(document).on('focus', "#SurvActivityIdAH", function (e) {
             return;
         }
     });
-
 $(document).on('click', '.getAHCoords', function (e) {
     var xlat = $('#form1').find('input.obslat');
     var xlng = $('#form1').find('input.obslng');
@@ -1485,6 +1504,7 @@ function packageAHFormforSubmit(data) {
     var pSampleFlag = 0;
     var sampleCount = 0;
     var attachmentCnt = 0;
+    var syndromeCnt = 0;
     var discipline = "";
     $.each(modData, function (index, value) {
         if (isNaN(index)) {
@@ -1556,12 +1576,14 @@ function packageAHFormforSubmit(data) {
             if (fname === 'Syndromes') { return true; }
             if (fname === 'SyndromeCode' || fname === 'XSyndromeCode') {
                 syndrome = { "name": "", "id": 0, "present": "", "comment": "" };
-                syndrome['id'] = value;
+                syndromeCnt++;
+                syndrome['id'] = syndromeCnt;
+                syndrome['name'] = value;
                 if (fname === 'XSyndromeCode') { syndrome['present'] = "Y"; }
                 return true;
             }
             if (fname === 'SyndromeText' || fname === 'XSyndromeText') {
-                syndrome['name'] = value;
+                //syndrome['name'] = value;
                 return true;
             }
             if (fname === 'SyndromeFlag') {
@@ -1850,62 +1872,62 @@ function StartSyncAH() {
             if (result.vError === 0) {
                 var vpayload = JSON.stringify(SubmitRecordAH(objectifyAHFormforSubmit(packageAHFormforSubmit(value))));
                 console.log(vpayload);
-                //if (debugMode === 1) {
-                //    $.confirm({
-                //        title: 'Payload Attempted!',
-                //        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
-                //        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                //        buttons: {
-                //            ok: function () { },
-                //            copy: {
-                //                text: 'Copy', // With spaces and symbols
-                //                action: function () {
-                //                    var copytext = this.$content.find("#Payload");
-                //                    copytext.select();
-                //                    document.execCommand("copy");
-                //                    return false;
-                //                }
-                //            }
-                //        }
-                //    });
-                //}
-                //var payload = {
-                //    "value": vpayload.escapeSpecialChars() 
-                //};
-                //$.ajax({
-                //    method: "POST",
-                //    async: false,
-                //    url: "https://online-dev.agriculture.gov.au/psd.comr.svl/FeralAnimalService/1.0/createFeralAnimalObservation",
-                //    //data: JSON.stringify(payload),
-                //    data: vpayload.escapeSpecialChars(),
-                //    contentType: "application/json",
-                //    dataType: "json",
-                //    headers: {
-                //        "authorization": authCode,
-                //        "cache-control": "no-cache"
-                //    },
-                //    success: function (data, textStatus, XmlHttpRequest) {
-                //        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
-                //        if (XmlHttpRequest.status === 200) {
-                //            //$.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
-                //            logstr = logstr + vpayload.escapeSpecialChars() + "\r\n";
-                //        }
-                //        rowsSuccess.push(index);
-                //    },
-                //    complete: function (xhr, textStatus) {
-                //        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
-                //        //results.observations(value.id_M_N - 1).status_M_N = 2;
-                //        //results.observations.splice(index, 1);
-                //    },
-                //    error: function (xhr, textStatus, errorThrown) {
-                //        //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
-                //        $.dialog({
-                //            title: 'Sync Failed!',
-                //            content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
-                //            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
-                //        });
-                //    }
-                //});
+                if (debugMode === 1) {
+                    $.confirm({
+                        title: 'Payload Attempted!',
+                        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="Payload">' + vpayload.escapeSpecialChars() + '</textarea></div>',
+                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                        buttons: {
+                            ok: function () { },
+                            copy: {
+                                text: 'Copy', // With spaces and symbols
+                                action: function () {
+                                    var copytext = this.$content.find("#Payload");
+                                    copytext.select();
+                                    document.execCommand("copy");
+                                    return false;
+                                }
+                            }
+                        }
+                    });
+                }
+                var payload = {
+                    "value": vpayload.escapeSpecialChars() 
+                };
+                $.ajax({
+                    method: "POST",
+                    async: false,
+                    url: submitAHObsAddress,
+                    //data: JSON.stringify(payload),
+                    data: vpayload.escapeSpecialChars(),
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: {
+                        "authorization": authCode,
+                        "cache-control": "no-cache"
+                    },
+                    success: function (data, textStatus, XmlHttpRequest) {
+                        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });  
+                        if (XmlHttpRequest.status === 200) {
+                            //$.growl({ title: "", message: "Observation Sync'd!", location: "bc" });
+                            logstr = logstr + vpayload.escapeSpecialChars() + "\r\n";
+                        }
+                        rowsSuccess.push(index);
+                    },
+                    complete: function (xhr, textStatus) {
+                        //$.growl({ title: "", message: "Success! Observations synced to cloud.", location: "tc", size: "large" });
+                        //results.observations(value.id_M_N - 1).status_M_N = 2;
+                        //results.observations.splice(index, 1);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        //$.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText , location: "bc" });   
+                        $.dialog({
+                            title: 'Sync Failed!',
+                            content: xhr.status + ': ' + textStatus + ', ' + errorThrown + ', ' + xhr.responseText,
+                            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1'
+                        });
+                    }
+                });
             }
             else {
                 rowsFailed.push(rowid);
@@ -1933,7 +1955,7 @@ function StartSyncAH() {
         else if (success === false) { $.growl.error({ title: "", message: rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
         syncActivityDataAH();
         loadActivityDataAH();
-        loadAHDefaults();
+        //loadAHDefaults();
         table.destroy();
         loadData();
         clearMarkers();
@@ -2008,3 +2030,18 @@ $(document).on('click', '.scroller-left', function () {
     });
 });    
 /* tab scroller */
+
+
+//$(document).on('focus', "#SiteIdAH", function (e) {
+//    lastSiteValue = $(this).val();
+//})
+//    .on('change', "#SiteIdAH", function (e) {
+//        var that = $(this);
+//        var str = that.val();
+//        //if (that.val() === "0" || lastSiteValue === "0") return;
+//        if (that.val() === "0") return;
+//        if (curDiscipline === "SF") {
+//            //loadSiteData(str);
+//            return;
+//        }
+//    });

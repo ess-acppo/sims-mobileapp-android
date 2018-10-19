@@ -11,12 +11,17 @@ var uatServerAddress;
 var prodServerAddress;
 var authAddress;
 var ActivityAddress;
+var ActivityAddressAH;
 var refCodesAddress;
+var refCodesAddressAH;
 var BPHStaffAddress;
 var IPHStaffAddress;
 var NPHStaffAddress;
+var NAFStaffAddress;
 var taxaAddress;
 var submitPHObsAddress;
+var submitAHObsAddress;
+var speciesTaxonSyndromSamplesAddress;
 var infoWindow;
 var zoomlevel = document.getElementById('zoomlevel');
 var settings = document.getElementById('AppMode');
@@ -65,6 +70,7 @@ var staffData;
 var staffDataNPH;
 var staffDataBPH;
 var staffDataIPH;
+var staffDataNAF;
 var staffDataS;
 var staffDataFull;
 var track_id = '';
@@ -371,7 +377,7 @@ function initSettings() {
                     }
                 });
             }, function (err) {
-                $.growl.error({ title: "", message: "An error occured while loading PH RefenceCodes. ", location: "tc", size: "large", fixed: "true" });
+                $.growl.error({ title: "", message: "An error occured while loading PH ReferenceCodes. ", location: "tc", size: "large", fixed: "true" });
             });
             //Loading taxa data
             //$.growl.notice({ title: "", message: "Loading PH Taxa ...", location: "bc", size: "small" });
@@ -444,12 +450,10 @@ function initSettings() {
                     //This is not the first load
                     if (res.rows && res.rows.length > 0) {
                         staffDataNPH = JSON.parse(res.rows.item(0).settingsval);
-                        loadstaffData();
                     }
                     else {
                         //This is the first load
                         syncNPHstaffData();
-                        loadstaffData();
                     }
                 });
             }, function (err) {
@@ -457,23 +461,65 @@ function initSettings() {
             });
             break;
         case "AH":
+            //Loading PH reference codes
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM ahrefcodes WHERE id = ?", [1], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        AHRefCodes = JSON.parse(res.rows.item(0).settingsval);
+                    }
+                    else {
+                        //This is the first load
+                        syncAHRefCodes();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading AH ReferenceCodes." + err.message, location: "tc", size: "large", fixed: "true" });
+                });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM ahrefcodes WHERE id = ?", [2], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        speciesTaxonSyndromSamples = JSON.parse(res.rows.item(0).settingsval);
+                        defaultSpecies = JSON.parse(res.rows.item(0).settingsval);
+                    }
+                    else {
+                        //This is the first load
+                        syncspeciesTaxonSyndromSamples();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading AH ReferenceCodes2." + err.message, location: "tc", size: "large", fixed: "true" });
+            });
             db.transaction(function (tx) {
                 tx.executeSql("SELECT * FROM activitydataAH WHERE id = ?", [1], function (tx, res) {
                     //This is not the first load
                     if (res.rows && res.rows.length > 0) {
-                        $.when(function () {
-                            ActivityDataAH = JSON.parse(res.rows.item(0).settingsval);
-                            //siteData = ActivityData.activities[0].sites;
-                            //programId = ActivityData.activities[0].programId;
-                        }).then(syncActivityDataAH()).done(loadAHDefaults());
+                        ActivityDataAH = JSON.parse(res.rows.item(0).settingsval);
                     }
                     else {
                         //This is the first load
-                        $.when(syncActivityDataAH()).done(loadAHDefaults());
+                        syncActivityDataAH();
                     }
                 });
             }, function (err) {
                 $.growl.error({ title: "", message: "An error occured while loading AH Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
+                });
+            //Loading Staff Data
+            //$.growl.notice({ title: "", message: "Loading PH Staff Data ...", location: "bc", size: "small" });
+            db.transaction(function (tx) {
+                tx.executeSql("SELECT * FROM staffdataAH WHERE settingstext = ?", ['NAFstaff'], function (tx, res) {
+                    //This is not the first load
+                    if (res.rows && res.rows.length > 0) {
+                        staffDataNAF = JSON.parse(res.rows.item(0).settingsval);
+                    }
+                    else {
+                        //This is the first load
+                        syncNAFstaffData();
+                    }
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while loading BPH Staff Data. " + err.message, location: "tc", size: "large", fixed: "true" });
             });
             break;
     }
@@ -579,7 +625,8 @@ function initSettings() {
                     }
                 });
             }
-            loadSitePolygons();
+            loadstaffData();
+            if (AppMode === "PH") { loadSitePolygons(); } 
             if ($("#modalProgress").data('bs.modal') && $("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
         });
     }, function (err) {
@@ -787,7 +834,7 @@ function placeMarker(location) {
     curLng = newMarker.getPosition().lng();
     curWkt = "POINT (" + curLng.toFixed(5) + " " + curLat.toFixed(5) + ")";
     //curAlt = newMarker.getPosition().altitude();
-    if (!checkMapBoundsByLoc(location)) {
+    if (AppMode ==="PH" && !checkMapBoundsByLoc(location)) {
         newMarker.setMap(null);
     }
     else {
@@ -815,7 +862,17 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 function myLoc() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            if (checkMapBoundsByPos(position)) {
+            if (AppMode === "PH" && checkMapBoundsByPos(position)) {
+                var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setZoom(9);
+                map.setCenter(pos);
+                $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue'
+                });
+                placeMarker(pos);
+            }
+            if (AppMode === "AH") {
                 var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setZoom(9);
                 map.setCenter(pos);
@@ -1340,8 +1397,24 @@ $(document).on('click', '#settings', function (e) {
         }
     }).complete(function (e) {
         setTimeout(function (e) {
-            loadActivityData();
-            $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
+            if (AppMode === "PH") {
+                $("#curActivities").find('option').remove().end().append($('<option value="0">- select -</option>'));
+                $.each(ActivityData.activities, function (key, val) {
+                    if (val.programId === downerTeam) {
+                        var option = $('<option />');
+                        option.attr('value', val.activityId).text(val.activityName);
+                        $("#curActivities").append(option);
+                    }
+                });
+                $(".activityMaps").removeClass('hide');
+                $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NPH>NPH</option><option value=BPH>BPH</option><option value=IPH>IPH</option>");
+                $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
+            }
+            if (AppMode === "AH") {
+                $(".activityMaps").addClass('hide');
+                $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NAF>NAF</option>");
+                $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData("NAF"))).val(resSettings.settings.device.ownerId);
+            }
         }, 300);
         $('#mb5').find('#appMode').val(AppMode);
         //var arr = resSettings.settings.mapSets.filter(function (el) {
@@ -1567,7 +1640,7 @@ $(document).on('shown.bs.modal', '#modalPHGrid', function () {
 });
 $(document).on('shown.bs.modal', '#modalAHGrid', function () {
     loadActivityDataAH();
-    loadAHDefaults();
+    //loadAHDefaults();
     loadData();
     if (statusElem.innerHTML === 'online') {
         $('#SyncAH').removeClass('hide');
@@ -1682,77 +1755,136 @@ $(document).on('click', 'a.btnSync', function (e) {
 });
 $(document).on('click', '#showPayloads', function (e) {
     if (debugMode === 1) {
-        $.confirm({
-            title: 'Activity Data',
-            content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadAD">' + JSON.stringify(ActivityData) + '</textarea></div>',
-            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-            buttons: {
-                Ok: function () {
-                    $.confirm({
-                        title: 'PHRefCodes Data',
-                        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadPHRC">' + JSON.stringify(PHRefCodes) + '</textarea></div>',
-                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                        buttons: {
-                            Ok: function () {
-                                $.confirm({
-                                    title: 'Staff Data',
-                                    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadSD">' + JSON.stringify(staffDataBPH) + JSON.stringify(staffDataIPH) + JSON.stringify(staffDataNPH) + '</textarea></div>',
-                                    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                                    buttons: {
-                                        Ok: function () {
-                                            $.confirm({
-                                                title: 'Taxa Data',
-                                                content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadTD">' + JSON.stringify(taxaData) + '</textarea></div>',
-                                                columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
-                                                buttons: {
-                                                    Ok: function () { },
-                                                    copy: {
-                                                        text: 'Copy', // With spaces and symbols
-                                                        action: function () {
-                                                            var copytext = this.$content.find("#PayloadTD");
-                                                            copytext.select();
-                                                            document.execCommand("copy");
-                                                            return false;
+        switch (AppMode) {
+            case "PH":
+                $.confirm({
+                    title: 'Activity',
+                    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadAD">' + JSON.stringify(ActivityData) + '</textarea></div>',
+                    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                    buttons: {
+                        Ok: function () {
+                            $.confirm({
+                                title: 'RefCodes',
+                                content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadPHRC">' + JSON.stringify(PHRefCodes) + '</textarea></div>',
+                                columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                                buttons: {
+                                    Ok: function () {
+                                        $.confirm({
+                                            title: 'Staff',
+                                            content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadSD">' + JSON.stringify(staffDataBPH) + JSON.stringify(staffDataIPH) + JSON.stringify(staffDataNPH) + '</textarea></div>',
+                                            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                                            buttons: {
+                                                Ok: function () {
+                                                    $.confirm({
+                                                        title: 'Taxa Data',
+                                                        content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadTD">' + JSON.stringify(taxaData) + '</textarea></div>',
+                                                        columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                                                        buttons: {
+                                                            Ok: function () { },
+                                                            copy: {
+                                                                text: 'Copy', // With spaces and symbols
+                                                                action: function () {
+                                                                    var copytext = this.$content.find("#PayloadTD");
+                                                                    copytext.select();
+                                                                    document.execCommand("copy");
+                                                                    return false;
+                                                                }
+                                                            }
                                                         }
+                                                    });
+                                                },
+                                                copy: {
+                                                    text: 'Copy', // With spaces and symbols
+                                                    action: function () {
+                                                        var copytext = this.$content.find("#PayloadSD");
+                                                        copytext.select();
+                                                        document.execCommand("copy");
+                                                        return false;
                                                     }
                                                 }
-                                            });
-                                        },
-                                        copy: {
-                                            text: 'Copy', // With spaces and symbols
-                                            action: function () {
-                                                var copytext = this.$content.find("#PayloadSD");
-                                                copytext.select();
-                                                document.execCommand("copy");
-                                                return false;
                                             }
+                                        });
+                                    },
+                                    copy: {
+                                        text: 'Copy', // With spaces and symbols
+                                        action: function () {
+                                            var copytext = this.$content.find("#PayloadPHRC");
+                                            copytext.select();
+                                            document.execCommand("copy");
+                                            return false;
                                         }
                                     }
-                                });
-                            },
-                            copy: {
-                                text: 'Copy', // With spaces and symbols
-                                action: function () {
-                                    var copytext = this.$content.find("#PayloadPHRC");
-                                    copytext.select();
-                                    document.execCommand("copy");
-                                    return false;
                                 }
+                            });
+                        },
+                        copy: {
+                            text: 'Copy', // With spaces and symbols
+                            action: function () {
+                                var copytext = this.$content.find("#PayloadAD");
+                                copytext.select();
+                                document.execCommand("copy");
+                                return false;
                             }
                         }
-                    });
-                },
-                copy: {
-                    text: 'Copy', // With spaces and symbols
-                    action: function () {
-                        var copytext = this.$content.find("#PayloadAD");
-                        copytext.select();
-                        document.execCommand("copy");
-                        return false;
                     }
-                }
-            }
-        });
+                });
+                break;
+            case "AH":
+                $.confirm({
+                    title: 'Activity',
+                    content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadAD">' + JSON.stringify(ActivityDataAH) + '</textarea></div>',
+                    columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                    buttons: {
+                        Ok: function () {
+                            $.confirm({
+                                title: 'Reference Codes',
+                                content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadAHRC">' + JSON.stringify(AHRefCodes) + '</textarea></div>',
+                                columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                                buttons: {
+                                    Ok: function () {
+                                        $.confirm({
+                                            title: 'Staff',
+                                            content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadSD">' + JSON.stringify(staffDataNAF) + '</textarea></div>',
+                                            columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
+                                            buttons: {
+                                                Ok: function () {},
+                                                copy: {
+                                                    text: 'Copy', // With spaces and symbols
+                                                    action: function () {
+                                                        var copytext = this.$content.find("#PayloadSD");
+                                                        copytext.select();
+                                                        document.execCommand("copy");
+                                                        return false;
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    },
+                                    copy: {
+                                        text: 'Copy', // With spaces and symbols
+                                        action: function () {
+                                            var copytext = this.$content.find("#PayloadAHRC");
+                                            copytext.select();
+                                            document.execCommand("copy");
+                                            return false;
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        copy: {
+                            text: 'Copy', // With spaces and symbols
+                            action: function () {
+                                var copytext = this.$content.find("#PayloadAD");
+                                copytext.select();
+                                document.execCommand("copy");
+                                return false;
+                            }
+                        }
+                    }
+                });
+                break;
+        }
     }
 });
 $(document).on('click', '.obsForm', function (e) {
@@ -1897,14 +2029,6 @@ function loadActivityData() {
             var option = $('<option />');
             option.attr('value', val.activityId).text(val.activityName);
             $("#form1").find('select[name="SurvActivityId_M_N"]').append(option);
-        }
-    });
-    $("#curActivities").find('option').remove().end().append($('<option value="0">- select -</option>'));
-    $.each(ActivityData.activities, function (key, val) {
-        if (val.programId === downerTeam) {
-            var option = $('<option />');
-            option.attr('value', val.activityId).text(val.activityName);
-            $("#curActivities").append(option);
         }
     });
     $("#form1").find('select[name="SiteId_O_N"]').find('option').remove().end().append($('<option value="0">- select -</option>'));
@@ -2071,15 +2195,56 @@ function syncIPHstaffData() {
         $.growl.error({ title: "", message: "An error occurred while fetching IPH StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
     });
 }
+function syncNAFstaffData() {
+    var NAFsettings = {
+        "async": false,
+        "crossDomain": true,
+        "url": NAFStaffAddress,
+        "method": "GET",
+        "beforeSend": function () {
+            //$.growl.notice({ title: "", message: "Syncing IPH Staff Data ...", location: "bc", size: "small" });
+        },
+        "headers": {
+            "authorization": authCode,
+            "cache-control": "no-cache"
+        }
+    };
+    $.ajax(NAFsettings).done(function (data) {
+        staffDataNAF = xmlToJson(data);
+        db.transaction(function (tx) {
+            tx.executeSql("DELETE FROM staffdataAH WHERE id = ?", [1], function (tx, res) {
+                //alert("Rows deleted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while deleting NAF StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("INSERT INTO staffdataAH (id, settingstext, settingsval) VALUES (?,?,?)", [1, 'NAFstaff', JSON.stringify(staffDataNAF)], function (tx, res) {
+                //alert("Row inserted.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating NAF StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+        db.transaction(function (tx) {
+            tx.executeSql("UPDATE staffdataAH SET settingsval = ? WHERE id = ?", [JSON.stringify(staffDataNAF), 1], function (tx, res) {
+                //alert("Dataset updated.");
+            });
+        }, function (err) {
+            $.growl.error({ title: "", message: "An error occured while updating NAF StaffData to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+        });
+    }).fail(function (response) {
+        $.growl.error({ title: "", message: "An error occurred while fetching NAF StaffData. " + response.responseText, location: "tc", size: "large", fixed: "true" });
+    });
+}
 function loadstaffData() {
     // Loading StaffData for device Owner //
-    staffDataFull = '<option value="0">- select -</option>';
-    $.each(staffDataNPH.staffs.staff, function (key, val) {
-        var option1 = '<option';
-        option1 = option1 + ' value="' + val.id + '">';
-        option1 = option1 + val.displayName + "</option>";
-        staffDataFull = staffDataFull + option1;
-    });
+    //staffDataFull = '<option value="0">- select -</option>';
+    //$.each(staffDataNPH.staffs.staff, function (key, val) {
+    //    var option1 = '<option';
+    //    option1 = option1 + ' value="' + val.id + '">';
+    //    option1 = option1 + val.displayName + "</option>";
+    //    staffDataFull = staffDataFull + option1;
+    //});
     // Loading StaffData per programID //
     if (programId && programId !== "") {
         switch (programId) {
@@ -2092,8 +2257,20 @@ function loadstaffData() {
             case "IPH":
                 staffDataS = staffDataIPH;
                 break;
+            case "NAF":
+                staffDataS = staffDataNAF;
+                break;
         }
-    } else { staffDataS = staffDataNPH; }
+    } else {
+        switch (AppMode) {
+            case "PH":
+                staffDataS = staffDataNPH;
+                break;
+            case "AH":
+                staffDataS = staffDataNAF;
+                break;
+        }
+    }
     staffData = '<option value="0">- select -</option>';
     $.each(staffDataS.staffs.staff, function (key, val) {
         var option1 = '<option';
@@ -2198,7 +2375,6 @@ function fetchSettings() {
                         }, function (err) {
                             $.growl.error({ title: "", message: "An error occured while updating settings to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
                             });
-                        resSettings = JSON.parse(res.rows.item(0).settingsval);
                         AppMode = resSettings.settings.app.appMode;
                         settings.innerHTML = AppMode;
                         downerId = resSettings.settings.device.ownerId;
@@ -2218,7 +2394,7 @@ function fetchSettings() {
         $.growl.error({ title: "", message: "An error occured fetching app settings. " + err.message, location: "tc", size: "large", fixed: "true" });
     });
 }
-function fetchServerDetails(serverMode) {
+function fetchServerDetails(serverMode, appMode) {
     AppMode = resSettings.settings.app.appMode;
     settings.innerHTML = AppMode;
     appEnv.innerHTML = serverMode;
@@ -2229,53 +2405,97 @@ function fetchServerDetails(serverMode) {
     sitServerAddress = resSettings.settings.app.sitServerAddress;
     uatServerAddress = resSettings.settings.app.uatServerAddress;
     prodServerAddress = resSettings.settings.app.prodServerAddress;
-    switch (serverMode) {
-        case "DEV":
-            ServerAddress = devServerAddress;
-            authAddress = ServerAddress + resSettings.settings.app.authAddress;
-            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
-            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
-            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
-            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
-            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
-            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
-            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+    switch (appMode) {
+        case "PH":
+            switch (serverMode) {
+                case "DEV":
+                    ServerAddress = devServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddress;
+                    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+                    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+                    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+                    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+                    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+                    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+                    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+                    break;
+                case "SIT":
+                    ServerAddress = sitServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddress;
+                    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+                    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+                    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+                    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+                    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+                    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+                    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+                    break;
+                case "UAT":
+                    ServerAddress = uatServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddress;
+                    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+                    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+                    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+                    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+                    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+                    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+                    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+                    break;
+                case "PROD":
+                    ServerAddress = prodServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddress;
+                    ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
+                    refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
+                    BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
+                    IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
+                    NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
+                    taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
+                    submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+                    break;
+            }
             break;
-        case "SIT":
-            ServerAddress = sitServerAddress;
-            authAddress = ServerAddress + resSettings.settings.app.authAddress;
-            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
-            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
-            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
-            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
-            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
-            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
-            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
-            break;
-        case "UAT":
-            ServerAddress = uatServerAddress;
-            authAddress = ServerAddress + resSettings.settings.app.authAddress;
-            ActivityAddress = ServerAddress + resSettings.settings.app.activityAddress;
-            refCodesAddress = ServerAddress + resSettings.settings.app.refCodesAddress;
-            BPHStaffAddress = ServerAddress + resSettings.settings.app.BPHStaffAddress;
-            IPHStaffAddress = ServerAddress + resSettings.settings.app.IPHStaffAddress;
-            NPHStaffAddress = ServerAddress + resSettings.settings.app.NPHStaffAddress;
-            taxaAddress = ServerAddress + resSettings.settings.app.taxaAddress;
-            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
-            break;
-        case "PROD":
-            ServerAddress = prodServerAddress;
-            authAddress = (ServerAddress + resSettings.settings.app.authAddress).replace('int', 'ext');
-            ActivityAddress = (ServerAddress + resSettings.settings.app.activityAddress).replace('int', 'ext');
-            refCodesAddress = (ServerAddress + resSettings.settings.app.refCodesAddress).replace('int', 'ext');
-            BPHStaffAddress = (ServerAddress + resSettings.settings.app.BPHStaffAddress).replace('int', 'ext');
-            IPHStaffAddress = (ServerAddress + resSettings.settings.app.IPHStaffAddress).replace('int', 'ext');
-            NPHStaffAddress = (ServerAddress + resSettings.settings.app.NPHStaffAddress).replace('int', 'ext');
-            taxaAddress = (ServerAddress + resSettings.settings.app.taxaAddress).replace('int', 'ext');
-            submitPHObsAddress = ServerAddress + resSettings.settings.app.submitPHObsAddress;
+        case "AH":
+            switch (serverMode) {
+                case "DEV":
+                    ServerAddress = devServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddressAH;
+                    ActivityAddressAH = ServerAddress + resSettings.settings.app.activityAddressAH;
+                    refCodesAddressAH = ServerAddress + resSettings.settings.app.refCodesAddressAH;
+                    NAFStaffAddress = ServerAddress + resSettings.settings.app.NAFStaffAddress;
+                    speciesTaxonSyndromSamplesAddress = ServerAddress + resSettings.settings.app.speciesTaxonSyndromSamplesAddress;
+                    submitAHObsAddress = ServerAddress + resSettings.settings.app.submitAHObsAddress;
+                    break;
+                case "SIT":
+                    ServerAddress = sitServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddressAH;
+                    ActivityAddressAH = ServerAddress + resSettings.settings.app.activityAddressAH;
+                    refCodesAddressAH = ServerAddress + resSettings.settings.app.refCodesAddressAH;
+                    NAFStaffAddress = ServerAddress + resSettings.settings.app.NAFStaffAddress;
+                    speciesTaxonSyndromSamplesAddress = ServerAddress + resSettings.settings.app.speciesTaxonSyndromSamplesAddress;
+                    submitAHObsAddress = ServerAddress + resSettings.settings.app.submitAHObsAddress;
+                    break;
+                case "UAT":
+                    ServerAddress = uatServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddressAH;
+                    ActivityAddressAH = ServerAddress + resSettings.settings.app.activityAddressAH;
+                    refCodesAddressAH = ServerAddress + resSettings.settings.app.refCodesAddressAH;
+                    NAFStaffAddress = ServerAddress + resSettings.settings.app.NAFStaffAddress;
+                    speciesTaxonSyndromSamplesAddress = ServerAddress + resSettings.settings.app.speciesTaxonSyndromSamplesAddress;
+                    submitAHObsAddress = ServerAddress + resSettings.settings.app.submitAHObsAddress;
+                    break;
+                case "PROD":
+                    ServerAddress = prodServerAddress;
+                    authAddress = ServerAddress + resSettings.settings.app.authAddressAH;
+                    ActivityAddressAH = ServerAddress + resSettings.settings.app.activityAddressAH;
+                    refCodesAddressAH = ServerAddress + resSettings.settings.app.refCodesAddressAH;
+                    NAFStaffAddress = ServerAddress + resSettings.settings.app.NAFStaffAddress;
+                    speciesTaxonSyndromSamplesAddress = ServerAddress + resSettings.settings.app.speciesTaxonSyndromSamplesAddress;
+                    submitAHObsAddress = ServerAddress + resSettings.settings.app.submitAHObsAddress;
+                    break;
+            }
             break;
     }
-    return taxaAddress;
+    return authAddress;
 }
 function updateSettings(serverMode, appMode) {
     var changeFlag = 0;
@@ -2285,6 +2505,7 @@ function updateSettings(serverMode, appMode) {
     }
     if (appMode !== resSettings.settings.app.appMode) {
         resSettings.settings.app.appMode = appMode;
+        AppMode = appMode;
         changeFlag = 1;
     }
     if (changeFlag === 1) {
@@ -2298,55 +2519,85 @@ function updateSettings(serverMode, appMode) {
         });
     }
 }
-function clearCache() {
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
-            //alert("Rows deleted.");
-            ActivityData = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM phrefcodes", [], function (tx, res) {
-            //alert("Rows deleted.");
-            PHRefCodes = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM staffdata WHERE id = ?", [1], function (tx, res) {
-            //alert("Rows deleted.");
-            staffDataNPH = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting NPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM staffdata WHERE id = ?", [2], function (tx, res) {
-            //alert("Rows deleted.");
-            staffDataBPH = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting BPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM staffdata WHERE id = ?", [3], function (tx, res) {
-            //alert("Rows deleted.");
-            staffDataIPH = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting IPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
-    db.transaction(function (tx) {
-        tx.executeSql("DELETE FROM taxadata", [], function (tx, res) {
-            //alert("Rows deleted.");
-            taxaData = "";
-        });
-    }, function (err) {
-        $.growl.error({ title: "", message: "An error occured while deleting Taxa Data from database. " + err.message, location: "tc", size: "large", fixed: "true" });
-    });
+function clearCache(appMode) {
+    switch (appMode) {
+        case "PH":
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    ActivityData = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM phrefcodes", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    PHRefCodes = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM staffdata WHERE id = ?", [1], function (tx, res) {
+                    //alert("Rows deleted.");
+                    staffDataNPH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting NPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM staffdata WHERE id = ?", [2], function (tx, res) {
+                    //alert("Rows deleted.");
+                    staffDataBPH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting BPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM staffdata WHERE id = ?", [3], function (tx, res) {
+                    //alert("Rows deleted.");
+                    staffDataIPH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting IPH StaffData from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM taxadata", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    taxaData = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting Taxa Data from database. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            break;
+        case "AH":
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM activitydataAH", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    ActivityDataAH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+                });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM ahrefcodes", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    AHRefCodes = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting PHRefCodes from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            db.transaction(function (tx) {
+                tx.executeSql("DELETE FROM staffdataAH", [], function (tx, res) {
+                    //alert("Rows deleted.");
+                    staffdataAH = "";
+                });
+            }, function (err) {
+                $.growl.error({ title: "", message: "An error occured while deleting StaffData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
+            });
+            break;
+    }
 }
 function getCurrentActivityTiles(str, zoom) {
     if (Number(str) === 99999) { return true; }
@@ -2437,6 +2688,7 @@ function initLoad() {
         tx.executeSql("CREATE TABLE IF NOT EXISTS activitydata (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS staffdata (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS taxadata (id integer primary key, settingstext text, settingsval text default '{}')");
+        tx.executeSql("CREATE TABLE IF NOT EXISTS ahrefcodes (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS activitydataAH (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS staffdataAH (id integer primary key, settingstext text, settingsval text default '{}')");
         tx.executeSql("CREATE TABLE IF NOT EXISTS seqnum (id integer primary key, attrname text, attrval int default 0)");
