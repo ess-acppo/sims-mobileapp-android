@@ -3182,14 +3182,14 @@ $(document).on('click', '.getSampleCoords', function (e) {
             if (siteID > 0 && siteID < 99999 && checkMapBoundsBySite(position, siteID)) {
                 xlat.val(position.coords.latitude.toFixed(5));
                 xlng.val(position.coords.longitude.toFixed(5));
-                if (position.coords.altitude) { Math.round(xalt.val(position.coords.altitude)); }
+                if (position.coords.altitude) { xalt.val(Math.round(position.coords.altitude)); }
                 xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
                 xdat.val("WGS84");
             }
             if ((siteID === 0 || siteID === 99999) && checkMapBoundsByPos(position)) {
                 xlat.val(position.coords.latitude.toFixed(5));
                 xlng.val(position.coords.longitude.toFixed(5));
-                if (position.coords.altitude) { Math.round(xalt.val(position.coords.altitude)); }
+                if (position.coords.altitude) { xalt.val(Math.round(position.coords.altitude)); }
                 xwkt.val("POINT (" + position.coords.longitude.toFixed(5) + " " + position.coords.latitude.toFixed(5) + ")");
                 xdat.val("WGS84");
             }
@@ -3875,7 +3875,7 @@ function StartSyncPH() {
             }
             else {
                 rowsFailed.push(rowid);
-                rowsFailedErr.push(result.vErrDescription);
+                rowsFailedErr.push("#" + rowid + ": " + result.vErrDescription);
                 success = false;
                 return false;
             }
@@ -3896,7 +3896,8 @@ function StartSyncPH() {
                 $.growl.error({ title: "", message: "An error occured while updating records to database. " + err.message, location: "tc", size: "large" });
             });
         }
-        else if (success === false) { $.growl.error({ title: "", message: rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
+        //else if (success === false) { $.growl.error({ title: "", message: rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
+        else if (success === false) { $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
         syncPHRefCodes();
         syncActivityData();
         syncBPHstaffData();
@@ -3907,9 +3908,10 @@ function StartSyncPH() {
         loadData();
         clearMarkers();
         if (AppMode === "PH") {
-            loadMapMarkers("PH");
-        } else if (AppMode === "AH") {
-            loadMapMarkers("AH");
+            loadMapMarkers;
+        }
+        if (AppMode === "AH") {
+            loadMapMarkersAH();
         }  
         if (infoWindow) {
             infoWindow.close();

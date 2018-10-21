@@ -6,16 +6,16 @@
             <div class="tabs-wrapper">
                 <ul class="nav nav-tabs list" role="tablist" id="tabList">
                     <li class="active ripple">
-                        <a href="#tab_0" data-toggle="tab"><i class="fa fa-hand-lizard-o mxr-5"></i>Animal Group</a>
+                        <a href="#tab_0" id="tab0" data-toggle="tab"><i class="fa fa-hand-lizard-o mxr-5"></i>Animal Group</a>
                     </li>
                     <li class="ripple">
-                        <a href="#tab_1" data-toggle="tab"><i class="fa fa-search mxr-5"></i>Observation Common</a>
+                        <a href="#tab_1" id="tab1" data-toggle="tab"><i class="fa fa-search mxr-5"></i>Observation Common</a>
                     </li>
                     <li class="ripple">
-                        <a href="#tab_2" data-toggle="tab"><i class="fa fa-snowflake-o mxr-5"></i>Condition</a>
+                        <a href="#tab_2" id="tab2" data-toggle="tab"><i class="fa fa-snowflake-o mxr-5"></i>Condition</a>
                     </li>
                     <li class="ripple">
-                        <a href="#tab_3" data-toggle="tab">
+                        <a href="#tab_3" id="tab3" data-toggle="tab">
                             <i class="fa fa-paperclip mxr-5"></i>Attachments
                             <span data-toggle="tooltip" class="badge" data-original-title="3" id="numAttachments"></span>
                         </a>
@@ -72,32 +72,32 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*</span>Observation Date</label>
-                            <input type="datetime-local" class="form-control" placeholder="Date" name="dateTime_M_D" step="1" data-name="Observation DateTime" data-section="Observation">
+                            <input type="datetime-local" class="form-control" placeholder="Date" name="dateTime_M_D_0_1" step="1" data-name="Observation DateTime" data-section="Observation">
                             <i class="fa fa-calendar form-control-feedback"></i>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*</span>Observer</label>
-                            <select class="form-control" name="ObservationStaffId_M_N" data-name="Observation Staff ID" id="ObservationStaffId" data-section="Observation"></select>
+                            <select class="form-control" name="ObservationStaffId_M_N_0_1" data-name="Observation Staff ID" id="ObservationStaffId" data-section="Observation"></select>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*&nbsp;</span>Latitude</label>
-                            <input type="number" class="form-control obslat" placeholder="Latitude" name="Latitude_M_N" data-name="Observation Latitude" data-section="Observation">
+                            <input type="number" class="form-control obslat" placeholder="Latitude" name="Latitude_M_N_0_1" data-name="Observation Latitude" data-section="Observation">
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*&nbsp;</span>Longitude</label>
-                            <input type="number" class="form-control obslng" placeholder="Longitude" name="Longitude_M_N" data-name="Observation Longitude" data-section="Observation">
+                            <input type="number" class="form-control obslng" placeholder="Longitude" name="Longitude_M_N_0_1" data-name="Observation Longitude" data-section="Observation">
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
                             <label><span class="bold-red">*&nbsp;</span>Datum</label>
-                            <select class="form-control obsdat" name="ObservWhereGpsDatumId_M_S" data-name="Observation Datum" data-section="Observation">
+                            <select class="form-control obsdat" name="ObservWhereGpsDatumId_M_S_0_1" data-name="Observation Datum" data-section="Observation">
                                 <option>WGS84</option>
                                 <option>GDA94</option>
                             </select>
@@ -109,7 +109,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12 hide">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*&nbsp;</span>Point WKT</label>
-                            <input type="text" class="form-control" name="ObservationWhereWktClob_M_S" data-name="Observation LatLon" data-section="Observation">
+                            <input type="text" class="form-control" name="ObservationWhereWktClob_M_S_0_1" data-name="Observation LatLon" data-section="Observation">
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -119,13 +119,13 @@
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-4 col-sm-4 col-xs-12 ripple">
-                            <input type="radio" class="minimal" name="obsProximity_M_S" data-code="Aerial" data-validate="Y" value="Aerial" data-name="Observation Proximity" data-section="Observation" >&nbsp;<label>Aerial</label>
+                            <input type="radio" class="minimal" name="obsProximity_M_S_0_1" data-code="Aerial" data-validate="Y" value="Aerial" data-name="Observation Proximity" data-section="Observation" >&nbsp;<label>Aerial</label>
                         </div>
                         <div class="form-group col-md-4 col-sm-4 col-xs-12 ripple">
-                            <input type="radio" class="minimal" name="obsProximity_M_S" data-code="Ground (distant)" data-validate="Y" value="Ground (distant)" data-name="Observation Proximity" data-section="Observation" >&nbsp;<label>Ground (distant)</label>
+                            <input type="radio" class="minimal" name="obsProximity_M_S_0_1" data-code="Ground (distant)" data-validate="Y" value="Ground (distant)" data-name="Observation Proximity" data-section="Observation" >&nbsp;<label>Ground (distant)</label>
                         </div>
                         <div class="form-group col-md-4 col-sm-4 col-xs-12 ripple">
-                            <input type="radio" class="minimal" name="obsProximity_M_S" data-code="Ground (close)" data-validate="Y" value="Ground (close)" data-name="Observation Proximity" data-section="Observation" >&nbsp;<label>Ground (close)</label>
+                            <input type="radio" class="minimal" name="obsProximity_M_S_0_1" data-code="Ground (close)" data-validate="Y" value="Ground (close)" data-name="Observation Proximity" data-section="Observation" >&nbsp;<label>Ground (close)</label>
                         </div>
                     </div>
                 </div>
@@ -143,19 +143,19 @@
                             <label>Adult</label>
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0" name="adultNumber_M_N" data-name="Number of Adult Animals" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0" name="adultNumber_M_N_0_2" data-name="Number of Adult Animals" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0%" name="adultPercent_M_N" data-name="Percentage of Adult Animals" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0%" name="adultPercent_M_N_0_2" data-name="Percentage of Adult Animals" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-4 col-sm-4 col-xs-12">
                             <label>Male</label>
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0" name="maleNumber_M_N" data-name="Number of Male Animals" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0" name="maleNumber_M_N_0_2" data-name="Number of Male Animals" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0%" name="malePercent_M_N" data-name="Percentage of Male Animals" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0%" name="malePercent_M_N_0_2" data-name="Percentage of Male Animals" data-section="Observation" >
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
@@ -163,19 +163,19 @@
                             <label>Juvenile</label>
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0" name="juvNumber_M_N" data-name="Number of Juvenile Animals" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0" name="juvNumber_M_N_0_2" data-name="Number of Juvenile Animals" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0%" name="juvPercent_M_N" data-name="Perccentage of Juvenile Animals" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0%" name="juvPercent_M_N_0_2" data-name="Perccentage of Juvenile Animals" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-4 col-sm-4 col-xs-12">
                             <label>Female</label>
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0" name="femaleNumber_M_N" data-name="Number of Female Animals" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0" name="femaleNumber_M_N_0_2" data-name="Number of Female Animals" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0%" name="femalePercent_M_N" data-name="Percentage of Female Animals" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0%" name="femalePercent_M_N_0_2" data-name="Percentage of Female Animals" data-section="Observation" >
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12 dynarow">
@@ -183,19 +183,19 @@
                             <label>Unknown</label>
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0" name="aunkNumber_M_N" data-name="Number of Animals of Unknown AgeClass" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0" name="aunkNumber_M_N_0_2" data-name="Number of Animals of Unknown AgeClass" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0" name="aunkPercent_M_N" data-name="Percentage of Animals of Unknown AgeClass" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0" name="aunkPercent_M_N_0_2" data-name="Percentage of Animals of Unknown AgeClass" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-4 col-sm-4 col-xs-12">
                             <label>Unknown</label>
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0" name="gunkNumber_M_N" data-name="Number of Animals of Unknown Gender" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0" name="gunkNumber_M_N_0_2" data-name="Number of Animals of Unknown Gender" data-section="Observation" >
                         </div>
                         <div class="form-group col-md-1 col-sm-1 col-xs-6">
-                            <input type="number" class="form-control" placeholder="0" name="gunkpercent_M_N" data-name="Percentage of Animals of Unknown Gender" data-section="Observation" >
+                            <input type="number" class="form-control" placeholder="0" name="gunkpercent_M_N_0_2" data-name="Percentage of Animals of Unknown Gender" data-section="Observation" >
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -203,11 +203,11 @@
                             <label><span class="bold-red">*</span>Are there any obvious clinical syndromes?</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6 ripple">
-                            <input type="radio" class="minimal" name="optSyndromes_M_S" data-code="Y" data-validate="Y" value="Y" data-name="Syndromes Flag" data-section="Observation" >&nbsp;
+                            <input type="radio" class="minimal" name="optSyndromes_M_S_0_2" data-code="Y" data-validate="Y" value="Y" data-name="Syndromes Flag" data-section="Observation" >&nbsp;
                             <label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6 ripple">
-                            <input type="radio" class="minimal" name="optSyndromes_M_S" data-code="N" data-validate="Y" value="N" data-name="Syndromes Flag" data-section="Observation" >&nbsp;
+                            <input type="radio" class="minimal" name="optSyndromes_M_S_0_2" data-code="N" data-validate="Y" value="N" data-name="Syndromes Flag" data-section="Observation" >&nbsp;
                             <label>No</label>
                         </div>
                     </div>
@@ -227,28 +227,26 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
                             <label>Additional Observations</label>
-                            <textarea class="form-control" rows="6" name="additionalObservations_O_S" style="height:80px;" data-name="Additional Observations" data-section="Observation" ></textarea>
+                            <textarea class="form-control" rows="6" name="additionalObservations_O_S_0_2" style="height:80px;" data-name="Additional Observations" data-section="Observation" maxlength="400" ></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_3">
-                    <div class="tab-pane" id="tab_6">
-                        <div class="row col-md-12 col-sm-12 col-xs-12 pr-0 mxrm-5">
-                            <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
-                                <button type="button" class="btn btn-md btn-default" id="addAnimalAttachment"><i class="fa fa-plus"></i>&nbsp;Add Attachment</button>
-                            </div>
-                            <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="attachments">
-                            </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12 pr-0 mxrm-5">
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12 text-center">
+                            <button type="button" class="btn btn-md btn-default" id="addAnimalAttachment"><i class="fa fa-plus"></i>&nbsp;Add Attachment</button>
                         </div>
-                        <div class="row col-md-12 col-sm-12 col-xs-12 hide">
-                            <div class="form-group col-md-3 col-sm-3 col-xs-3">
-                                <label>ID</label>
-                                <input type="number" class="form-control" name="id_M_N" data-name="Observation Row ID" data-section="Observation" />
-                            </div>
-                            <div class="form-group col-md-3 col-sm-3 col-xs-3">
-                                <label>Status</label>
-                                <input type="number" class="form-control" name="status_M_N" data-name="Observation Status" data-section="Observation" />
-                            </div>
+                        <div class="row col-md-12 col-sm-12 col-xs-12 pr-0" id="attachments">
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12 hide">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-3">
+                            <label>ID</label>
+                            <input type="number" class="form-control" name="id_M_N" data-name="Observation Row ID" data-section="Observation" />
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-3">
+                            <label>Status</label>
+                            <input type="number" class="form-control" name="status_M_N" data-name="Observation Status" data-section="Observation" />
                         </div>
                     </div>
                 </div>

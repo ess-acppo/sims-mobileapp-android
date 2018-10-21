@@ -6,25 +6,25 @@
             <div class="tabs-wrapper">
                 <ul class="nav nav-tabs list" role="tablist" id="tabList">
                     <li class="active ripple">
-                        <a href="#tab_0" data-toggle="tab"><i class="fa fa-hand-lizard-o mxr-5"></i>Animal Details</a>
+                        <a href="#tab_0" id="tab0" data-toggle="tab"><i class="fa fa-hand-lizard-o mxr-5"></i>Animal Details</a>
                     </li>
                     <li class="ripple">
-                        <a href="#tab_1" data-toggle="tab"><i class="fa fa-search mxr-5"></i>Observation Common</a>
+                        <a href="#tab_1" id="tab1" data-toggle="tab"><i class="fa fa-search mxr-5"></i>Observation Common</a>
                     </li>
                     <li class="ripple">
-                        <a href="#tab_2" data-toggle="tab"><i class="fa fa-snowflake-o mxr-5"></i>Condition</a>
+                        <a href="#tab_2" id="tab2" data-toggle="tab"><i class="fa fa-snowflake-o mxr-5"></i>Condition</a>
                     </li>
                     <li class="ripple">
-                        <a href="#tab_3" data-toggle="tab">
+                        <a href="#tab_3" id="tab3" data-toggle="tab">
                             <i class="fa fa-thermometer-4 mxr-5"></i>Samples
                             <span data-toggle="tooltip" class="badge" data-original-title="3" id="numSamples"></span>
                         </a>
                     </li>
                     <li class="ripple hide" id="tabPM">
-                        <a href="#tab_5" data-toggle="tab"><i class="fa fa-eye mxr-5"></i>Post Mortem</a>
+                        <a href="#tab_5" id="tab5" data-toggle="tab"><i class="fa fa-eye mxr-5"></i>Post Mortem</a>
                     </li>
                     <li class="ripple">
-                        <a href="#tab_6" data-toggle="tab">
+                        <a href="#tab_6" id="tab6" data-toggle="tab">
                             <i class="fa fa-paperclip mxr-5"></i>Attachments
                             <span data-toggle="tooltip" class="badge" data-original-title="3" id="numAttachments"></span>
                         </a>
@@ -98,42 +98,42 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*</span>Observation Date</label>
-                            <input type="datetime-local" class="form-control" placeholder="Date" name="dateTime_M_D" step="1" data-name="Observation DateTime" data-section="Observation">
+                            <input type="datetime-local" class="form-control" placeholder="Date" name="dateTime_M_D_0_1" step="1" data-name="Observation DateTime" data-section="Observation">
                             <i class="fa fa-calendar form-control-feedback"></i>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*</span>Observer</label>
-                            <select class="form-control" name="ObservationStaffId_M_N" data-name="Observation Staff ID" id="ObservationStaffId" data-section="Observation"></select>
+                            <select class="form-control" name="ObservationStaffId_M_N_0_1" data-name="Observation Staff ID" id="ObservationStaffId" data-section="Observation"></select>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 ripple">
-                            <input type="checkbox" class="minimal" name="externalObserverFlag_O_S" data-name="External Observer Flag" data-section="Observation" ><label>&nbsp;External Observer</label>
+                            <input type="checkbox" class="minimal" name="externalObserverFlag_O_S_0_1" data-name="External Observer Flag" data-section="Observation" ><label>&nbsp;External Observer</label>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" class="form-control hide" placeholder="External Observer" name="externalObserver_O_S" data-name="External Observer" data-section="Observation" >
+                            <input type="text" class="form-control hide" placeholder="External Observer" name="externalObserver_O_S_0_1" data-name="External Observer" data-section="Observation" >
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*&nbsp;</span>Latitude</label>
-                            <input type="number" class="form-control obslat" placeholder="Latitude" name="Latitude_M_N" data-name="Observation Latitude" data-section="Observation">
+                            <input type="number" class="form-control obslat" placeholder="Latitude" name="Latitude_M_N_0_1" data-name="Observation Latitude" data-section="Observation">
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*&nbsp;</span>Longitude</label>
-                            <input type="number" class="form-control obslng" placeholder="Longitude" name="Longitude_M_N" data-name="Observation Longitude" data-section="Observation">
+                            <input type="number" class="form-control obslng" placeholder="Longitude" name="Longitude_M_N_0_1" data-name="Observation Longitude" data-section="Observation">
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
                             <label><span class="bold-red">*&nbsp;</span>Datum</label>
-                            <select class="form-control obsdat" name="ObservWhereGpsDatumId_M_S" data-name="Observation Datum" data-section="Observation">
+                            <select class="form-control obsdat" name="ObservWhereGpsDatumId_M_S_0_1" data-name="Observation Datum" data-section="Observation">
                                 <option>WGS84</option>
                                 <option>GDA94</option>
                             </select>
@@ -145,7 +145,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12 hide">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <label><span class="bold-red">*&nbsp;</span>Point WKT</label>
-                            <input type="text" class="form-control" name="ObservationWhereWktClob_M_S" data-name="Observation LatLon" data-section="Observation">
+                            <input type="text" class="form-control" name="ObservationWhereWktClob_M_S_0_1" data-name="Observation LatLon" data-section="Observation">
                         </div>
                     </div>
                 </div>
@@ -167,10 +167,10 @@
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 col-xs-6 ripple">
-                            <input type="radio" class="minimal" name="woundsPresent_M_S" value="Y" data-code="Y" data-validate="Y" data-name="Wounds Present Flag" data-section="Observation" >&nbsp;<label>Yes</label>
+                            <input type="radio" class="minimal" name="woundsPresent_M_S_0_2" value="Y" data-code="Y" data-validate="Y" data-name="Wounds Present Flag" data-section="Observation" >&nbsp;<label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6 ripple">
-                            <input type="radio" class="minimal" name="woundsPresent_M_S" value="N" data-code="N" data-validate="Y" data-name="Wounds Present Flag" data-section="Observation" >&nbsp;<label>No</label>
+                            <input type="radio" class="minimal" name="woundsPresent_M_S_0_2" value="N" data-code="N" data-validate="Y" data-name="Wounds Present Flag" data-section="Observation" >&nbsp;<label>No</label>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12 addMaggotSamples hide">
@@ -180,10 +180,10 @@
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12 addMaggotSamples hide">
                         <div class="form-group col-md-3 col-sm-3 col-xs-6 ripple">
-                            <input type="radio" class="minimal" name="maggotsPresent_M_S" value="Y" data-code="Y" data-validate="Y" data-name="Maggots Present Flag" data-section="Observation" >&nbsp;<label>Yes</label>
+                            <input type="radio" class="minimal" name="maggotsPresent_M_S_0_2" value="Y" data-code="Y" data-validate="Y" data-name="Maggots Present Flag" data-section="Observation" >&nbsp;<label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6 ripple">
-                            <input type="radio" class="minimal" name="maggotsPresent_M_S" value="N" data-code="N" data-validate="Y" data-name="Maggots Present Flag" data-section="Observation" >&nbsp;<label>No</label>
+                            <input type="radio" class="minimal" name="maggotsPresent_M_S_0_2" value="N" data-code="N" data-validate="Y" data-name="Maggots Present Flag" data-section="Observation" >&nbsp;<label>No</label>
                         </div>
                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                             <button type="button" class="btn btn-md btn-info pull-right hide" id="addMaggotSample"><i class="fa fa-plus"></i>&nbsp;Add Maggot Sample</button>
@@ -219,7 +219,7 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
                             <label>Additional Observations</label>
-                            <textarea class="form-control" rows="6" name="additionalObservations_O_S" style="height:80px;" data-name="Additional Observations" data-section="Observation" ></textarea>
+                            <textarea class="form-control" rows="6" name="additionalObservations_O_S_0_2" style="height:80px;" data-name="Additional Observations" data-section="Observation" maxlength="400" ></textarea>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -229,10 +229,10 @@
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 col-xs-6 ripple">
-                            <input type="radio" class="minimal" name="postMortemConducted_M_S" value="Y" data-code="Y" data-validate="Y" data-name="PostMortem Conducted Flag" data-section="Observation" >&nbsp;<label>Yes</label>
+                            <input type="radio" class="minimal" name="postMortemConducted_M_S_0_2" value="Y" data-code="Y" data-validate="Y" data-name="PostMortem Conducted Flag" data-section="Observation" >&nbsp;<label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6 ripple">
-                            <input type="radio" class="minimal" name="postMortemConducted_M_S" value="N" data-code="N" data-validate="Y" data-name="PostMortem Conducted Flag" data-section="Observation" >&nbsp;<label>No</label>
+                            <input type="radio" class="minimal" name="postMortemConducted_M_S_0_2" value="N" data-code="N" data-validate="Y" data-name="PostMortem Conducted Flag" data-section="Observation" >&nbsp;<label>No</label>
                         </div>
                     </div>
                 </div>
@@ -261,14 +261,14 @@
                             <input type="hidden" name="BodySystemCodeIN" value="IN" />
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="IntegumentFlag_M_S" value="Y" data-code="Y" data-validate="Y" data-name="Integument Flag" data-section="Observation" >&nbsp;<label>Yes</label>
+                            <input type="radio" class="minimal" name="IntegumentFlag_M_S_0_5" value="Y" data-code="Y" data-validate="Y" data-name="Integument Flag" data-section="Observation" >&nbsp;<label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="IntegumentFlag_M_S" value="N" data-code="N" data-validate="Y" data-name="Integument Flag" data-section="Observation" >&nbsp;<label>No</label>
+                            <input type="radio" class="minimal" name="IntegumentFlag_M_S_0_5" value="N" data-code="N" data-validate="Y" data-name="Integument Flag" data-section="Observation" >&nbsp;<label>No</label>
                         </div>
                         <div class="form-group col-md-12 col-sm-12 col-sm-12">
                             <label>Gross Findings</label>
-                            <textarea class="form-control" rows="3" name="IntGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings" data-name="Integument Gross Findings" data-section="Observation" ></textarea>
+                            <textarea class="form-control" rows="3" name="IntGrossFindings_O_S_0_5" style="height:60px;" placeholder="Gross Findings" data-name="Integument Gross Findings" data-section="Observation" maxlength="400" ></textarea>
                         </div>
                     </div>
 
@@ -278,14 +278,14 @@
                             <input type="hidden" name="BodySystemCodeHN" value="HN" />
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="HeadNeckFlag_M_S" value="Y" data-code="Y" data-validate="Y" data-name="HeadNeck Flag" data-section="Observation" >&nbsp;<label>Yes</label>
+                            <input type="radio" class="minimal" name="HeadNeckFlag_M_S_0_5" value="Y" data-code="Y" data-validate="Y" data-name="HeadNeck Flag" data-section="Observation" >&nbsp;<label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="HeadNeckFlag_M_S" value="N" data-code="N" data-validate="Y" data-name="HeadNeck Flag" data-section="Observation" >&nbsp;<label>No</label>
+                            <input type="radio" class="minimal" name="HeadNeckFlag_M_S_0_5" value="N" data-code="N" data-validate="Y" data-name="HeadNeck Flag" data-section="Observation" >&nbsp;<label>No</label>
                         </div>
                         <div class="form-group col-md-12 col-sm-12 col-sm-12">
                             <label>Gross Findings</label>
-                            <textarea class="form-control" rows="3" name="HeadNeckGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings" data-name="HeadNeck Gross Findings" data-section="Observation" ></textarea>
+                            <textarea class="form-control" rows="3" name="HeadNeckGrossFindings_O_S_0_5" style="height:60px;" placeholder="Gross Findings" data-name="HeadNeck Gross Findings" data-section="Observation" maxlength="400" ></textarea>
                         </div>
                     </div>
 
@@ -295,14 +295,14 @@
                             <input type="hidden" name="BodySystemCodeTH" value="TH" />
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="ThoraxFlag_M_S" value="Y" data-code="Y" data-validate="Y" data-name="Thorax Flag" data-section="Observation" >&nbsp;<label>Yes</label>
+                            <input type="radio" class="minimal" name="ThoraxFlag_M_S_0_5" value="Y" data-code="Y" data-validate="Y" data-name="Thorax Flag" data-section="Observation" >&nbsp;<label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="ThoraxFlag_M_S" value="N" data-code="N" data-validate="Y" data-name="Thorax Flag" data-section="Observation" >&nbsp;<label>No</label>
+                            <input type="radio" class="minimal" name="ThoraxFlag_M_S_0_5" value="N" data-code="N" data-validate="Y" data-name="Thorax Flag" data-section="Observation" >&nbsp;<label>No</label>
                         </div>
                         <div class="form-group col-md-12 col-sm-12 col-sm-12">
                             <label>Gross Findings</label>
-                            <textarea class="form-control" rows="3" name="ThoraxGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings" data-name="Thorax Gross Findings" data-section="Observation" ></textarea>
+                            <textarea class="form-control" rows="3" name="ThoraxGrossFindings_O_S_0_5" style="height:60px;" placeholder="Gross Findings" data-name="Thorax Gross Findings" data-section="Observation" maxlength="400" ></textarea>
                         </div>
                     </div>
 
@@ -312,14 +312,14 @@
                             <input type="hidden" name="BodySystemCodeAB" value="AB" />
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="AbdomenFlag_M_S" value="Y" data-code="Y" data-validate="Y" data-name="Abdomen Flag" data-section="Observation" >&nbsp;<label>Yes</label>
+                            <input type="radio" class="minimal" name="AbdomenFlag_M_S_0_5" value="Y" data-code="Y" data-validate="Y" data-name="Abdomen Flag" data-section="Observation" >&nbsp;<label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="AbdomenFlag_M_S" value="N" data-code="N" data-validate="Y" data-name="Abdomen Flag" data-section="Observation" >&nbsp;<label>No</label>
+                            <input type="radio" class="minimal" name="AbdomenFlag_M_S_0_5" value="N" data-code="N" data-validate="Y" data-name="Abdomen Flag" data-section="Observation" >&nbsp;<label>No</label>
                         </div>
                         <div class="form-group col-md-12 col-sm-12 col-sm-12">
                             <label>Gross Findings</label>
-                            <textarea class="form-control" rows="3" name="AbdomenGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings" data-name="Abdomen Gross Findings" data-section="Observation" ></textarea>
+                            <textarea class="form-control" rows="3" name="AbdomenGrossFindings_O_S_0_5" style="height:60px;" placeholder="Gross Findings" data-name="Abdomen Gross Findings" data-section="Observation" maxlength="400" ></textarea>
                         </div>
                     </div>
 
@@ -329,14 +329,14 @@
                             <input type="hidden" name="BodySystemCodeMU" value="MU" />
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="MuscSkeletalFlag_M_S" value="Y" data-code="Y" data-validate="Y" data-name="MusculoSkeletal Flag" data-section="Observation" >&nbsp;<label>Yes</label>
+                            <input type="radio" class="minimal" name="MuscSkeletalFlag_M_S_0_5" value="Y" data-code="Y" data-validate="Y" data-name="MusculoSkeletal Flag" data-section="Observation" >&nbsp;<label>Yes</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-6">
-                            <input type="radio" class="minimal" name="MuscSkeletalFlag_M_S" value="N" data-code="N" data-validate="Y" data-name="MusculoSkeletal Flag" data-section="Observation" >&nbsp;<label>No</label>
+                            <input type="radio" class="minimal" name="MuscSkeletalFlag_M_S_0_5" value="N" data-code="N" data-validate="Y" data-name="MusculoSkeletal Flag" data-section="Observation" >&nbsp;<label>No</label>
                         </div>
                         <div class="form-group col-md-12 col-sm-12 col-sm-12">
                             <label>Gross Findings</label>
-                            <textarea class="form-control" rows="3" name="MuscSkeletalGrossFindings_O_S" style="height:60px;" placeholder="Gross Findings" data-name="MusculoSkeletal Gross Findings" data-section="Observation" ></textarea>
+                            <textarea class="form-control" rows="3" name="MuscSkeletalGrossFindings_O_S_0_5" style="height:60px;" placeholder="Gross Findings" data-name="MusculoSkeletal Gross Findings" data-section="Observation" maxlength="400" ></textarea>
                         </div>
                     </div>
 

@@ -560,11 +560,11 @@ function initSettings() {
             if (res.rows && res.rows.length > 0) {
                 clearMarkers();
                 if (AppMode === "PH") {
-                    loadMapMarkers("PH");
+                    loadMapMarkers;
                 }
                 if (AppMode === "AH") {
-                    loadMapMarkers("AH");
-                }
+                    loadMapMarkersAH();
+                }  
                 google.maps.event.addListener(map, 'click', function (event) {
                     placeMarker(event.latLng);
                 });
@@ -611,11 +611,11 @@ function initSettings() {
                         });
                         clearMarkers();
                         if (AppMode === "PH") {
-                            loadMapMarkers("PH");
+                            loadMapMarkers;
                         }
                         if (AppMode === "AH") {
-                            loadMapMarkers("AH");
-                        }
+                            loadMapMarkersAH();
+                        }  
                         google.maps.event.addListener(map, 'click', function (event) {
                             placeMarker(event.latLng);
                         });
@@ -633,7 +633,7 @@ function initSettings() {
         $.growl.error({ title: "", message: "An error occured while loading app settings. " + err.message, location: "tc", size: "large", fixed: "true" });
     });
 }
-function loadMapMarkers(appMode) {
+function loadMapMarkers() {
     db.readTransaction(function (tx) {
         tx.executeSql("SELECT * FROM observations WHERE id = ?", [1], function (tx, res) {
             if (res.rows && res.rows.length > 0) {
@@ -645,7 +645,7 @@ function loadMapMarkers(appMode) {
                             wkt.read(results.observations[i].ObservationWhereWktClob_M_S);
                             wkt.toObject();
                             var latLng = new google.maps.LatLng(wkt.toJson().coordinates[1], wkt.toJson().coordinates[0]);
-                            if (appMode === "PH" && results.observations[i].PlantDisciplineCode_M_S) {
+                            if (results.observations[i].PlantDisciplineCode_M_S) {
                                 var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].PlantDisciplineCode_M_S.toString().trim();
                                 var marker = new google.maps.Marker({
                                     position: latLng,
@@ -671,7 +671,34 @@ function loadMapMarkers(appMode) {
                                     map.setCenter(this.position);
                                 });
                             }
-                            if (appMode === "AH" && results.observations[i].AnimalDisciplineCode_M_S) {
+                        }
+                    }
+                    var mcOptions = { gridSize: 50, maxZoom: 9, imagePath: 'mapfiles/markers2/m' };
+                    markerCluster = new MarkerClusterer(map, markers, mcOptions);
+                    google.maps.event.addListener(markerCluster, 'clusterclick', function (cluster) {
+                        map.setCenter(cluster.getCenter());
+                    });
+                }
+                //if ($("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
+            }
+        });
+    }, function (err) {
+        $.growl.error({ title: "", message: "An error occured while retrieving observations. " + err.message, location: "tc", size: "large" });
+    });
+}
+function loadMapMarkersAH() {
+    db.readTransaction(function (tx) {
+        tx.executeSql("SELECT * FROM observations WHERE id = ?", [1], function (tx, res) {
+            if (res.rows && res.rows.length > 0) {
+                results = JSON.parse(res.rows.item(0).data);
+                if (results.observations && results.observations.length > 0) {
+                    for (var i = 0; i < results.observations.length; i++) {
+                        if (results.observations[i].ObservationWhereWktClob_M_S_0_1 && results.observations[i].ObservationWhereWktClob_M_S_0_1 !== '') {
+                            var wkt = new Wkt.Wkt();
+                            wkt.read(results.observations[i].ObservationWhereWktClob_M_S_0_1);
+                            wkt.toObject();
+                            var latLng = new google.maps.LatLng(wkt.toJson().coordinates[1], wkt.toJson().coordinates[0]);
+                            if (results.observations[i].AnimalDisciplineCode_M_S) {
                                 var ti = results.observations[i].id_M_N.toString().trim() + "/" + results.observations[i].AnimalDisciplineCode_M_S.toString().trim();
                                 var marker = new google.maps.Marker({
                                     position: latLng,
@@ -973,13 +1000,13 @@ function loadData() {
                     },
                     { "data": "commonName_M_S" },
                     {
-                        "data": "dateTime_M_D",
+                        "data": "dateTime_M_D_0_1",
                         "render": function (data, type, row, meta) {
                             return moment(data).format("YYYY-MM-DD HH:MM:SS");
                         }
                     },
-                    { "data": "ObservationWhereWktClob_M_S" },
-                    { "data": "ObservWhereGpsDatumId_M_S" },
+                    { "data": "ObservationWhereWktClob_M_S_0_1" },
+                    { "data": "ObservWhereGpsDatumId_M_S_0_1" },
                     {
                         "data": "status_M_N",
                         "render": function (data, type, row, meta) {
@@ -1521,10 +1548,10 @@ $(document).on('click', '#Delete', function (e) {
                 //loadData();
                 clearMarkers();
                 if (AppMode === "PH") {
-                    loadMapMarkers("PH");
+                    loadMapMarkers;
                 }
                 if (AppMode === "AH") {
-                    loadMapMarkers("AH");
+                    loadMapMarkersAH();
                 }  
                 if (infoWindow) {
                     infoWindow.close();
@@ -1662,10 +1689,10 @@ $(document).on('hidden.bs.modal', '#modalForm', function () {
     //loadData();
     clearMarkers();
     if (AppMode === "PH") {
-        loadMapMarkers("PH");
+        loadMapMarkers;
     }
     if (AppMode === "AH") {
-        loadMapMarkers("AH");
+        loadMapMarkersAH();
     }  
 });
 $(document).on('click', 'a.btnResetData', function (e) {
@@ -1707,11 +1734,11 @@ $(document).on('click', 'a.btnResetData', function (e) {
                         clearMarkers();
                         results = JSON.parse(data);
                         if (AppMode === "PH") {
-                            loadMapMarkers("PH");
+                            loadMapMarkers;
                         }
                         if (AppMode === "AH") {
-                            loadMapMarkers("AH");
-                        }
+                            loadMapMarkersAH();
+                        }  
                         db.transaction(function (tx) {
                             tx.executeSql("UPDATE observations SET data = ?,filedt = ? WHERE id = ?", [JSON.stringify(results), today, 1], function (tx, res) {
                                 //alert("Dataset updated.");
@@ -2279,7 +2306,7 @@ function loadstaffData() {
         option1 = option1 + val.displayName + "</option>";
         staffData = staffData + option1;
     });
-    $("#form1").find('select[name="ObservationStaffId_M_N"]').find('option').remove().end().append($(staffData));
+    $("#form1").find('select[name^="ObservationStaffId_M_N"]').find('option').remove().end().append($(staffData));
 }
 function loadSitePolygons() {
     allLats = [];
