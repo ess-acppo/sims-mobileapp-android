@@ -109,7 +109,7 @@ html, body {
     z-index: 205;
 }
 
-#modalAHGrid .modal-dialog, #modalPHGrid .modal-dialog, #modalPHMenu .modal-dialog, #modalSettings .modal-dialog {
+#modalAHGrid .modal-dialog, #modalPHGrid .modal-dialog, #modalPHMenu .modal-dialog, #modalAHMenu .modal-dialog, #modalSettings .modal-dialog {
     margin: 1% auto;
     z-index: 102;
 }
