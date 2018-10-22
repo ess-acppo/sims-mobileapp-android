@@ -109,7 +109,7 @@ html, body {
     z-index: 205;
 }
 
-#modalAHGrid .modal-dialog, #modalPHGrid .modal-dialog, #modalPHMenu .modal-dialog, #modalSettings .modal-dialog {
+#modalAHGrid .modal-dialog, #modalPHGrid .modal-dialog, #modalPHMenu .modal-dialog, #modalAHMenu .modal-dialog, #modalSettings .modal-dialog {
     margin: 1% auto;
     z-index: 102;
 }
@@ -1284,7 +1284,7 @@ text-right {
 
         .nav-tabs > li > a > .badge {
             font-size: 1.5rem;
-            color: #31708f;
+            color: #fff;
         }
 
     .esfatitle {
