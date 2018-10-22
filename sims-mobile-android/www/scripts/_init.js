@@ -2784,7 +2784,7 @@ function exportObservationsToCSV() {
     });
 }
 $(document).on('click', '.btnDownloadLogs', function (event) {
-    var fileName = cordova.file.directoryName + 'log.txt';
+    var fileName = cordova.file.dataDirectory + 'Logs/log.txt';
     var directoryName = cordova.file.externalRootDirectory;
 
     window.resolveLocalFileSystemURL(fileName, function (fileEntry) {
