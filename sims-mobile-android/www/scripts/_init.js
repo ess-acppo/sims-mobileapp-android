@@ -2263,7 +2263,7 @@ function exportObservationsToCSV() {
     });
 }
 $(document).on('click', '.btnDownloadLogs', function (event) {
-    var fileName = cordova.file.directoryName + 'log.txt';
+    var fileName = cordova.file.dataDirectory + 'Logs/log.txt';
     var directoryName = cordova.file.externalRootDirectory;
 
     window.resolveLocalFileSystemURL(fileName, function (fileEntry) {
@@ -2433,19 +2433,8 @@ function restoreDatabase() {
 function logRecord(record) {
     window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fs) {
         //console.log('file system open: ' + fs);
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        today = yyyy.toString() + mm.toString() + dd.toString();
         fs.getDirectory("Logs", { create: true, exclusive: false }, function (dirEntry) {
-            dirEntry.getFile("log" + today + ".txt", { create: true, exclusive: false }, function (fileEntry) {
+            dirEntry.getFile("log.txt", { create: true, exclusive: false }, function (fileEntry) {
                 //console.log("fileEntry is file?" + fileEntry.isFile.toString());
                 fileEntry.createWriter(function (fileWriter) {
                     fileWriter.onwriteend = function () {
