@@ -1545,7 +1545,7 @@ function objectifyAHFormforSave(formArray) {
 function packageAHFormforSubmit(data) {
     var modData = JSON.parse(JSON.stringify(data));
     var feralAnimalObservations = { "activityId": "", "submittedBy": "", "feralAnimalObservation": [] };
-    var animalGroupObservations = { "animalGroupObservationChoice": [] };
+    var animalGroupObservations = { "animalGroupObservation": [] };
     var observation = { "samples": { "sample": [] }, "attachments": { "attachment": [] }};
     var locationDatum = { "srsName": "", "wkt": "" };
     var animalCondition = {
@@ -1590,8 +1590,8 @@ function packageAHFormforSubmit(data) {
             if (fname === 'AnimalDisciplineCode') { discipline = value; return true; }
             if (fname === 'activityId' && discipline === "SF") { feralAnimalObservations.activityId = value; return true; }
             if (fname === 'activityId' && discipline === "G") { observation['activityId'] = value; return true; }
-            if (fname === 'submittedBy' && discipline === "SF") { feralAnimalObservations.submittedBy = value; return true; }
-            if (fname === 'submittedBy' && discipline === "G") { observation['submittedBy'] = value; return true; }
+            if (fname === 'submittedBy' && discipline === "SF") { feralAnimalObservations.submittedBy = { "id": value }; return true; }
+            if (fname === 'submittedBy' && discipline === "G") { observation['submittedBy'] = { "id": value }; return true; }
 
             if (fname === 'Latitude') { return true; }
             if (fname === 'Longitude') { return true; }
@@ -1602,12 +1602,12 @@ function packageAHFormforSubmit(data) {
             if (fname === 'gender') { observation['gender'] = value; return true; }
             if (fname === 'ageClass') { observation['ageClass'] = value; return true; }
             if (fname === 'dateTime') { observation['dateTime'] = value; return true; }
-            if (fname === 'ObservationStaffId') { observation['observer'] = value; return true; }
+            if (fname === 'ObservationStaffId') { observation['observer'] = { "id": value }; return true; }
 
             /* group animal stuff */
             if (fname === 'managementType') { observation['managementType'] = value; return true; }
             if (fname === 'totalNumber') { observation['totalNumber'] = value; return true; }
-            if (fname === 'obsProximity') { observation['proximity'] = value; return true; }
+            if (fname === 'obsProximity') { observation['obsProximity'] = value; return true; }
             if (fname === 'optSyndromes') { return true; }
 
             if (fname === 'adultNumber') {
@@ -1732,7 +1732,7 @@ function packageAHFormforSubmit(data) {
                 }
                 return true;
             }
-            if (fname === 'additionalObservations') {               
+            if (fname === 'additionalObservations') {
                 if (discipline === 'SF') {
                     animalCondition.additionalObservations = value;
                     observation['animalCondition'] = animalCondition;
@@ -1741,14 +1741,14 @@ function packageAHFormforSubmit(data) {
                     observation['additionalObservations'] = value;
                     syndromeCountChoice.syndromeCount = syndromeCnt;
                     observation['syndromeCountChoice'] = syndromeCountChoice;
-                }               
+                }
                 return true;
             }
             if (fname === 'postMortemConducted') {
                 postMortem.postMortemConducted = value;
                 return true;
             }
-            if (fname.startsWith('BodySystemCode')) {             
+            if (fname.startsWith('BodySystemCode')) {
                 postMortemBodySystem = [{ "bodySystemCde": "", "abnormalDetection": "", "grossFindings": "" }];
                 postMortemBodySystem[0]['bodySystemCde'] = value;
                 return true;
@@ -1849,7 +1849,7 @@ function packageAHFormforSubmit(data) {
             /* Maggot sample */
 
             /* preselected sample */
-            if (fname === 'PSampleFieldLabelText' && value > 0) { pSampleFlag = 1; } 
+            if (fname === 'PSampleFieldLabelText' && value > 0) { pSampleFlag = 1; }
             if (fname === 'PSampleType' && pSampleFlag === 0) { return true; }
             if (fname === 'PTestFor' && pSampleFlag === 0) { return true; }
             if (fname === 'PAdditionalComments' && pSampleFlag === 0) { return true; }
@@ -1914,11 +1914,14 @@ function packageAHFormforSubmit(data) {
             //observation[index] = value;
         }
     });
-    feralAnimalObservations.feralAnimalObservation.push(observation);
-    if (discipline === "SF") { return feralAnimalObservations; }
+    if (discipline === "SF") {
+        feralAnimalObservations.feralAnimalObservation.push(observation);
+        return feralAnimalObservations;
+    }
     if (discipline === "G") {
         delete observation.samples;
         if (observation.attachments && observation.attachments.attachment.length === 0) { delete observation.attachments; }
+        animalGroupObservations.animalGroupObservation.push(observation);
         return observation;
     }
     //return feralAnimalObservations;
@@ -2165,10 +2168,12 @@ function StartSyncAH() {
             var payload;
             if (result.vError === 0) {
                 if (value.AnimalDisciplineCode_M_S === "SF") {
-                    vpayload = JSON.stringify(SubmitRecordAH(objectifyAHFormforSubmit(packageAHFormforSubmit(value)),"SF"));
+                    vpayload = JSON.stringify(SubmitRecordAH(objectifyAHFormforSubmit(packageAHFormforSubmit(value)), "SF"));
+                    submitAHObsAddress = submitAHFAObsAddress;
                 }
                 if (value.AnimalDisciplineCode_M_S === "G") {
                     vpayload = JSON.stringify(SubmitRecordAH(objectifyAHFormforSubmit(packageAHFormforSubmit(value)), "G"));
+                    submitAHObsAddress = submitAHGObsAddress;
                 }
                 console.log(vpayload);
                 if (debugMode === 1) {
