@@ -306,56 +306,57 @@ $(document).on('change', 'select[id="commonName"]', function () {
             });
             //Load default samples to the dropdownlist
             $('.sample').remove(); //Clear all Samples
-            $.each(def[0].collectSamples, function (key, val) { //For each default Sample
-                samples = samples + 1;
-                var that2 = $(preAnimalSample);
-                that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
-                that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
-                that2.find("select[name='PSampleType_M_S'] :not(option[value='" + val.sampleTypeCode + "'])").remove();
-                that2.find('.badge').text(samples);
-                that2.find("input[name='PSampleFieldLabelText_M_S']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
-                that2.find('input').each(function () {
-                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+            if (def && def.length > 0) {
+                $.each(def[0].collectSamples, function (key, val) { //For each default Sample
+                    samples = samples + 1;
+                    var that2 = $(preAnimalSample);
+                    that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
+                    that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
+                    that2.find("select[name='PSampleType_M_S'] :not(option[value='" + val.sampleTypeCode + "'])").remove();
+                    that2.find('.badge').text(samples);
+                    that2.find("input[name='PSampleFieldLabelText_M_S']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
+                    that2.find('input').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                    });
+                    that2.find('img').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                    });
+                    that2.find('select').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                    });
+                    that2.find('textarea').each(function () {
+                        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                    });
+                    //Load default pathogens in the sample dropdownlist
+                    var divTestTypes = that2.find(".testTypes");
+                    var count = 0;
+                    var arr1 = jQuery.grep(possibleSamples, function (n, i) {
+                        return (n.sampleTypeCode === val.sampleTypeCode);
+                    });
+                    $.each(arr1[0].testFors, function (key2, val2) {
+                        count++;
+                        var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Preselected Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '" value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+                        divTestTypes.append($(option));
+                    });
+                    //Check the default pathogens
+                    $.each(val.testFors, function (key3, val3) {
+                        divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').iCheck('check');
+                        divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').val("Y");
+                    });
+                    divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
+                    that2.addClass('preSelectedSample');
+                    //that2.addClass('hide');
+                    that2.find("input[type='checkbox']").iCheck({
+                        checkboxClass: 'icheckbox_square-blue',
+                        radioClass: 'iradio_square-blue'
+                    });
+                    that2.find("input[type='radio']").iCheck({
+                        checkboxClass: 'icheckbox_square-blue',
+                        radioClass: 'iradio_square-blue'
+                    });
+                    //$('#addPreSelectedSample').removeClass('hide');
+                    $('#samples').append(that2);
                 });
-                that2.find('img').each(function () {
-                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-                });
-                that2.find('select').each(function () {
-                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-                });
-                that2.find('textarea').each(function () {
-                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-                });
-                //Load default pathogens in the sample dropdownlist
-                var divTestTypes = that2.find(".testTypes");
-                var count = 0;
-                var arr1 = jQuery.grep(possibleSamples, function (n, i) {
-                    return (n.sampleTypeCode === val.sampleTypeCode);
-                });
-                $.each(arr1[0].testFors, function (key2, val2) {
-                    count++;
-                    var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Preselected Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '" value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
-                    divTestTypes.append($(option));
-                });
-                //Check the default pathogens
-                $.each(val.testFors, function (key3, val3) {
-                    divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').iCheck('check');
-                    divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').val("Y");
-                });
-                divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
-                that2.addClass('preSelectedSample');
-                //that2.addClass('hide');
-                that2.find("input[type='checkbox']").iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue'
-                });
-                that2.find("input[type='radio']").iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue'
-                });
-                //$('#addPreSelectedSample').removeClass('hide');
-                $('#samples').append(that2);
-            });
             //$('.fieldtest').remove(); //Clear all Field Tests
             //Load default fieldtests
             //$.each(def[0].fieldTests, function (key, val) { //For each default Field Test
@@ -398,6 +399,7 @@ $(document).on('change', 'select[id="commonName"]', function () {
             //    $('#addPreSelectedFieldTest').removeClass('hide');
             //    $('#fieldtests').append(that3);               
             //});
+            }
         }
     }).done(function () {
         $('#modalProgress').modal('hide');
@@ -611,56 +613,57 @@ function loadCommonNameData(d, e) {
         //Load default samples to the dropdownlist
         //console.time('Samples');
         $('.sample').remove(); //Clear all Samples
-        $.each(def[0].collectSamples, function (key, val) { //For each default Sample
-            samples = samples + 1;
-            var that2 = $(preAnimalSample);
-            that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
-            that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
-            that2.find("select[name='PSampleType_M_S'] :not(option[value='" + val.sampleTypeCode + "'])").remove();
-            that2.find('.badge').text(samples);
-            that2.find("input[name='PSampleFieldLabelText_M_S']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
-            that2.find('input').each(function () {
-                $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+        if (def && def.length > 0) {
+            $.each(def[0].collectSamples, function (key, val) { //For each default Sample
+                samples = samples + 1;
+                var that2 = $(preAnimalSample);
+                that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
+                that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
+                that2.find("select[name='PSampleType_M_S'] :not(option[value='" + val.sampleTypeCode + "'])").remove();
+                that2.find('.badge').text(samples);
+                that2.find("input[name='PSampleFieldLabelText_M_S']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
+                that2.find('input').each(function () {
+                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                });
+                that2.find('img').each(function () {
+                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                });
+                that2.find('select').each(function () {
+                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                });
+                that2.find('textarea').each(function () {
+                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+                });
+                //Load default pathogens in the sample dropdownlist
+                var divTestTypes = that2.find(".testTypes");
+                var count = 0;
+                var arr1 = jQuery.grep(possibleSamples, function (n, i) {
+                    return (n.sampleTypeCode === val.sampleTypeCode);
+                });
+                $.each(arr1[0].testFors, function (key2, val2) {
+                    count++;
+                    var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+                    divTestTypes.append($(option));
+                });
+                //Check the default pathogens
+                $.each(val.testFors, function (key3, val3) {
+                    divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').iCheck('check');
+                    divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').val("Y");
+                });
+                divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
+                that2.addClass('preSelectedSample');
+                //that2.addClass('hide');
+                that2.find("input[type='checkbox']").iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue'
+                });
+                that2.find("input[type='radio']").iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue'
+                });
+                //$('#addPreSelectedSample').removeClass('hide');
+                $('#samples').append(that2);
             });
-            that2.find('img').each(function () {
-                $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-            });
-            that2.find('select').each(function () {
-                $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-            });
-            that2.find('textarea').each(function () {
-                $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-            });
-            //Load default pathogens in the sample dropdownlist
-            var divTestTypes = that2.find(".testTypes");
-            var count = 0;
-            var arr1 = jQuery.grep(possibleSamples, function (n, i) {
-                return (n.sampleTypeCode === val.sampleTypeCode);
-            });
-            $.each(arr1[0].testFors, function (key2, val2) {
-                count++;
-                var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
-                divTestTypes.append($(option));
-            });
-            //Check the default pathogens
-            $.each(val.testFors, function (key3, val3) {
-                divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').iCheck('check');
-                divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').val("Y");
-            });
-            divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
-            that2.addClass('preSelectedSample');
-            //that2.addClass('hide');
-            that2.find("input[type='checkbox']").iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
-            });
-            that2.find("input[type='radio']").iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
-            });
-            //$('#addPreSelectedSample').removeClass('hide');
-            $('#samples').append(that2);
-        });
         //$('.fieldtest').remove(); //Clear all Field Tests
         //Load default fieldtests
         //$.each(def[0].fieldTests, function (key, val) { //For each default Field Test
@@ -702,7 +705,8 @@ function loadCommonNameData(d, e) {
         //    that3.addClass('hide');
         //    $('#addPreSelectedFieldTest').removeClass('hide');
         //    $('#fieldtests').append(that3);
-        //});        
+        //});      
+        }  
     }
 }
 $(document).on('ifChecked', '.defSyndromeX input[type="radio"].minimal', function (event) {
@@ -1582,8 +1586,8 @@ function packageAHFormforSubmit(data) {
             if (fname === 'AnimalDisciplineCode') { discipline = value; return true; }
             if (fname === 'activityId' && discipline === "SF") { feralAnimalObservations.activityId = value; return true; }
             if (fname === 'activityId' && discipline === "G") { observation['activityId'] = value; return true; }
-            if (fname === 'submittedBy' && discipline === "SF") { feralAnimalObservations.submittedBy = { "id": value }; return true; }
-            if (fname === 'submittedBy' && discipline === "G") { observation['submittedBy'] = { "id": value }; return true; }
+            if (fname === 'submittedBy' && discipline === "SF") { feralAnimalObservations.submittedBy = { "id": '"' + value + '"' }; return true; }
+            if (fname === 'submittedBy' && discipline === "G") { observation['submittedBy'] = { "id": '"' + value + '"' }; return true; }
 
             if (fname === 'Latitude') { return true; }
             if (fname === 'Longitude') { return true; }
@@ -1594,7 +1598,7 @@ function packageAHFormforSubmit(data) {
             if (fname === 'gender') { observation['gender'] = value; return true; }
             if (fname === 'ageClass') { observation['ageClass'] = value; return true; }
             if (fname === 'dateTime') { observation['dateTime'] = value; return true; }
-            if (fname === 'ObservationStaffId') { observation['observer'] = { "id": value }; return true; }
+            if (fname === 'ObservationStaffId') { observation['observer'] = { "id": '"' + value + '"' }; return true; }
 
             /* group animal stuff */
             if (fname === 'managementType') { observation['managementType'] = value; return true; }
@@ -1741,52 +1745,52 @@ function packageAHFormforSubmit(data) {
                 return true;
             }
             if (fname.startsWith('BodySystemCode')) {
-                postMortemBodySystem = [{ "bodySystemCde": "", "abnormalDetection": "", "grossFindings": "" }];
-                postMortemBodySystem[0]['bodySystemCde'] = value;
+                postMortemBodySystem = [{ "postMortemBodySystem": [{ "bodySystemCde": "", "abnormalDetection": "", "grossFindings": "" }] }];
+                postMortemBodySystem[0].postMortemBodySystem[0]['bodySystemCde'] = value;
                 return true;
             }
             if (fname === 'INFlag') {
-                postMortemBodySystem[0]['abnormalDetection'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['abnormalDetection'] = value;
                 return true;
             }
             if (fname === 'INGrossFindings') {
-                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['grossFindings'] = value;
                 postMortem.postMortemBodySystems.push(postMortemBodySystem);
                 return true;
             }
             if (fname === 'HNFlag') {
-                postMortemBodySystem[0]['abnormalDetection'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['abnormalDetection'] = value;
                 return true;
             }
             if (fname === 'HNFindings') {
-                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['grossFindings'] = value;
                 postMortem.postMortemBodySystems.push(postMortemBodySystem);
                 return true;
             }
             if (fname === 'THFlag') {
-                postMortemBodySystem[0]['abnormalDetection'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['abnormalDetection'] = value;
                 return true;
             }
             if (fname === 'THGrossFindings') {
-                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['grossFindings'] = value;
                 postMortem.postMortemBodySystems.push(postMortemBodySystem);
                 return true;
             }
             if (fname === 'ABFlag') {
-                postMortemBodySystem[0]['abnormalDetection'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['abnormalDetection'] = value;
                 return true;
             }
             if (fname === 'ABGrossFindings') {
-                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['grossFindings'] = value;
                 postMortem.postMortemBodySystems.push(postMortemBodySystem);
                 return true;
             }
             if (fname === 'MUFlag') {
-                postMortemBodySystem[0]['abnormalDetection'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['abnormalDetection'] = value;
                 return true;
             }
             if (fname === 'MuscSkeletalGrossFindings') {
-                postMortemBodySystem[0]['grossFindings'] = value;
+                postMortemBodySystem[0].postMortemBodySystem[0]['grossFindings'] = value;
                 postMortem.postMortemBodySystems.push(postMortemBodySystem);
                 observation['postMortem'] = postMortem;
                 return true;
