@@ -1662,7 +1662,7 @@ function packageAHFormforSubmit(data) {
                 observation['genderCountChoice'] = genderCountChoice;
                 return true;
             }
-            if (fname === 'gunkpercent') { return true; }
+            if (fname === 'gunkPercent') { return true; }
 
             if (fname === 'woundsPresentG') { woundCountChoice.woundsPresent = value; return true; }
             if (fname === 'woundsCount') {
@@ -2430,6 +2430,30 @@ $(document).on('blur', 'input.percentCal', function (e) {
     var totalNum = $("#form1").find("input[name='totalNumber_M_N']").val();
     var pc = Math.round(Number(that.val()) / Number(totalNum) * 100);
     that.parent().next('div').find('.targetPcnt').val(pc);
+
+    var diff; var diff1;
+    diff = Number($("input[name='totalNumber_M_N']").val()) - Number($("input[name='maleNumber_M_N_0_2']").val()) - Number($("input[name='femaleNumber_M_N_0_2']").val());
+    diff1 = Number($("input[name='totalNumber_M_N']").val()) - Number($("input[name='adultNumber_M_N_0_2']").val()) - Number($("input[name='juvNumber_M_N_0_2']").val());
+    if (diff < 0 || diff1 < 0) {
+        $.growl.error({ title: "", message: "Invalid value.", location: "tc", size: "large" });
+        e.preventDefault();
+    }
+    else {
+        $("input[name='gunkNumber_M_N_0_2']").val(Number($("input[name='totalNumber_M_N']").val()) - Number($("input[name='maleNumber_M_N_0_2']").val()) - Number($("input[name='femaleNumber_M_N_0_2']").val()));
+        $("input[name='gunkPercent_O_N_0_2']").val(Math.round(Number($("input[name='gunkNumber_M_N_0_2']").val()) / Number(totalNum) * 100));
+        $("input[name='aunkNumber_M_N_0_2']").val(Number($("input[name='totalNumber_M_N']").val()) - Number($("input[name='adultNumber_M_N_0_2']").val()) - Number($("input[name='juvNumber_M_N_0_2']").val()));
+        $("input[name='aunkPercent_O_N_0_2']").val(Math.round(Number($("input[name='aunkNumber_M_N_0_2']").val()) / Number(totalNum) * 100));
+    }
+});
+
+$(document).on('blur', 'input.totalNumber', function (e) {
+    var that = $(this);
+    if (that.val() > 0) {
+        $("input[name='aunkNumber_M_N_0_2']").val(Number(that.val()) - Number($("input[name='adultNumber_M_N_0_2']").val()) - Number($("input[name='juvNumber_M_N_0_2']").val()));
+        $("input[name='aunkPercent_O_N_0_2']").val(Math.round(Number($("input[name='aunkNumber_M_N_0_2']").val()) / Number(that.val()) * 100));
+        $("input[name='gunkNumber_M_N_0_2']").val(Number(that.val()) - Number($("input[name='maleNumber_M_N_0_2']").val()) - Number($("input[name='femaleNumber_M_N_0_2']").val()));
+        $("input[name='gunkPercent_O_N_0_2']").val(Math.round(Number($("input[name='gunkNumber_M_N_0_2']").val()) / Number(that.val()) * 100));
+    }
 });
 
 /* tab scroller */
