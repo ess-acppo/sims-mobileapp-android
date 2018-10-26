@@ -157,6 +157,10 @@ html, body {
     margin-left: 5px;
 }
 
+#mb6 .progText {
+    font-size: 1.8rem;
+}
+
 .modal-body {
     padding-top: 10px;
     /*margin-right: -20px;*/

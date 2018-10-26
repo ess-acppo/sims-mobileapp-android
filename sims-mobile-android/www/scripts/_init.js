@@ -1339,7 +1339,7 @@ $(document).on('click', '#Submit2', function (e) {
             preVal = preValidate();
             if (preVal.vError !== 0) {
                 rowsFailedErr.push(preVal.vErrDescription);
-                $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+                $.growl.error({ title: "Errors", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
                 return false;
             }
             result = Iterate(obj);
@@ -1398,7 +1398,7 @@ $(document).on('click', '#Submit2', function (e) {
             preVal = preValidateAH();
             if (preVal.vError !== 0) {
                 rowsFailedErr.push(preVal.vErrDescription);
-                $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+                $.growl.error({ title: "Errors", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
                 return false;
             }
             result = IterateAH(obj);
@@ -1443,7 +1443,7 @@ $(document).on('click', '#Submit2', function (e) {
             }
             else {
                 rowsFailedErr.push(result.vErrDescription);
-                $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+                $.growl.error({ title: "Errors", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
             }
             break;
     }
