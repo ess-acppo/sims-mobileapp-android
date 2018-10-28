@@ -80,7 +80,7 @@ html, body {
     /*margin-right: 20px;*/
 }
 
-#modalPHMenu .modal-body {
+#modalPHMenu .modal-body, #modalAHMenu .modal-body {
     height: 900px;
     /*padding: 25px;*/
     overflow-x: hidden;

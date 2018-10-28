@@ -1581,23 +1581,23 @@ $(document).on('click', '#Delete', function (e) {
                 db.transaction(function (tx) {
                     tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
                         //alert("Dataset updated.");
+                        $('#modalForm').modal('hide');
+                        //table.destroy();
+                        //loadData();
+                        //clearMarkers();
+                        //if (AppMode === "PH") {
+                        //    loadMapMarkers;
+                        //}
+                        //if (AppMode === "AH") {
+                        //    loadMapMarkersAH();
+                        //}
+                        if (infoWindow) {
+                            infoWindow.close();
+                        }
                     });
                 }, function (err) {
                     $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
                 });
-                $('#modalForm').modal('hide');
-                //table.destroy();
-                //loadData();
-                clearMarkers();
-                if (AppMode === "PH") {
-                    loadMapMarkers;
-                }
-                if (AppMode === "AH") {
-                    loadMapMarkersAH();
-                }  
-                if (infoWindow) {
-                    infoWindow.close();
-                }
             },
             cancel: function () {
                 //close
