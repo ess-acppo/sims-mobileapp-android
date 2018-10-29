@@ -46,9 +46,11 @@ function syncActivityDataAH() {
     $.ajax(settings).done(function (data) {
         ActivityDataAH = data;
         //siteData = data.activities[0].sites;
-        programId = data.activities[0].programId;
-        defaultSpecies = data.activities[0].species;
-        lastSurvActValue = data.activities[0].activityId;
+        if (data.activities && data.activities.length > 0) {
+            programId = data.activities[0].programId;
+            defaultSpecies = data.activities[0].species;
+            lastSurvActValue = data.activities[0].activityId;
+        }
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM activitydataAH", [], function (tx, res) {
                 //alert("Rows deleted.");
@@ -75,7 +77,9 @@ function syncActivityDataAH() {
     });
 }
 function loadActivityDataAH() {
-    defaultSpecies = ActivityDataAH.activities[0].species;
+    if (ActivityDataAH.activities && ActivityDataAH.activities.length > 0) {
+        defaultSpecies = ActivityDataAH.activities[0].species;
+    }
     $("#SurvActivityIdAH").find('option').remove().end().append($('<option value="0">- select -</option>'));
     $.each(ActivityDataAH.activities, function (key, val) {
         if (val.programId === downerTeam) {
@@ -212,6 +216,8 @@ function refreshActivityDataAH(str) {
             option.attr('value', val.speciesCode).text(val.speciesName);
             $("#commonName").append(option);
         });
+
+        $("#form1").find('#taxon').find('option').remove().end().append('<option value="NONE">- select -</option>');
 
         var options = "option[value='NONE']";
         $.each(defaultSpecies, function (key, val) {
@@ -614,106 +620,106 @@ function loadCommonNameData(d, e) {
         });
         //console.timeEnd('Species');
         //fetch defaults
-        var def = jQuery.grep(defaultSpecies, function (n, i) {
-            return (n.speciesCode === str);
-        });
+        //var def = jQuery.grep(defaultSpecies, function (n, i) {
+        //    return (n.speciesCode === str);
+        //});
         //Load default samples to the dropdownlist
         //console.time('Samples');
-        $('.sample').remove(); //Clear all Samples
-        if (def && def.length > 0) {
-            $.each(def[0].collectSamples, function (key, val) { //For each default Sample
-                samples = samples + 1;
-                var that2 = $(preAnimalSample);
-                that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
-                that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
-                that2.find("select[name='PSampleType_M_S'] :not(option[value='" + val.sampleTypeCode + "'])").remove();
-                that2.find('.badge').text(samples);
-                that2.find("input[name='PSampleFieldLabelText_M_S']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
-                that2.find('input').each(function () {
-                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-                });
-                that2.find('img').each(function () {
-                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-                });
-                that2.find('select').each(function () {
-                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-                });
-                that2.find('textarea').each(function () {
-                    $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
-                });
-                //Load default pathogens in the sample dropdownlist
-                var divTestTypes = that2.find(".testTypes");
-                var count = 0;
-                var arr1 = jQuery.grep(possibleSamples, function (n, i) {
-                    return (n.sampleTypeCode === val.sampleTypeCode);
-                });
-                $.each(arr1[0].testFors, function (key2, val2) {
-                    count++;
-                    var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
-                    divTestTypes.append($(option));
-                });
-                //Check the default pathogens
-                $.each(val.testFors, function (key3, val3) {
-                    divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').iCheck('check');
-                    divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').val("Y");
-                });
-                divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
-                that2.addClass('preSelectedSample');
-                //that2.addClass('hide');
-                that2.find("input[type='checkbox']").iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue'
-                });
-                that2.find("input[type='radio']").iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue'
-                });
-                //$('#addPreSelectedSample').removeClass('hide');
-                $('#samples').append(that2);
-            });
-            //$('.fieldtest').remove(); //Clear all Field Tests
-            //Load default fieldtests
-            //$.each(def[0].fieldTests, function (key, val) { //For each default Field Test
-            //    fieldTests = fieldTests + 1;
-            //    var that3 = $(preFieldtest);
-            //    that3.find('select[name="PFieldTests_M_S"]').find('option').remove().end().append($(defFieldTests)).val(val.fieldTestCde);
-            //    //that3.find('select[name="PFieldTests_M_S"]:not([value^="' + val.fieldTestCde + '"])').remove();
-            //    that3.find("input[name='PInvalidFlag_M_S']").val("N");
-            //    that.find('.badge').text(fieldTests);
-            //    that3.find('input').each(function () {
-            //        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
-            //    });
-            //    that3.find('img').each(function () {
-            //        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
-            //    });
-            //    that3.find('select').each(function () {
-            //        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
-            //    });
-            //    that3.find('textarea').each(function () {
-            //        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
-            //    });
-            //    var selectFT = that3.find('.diseases');
-            //    var diseases = 0;
-            //    selectFT.empty();
-            //    $.each(val.diseases, function (key2, val2) {
-            //        diseases = diseases + 1;
-            //        var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val2[0].diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="PFieldTestResult_' + fieldTests + '_FT_' + val2[0].diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="PFieldTestResult_' + fieldTests + '_FT_' + val2[0].diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
-            //        selectFT.append($(disease));
-            //    });
-            //    that3.find("input[type='checkbox']").iCheck({
-            //        checkboxClass: 'icheckbox_square-blue',
-            //        radioClass: 'iradio_square-blue'
-            //    });
-            //    that3.find("input[type='radio']").iCheck({
-            //        checkboxClass: 'icheckbox_square-blue',
-            //        radioClass: 'iradio_square-blue'
-            //    });
-            //    that3.addClass('preSelectedFieldTest');
-            //    that3.addClass('hide');
-            //    $('#addPreSelectedFieldTest').removeClass('hide');
-            //    $('#fieldtests').append(that3);
-            //});    
-        }
+        //$('.sample').remove(); //Clear all Samples
+        //if (def && def.length > 0) {
+        //    $.each(def[0].collectSamples, function (key, val) { //For each default Sample
+        //        samples = samples + 1;
+        //        var that2 = $(preAnimalSample);
+        //        that2.find('select[name="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
+        //        that2.find("select[name='PSampleType_M_S']").val(val.sampleTypeCode);
+        //        that2.find("select[name='PSampleType_M_S'] :not(option[value='" + val.sampleTypeCode + "'])").remove();
+        //        that2.find('.badge').text(samples);
+        //        that2.find("input[name='PSampleFieldLabelText_M_S']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
+        //        that2.find('input').each(function () {
+        //            $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+        //        });
+        //        that2.find('img').each(function () {
+        //            $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+        //        });
+        //        that2.find('select').each(function () {
+        //            $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+        //        });
+        //        that2.find('textarea').each(function () {
+        //            $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+        //        });
+        //        //Load default pathogens in the sample dropdownlist
+        //        var divTestTypes = that2.find(".testTypes");
+        //        var count = 0;
+        //        var arr1 = jQuery.grep(possibleSamples, function (n, i) {
+        //            return (n.sampleTypeCode === val.sampleTypeCode);
+        //        });
+        //        $.each(arr1[0].testFors, function (key2, val2) {
+        //            count++;
+        //            var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+        //            divTestTypes.append($(option));
+        //        });
+        //        //Check the default pathogens
+        //        $.each(val.testFors, function (key3, val3) {
+        //            divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').iCheck('check');
+        //            divTestTypes.find('input[type="checkbox"][name="PTestFor_M_S_' + samples + '_' + val3 + '"].minimal').val("Y");
+        //        });
+        //        divTestTypes.find("input[type='checkbox'].minimal:not([value='Y'])").val("N");
+        //        that2.addClass('preSelectedSample');
+        //        //that2.addClass('hide');
+        //        that2.find("input[type='checkbox']").iCheck({
+        //            checkboxClass: 'icheckbox_square-blue',
+        //            radioClass: 'iradio_square-blue'
+        //        });
+        //        that2.find("input[type='radio']").iCheck({
+        //            checkboxClass: 'icheckbox_square-blue',
+        //            radioClass: 'iradio_square-blue'
+        //        });
+        //        //$('#addPreSelectedSample').removeClass('hide');
+        //        $('#samples').append(that2);
+        //    });
+        //    //$('.fieldtest').remove(); //Clear all Field Tests
+        //    //Load default fieldtests
+        //    //$.each(def[0].fieldTests, function (key, val) { //For each default Field Test
+        //    //    fieldTests = fieldTests + 1;
+        //    //    var that3 = $(preFieldtest);
+        //    //    that3.find('select[name="PFieldTests_M_S"]').find('option').remove().end().append($(defFieldTests)).val(val.fieldTestCde);
+        //    //    //that3.find('select[name="PFieldTests_M_S"]:not([value^="' + val.fieldTestCde + '"])').remove();
+        //    //    that3.find("input[name='PInvalidFlag_M_S']").val("N");
+        //    //    that.find('.badge').text(fieldTests);
+        //    //    that3.find('input').each(function () {
+        //    //        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+        //    //    });
+        //    //    that3.find('img').each(function () {
+        //    //        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+        //    //    });
+        //    //    that3.find('select').each(function () {
+        //    //        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+        //    //    });
+        //    //    that3.find('textarea').each(function () {
+        //    //        $(this).attr('name', $(this).attr('name') + '_' + fieldTests + '_FT');
+        //    //    });
+        //    //    var selectFT = that3.find('.diseases');
+        //    //    var diseases = 0;
+        //    //    selectFT.empty();
+        //    //    $.each(val.diseases, function (key2, val2) {
+        //    //        diseases = diseases + 1;
+        //    //        var disease = '<div class="form-group col-md-12 col-sm-12 col-xs-12"><label>' + val2[0].diseaseName + '</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="PFieldTestResult_' + fieldTests + '_FT_' + val2[0].diseaseCde + '" data-code="Positive" data-validate="Y" value="Positive">&nbsp;<label>Positive</label></div><div class="form-group col-md-5 col-sm-5 col-xs-5"><input type="radio" class="form-control minimal" name="PFieldTestResult_' + fieldTests + '_FT_' + val2[0].diseaseCde + '" data-code="Negative" data-validate="Y" value="Negative">&nbsp;<label>Negative</label></div>';
+        //    //        selectFT.append($(disease));
+        //    //    });
+        //    //    that3.find("input[type='checkbox']").iCheck({
+        //    //        checkboxClass: 'icheckbox_square-blue',
+        //    //        radioClass: 'iradio_square-blue'
+        //    //    });
+        //    //    that3.find("input[type='radio']").iCheck({
+        //    //        checkboxClass: 'icheckbox_square-blue',
+        //    //        radioClass: 'iradio_square-blue'
+        //    //    });
+        //    //    that3.addClass('preSelectedFieldTest');
+        //    //    that3.addClass('hide');
+        //    //    $('#addPreSelectedFieldTest').removeClass('hide');
+        //    //    $('#fieldtests').append(that3);
+        //    //});    
+        //}
     }
 }
 $(document).on('ifChecked', '.defSyndromeX input[type="radio"].minimal', function (event) {
@@ -819,7 +825,7 @@ $(document).on('click', '.removeGSyndrome', function (e) {
     });
 });
 $(document).on('click', '#noSyndromes', function (e) {
-    $('.defSyndromeX').find('input[type=radio][name^="SyndromeFlag_M_S"][value="N"]').iCheck('check');
+    $('.defSyndromeX').find('input[type=radio][name^="SyndromeFlag_M_S"][data-code="N"]').iCheck('check');
     //$('.defSyndromeX').find(':radio').val("N");
 });
 $(document).on('click', "#addAnimal", function (e) {
@@ -937,10 +943,38 @@ $(document).on('click', '#addAnimalSample', function (e) {
     $('#numSamples').text(samples);
 });
 $(document).on('click', '#addPreSelectedSample', function (e) {
+    //samples = samples + 1;
+    //$('#addPreSelectedSample').addClass('hide');
+    //$('.preSelectedSample').removeClass('hide');
+    //$('.preSelectedSample').find("input[name^='PSampleFieldLabelText']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
+    //$('#numSamples').text(samples);
     samples = samples + 1;
-    $('#addPreSelectedSample').addClass('hide');
-    $('.preSelectedSample').removeClass('hide');
-    $('.preSelectedSample').find("input[name^='PSampleFieldLabelText']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
+    //var nextID = getNextID('SAMPLE');
+    var that = $(preAnimalSample);
+    that.find("input[type='checkbox']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+    that.find("input[type='radio']").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+    });
+    that.find('input').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+    });
+    that.find('img').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+    });
+    that.find('select').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+    });
+    that.find('textarea').each(function () {
+        $(this).attr('name', $(this).attr('name') + '_' + samples + '_S');
+    });
+    that.find('.badge').text(samples);
+    that.find('select[name^="PSampleType_M_S"]').find('option').remove().end().append($(sampleTypes));
+    that.find("input[name^='PSampleFieldLabelText']").val($("#form1").find('input[type="text"][name="animalNumber_M_S"]').val());
+    $('#samples').append(that);
     $('#numSamples').text(samples);
 });
 $(document).on('click', '.removeAnimalSample', function (e) {
@@ -961,15 +995,14 @@ $(document).on('click', '.removeAnimalSample', function (e) {
     });
 });
 $(document).on('click', '.removePreSample', function (e) {
+    var x = $(this);
     $.confirm({
         title: 'Remove Sample?',
         content: 'Do you want to remove this sample?',
         buttons: {
             Ok: function () {
                 samples = samples - 1;
-                $('.preSelectedSample').find("input[name^='SampleFieldLabelText']").val("");
-                $('.preSelectedSample').addClass('hide');
-                $('#addPreSelectedSample').removeClass('hide');
+                x.closest('.sample').remove();
                 $('#numSamples').text(samples);
             },
             cancel: function () {
@@ -1037,7 +1070,7 @@ $(document).on('blur', 'input[type=text][name="age"]', function (e) {
 });
 $(document).on('click', '#bsInfo', function () {
     window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + 'www/assets/visguide.pdf', function (fileEntry) {
-        window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function (dirEntry) {
+        window.resolveLocalFileSystemURL(cordova.file.tempDirectory, function (dirEntry) {
             fileEntry.copyTo(dirEntry, 'file.pdf', function (newFileEntry) {
                 cordova.plugins.fileOpener2.open(newFileEntry.nativeURL, 'application/pdf',
                     {
@@ -1152,6 +1185,16 @@ function loadModalAH(pagename) {
                             url: "",
                             beforeSend: function (xhr) {
                                 $('#addAnimalSample').trigger("click");
+                            }
+                        }).complete(function (e) {
+                            $('#form1').find("input[type='text'][name='" + key + "']").val(value);
+                        });
+                    }
+                    if (key.startsWith("PSampleFieldLabelText_M_S") && value > 0) {
+                        $.ajax({
+                            url: "",
+                            beforeSend: function (xhr) {
+                                $('#addPreSelectedSample').trigger("click");
                             }
                         }).complete(function (e) {
                             $('#form1').find("input[type='text'][name='" + key + "']").val(value);
@@ -1283,10 +1326,6 @@ function loadModalAH(pagename) {
                     if (key.startsWith("FieldTestResult") && value !== "") {
                         $('#form1').find("input[type='radio'][name='" + key + "'][value='" + value + "']").iCheck('check');
                     }
-                    if (key.startsWith('PSampleFieldLabelText') && value > 0) {
-                        $('#addPreSelectedSample').addClass('hide');
-                        $('.preSelectedSample').removeClass('hide');
-                    }
                     if (key.startsWith('MSampleFieldLabelText') && value > 0) {
                         $('#addMaggotSample').trigger("click");
                     }
@@ -1306,6 +1345,7 @@ function loadModalAH(pagename) {
                 });
                 $('#form1').find("input[type='number'][name^='id']").val(curIdx);
                 $('#form1').find("input[type='number'][name='status_M_N']").val(curIdx);
+                $('#form1').find("input[type='number'][name^='submittedBy_M_N']").val(resSettings.settings.device.ownerId);
                 $('.nextid').text('');
             }
             else {
@@ -1448,8 +1488,30 @@ $(document).on('focus', "#SurvActivityIdAH", function (e) {
     .on('change', '#SurvActivityIdAH', function (e) {
         var that = $(this);
         var str = that.val();
-        if (that.val() === "NONE") return;
-        refreshActivityDataAH(str);
+        if (that.val() === "0") return;
+        $.confirm({
+            title: 'Confirm Remove!',
+            content: 'Your observations for the currently selected Activity will be erased. Do you want to continue?',
+            buttons: {
+                Ok: function () {
+                    samples = 0;
+                    fieldTests = 0;
+                    numAttachments = 0;
+                    syndromes = 0;
+                    $('#samples').empty();
+                    $('#maggotSamples').empty();
+                    $('#defSyndromes').empty();
+                    $('#addedSyndromes').empty();
+                    $('#numSamples').text("");
+                    $('#numAttachments').text("");
+                    refreshActivityDataAH(str);
+                    $('#form1').find("select[name^='ObservationStaffId']").val(resSettings.settings.device.ownerId);
+                },
+                cancel: function () {
+                    that.val(lastSurvActValue);
+                }
+            }
+        });
     });
 $(document).on('click', '.getAHCoords', function (e) {
     var xlat = $('#form1').find('input.obslat');
@@ -1637,8 +1699,8 @@ function packageAHFormforSubmit(data) {
             if (fname === 'aunkPercent') { return true; }
 
             if (fname === 'maleNumber') {
-                var gcc = { "gender": "", "estimatedCount": 0 };
-                gcc.ageClass = "M";
+                var gcc = { "genderClass": "", "estimatedCount": 0 };
+                gcc.genderClass = "M";
                 gcc.estimatedCount = value;
                 genderCountChoice.push(gcc);
                 return true;
@@ -1646,8 +1708,8 @@ function packageAHFormforSubmit(data) {
             if (fname === 'malePercent') { return true; }
 
             if (fname === 'femaleNumber') {
-                var gcc = { "gender": "", "estimatedCount": 0 };
-                gcc.ageClass = "F";
+                var gcc = { "genderClass": "", "estimatedCount": 0 };
+                gcc.genderClass = "F";
                 gcc.estimatedCount = value;
                 genderCountChoice.push(gcc);
                 return true;
@@ -1655,8 +1717,8 @@ function packageAHFormforSubmit(data) {
             if (fname === 'femalePercent') { return true; }
 
             if (fname === 'gunkNumber') {
-                var gcc = { "gender": "", "estimatedCount": 0 };
-                gcc.ageClass = "U";
+                var gcc = { "genderClass": "", "estimatedCount": 0 };
+                gcc.genderClass = "U";
                 gcc.estimatedCount = value;
                 genderCountChoice.push(gcc);
                 observation['genderCountChoice'] = genderCountChoice;
@@ -1920,7 +1982,7 @@ function packageAHFormforSubmit(data) {
         delete observation.samples;
         if (observation.attachments && observation.attachments.attachment.length === 0) { delete observation.attachments; }
         animalGroupObservations.animalGroupObservation.push(observation);
-        return observation;
+        return animalGroupObservations;
     }
     //return feralAnimalObservations;
 }
@@ -1947,40 +2009,103 @@ function objectifyAHFormforSubmit(data) {//serialize data function
 }
 function preValidateAH() {
     var woundsFlag = 0;
-    var strManFields = $("#form1").find('select[name*="_M_S"],input[name*="_M_S"]');
-    $.each(strManFields, function (index, v) {
+    var postMortemFlag = 0;
+    var selManFields = $("#form1").find('select[name*="_M_N"]');
+    $.each(selManFields, function (index, v) {
         var fname = v.name.split("_")[0];
         var fMOC = v.name.split("_")[1];
         var fNSD = v.name.split("_")[2];
         var fnum = v.name.split("_")[3];
         var ftype = v.name.split("_")[4];
-        if (v.value === "") {
-            if (fname === 'status') return true;
-            vError = 1;
-            vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + v.name + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + v.name + '"]').data("name") + " field cannot be empty.");
-            vFailed = true;
-            return false;
-        }
-        if ($("[name='" + v.name + "']").is(':radio') && $("[name='" + v.name + "']:checked").length === 0) {
+        if (v.value === "" || v.value === "0" || v.value === "NONE") {
             vError = 1;
             vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + v.name + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + v.name + '"]').data("name") + " field cannot be empty.");
             vFailed = true;
             return false;
         }
     });
-    var numManFields = $("#form1").find('input[type="number"][name*="_M_N"]');
+    var selStrManFields = $("#form1").find('select[name*="_M_S"]');
+    $.each(selStrManFields, function (index, v) {
+        var fname = v.name.split("_")[0];
+        var fMOC = v.name.split("_")[1];
+        var fNSD = v.name.split("_")[2];
+        var fnum = v.name.split("_")[3];
+        var ftype = v.name.split("_")[4];
+        if (v.value === "" || v.value === "NONE") {
+            vError = 1;
+            vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + v.name + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + v.name + '"]').data("name") + " field cannot be empty.");
+            vFailed = true;
+            return false;
+        }
+    });
+    var strManFields = $("#form1").find('input[name*="_M_S"]');
+    $.each(strManFields, function (index, v) {
+        var fname = v.name.split("_")[0];
+        var fMOC = v.name.split("_")[1];
+        var fNSD = v.name.split("_")[2];
+        var fnum = v.name.split("_")[3];
+        var ftype = v.name.split("_")[4];
+        if (fname === 'woundsPresent' && $("[name='" + v.name + "']:checked").val() === 'Y') {
+            woundsFlag = 1; return true;
+        }
+        if (fname === 'woundsPresent' && $("[name='" + v.name + "']:checked").val() === 'N' || v.value === '') {
+            woundsFlag = 0; return true;
+        }
+        if (fname === 'woundsPresentG' && $("[name='" + v.name + "']:checked").val() === 'Y') {
+            woundsFlag = 1; return true;
+        }
+        if (fname === 'woundsPresentG' && $("[name='" + v.name + "']:checked").val() === 'N' || v.value === '') {
+            woundsFlag = 0; return true;
+        }
+        if (fname === 'maggotsPresent' && $("[name='" + v.name + "']:checked").val() === 'Y' && woundsFlag === 0) {
+            vError = 1;
+            vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + v.name + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + v.name + '"]').data("name") + " field cannot be Yes.");
+            vFailed = true;
+            return false;
+        }
+        if (fname === 'SyndromeFlag') return true;
+        if (fname === 'postMortemConducted' && $("[name='" + v.name + "']:checked").val() === 'Y') {
+            postMortemFlag = 1;
+            return true;
+        }
+        if (fname === 'ObservationWhereWktClob' && v.value !== '') {
+            var wkt = new Wkt.Wkt();
+            wkt.read(v.value);
+            wkt.toObject();
+            if (wkt.toJson().coordinates[1] < -180 || wkt.toJson().coordinates[1] > 180 || wkt.toJson().coordinates[0] < -180 || wkt.toJson().coordinates[0] > 180) {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnError' data-j='" + v.name + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
+                vFailed = true;
+                return false;
+            }
+        }
+        if (v.value === "") {
+            if (fname === 'maggotsPresent' && woundsFlag === 0) return true;
+            vError = 1;
+            vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + v.name + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + v.name + '"]').data("name") + " field cannot be empty.");
+            vFailed = true;
+            return false;
+        }
+        if ($("[name='" + v.name + "']").is(':radio') && $("[name='" + v.name + "']:checked").length === 0) {
+            if (fname === 'maggotsPresent' && woundsFlag === 0) return true;
+            if (fname === 'INFlag' && postMortemFlag === 0) return true;
+            if (fname === 'HNFlag' && postMortemFlag === 0) return true;
+            if (fname === 'THFlag' && postMortemFlag === 0) return true;
+            if (fname === 'ABFlag' && postMortemFlag === 0) return true;
+            if (fname === 'MUFlag' && postMortemFlag === 0) return true;
+            vError = 1;
+            vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + v.name + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + v.name + '"]').data("name") + " field cannot be empty.");
+            vFailed = true;
+            return false;
+        }
+    });
+    var numManFields = $("#form1").find('input[name*="_M_N"]');
     $.each(numManFields, function (index, v) {
         var fname = v.name.split("_")[0];
         var fMOC = v.name.split("_")[1];
         var fNSD = v.name.split("_")[2];
         var fnum = v.name.split("_")[3];
         var ftype = v.name.split("_")[4];
-        if (fname === 'woundsPresentG' && v.value === 'Y') {
-            woundsFlag = 1; return true;
-        }
-        if (fname === 'woundsPresentG' && v.value === 'N' || v.value === '') {
-            woundsFlag = 0; return true;
-        }
         if (v.value === "" || v.value === 0) {
             if (fname === 'status') return true;
             if (fname === 'aunkNumber') return true;
@@ -1999,8 +2124,14 @@ function preValidateAH() {
             vFailed = true;
             return false;
         }
+        if ($("[name='" + v.name + "']").is(':radio') && $("[name='" + v.name + "']:checked").length === 0) {
+            vError = 1;
+            vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + v.name + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + v.name + '"]').data("name") + " field cannot be empty.");
+            vFailed = true;
+            return false;
+        }
     });
-    var numOptFields = $("#form1").find('input[type="number"][name*="_O_N"]');
+    var numOptFields = $("#form1").find('input[name*="_O_N"]');
     $.each(numOptFields, function (index, v) {
         var fname = v.name.split("_")[0];
         var fMOC = v.name.split("_")[1];
@@ -2033,6 +2164,10 @@ function IterateAH(data) {
     var gUnknown = 0;
     var totNumber = 0;
     var syndromeFlag = 0;
+    var syndromesFlag = 0;
+    var ftypeFlag = 0;
+    var fnumFlag = 0;
+    var postMortemFlag = 0;
     var modData = JSON.parse(JSON.stringify(data));
     //if (modData && modData.status_M_N) { delete modData.status_M_N; }
     $.each(modData, function (index, value) {
@@ -2064,15 +2199,27 @@ function IterateAH(data) {
                 wkt.toObject();
                 if (wkt.toJson().coordinates[1] < -180 || wkt.toJson().coordinates[1] > 180 || wkt.toJson().coordinates[0] < -180 || wkt.toJson().coordinates[0] > 180) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnError' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnError' data-j='Latitude_M_N_0_1' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>Invalid Latitude/Longitude Value in the Observation.");
                     vFailed = true;
                     return false;
                 }
             }
+            if (fname === 'woundsPresent' && value === 'Y') {
+                woundsFlag = 1; return true;
+            }
+            if (fname === 'woundsPresent' && value === 'N') {
+                woundsFlag = 0; return true;
+            }
+            if (fname === 'woundsPresent' && value === '') {
+                woundsFlag = 0; return true;
+            }
             if (fname === 'woundsPresentG' && value === 'Y') {
                 woundsFlag = 1; return true;
             }
-            if (fname === 'woundsPresentG' && value === 'N' || value === '') {
+            if (fname === 'woundsPresentG' && value === 'N') {
+                woundsFlag = 0; return true;
+            }
+            if (fname === 'woundsPresentG' && value === '') {
                 woundsFlag = 0; return true;
             }
             if (fname.startsWith('BodySystemCode')) {
@@ -2092,7 +2239,7 @@ function IterateAH(data) {
             if (fname === bodysystemX && value === 'N') {
                 bodysystemFlag = 0; return true;
             }
-            if (fname === bodysystem + 'GrossFindings' && value === '' && bodysystemFlag === 1) {
+            if (fname === bodysystem + 'GrossFindings' && value === '' && bodysystemFlag === 1 && postMortemFlag === 1) {
                 vError = 1;
                 vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                 vFailed = true;
@@ -2163,7 +2310,7 @@ function IterateAH(data) {
                 }
                 if (adults + juveniles + acUnknown !== totNumber) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='adultNumber_M_N_0_2' data-k='2' data-l='0'>Go</a>Age Class numbers do not match up.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='adultNumber_M_N_0_2' data-k='2' data-l='0'>Go</a>Age Class numbers do not add up.");
                     vFailed = true;
                     return false;
                 }
@@ -2175,7 +2322,7 @@ function IterateAH(data) {
                 }
                 if (females + males + gUnknown !== totNumber) {
                     vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='maleNumber_M_N_0_2' data-k='2' data-l='0'>Go</a>Gender field numbers do not match up.");
+                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='maleNumber_M_N_0_2' data-k='2' data-l='0'>Go</a>Gender field numbers do not add up.");
                     vFailed = true;
                     return false;
                 }
@@ -2186,8 +2333,30 @@ function IterateAH(data) {
                     return false;
                 }
             }
-            if (fname === 'optSyndromes' && value === 'Y') {
+            if (fname === 'optSyndromes' && $("[name='" + index + "']:checked").val() === 'Y') {
                 syndromeFlag = 1; return true;
+            }
+            if (fname === 'SyndromeFlag' && $("[name='" + index + "']:checked").val()  === 'Y') {
+                syndromesFlag = 1;
+                ftypeFlag = ftype;
+                fnumFlag = fnum;
+                return true;
+            }
+            if (fname === 'SyndromeComments' && syndromesFlag === 1 && ftype === ftypeFlag && fnum === fnumFlag && value === '') {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+            if (fname === 'SyndromeComments' && syndromesFlag === 1 && ftype === ftypeFlag && fnum === fnumFlag && value !== '') {
+                syndromesFlag = 0;
+                return true;
+            }
+            if (fname === 'additionalObservations' && syndromeFlag === 1 && value === '') {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
             }
             if (fname === 'status') {
                 if ($('.syndromeY').length === 0 && syndromeFlag === 1) {
@@ -2197,7 +2366,17 @@ function IterateAH(data) {
                     return false;
                 }
             }
+            if (fname === 'postMortemConducted' && $("[name='" + index + "']:checked").val() === 'Y') {
+                postMortemFlag = 1;
+                return true;
+            }
             if (fMOC === 'M' && fNSD === 'S' && (value === '' || value === 'NONE')) {
+                if (fname === 'maggotsPresent' && woundsFlag === 0) return true;
+                if (fname === 'INFlag' && postMortemFlag === 0) return true;
+                if (fname === 'HNFlag' && postMortemFlag === 0) return true;
+                if (fname === 'THFlag' && postMortemFlag === 0) return true;
+                if (fname === 'ABFlag' && postMortemFlag === 0) return true;
+                if (fname === 'MUFlag' && postMortemFlag === 0) return true;
                 vError = 1;
                 vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                 vFailed = true;
@@ -2209,18 +2388,24 @@ function IterateAH(data) {
                 vFailed = true;
                 return false;
             }
+            if (fname === 'woundsCount' && value > totNumber) {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " cannot be greater than total number of animals.");
+                vFailed = true;
+                return false;
+            }
+            if ((fname === 'SyndromesCount' || fname === 'XSyndromesCount' || fname === 'YSyndromesCount') && value > totNumber) {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " cannot be greater than total number of animals.");
+                vFailed = true;
+                return false;
+            }
             if (fMOC === 'M' && fNSD === 'N' && value === 0) {
                 if (fname === 'status') return true;
                 if (fname === 'aunkNumber') return true;
                 if (fname === 'gunkNumber') return true;
                 if (fname === 'woundsCount' && woundsFlag === 0) return true;
                 if (fname === 'woundsPercent' && woundsFlag === 0) return true;
-                if (fname === 'woundsCount' && value > totNumber) {
-                    vError = 1;
-                    vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " cannot be greater than total number of animals.");
-                    vFailed = true;
-                    return false;
-                }
                 vError = 1;
                 vErrDescription.push("<a href='#' class='btn btn-sm btn-default btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                 vFailed = true;
@@ -2252,6 +2437,10 @@ function Iterate2AH(data) {
     var females = 0;
     var gUnknown = 0;
     var totNumber = 0;
+    var syndromeFlag = 0;
+    var syndromesFlag = 0;
+    var ftypeFlag = 0;
+    var fnumFlag = 0;
     var modData = JSON.parse(JSON.stringify(data));
     //if (modData && modData.status_M_N) { delete modData.status_M_N; }
     $.each(modData, function (index, value) {
@@ -2288,6 +2477,12 @@ function Iterate2AH(data) {
                     return false;
                 }
             }
+            if (fname === 'woundsPresent' && value === 'Y') {
+                woundsFlag = 1; return true;
+            }
+            if (fname === 'woundsPresent' && value === 'N' || value === '') {
+                woundsFlag = 0; return true;
+            }
             if (fname === 'woundsPresentG' && value === 'Y') {
                 woundsFlag = 1; return true;
             }
@@ -2311,7 +2506,7 @@ function Iterate2AH(data) {
             if (fname === bodysystemX && value === 'N') {
                 bodysystemFlag = 0; return true;
             }
-            if (fname === bodysystem + 'GrossFindings' && value === '' && bodysystemFlag === 1) {
+            if (fname === bodysystem + 'GrossFindings' && value === '' && bodysystemFlag === 1 && postMortemFlag === 1) {
                 vError = 1;
                 vErrDescription.push($('[name="' + index + '"]') + " field cannot be empty.");
                 vFailed = true;
@@ -2382,7 +2577,7 @@ function Iterate2AH(data) {
                 }
                 if (adults + juveniles + acUnknown !== totNumber) {
                     vError = 1;
-                    vErrDescription.push("Age Class numbers do not match up.");
+                    vErrDescription.push("Age Class numbers do not add up.");
                     vFailed = true;
                     return false;
                 }
@@ -2394,7 +2589,7 @@ function Iterate2AH(data) {
                 }
                 if (females + males + gUnknown !== totNumber) {
                     vError = 1;
-                    vErrDescription.push("Gender field numbers do not match up.");
+                    vErrDescription.push("Gender field numbers do not add up.");
                     vFailed = true;
                     return false;
                 }
@@ -2408,7 +2603,30 @@ function Iterate2AH(data) {
             if (fname === 'optSyndromes' && value === 'Y') {
                 syndromeFlag = 1; return true;
             }
+            if (fname === 'SyndromeFlag' && value === 'Y') {
+                syndromesFlag = 1;
+                ftypeFlag = ftype;
+                fnumFlag = fnum;
+                return true;
+            }
+            if (fname === 'SyndromeComments' && syndromesFlag === 1 && ftype === ftypeFlag && fnum === fnumFlag && value === '') {
+                vError = 1;
+                vErrDescription.push($('[name="' + index + '"]') + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
+            if (fname === 'SyndromeComments' && syndromesFlag === 1 && ftype === ftypeFlag && fnum === fnumFlag && value !== '') {
+                syndromesFlag = 0;
+                return true;
+            }
+            if (fname === 'additionalObservations' && syndromeFlag === 1 && value === '') {
+                vError = 1;
+                vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
+                vFailed = true;
+                return false;
+            }
             if (fMOC === 'M' && fNSD === 'S' && (value === '' || value === 'NONE')) {
+                if (fname === 'maggotsPresent' && woundsFlag === 0) return true;
                 vError = 1;
                 vErrDescription.push($('[name="' + index + '"]') + " field cannot be empty.");
                 vFailed = true;
@@ -2420,18 +2638,24 @@ function Iterate2AH(data) {
                 vFailed = true;
                 return false;
             }
+            if (fname === 'woundsCount' && value > totNumber) {
+                vError = 1;
+                vErrDescription.push($('[name="' + index + '"]') + " cannot be greater than total number of animals.");
+                vFailed = true;
+                return false;
+            }
+            if ((fname === 'SyndromesCount' || fname === 'XSyndromesCount' || fname === 'YSyndromesCount') && value > totNumber) {
+                vError = 1;
+                vErrDescription.push($('[name="' + index + '"]') + " cannot be greater than total number of animals.");
+                vFailed = true;
+                return false;
+            }
             if (fMOC === 'M' && fNSD === 'N' && value === 0) {
                 if (fname === 'status') return true;
                 if (fname === 'aunkNumber') return true;
                 if (fname === 'gunkNumber') return true;
                 if (fname === 'woundsCount' && woundsFlag === 0) return true;
                 if (fname === 'woundsPercent' && woundsFlag === 0) return true;
-                if (fname === 'woundsCount' && value > totNumber) {
-                    vError = 1;
-                    vErrDescription.push($('[name="' + index + '"]') + " cannot be greater than total number of animals.");
-                    vFailed = true;
-                    return false;
-                }
                 vError = 1;
                 vErrDescription.push($('[name="' + index + '"]') + " field cannot be empty.");
                 vFailed = true;
@@ -2699,6 +2923,8 @@ $(document).on('blur', 'input.percentCal', function (e) {
         $("input[name='gunkPercent_O_N_0_2']").val(Math.round(Number($("input[name='gunkNumber_M_N_0_2']").val()) / Number(totalNum) * 100));
         $("input[name='aunkNumber_M_N_0_2']").val(Number($("input[name='totalNumber_M_N']").val()) - Number($("input[name='adultNumber_M_N_0_2']").val()) - Number($("input[name='juvNumber_M_N_0_2']").val()));
         $("input[name='aunkPercent_O_N_0_2']").val(Math.round(Number($("input[name='aunkNumber_M_N_0_2']").val()) / Number(totalNum) * 100));
+        $("input[name='woundsPercent_O_N_0_2']").val(Math.round(Number($("input[name='woundsCount_M_N_0_2']").val()) / Number(totalNum) * 100));
+        $("input[name^='YSyndromesPercent_O_N']").val(Math.round(Number($("input[name^='YSyndromesCount_M_N']").val()) / Number(totalNum) * 100));
     }
 });
 
@@ -2709,6 +2935,8 @@ $(document).on('blur', 'input.totalNumber', function (e) {
         $("input[name='aunkPercent_O_N_0_2']").val(Math.round(Number($("input[name='aunkNumber_M_N_0_2']").val()) / Number(that.val()) * 100));
         $("input[name='gunkNumber_M_N_0_2']").val(Number(that.val()) - Number($("input[name='maleNumber_M_N_0_2']").val()) - Number($("input[name='femaleNumber_M_N_0_2']").val()));
         $("input[name='gunkPercent_O_N_0_2']").val(Math.round(Number($("input[name='gunkNumber_M_N_0_2']").val()) / Number(that.val()) * 100));
+        $("input[name='woundsPercent_O_N_0_2']").val(Math.round(Number($("input[name='woundsCount_M_N_0_2']").val()) / Number(that.val()) * 100));
+        $("input[name^='YSyndromesPercent_O_N']").val(Math.round(Number($("input[name^='YSyndromesCount_M_N']").val()) / Number(totalNum) * 100));
     }
 });
 

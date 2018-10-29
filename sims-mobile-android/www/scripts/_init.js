@@ -1474,7 +1474,7 @@ $(document).on('click', '#settings', function (e) {
                     }
                 });
                 $(".activityMaps").removeClass('hide');
-                $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NPH>NPH</option><option value=BPH>BPH</option><option value=IPH>IPH</option>");
+                $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NONE>- select -</option><option value=NPH>NPH</option><option value=BPH>BPH</option><option value=IPH>IPH</option>");
                 $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
             }
             if (AppMode === "AH") {
@@ -1810,7 +1810,7 @@ $(document).on('click', 'a.btnSync', function (e) {
         content: 'Do you want to sync application data with the Server?<br/>Note: <b>Observations will not be Synced.</b>',
         buttons: {
             Ok: function () {
-                $.when(clearCache()).then(fetchSettings()).then(initSettings()).done(function () {
+                $.when(clearCache(AppMode)).then(fetchSettings()).then(initSettings()).done(function () {
                     $.growl.notice({ title: "", message: "Sync Complete!.", location: "bc", size: "small" });
                 });
                 //syncPHRefCodes();

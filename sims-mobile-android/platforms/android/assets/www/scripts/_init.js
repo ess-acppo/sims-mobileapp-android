@@ -1581,23 +1581,23 @@ $(document).on('click', '#Delete', function (e) {
                 db.transaction(function (tx) {
                     tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
                         //alert("Dataset updated.");
+                        $('#modalForm').modal('hide');
+                        //table.destroy();
+                        //loadData();
+                        //clearMarkers();
+                        //if (AppMode === "PH") {
+                        //    loadMapMarkers;
+                        //}
+                        //if (AppMode === "AH") {
+                        //    loadMapMarkersAH();
+                        //}
+                        if (infoWindow) {
+                            infoWindow.close();
+                        }
                     });
                 }, function (err) {
                     $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
                 });
-                $('#modalForm').modal('hide');
-                //table.destroy();
-                //loadData();
-                clearMarkers();
-                if (AppMode === "PH") {
-                    loadMapMarkers;
-                }
-                if (AppMode === "AH") {
-                    loadMapMarkersAH();
-                }  
-                if (infoWindow) {
-                    infoWindow.close();
-                }
             },
             cancel: function () {
                 //close
@@ -1810,7 +1810,7 @@ $(document).on('click', 'a.btnSync', function (e) {
         content: 'Do you want to sync application data with the Server?<br/>Note: <b>Observations will not be Synced.</b>',
         buttons: {
             Ok: function () {
-                $.when(clearCache()).then(fetchSettings()).then(initSettings()).done(function () {
+                $.when(clearCache(AppMode)).then(fetchSettings()).then(initSettings()).done(function () {
                     $.growl.notice({ title: "", message: "Sync Complete!.", location: "bc", size: "small" });
                 });
                 //syncPHRefCodes();
