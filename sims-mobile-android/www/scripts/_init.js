@@ -1029,8 +1029,8 @@ function loadData() {
                     {
                         "data": null,
                         "render": function (data, type, row) {
-                            if (data["animalNumber_M_S"])
-                            { return data["animalNumber_M_S"] * 1; }
+                            if (data["animalNumber_M_N"])
+                            { return data["animalNumber_M_N"] * 1; }
                             else { return "-"; }
                         }
                     },
