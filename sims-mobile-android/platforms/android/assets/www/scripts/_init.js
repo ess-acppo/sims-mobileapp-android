@@ -1029,8 +1029,8 @@ function loadData() {
                     {
                         "data": null,
                         "render": function (data, type, row) {
-                            if (data["animalNumber_M_S"])
-                            { return data["animalNumber_M_S"] * 1; }
+                            if (data["animalNumber_M_N"])
+                            { return data["animalNumber_M_N"] * 1; }
                             else { return "-"; }
                         }
                     },
@@ -1474,7 +1474,7 @@ $(document).on('click', '#settings', function (e) {
                     }
                 });
                 $(".activityMaps").removeClass('hide');
-                $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NPH>NPH</option><option value=BPH>BPH</option><option value=IPH>IPH</option>");
+                $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NONE>- select -</option><option value=NPH>NPH</option><option value=BPH>BPH</option><option value=IPH>IPH</option>");
                 $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
             }
             if (AppMode === "AH") {

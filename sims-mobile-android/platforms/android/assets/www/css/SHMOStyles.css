@@ -1305,6 +1305,12 @@ text-right {
         margin: 4% auto;
     }
 
+    .growl.growl-large {
+        width: 96%;
+        padding: 5px;
+        margin: 5px;
+    }
+
     .btn-circle.btn-lg {
         font-size: 1.5rem;
         margin-right: 10px;

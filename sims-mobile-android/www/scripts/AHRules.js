@@ -734,7 +734,7 @@ function getNextAnimalID(e) {
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
             //$("#form1").find('input[type="text"].nextid').last().val(e + pad(nextID.toString(), 6));
-            $("#form1").find('input[type="text"].nextid').last().val(nextID.toString());
+            $("#form1").find('input[type="number"].nextid').last().val(nextID);
         });
     }, function (err) {
         $.growl.error({ title: "", message: "An error occured while incrementing ID. " + err.message, location: "tc", size: "large" });
