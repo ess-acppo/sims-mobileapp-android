@@ -494,7 +494,7 @@ function initSettings() {
                 });
             }, function (err) {
                 $.growl.error({ title: "", message: "An error occured while loading AH ReferenceCodes." + err.message, location: "tc", size: "large", fixed: "true" });
-                });
+            });
             db.transaction(function (tx) {
                 tx.executeSql("SELECT * FROM ahrefcodes WHERE id = ?", [2], function (tx, res) {
                     //This is not the first load
@@ -523,7 +523,7 @@ function initSettings() {
                 });
             }, function (err) {
                 $.growl.error({ title: "", message: "An error occured while loading AH Activity Data. " + err.message, location: "tc", size: "large", fixed: "true" });
-                });
+            });
             //Loading Staff Data
             //$.growl.notice({ title: "", message: "Loading PH Staff Data ...", location: "bc", size: "small" });
             db.transaction(function (tx) {
@@ -579,11 +579,17 @@ function initSettings() {
             if (res.rows && res.rows.length > 0) {
                 clearMarkers();
                 if (AppMode === "PH") {
-                    loadMapMarkers;
+                    if (!results) {
+                        results = { "observations": [] };
+                    }
+                    loadMapMarkers();
                 }
                 if (AppMode === "AH") {
+                    //if (!results) {
+                    //    results = { "observations": [] };
+                    //}
                     loadMapMarkersAH();
-                }  
+                }
                 google.maps.event.addListener(map, 'click', function (event) {
                     placeMarker(event.latLng);
                 });
@@ -630,11 +636,11 @@ function initSettings() {
                         });
                         clearMarkers();
                         if (AppMode === "PH") {
-                            loadMapMarkers;
+                            loadMapMarkers();
                         }
                         if (AppMode === "AH") {
                             loadMapMarkersAH();
-                        }  
+                        }
                         google.maps.event.addListener(map, 'click', function (event) {
                             placeMarker(event.latLng);
                         });
@@ -645,7 +651,7 @@ function initSettings() {
                 });
             }
             loadstaffData();
-            if (AppMode === "PH") { loadSitePolygons(); } 
+            if (AppMode === "PH") { loadSitePolygons(); }
             if ($("#modalProgress").data('bs.modal') && $("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
         });
     }, function (err) {
@@ -880,7 +886,7 @@ function placeMarker(location) {
     curLng = newMarker.getPosition().lng();
     curWkt = "POINT (" + curLng.toFixed(5) + " " + curLat.toFixed(5) + ")";
     //curAlt = newMarker.getPosition().altitude();
-    if (AppMode ==="PH" && !checkMapBoundsByLoc(location)) {
+    if (AppMode === "PH" && !checkMapBoundsByLoc(location)) {
         newMarker.setMap(null);
     }
     else {
@@ -1339,7 +1345,7 @@ $(document).on('click', '#Submit2', function (e) {
             preVal = preValidate();
             if (preVal.vError !== 0) {
                 rowsFailedErr.push(preVal.vErrDescription);
-                $.growl.error({ title: "Errors", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
+                $.growl.error({ title: "", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" });
                 return false;
             }
             result = Iterate(obj);
@@ -1475,13 +1481,24 @@ $(document).on('click', '#settings', function (e) {
                 });
                 $(".activityMaps").removeClass('hide');
                 $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NONE>- select -</option><option value=NPH>NPH</option><option value=BPH>BPH</option><option value=IPH>IPH</option>");
-                $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
+                if (resSettings.settings.device.ownerTeam === "NAF") {
+                    $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append("<option value=NONE>- select -</option>");
+                } else {
+                    $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
+                    if (resSettings.settings.device.ownerTeam) { $('#form3').find('select[id="doTeam"]').val(resSettings.settings.device.ownerTeam); }
+                }
             }
             if (AppMode === "AH") {
                 $(".SampleCurrNumber").addClass('hide');
                 $(".activityMaps").addClass('hide');
-                $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NAF>NAF</option>");
-                $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData("NAF"))).val(resSettings.settings.device.ownerId);
+                $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NONE>- select -</option><option value=NAF>NAF</option>");
+                if (resSettings.settings.device.ownerTeam !== "NAF") {
+                    $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append("<option value=NONE>- select -</option>");
+                } else {
+                    $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
+                    if (resSettings.settings.device.ownerTeam) { $('#form3').find('select[id="doTeam"]').val(resSettings.settings.device.ownerTeam); }
+                }
+                //$('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData("NAF"))).val(resSettings.settings.device.ownerId);
             }
         }, 300);
         $('#mb5').find('#appMode').val(AppMode);
@@ -1492,7 +1509,6 @@ $(document).on('click', '#settings', function (e) {
         $('#form3').find('select[id="curActivities"]').val(resSettings.settings.mapSets[0].curActivity);
         $('#form3').find('label.mapNotes').eq(resSettings.settings.mapSets[0].mapsetID).text("Last downloaded on:" + resSettings.settings.mapSets[0].lastDownloadDate);
         $('#form3').find('label.mapBNotes').eq(resSettings.settings.mapSets[0].mapsetID).text("Last downloaded on:" + resSettings.settings.mapSets[0].lastDownloadBDate);
-        if (resSettings.settings.device.ownerTeam) { $('#form3').find('select[id="doTeam"]').val(resSettings.settings.device.ownerTeam); }
         if (resSettings.settings.device.debugMode === 0) {
             $('#form3').find('input[id="debugMode"]').iCheck('uncheck');
             $('#showPayloads').addClass('hide');
@@ -1582,11 +1598,9 @@ $(document).on('click', '#Delete', function (e) {
                     tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
                         //alert("Dataset updated.");
                         $('#modalForm').modal('hide');
-                        //table.destroy();
-                        //loadData();
                         //clearMarkers();
                         //if (AppMode === "PH") {
-                        //    loadMapMarkers;
+                        //    loadMapMarkers();
                         //}
                         //if (AppMode === "AH") {
                         //    loadMapMarkersAH();
@@ -1616,7 +1630,11 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
     var d = table.row(this).data();
     curIdx = d.id_M_N;
     curDiscipline = d.PlantDisciplineCode_M_S;
-    curPos = table.row(this).index();
+    var arr = results.observations.filter(function (el, index) {
+        if (el.id_M_N === curIdx) { curPos = index; }
+        return (el.id_M_N === curIdx);
+    });
+    //curPos = table.row(this).index();
     $.ajax({
         url: "",
         beforeSend: function (xhr) {
@@ -1663,7 +1681,11 @@ $(document).on('click', '#srchAHTable tbody tr', function () {
     var d = table.row(this).data();
     curIdx = d.id_M_N;
     curDiscipline = d.AnimalDisciplineCode_M_S;
-    curPos = table.row(this).index();
+    var arr = results.observations.filter(function (el, index) {
+        if (el.id_M_N === curIdx) { curPos = index; }
+        return (el.id_M_N === curIdx);
+    });
+    //curPos = table.row(this).index();
     $.ajax({
         url: "",
         beforeSend: function (xhr) {
@@ -1731,11 +1753,11 @@ $(document).on('hidden.bs.modal', '#modalForm', function () {
     //loadData();
     clearMarkers();
     if (AppMode === "PH") {
-        loadMapMarkers;
+        loadMapMarkers();
     }
     if (AppMode === "AH") {
         loadMapMarkersAH();
-    }  
+    }
 });
 $(document).on('click', 'a.btnResetData', function (e) {
     $.confirm({
@@ -1783,7 +1805,7 @@ $(document).on('click', 'a.btnResetData', function (e) {
                         });
                         clearMarkers();
                         if (AppMode === "PH") {
-                            loadMapMarkers;
+                            loadMapMarkers();
                         }
                         if (AppMode === "AH") {
                             loadMapMarkersAH();
@@ -1920,7 +1942,7 @@ $(document).on('click', '#showPayloads', function (e) {
                                             content: '<div class="form-group">' + '<textarea class="form-control" rows="10" cols="50" id="PayloadSD">' + JSON.stringify(staffDataNAF) + '</textarea></div>',
                                             columnClass: 'col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-10 col-xs-offset-1',
                                             buttons: {
-                                                Ok: function () {},
+                                                Ok: function () { },
                                                 copy: {
                                                     text: 'Copy', // With spaces and symbols
                                                     action: function () {
@@ -2464,7 +2486,7 @@ function fetchSettings() {
                             });
                         }, function (err) {
                             $.growl.error({ title: "", message: "An error occured while updating settings to DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-                            });
+                        });
                         AppMode = resSettings.settings.app.appMode;
                         settings.innerHTML = AppMode;
                         downerId = resSettings.settings.device.ownerId;
@@ -2673,7 +2695,7 @@ function clearCache(appMode) {
                 });
             }, function (err) {
                 $.growl.error({ title: "", message: "An error occured while deleting ActivityData from DB. " + err.message, location: "tc", size: "large", fixed: "true" });
-                });
+            });
             db.transaction(function (tx) {
                 tx.executeSql("DELETE FROM ahrefcodes", [], function (tx, res) {
                     //alert("Rows deleted.");

@@ -2829,6 +2829,30 @@ $(document).on('click', "[data-action=collapse]", function () {
     x.css("background-color", "#f5f5f5");
 });
 $(document).on('click', '#addBotanySample', function (e) {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    var hh = today.getHours();
+    var mi = today.getMinutes();
+    var ss = today.getSeconds();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    if (hh < 10) {
+        hh = '0' + hh;
+    }
+    if (mi < 10) {
+        mi = '0' + mi;
+    }
+    if (ss < 10) {
+        ss = '0' + ss;
+    }
+    today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString() + 'T' + hh.toString() + ':' + mi.toString() + ':' + ss.toString();
+
     if (bsamples > 0) {
         var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
         var sampleLng = $('div.sample').last().find('input[name^="Longitude"]').val();
@@ -2875,6 +2899,7 @@ $(document).on('click', '#addBotanySample', function (e) {
         $(this).attr('name', $(this).attr('name') + '_' + bsamples + '_S');
     });
     that.find("input[name^='CollectedSampleCount']").val('1');
+    that.find("input[name^='CollectedDatetime']").val(today);
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
@@ -2901,6 +2926,30 @@ $(document).on('click', '.removeBotSample', function (e) {
     });
 });
 $(document).on('click', '#addEntoSample', function (e) {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    var hh = today.getHours();
+    var mi = today.getMinutes();
+    var ss = today.getSeconds();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    if (hh < 10) {
+        hh = '0' + hh;
+    }
+    if (mi < 10) {
+        mi = '0' + mi;
+    }
+    if (ss < 10) {
+        ss = '0' + ss;
+    }
+    today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString() + 'T' + hh.toString() + ':' + mi.toString() + ':' + ss.toString();
+
     if (esamples > 0) {
         var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
         var sampleLng = $('div.sample').last().find('input[name^="Longitude"]').val();
@@ -2951,6 +3000,7 @@ $(document).on('click', '#addEntoSample', function (e) {
         $(this).attr('name', $(this).attr('name') + '_' + esamples + '_S');
     });
     that.find("input[name^='CollectedSampleCount']").val('1');
+    that.find("input[name^='CollectedDatetime']").val(today);
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
@@ -2978,6 +3028,30 @@ $(document).on('click', '.removeEntoSample', function (e) {
     });
 });
 $(document).on('click', '#addPathSample', function (e) {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    var hh = today.getHours();
+    var mi = today.getMinutes();
+    var ss = today.getSeconds();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    if (hh < 10) {
+        hh = '0' + hh;
+    }
+    if (mi < 10) {
+        mi = '0' + mi;
+    }
+    if (ss < 10) {
+        ss = '0' + ss;
+    }
+    today = yyyy.toString() + '-' + mm.toString() + '-' + dd.toString() + 'T' + hh.toString() + ':' + mi.toString() + ':' + ss.toString();
+
     if (psamples > 0) {
         var sampleLat = $('div.sample').last().find('input[name^="Latitude"]').val();
         var sampleLng = $('div.sample').last().find('input[name^="Longitude"]').val();
@@ -3026,6 +3100,7 @@ $(document).on('click', '#addPathSample', function (e) {
         $(this).attr('name', $(this).attr('name') + '_' + psamples + '_S');
     });
     that.find("input[name^='CollectedSampleCount']").val('1');
+    that.find("input[name^='CollectedDatetime']").val(today);
     that.find("input[type='checkbox'].minimal").iCheck('uncheck').val('N');
     that.find("input[type='radio'].minimal").iCheck('uncheck');
     that.find("input.nextid").val(getNextID(resSettings.settings.device.samplePrefix));
@@ -3910,7 +3985,7 @@ function StartSyncPH() {
         loadData();
         clearMarkers();
         if (AppMode === "PH") {
-            loadMapMarkers;
+            loadMapMarkers();
         }
         if (AppMode === "AH") {
             loadMapMarkersAH();
