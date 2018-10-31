@@ -1177,6 +1177,7 @@ $(document).on('click', '#settings', function (e) {
     }).complete(function (e) {
         setTimeout(function (e) {
             loadActivityData();
+            $('#form3').find('select[id="curActivities"]').val(resSettings.settings.mapSets[0].curActivity);
             $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
         }, 300);
         $('#mb5').find('#appMode').val(AppMode);
@@ -1184,9 +1185,8 @@ $(document).on('click', '#settings', function (e) {
         //    return (el.activeFlag === 1);
         //});
         //$('#form3').find('input[name="optMaps"][data-id="' + resSettings.settings.mapSets[0].mapsetID + '"]').iCheck('check');
-        $('#form3').find('select[id="curActivities"]').val(resSettings.settings.mapSets[0].curActivity);
-        $('#form3').find('label.mapNotes').eq(resSettings.settings.mapSets[0].mapsetID).text("Last downloaded on:" + resSettings.settings.mapSets[0].lastDownloadDate);
-        $('#form3').find('label.mapBNotes').eq(resSettings.settings.mapSets[0].mapsetID).text("Last downloaded on:" + resSettings.settings.mapSets[0].lastDownloadBDate);
+        $('#form3').find('label.mapNotes').text(resSettings.settings.mapSets[0].lastDownloadDate);
+        $('#form3').find('label.mapBNotes').text(resSettings.settings.mapSets[0].lastDownloadBDate);
         if (resSettings.settings.device.ownerTeam) { $('#form3').find('select[id="doTeam"]').val(resSettings.settings.device.ownerTeam); }
         if (resSettings.settings.device.debugMode === 0) {
             $('#form3').find('input[id="debugMode"]').iCheck('uncheck');
@@ -1218,13 +1218,12 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     /* Set AppMode */
     resSettings.settings.app.appMode = v_appMode;
     /* Clear active Flag on Mapsets */
-    $.each(resSettings.settings.mapSets, function (i, v) {
-        resSettings.settings.mapSets[i].activeFlag = 0;
-    });
+    //$.each(resSettings.settings.mapSets, function (i, v) {
+    //    resSettings.settings.mapSets[i].activeFlag = 0;
+    //});
     /* Set active Mapset */
     //ActiveMapset = $("input[name='optMaps']:checked").data('id');
     //if (ActiveMapset) { resSettings.settings.mapSets[ActiveMapset].activeFlag = 1; }
-    resSettings.settings.mapSets[0].curActivity = $('#form3').find('select[id="curActivities"]').val();
     if (Number($('#form3').find('select[id="curActivities"]').val()) > 0)
         $.when(getMapBounds()).then(function () {
             resSettings.settings.mapSets[0].mapBounds.topLat = minX;
@@ -1247,6 +1246,9 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     resSettings.settings.device.samplePrefix = $('#form3').find('input[name="samplePrefix"]').val();
     resSettings.settings.device.sampleStartNumber = $('#form3').find('input[name="sampleStartNum"]').val();
     resSettings.settings.device.currentSampleNumber = $('#form3').find('input[name="sampleCurrNum"]').val();
+    resSettings.settings.mapSets[0].lastDownloadDate = $('#form3').find('label.mapNotes').text();
+    resSettings.settings.mapSets[0].lastDownloadBDate = $('#form3').find('label.mapBNotes').text();
+    resSettings.settings.mapSets[0].curActivity = $('#form3').find('select[id="curActivities"]').val();
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
@@ -2157,10 +2159,10 @@ function getCurrentActivityTiles(str, zoom) {
             var maxLatLng = new google.maps.LatLng(maxX, maxY);
             var wC1 = project(minLatLng);
             var wC2 = project(maxLatLng);
-            var pC1x = Math.floor(wC1.x * scale / TILE_SIZE) - 1;
-            var pC1y = Math.floor(wC1.y * scale / TILE_SIZE) - 1;
-            var pC2x = Math.floor(wC2.x * scale / TILE_SIZE) + 1;
-            var pC2y = Math.floor(wC2.y * scale / TILE_SIZE) + 1;
+            var pC1x = Math.floor(wC1.x * scale / TILE_SIZE);
+            var pC1y = Math.floor(wC1.y * scale / TILE_SIZE);
+            var pC2x = Math.floor(wC2.x * scale / TILE_SIZE);
+            var pC2y = Math.floor(wC2.y * scale / TILE_SIZE);
             tiles = 0;
             fetchAndSaveTile(pC1x, pC1y, zoom, pC2x, pC1y, pC2y);
         }
@@ -2491,11 +2493,11 @@ $(document).on('click', 'a.downloadMaps', function (e) {
     $('#mb8 .progress').removeClass('hide');
     $.when(getCurrentActivityTiles(str, 10)).then(getCurrentActivityTiles(str, 11)).then(getCurrentActivityTiles(str, 12))
         .then(getCurrentActivityTiles(str, 13)).then(getCurrentActivityTiles(str, 14))
-        .then(getCurrentActivityTiles(str, 15)).then(getCurrentActivityTiles(str, 16)).then(function () {
+        .then(getCurrentActivityTiles(str, 15)).then(getCurrentActivityTiles(str, 16)).done(function () {
             resSettings.settings.mapSets[0].lastDownloadDate = new Date().toString();
             db.transaction(function (tx) {
                 tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
-                    $('#form3').find('label.mapNotes').text("Last downloaded on:" + new Date().toString());
+                    $('#form3').find('label.mapNotes').text(new Date().toString());
                 });
             }, function (err) {
                 $.growl({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
@@ -2522,11 +2524,11 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                     dir0Entry.getDirectory(zoom.toString(), { create: true, exclusive: false }, function (dir2Entry) {
                         dir2Entry.getDirectory(i.toString(), { create: true, exclusive: false }, function (dir4Entry) {
                             dir4Entry.getFile(j + ".jpg", { create: true, exclusive: false }, function (fileEntry) {
-                                //console.log("fileEntry is file?" + fileEntry.isFile.toString());
                                 fileEntry.createWriter(function (fileWriter) {
                                     fileWriter.onwriteend = function () {
-                                        //console.log("Successful file write...");
-                                        //readFile(fileEntry);
+                                        if (i > xlimit) {
+                                            $.growl.notice({ title: "", message: 'Download Complete.', location: "tc", size: "large" });
+                                        }
                                         if (i <= xlimit) {
                                             if (j <= ylimit) {
                                                 j++;
@@ -2534,17 +2536,13 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                                             } else {
                                                 i++;
                                                 //if (i > xlimit) {
-                                                //    $('#modalProgress').modal('hide');
-                                                //    $('#mb6 .progText').text("");
+                                                //    //$('#modalDownload').modal('hide');
+                                                //    //$('#mb8 .progText').text("");
                                                 //    return false;
                                                 //}
                                                 j = ystart;
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             }
-                                        } else {
-                                            $('#modalDownload').modal('hide');
-                                            $('#mb8 .progText').text("");
-                                            return false;
                                         }
                                     };
                                     fileWriter.onerror = function (e) {
@@ -2625,21 +2623,18 @@ function processZipAND(zipSource, destination, url, mapset, i, n) {
             $('#mb8 .progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
             i++;
             if (i > n) {
-                //resSettings.settings.mapSets[ActiveMapSet].downloaded = 1;
-                resSettings.settings.mapSets[0].lastDownloadDate = new Date().toString();
+                resSettings.settings.mapSets[0].lastDownloadBDate = new Date().toString();
                 db.transaction(function (tx) {
                     tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
-                        //alert("Row inserted.");
-                        //return e + pad(nextID.toString(), 4);
+                        $('#modalDownload').modal('hide');
+                        $('#form3').find('label.mapBNotes').text(new Date().toString());
+                        //initSettings();
+                        //$('#mb6 .progTime').text("");
+                        $.growl.notice({ title: "", message: "Download complete", location: "bc", size: "small" });
                     });
                 }, function (err) {
                     $.growl.error({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
                 });
-                $('#modalDownload').modal('hide');
-                $('#form3').find('label.mapBNotes').text("Last downloaded on:" + new Date().toString());
-                //initSettings();
-                //$('#mb6 .progTime').text("");
-                $.growl.notice({ title: "", message: "Download complete", location: "bc", size: "small" });
                 return false;
             }
             else {
