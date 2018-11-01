@@ -58,7 +58,9 @@ function authenticate2(x, y, authURL) {
             icon.classList.add('fa-times');
             icon.classList.remove('fa-check');
             text.innerHTML = 'Login Failed!';
-            $.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown, location: "bc" });
+            if (xhr.status === 401) {
+                $.growl.error({ title: "", message: "Invalid credentials : username or password.", location: "bc" });
+            } else { $.growl.error({ title: "", message: xhr.status + ': ' + textStatus + ', ' + errorThrown, location: "bc" }); }
         }
     });
 }

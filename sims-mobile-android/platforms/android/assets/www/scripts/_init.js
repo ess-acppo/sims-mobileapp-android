@@ -1656,7 +1656,7 @@ function syncActivityData() {
         ActivityData = data;
         //siteData = data.activities[0].sites;
         //programId = data.activities[0].programId;
-        lastSurvActValue = data.activities[0].activityId;
+        if (data.activities && data.activities.length > 0) { lastSurvActValue = data.activities[0].activityId; }
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
                 //alert("Rows deleted.");
@@ -1916,7 +1916,7 @@ function loadSitePolygons() {
             var tP = new google.maps.Polygon({
                 map: map,
                 path: tC,
-                strokeColor: "#FF0000",
+                strokeColor: "#6AC1FF",
                 strokeOpacity: 1.0,
                 strokeWeight: 2,
                 fillOpacity: 0.0
@@ -2289,7 +2289,17 @@ $(document).on('click', '.btnDownloadLogs', function (event) {
         window.resolveLocalFileSystemURL(directoryName, function (directoryEntry) {
             directoryEntry.getDirectory("Logs", { create: true, exclusive: false }, function (bkupdirectoryEntry) {
                 fileEntry.copyTo(bkupdirectoryEntry, name, function (cpfileEntry) {
-                    $.growl.notice({ title: "", message: 'File saved to Downloads folder.', location: "bc", size: "small" });
+                    $.growl.notice({ title: "", message: 'File saved to Internal Storage>Logs folder.', location: "bc", size: "small" });
+                    cordova.plugins.fileOpener2.open(cpfileEntry.nativeURL, 'text/plain',
+                        {
+                            error: function (e) {
+                                console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                            },
+                            success: function () {
+                                console.log('file opened successfully');
+                            }
+                        }
+                    ); 
                 }, function (error) {
                     $.growl.error({ title: "", message: 'Copy failed.', location: "bc", size: "small" });
                 });
@@ -2527,7 +2537,9 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                                 fileEntry.createWriter(function (fileWriter) {
                                     fileWriter.onwriteend = function () {
                                         if (i > xlimit) {
-                                            $.growl.notice({ title: "", message: 'Download Complete.', location: "tc", size: "large" });
+                                            $('#modalDownload').modal('hide');
+                                            $('#mb8 .progText').text("");
+                                            return false;
                                         }
                                         if (i <= xlimit) {
                                             if (j <= ylimit) {
@@ -2535,11 +2547,6 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             } else {
                                                 i++;
-                                                //if (i > xlimit) {
-                                                //    //$('#modalDownload').modal('hide');
-                                                //    //$('#mb8 .progText').text("");
-                                                //    return false;
-                                                //}
                                                 j = ystart;
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             }
