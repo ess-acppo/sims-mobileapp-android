@@ -270,6 +270,9 @@ function flatten(object, addToList, prefix) {
                 if (key === "SurvActivityId_M_N") {
                     addToList[prefix + key] = getSurvActivity(object[key]);
                 }
+                if (key === "activityId_M_N") {
+                    addToList[prefix + key] = getSurvActivityAH(object[key]);
+                }
                 else if (key === "SiteId_O_N") {
                     addToList[prefix + key] = getSite(object["SurvActivityId_M_N"], object[key]);
                 }
@@ -585,9 +588,9 @@ function initSettings() {
                     loadMapMarkers();
                 }
                 if (AppMode === "AH") {
-                    //if (!results) {
-                    //    results = { "observations": [] };
-                    //}
+                    if (!results) {
+                        results = { "observations": [] };
+                    }
                     loadMapMarkersAH();
                 }
                 google.maps.event.addListener(map, 'click', function (event) {
@@ -651,7 +654,11 @@ function initSettings() {
                 });
             }
             loadstaffData();
-            if (AppMode === "PH") { loadSitePolygons(); }
+            loadSitePolygons();
+            if (cX && cY) {
+                var yLatLng = new google.maps.LatLng(cX, cY);
+                map.setCenter(yLatLng);
+            }
             if ($("#modalProgress").data('bs.modal') && $("#modalProgress").data('bs.modal').isShown) { $('#modalProgress').modal('hide'); }
         });
     }, function (err) {
@@ -886,7 +893,7 @@ function placeMarker(location) {
     curLng = newMarker.getPosition().lng();
     curWkt = "POINT (" + curLng.toFixed(5) + " " + curLat.toFixed(5) + ")";
     //curAlt = newMarker.getPosition().altitude();
-    if (AppMode === "PH" && !checkMapBoundsByLoc(location)) {
+    if (!checkMapBoundsByLoc(location)) {
         newMarker.setMap(null);
     }
     else {
@@ -1479,7 +1486,7 @@ $(document).on('click', '#settings', function (e) {
                         $("#curActivities").append(option);
                     }
                 });
-                $(".activityMaps").removeClass('hide');
+                $('#form3').find('select[id="curActivities"]').val(resSettings.settings.mapSets[0].curActivity);
                 $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NONE>- select -</option><option value=NPH>NPH</option><option value=BPH>BPH</option><option value=IPH>IPH</option>");
                 if (resSettings.settings.device.ownerTeam === "NAF") {
                     $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append("<option value=NONE>- select -</option>");
@@ -1490,7 +1497,15 @@ $(document).on('click', '#settings', function (e) {
             }
             if (AppMode === "AH") {
                 $(".SampleCurrNumber").addClass('hide');
-                $(".activityMaps").addClass('hide');
+                $("#curActivities").find('option').remove().end().append($('<option value="0">- select -</option>'));
+                $.each(ActivityDataAH.activities, function (key, val) {
+                    if (val.programId === downerTeam) {
+                        var option = $('<option />');
+                        option.attr('value', val.activityId).text(val.activityName);
+                        $("#curActivities").append(option);
+                    }
+                });
+                $('#form3').find('select[id="curActivities"]').val(resSettings.settings.mapSets[0].curActivity);
                 $('#form3').find('select[id="doTeam"]').find('option').remove().end().append("<option value=NONE>- select -</option><option value=NAF>NAF</option>");
                 if (resSettings.settings.device.ownerTeam !== "NAF") {
                     $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append("<option value=NONE>- select -</option>");
@@ -1498,17 +1513,11 @@ $(document).on('click', '#settings', function (e) {
                     $('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData(resSettings.settings.device.ownerTeam))).val(resSettings.settings.device.ownerId);
                     if (resSettings.settings.device.ownerTeam) { $('#form3').find('select[id="doTeam"]').val(resSettings.settings.device.ownerTeam); }
                 }
-                //$('#form3').find('select[id="deviceOwner"]').find('option').remove().end().append($(getStaffData("NAF"))).val(resSettings.settings.device.ownerId);
             }
         }, 300);
         $('#mb5').find('#appMode').val(AppMode);
-        //var arr = resSettings.settings.mapSets.filter(function (el) {
-        //    return (el.activeFlag === 1);
-        //});
-        //$('#form3').find('input[name="optMaps"][data-id="' + resSettings.settings.mapSets[0].mapsetID + '"]').iCheck('check');
-        $('#form3').find('select[id="curActivities"]').val(resSettings.settings.mapSets[0].curActivity);
-        $('#form3').find('label.mapNotes').eq(resSettings.settings.mapSets[0].mapsetID).text("Last downloaded on:" + resSettings.settings.mapSets[0].lastDownloadDate);
-        $('#form3').find('label.mapBNotes').eq(resSettings.settings.mapSets[0].mapsetID).text("Last downloaded on:" + resSettings.settings.mapSets[0].lastDownloadBDate);
+        $('#form3').find('label.mapNotes').text(resSettings.settings.mapSets[0].lastDownloadDate);
+        $('#form3').find('label.mapBNotes').text(resSettings.settings.mapSets[0].lastDownloadBDate);
         if (resSettings.settings.device.debugMode === 0) {
             $('#form3').find('input[id="debugMode"]').iCheck('uncheck');
             $('#showPayloads').addClass('hide');
@@ -1570,6 +1579,9 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     resSettings.settings.device.sampleStartNumber = $('#form3').find('input[name="sampleStartNum"]').val();
     resSettings.settings.device.currentSampleNumber = $('#form3').find('input[name="sampleCurrNum"]').val();
     resSettings.settings.device.currentAnimalNumber = $('#form3').find('input[name="AnimalCurrNum"]').val();
+    resSettings.settings.mapSets[0].lastDownloadDate = $('#form3').find('label.mapNotes').text();
+    resSettings.settings.mapSets[0].lastDownloadBDate = $('#form3').find('label.mapBNotes').text();
+    resSettings.settings.mapSets[0].curActivity = $('#form3').find('select[id="curActivities"]').val();
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
@@ -2096,7 +2108,7 @@ function syncActivityData() {
         ActivityData = data;
         //siteData = data.activities[0].sites;
         //programId = data.activities[0].programId;
-        lastSurvActValue = data.activities[0].activityId;
+        if (data.activities && data.activities.length > 0) { lastSurvActValue = data.activities[0].activityId; }
         db.transaction(function (tx) {
             tx.executeSql("DELETE FROM activitydata", [], function (tx, res) {
                 //alert("Rows deleted.");
@@ -2381,9 +2393,12 @@ function loadstaffData() {
     $("#form1").find('select[name^="ObservationStaffId_M_N"]').find('option').remove().end().append($(staffData));
 }
 function loadSitePolygons() {
+    var AData;
+    if (AppMode === 'PH') AData = ActivityData;
+    if (AppMode === 'AH') AData = ActivityDataAH;
     allLats = [];
     allLngs = [];
-    $.each(ActivityData.activities, function (key1, val1) {
+    $.each(AData.activities, function (key1, val1) {
         $.each(val1.sites, function (key, val) {
             if (val.id === 99999) { return true; }
             var wkt = new Wkt.Wkt();
@@ -2401,7 +2416,7 @@ function loadSitePolygons() {
             var tP = new google.maps.Polygon({
                 map: map,
                 path: tC,
-                strokeColor: "#FF0000",
+                strokeColor: "#6AC1FF",
                 strokeOpacity: 1.0,
                 strokeWeight: 2,
                 fillOpacity: 0.0
@@ -2892,7 +2907,17 @@ $(document).on('click', '.btnDownloadLogs', function (event) {
         window.resolveLocalFileSystemURL(directoryName, function (directoryEntry) {
             directoryEntry.getDirectory("Logs", { create: true, exclusive: false }, function (bkupdirectoryEntry) {
                 fileEntry.copyTo(bkupdirectoryEntry, name, function (cpfileEntry) {
-                    $.growl.notice({ title: "", message: 'File saved to Downloads folder.', location: "bc", size: "small" });
+                    $.growl.notice({ title: "", message: 'File saved to Internal Storage>Logs folder.', location: "bc", size: "small" });
+                    cordova.plugins.fileOpener2.open(cpfileEntry.nativeURL, 'text/plain',
+                        {
+                            error: function (e) {
+                                console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                            },
+                            success: function () {
+                                console.log('file opened successfully');
+                            }
+                        }
+                    );
                 }, function (error) {
                     $.growl.error({ title: "", message: 'Copy failed.', location: "bc", size: "small" });
                 });
@@ -3100,7 +3125,7 @@ $(document).on('click', 'a.downloadMaps', function (e) {
             resSettings.settings.mapSets[0].lastDownloadDate = new Date().toString();
             db.transaction(function (tx) {
                 tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
-                    $('#form3').find('label.mapNotes').text("Last downloaded on:" + new Date().toString());
+                    $('#form3').find('label.mapNotes').text(new Date().toString());
                 });
             }, function (err) {
                 $.growl({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
@@ -3127,29 +3152,22 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                     dir0Entry.getDirectory(zoom.toString(), { create: true, exclusive: false }, function (dir2Entry) {
                         dir2Entry.getDirectory(i.toString(), { create: true, exclusive: false }, function (dir4Entry) {
                             dir4Entry.getFile(j + ".jpg", { create: true, exclusive: false }, function (fileEntry) {
-                                //console.log("fileEntry is file?" + fileEntry.isFile.toString());
                                 fileEntry.createWriter(function (fileWriter) {
                                     fileWriter.onwriteend = function () {
-                                        //console.log("Successful file write...");
-                                        //readFile(fileEntry);
+                                        if (i > xlimit) {
+                                            $('#modalDownload').modal('hide');
+                                            $('#mb8 .progText').text("");
+                                            return false;
+                                        }
                                         if (i <= xlimit) {
                                             if (j <= ylimit) {
                                                 j++;
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             } else {
                                                 i++;
-                                                //if (i > xlimit) {
-                                                //    $('#modalProgress').modal('hide');
-                                                //    $('#mb6 .progText').text("");
-                                                //    return false;
-                                                //}
                                                 j = ystart;
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             }
-                                        } else {
-                                            $('#modalDownload').modal('hide');
-                                            $('#mb8 .progText').text("");
-                                            return false;
                                         }
                                     };
                                     fileWriter.onerror = function (e) {
@@ -3241,7 +3259,7 @@ function processZipAND(zipSource, destination, url, mapset, i, n) {
                     $.growl.error({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
                 });
                 $('#modalDownload').modal('hide');
-                $('#form3').find('label.mapBNotes').text("Last downloaded on:" + new Date().toString());
+                $('#form3').find('label.mapBNotes').text(new Date().toString());
                 //initSettings();
                 //$('#mb6 .progTime').text("");
                 $.growl.notice({ title: "", message: "Download complete", location: "bc", size: "small" });
