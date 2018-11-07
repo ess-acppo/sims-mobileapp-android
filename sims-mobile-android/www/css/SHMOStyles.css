@@ -1087,7 +1087,7 @@ div.dataTables_filter {
 
 .dynarow {
     border-radius: 3px;
-    border: 2px solid #eee;
+    border: 1px solid #ebebeb;
     margin: 0.05rem;
     padding-right: 7px;
     padding-left: 7px;
@@ -1419,4 +1419,8 @@ label.mapNotes, label.mapBNotes {
 
 #bsInfo {
     cursor: pointer;
+}
+
+.defSyndromeX, .syndromeX, .syndromeY {
+    background-color: #fff;
 }

@@ -1,7 +1,7 @@
 ﻿var bcs = '<div class="form-group col-md-3 col-sm-3 col-xs-12 ripple"><input type="radio" class="minimal" name="bodyConditionScore_M_N_0_2" value="0" data-code="0" data-validate="Y" data-name="Body Condition Score">&nbsp;<label class="bcstext"></label></div>';
-var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-3 col-sm-3 col-xs-3 hide"><label>Code</label><input type="text" class="form-control" name="SyndromeCode_M_S" readonly value="" data-name="Syndrome Code"></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label>Syndrome Text</label><input type="text" class="form-control" name="SyndromeText_M_S" readonly value="" data-name="Syndrome Text"></div><div class="form-group col-md-3 col-sm-3 col-xs-6 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y" data-name="Syndrome Yes/No Flag">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-6 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N" data-name="Syndrome Yes/No Flag">&nbsp;<label>No</label></div><div class="form-group col-md-12 col-sm-12 col-xs-12 defSyndComments hide"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S" data-name="Syndrome Comments"></div></div>';
-var syndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX"><div class="form-group col-md-2 col-sm-2 col-xs-2 hide"><label>Code</label><input type="text" class="form-control" name="XSyndromeCode_M_S" readonly value="" data-name="Syndrome Code"></div><div class="form-group col-md-10 col-sm-10 col-xs-10"><label>Syndrome Text</label><input type="text" class="form-control" name="XSyndromeText_M_S" readonly value="" data-name="Syndrome Text"></div><div class="form-group col-md-2 col-sm-2 col-xs-2"><a href="#" class="form-control btn btn-md btn-danger text-arrows removeSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="XSyndromeComments_O_S" data-name="Syndrome Comments"></div></div>';
-var gSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeY"><div class="form-group col-md-2 col-sm-2 col-xs-2 hide"><label>Code</label><input type="text" class="form-control" name="YSyndromeCode_M_S" readonly value="" data-name="Syndrome Code"></div><div class="form-group col-md-9 col-sm-9 col-xs-10"><label>Syndrome Text</label><input type="text" class="form-control" name="YSyndromeText_M_S" readonly value="" data-name="Syndrome Text"></div><div class="form-group col-md-3 col-sm-3 col-xs-2"><a href="#" class="form-control btn btn-md btn-danger text-arrows removeGSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-1 col-sm-1 col-xs-3"><label>Number</label><input type="number" class="form-control percentCal" placeholder="0" name="YSyndromesCount_M_N" data-name="Numbers of Animals with Syndromes" data-section="Observation"></div><div class="form-group col-md-1 col-sm-1 col-xs-3"><label>Percent</label><input type="number" class="form-control targetPcnt" placeholder="0" name="YSyndromesPercent_O_N" readonly data-name="Percentage of Animals with Syndromes" data-section="Observation"></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="YSyndromeComments_O_S" data-name="Syndrome Comments"></div></div>';
+var defSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow defSyndromeX"><div class="form-group col-md-3 col-sm-3 col-xs-3 hide"><label>Code</label><input type="text" class="form-control" name="SyndromeCode_M_S" readonly value="" data-name="Syndrome Code"></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label name="SyndromeText_M_S"></label></div><div class="form-group col-md-3 col-sm-3 col-xs-6 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="Y" data-validate="Y" value="Y" data-name="Syndrome Yes/No Flag">&nbsp;<label>Yes</label></div><div class="form-group col-md-3 col-sm-3 col-xs-6 ripple"><input type="radio" class="minimal" name="SyndromeFlag_M_S" data-code="N" data-validate="Y" value="N" data-name="Syndrome Yes/No Flag">&nbsp;<label>No</label></div><div class="form-group col-md-12 col-sm-12 col-xs-12 defSyndComments hide"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="SyndromeComments_O_S" data-name="Syndrome Comments"></div></div>';
+var syndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeX"><div class="form-group col-md-2 col-sm-2 col-xs-2 hide"><label>Code</label><input type="text" class="form-control" name="XSyndromeCode_M_S" readonly value="" data-name="Syndrome Code"></div><div class="form-group col-md-10 col-sm-10 col-xs-10"><label name="XSyndromeText_M_S"></label></div><div class="form-group col-md-2 col-sm-2 col-xs-2"><a href="#" class="form-control btn btn-md btn-danger text-arrows removeSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="XSyndromeComments_O_S" data-name="Syndrome Comments"></div></div>';
+var gSyndrome = '<div class="row col-md-12 col-sm-12 col-xs-12 dynarow syndromeY"><div class="form-group col-md-2 col-sm-2 col-xs-2 hide"><label>Code</label><input type="text" class="form-control" name="YSyndromeCode_M_S" readonly value="" data-name="Syndrome Code"></div><div class="form-group col-md-9 col-sm-9 col-xs-10"><label name="YSyndromeText_M_S"></label></div><div class="form-group col-md-3 col-sm-3 col-xs-2"><a href="#" class="form-control btn btn-md btn-danger text-arrows removeGSyndrome"><i class="fa fa-remove"></i></a></div><div class="form-group col-md-1 col-sm-1 col-xs-3"><label>Number</label><input type="number" class="form-control percentCal" placeholder="0" name="YSyndromesCount_M_N" data-name="Numbers of Animals with Syndromes" data-section="Observation"></div><div class="form-group col-md-1 col-sm-1 col-xs-3"><label>Percent</label><input type="number" class="form-control targetPcnt" placeholder="0" name="YSyndromesPercent_O_N" readonly data-name="Percentage of Animals with Syndromes" data-section="Observation"></div><div class="form-group col-md-12 col-sm-12 col-xs-12"><label><span class="bold-red">*</span>Comments</label><input type="text" class="form-control" placeholder="Syndrome Comments" name="YSyndromeComments_O_S" data-name="Syndrome Comments"></div></div>';
 var speciesTaxonSyndromSamples;
 var syndromes = 0;
 var syndromesData;
@@ -44,7 +44,7 @@ function syncActivityDataAH() {
         }
     };
     $.ajax(settings).done(function (data) {
-        ActivityDataAH = data;       
+        ActivityDataAH = data;
         if (data.activities && data.activities.length > 0) {
             siteData = data.activities[0].sites;
             programId = data.activities[0].programId;
@@ -192,7 +192,7 @@ function loadAHRefCodes() {
         });
     });
     syndromesData = AHRefCodes.AnimalHealthReferenceCodes.Syndrome;
-    $("#form1").find('#lstSyndromes').find('option').remove().end();
+    $("#form1").find('#lstSyndromes').find('option').remove().end().append($('<option value="NONE">- select -</option>'));;
     $.each(AHRefCodes.AnimalHealthReferenceCodes.Syndrome, function (key, val) {
         var option = $('<option />');
         option.attr('value', val.code).text(val.desc);
@@ -271,7 +271,7 @@ $(document).on('change', 'select[id="commonName"]', function () {
                 var cidx = arr[0].requiredSyndromes[x];
                 syndromes = syndromes + 1;
                 var that = $(defSyndrome);
-                that.find('input[name^="SyndromeText_M_S"]').val(syndromesData[idx - 1].desc);
+                that.find('label[name^="SyndromeText_M_S"]').text(syndromesData[idx - 1].desc);
                 that.find('input[name^="SyndromeCode_M_S"]').val(syndromesData[idx - 1].code);
                 that.find('input[name^="SyndromeText_M_S"]').attr("name", "SyndromeText_M_S_" + syndromes + "_2");
                 that.find("input[name^='SyndromeCode_M_S']").attr("name", "SyndromeCode_M_S_" + syndromes + "_2");
@@ -334,7 +334,7 @@ $(document).on('change', 'select[id="commonName"]', function () {
                     });
                     $.each(arr1[0].testFors, function (key2, val2) {
                         count++;
-                        var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Preselected Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '" value="' + val2.testForCode + '_' + val2.commentRequired + '">&nbsp;<label>' + val2.testForName + '</label></div>';
+                        var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Preselected Sample - Test Type" name="PTestFor_M_S_' + samples + '_' + val2.testForCode + '_' + val2.commentRequired + '" value="' + val2.testForCode + '">&nbsp;<label>' + val2.testForName + '</label></div>';
                         divTestTypes.append($(option));
                     });
                     //Check the default pathogens
@@ -460,7 +460,7 @@ function loadPathogens(e, f) {
         var count = 0;
         $.each(arr[0].testFors, function (key, val) {
             count++;
-            var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="TestFor_M_S_' + samples + '_' + val.testForCode + '_' + val.commentRequired + '" value="' + val.testForCode + '">&nbsp;<label>' + val.testForName + '</label></div>';
+            var option = '<div class="form-group col-md-6 col-sm-6 col-xs-6"><input type="checkbox" class="minimal" data-name="Sample - Test Type" name="TestFor_M_S_' + samples + '_' + val.testForCode + '_' + val.commentRequired + '" value="' + val.testForCode + '_' + val.commentRequired + '">&nbsp;<label>' + val.testForName + '</label></div>';
             nxtTF.append($(option));
         });
         nxtTF.find("input[type='checkbox']").iCheck({
@@ -718,31 +718,34 @@ function getNextAnimalID(e) {
     });
 }
 $(document).on('click', '#addSyndrome', function (e) {
-    syndromes = syndromes + 1;
-    var that = $(syndrome);
-    that.find('input[name^="XSyndromeText_M_S"]').val($('#lstSyndromes option:selected').text());
-    that.find('input[name^="XSyndromeCode_M_S"]').val($('#lstSyndromes option:selected').val());
-    that.find('input[name^="XSyndromeText_M_S"]').attr("name", "XSyndromeText_M_S_" + syndromes + "_2");
-    that.find("input[name^='XSyndromeCode_M_S']").attr("name", "XSyndromeCode_M_S_" + syndromes + "_2");
-    that.find("input[name^='XSyndromeComments_O_S']").attr("name", "XSyndromeComments_O_S_" + syndromes + "_2");
-    that.find("input[name^='XEndofSyndrome_O_S']").attr("name", "XEndofSyndrome_O_S_" + syndromes + "_2");
-    that.find("input[type='checkbox']").iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue'
-    });
-    that.find("input[type='radio']").iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue'
-    });
-    $('#addedSyndromes').append(that);
-    $('#lstSyndromes option:selected').remove();
+    var str = $('#lstSyndromes option:selected').val();
+    if (str !== 'NONE') {
+        syndromes = syndromes + 1;
+        var that = $(syndrome);
+        that.find('label[name^="XSyndromeText_M_S"]').text($('#lstSyndromes option:selected').text());
+        that.find('input[name^="XSyndromeCode_M_S"]').val($('#lstSyndromes option:selected').val());
+        that.find('label[name^="XSyndromeText_M_S"]').attr("name", "XSyndromeText_M_S_" + syndromes + "_2");
+        that.find("input[name^='XSyndromeCode_M_S']").attr("name", "XSyndromeCode_M_S_" + syndromes + "_2");
+        that.find("input[name^='XSyndromeComments_O_S']").attr("name", "XSyndromeComments_O_S_" + syndromes + "_2");
+        that.find("input[name^='XEndofSyndrome_O_S']").attr("name", "XEndofSyndrome_O_S_" + syndromes + "_2");
+        that.find("input[type='checkbox']").iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue'
+        });
+        that.find("input[type='radio']").iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue'
+        });
+        $('#addedSyndromes').append(that);
+        $('#lstSyndromes option:selected').remove();
+    }
 });
 $(document).on('click', '#addGSyndrome', function (e) {
     syndromes = syndromes + 1;
     var that = $(gSyndrome);
-    that.find('input[name^="YSyndromeText_M_S"]').val($('#lstSyndromes option:selected').text());
+    that.find('label[name^="YSyndromeText_M_S"]').text($('#lstSyndromes option:selected').text());
     that.find('input[name^="YSyndromeCode_M_S"]').val($('#lstSyndromes option:selected').val());
-    that.find('input[name^="YSyndromeText_M_S"]').attr("name", "YSyndromeText_M_S_" + syndromes + "_2");
+    that.find('label[name^="YSyndromeText_M_S"]').attr("name", "YSyndromeText_M_S_" + syndromes + "_2");
     that.find("input[name^='YSyndromeCode_M_S']").attr("name", "YSyndromeCode_M_S_" + syndromes + "_2");
     that.find("input[name^='YSyndromesCount_M_N']").attr("name", "YSyndromesCount_M_N_" + syndromes + "_2");
     that.find("input[name^='YSyndromesPercent_O_N']").attr("name", "YSyndromesPercent_O_N_" + syndromes + "_2");
@@ -768,7 +771,7 @@ $(document).on('click', '.removeSyndrome', function (e) {
             Ok: function () {
                 syndromes = syndromes - 1;
                 var option = $('<option />');
-                option.attr('value', x.closest('.syndromeX').find('input[name^="XSyndromeCode_M_S"]').val()).text(x.closest('.syndromeX').find('input[name^="XSyndromeText_M_S"]').val());
+                option.attr('value', x.closest('.syndromeX').find('input[name^="XSyndromeCode_M_S"]').val()).text(x.closest('.syndromeX').find('label[name^="XSyndromeText_M_S"]').text());
                 $('#lstSyndromes').append(option);
                 x.closest('.syndromeX').remove();
             },
@@ -787,7 +790,7 @@ $(document).on('click', '.removeGSyndrome', function (e) {
             Ok: function () {
                 syndromes = syndromes - 1;
                 var option = $('<option />');
-                option.attr('value', x.closest('.syndromeY').find('input[name^="YSyndromeCode_M_S"]').val()).text(x.closest('.syndromeY').find('input[name^="YSyndromeText_M_S"]').val());
+                option.attr('value', x.closest('.syndromeY').find('input[name^="YSyndromeCode_M_S"]').val()).text(x.closest('.syndromeY').find('label[name^="YSyndromeText_M_S"]').text());
                 $('#lstSyndromes').append(option);
                 x.closest('.syndromeY').remove();
             },
@@ -1689,8 +1692,8 @@ function packageAHFormforSubmit(data) {
             if (fname === 'aunkPercent') { return true; }
 
             if (fname === 'maleNumber') {
-                var gcc = { "genderClass": "", "estimatedCount": 0 };
-                gcc.genderClass = "M";
+                var gcc = { "gender": "", "estimatedCount": 0 };
+                gcc.gender = "M";
                 gcc.estimatedCount = value;
                 genderCountChoice.push(gcc);
                 return true;
@@ -1698,8 +1701,8 @@ function packageAHFormforSubmit(data) {
             if (fname === 'malePercent') { return true; }
 
             if (fname === 'femaleNumber') {
-                var gcc = { "genderClass": "", "estimatedCount": 0 };
-                gcc.genderClass = "F";
+                var gcc = { "gender": "", "estimatedCount": 0 };
+                gcc.gender = "F";
                 gcc.estimatedCount = value;
                 genderCountChoice.push(gcc);
                 return true;
@@ -1707,8 +1710,8 @@ function packageAHFormforSubmit(data) {
             if (fname === 'femalePercent') { return true; }
 
             if (fname === 'gunkNumber') {
-                var gcc = { "genderClass": "", "estimatedCount": 0 };
-                gcc.genderClass = "U";
+                var gcc = { "gender": "", "estimatedCount": 0 };
+                gcc.gender = "U";
                 gcc.estimatedCount = value;
                 genderCountChoice.push(gcc);
                 observation['genderCountChoice'] = genderCountChoice;
@@ -1796,10 +1799,11 @@ function packageAHFormforSubmit(data) {
             }
             if (fname === 'postMortemConducted') {
                 postMortem.postMortemConducted = value;
+                if (value === 'Y') PMFlag = 1;
                 return true;
             }
             if (fname.startsWith('BodySystemCode')) {
-                PMBS = { "postMortemBodySystem": [{ "bodySystemCde": "", "abnormalDetection": "", "grossFindings": "" }] };
+                PMBS = { "postMortemBodySystem": [{ "bodySystemCde": "", "abnormalDetection": "N", "grossFindings": "" }] };
                 PMBS.postMortemBodySystem[0]['bodySystemCde'] = value;
                 return true;
             }
@@ -2370,7 +2374,7 @@ function IterateAH(data) {
                 syndromesFlag = 0;
                 return true;
             }
-            if (fname === 'additionalObservations' && syndromeFlag === 1 && value === '') {
+            if (fname === 'additionalObservations' && (syndromeFlag === 1 || woundsFlag === 1) && value === '') {
                 vError = 1;
                 vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                 vFailed = true;
@@ -2683,7 +2687,7 @@ function Iterate2AH(data) {
                 syndromesFlag = 0;
                 return true;
             }
-            if (fname === 'additionalObservations' && syndromeFlag === 1 && value === '') {
+            if (fname === 'additionalObservations' && (syndromeFlag === 1 || woundsFlag === 1) && value === '') {
                 vError = 1;
                 vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + $('[name="' + index + '"]').data("name") + " field cannot be empty.");
                 vFailed = true;

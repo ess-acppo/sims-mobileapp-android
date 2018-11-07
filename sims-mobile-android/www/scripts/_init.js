@@ -2398,37 +2398,39 @@ function loadSitePolygons() {
     if (AppMode === 'AH') AData = ActivityDataAH;
     allLats = [];
     allLngs = [];
-    $.each(AData.activities, function (key1, val1) {
-        $.each(val1.sites, function (key, val) {
-            if (val.id === 99999) { return true; }
-            var wkt = new Wkt.Wkt();
-            wkt.read(val.locationDatum.wkt);
-            wkt.toObject();
-            var tC = [];
-            // Add each GPS entry to an array
-            for (var k = 0; k < wkt.toJson().coordinates[0].length; k++) {
-                var latlngc = new google.maps.LatLng(wkt.toJson().coordinates[0][k][1], wkt.toJson().coordinates[0][k][0]);
-                tC.push(latlngc);
-                allLats.push(wkt.toJson().coordinates[0][k][1]);
-                allLngs.push(wkt.toJson().coordinates[0][k][0]);
-            }
-            // Plot the GPS entries as a line on the Google Map
-            var tP = new google.maps.Polygon({
-                map: map,
-                path: tC,
-                strokeColor: "#6AC1FF",
-                strokeOpacity: 1.0,
-                strokeWeight: 2,
-                fillOpacity: 0.0
+    if (AData.activities) {
+        $.each(AData.activities, function (key1, val1) {
+            $.each(val1.sites, function (key, val) {
+                if (val.id === 99999) { return true; }
+                var wkt = new Wkt.Wkt();
+                wkt.read(val.locationDatum.wkt);
+                wkt.toObject();
+                var tC = [];
+                // Add each GPS entry to an array
+                for (var k = 0; k < wkt.toJson().coordinates[0].length; k++) {
+                    var latlngc = new google.maps.LatLng(wkt.toJson().coordinates[0][k][1], wkt.toJson().coordinates[0][k][0]);
+                    tC.push(latlngc);
+                    allLats.push(wkt.toJson().coordinates[0][k][1]);
+                    allLngs.push(wkt.toJson().coordinates[0][k][0]);
+                }
+                // Plot the GPS entries as a line on the Google Map
+                var tP = new google.maps.Polygon({
+                    map: map,
+                    path: tC,
+                    strokeColor: "#6AC1FF",
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    fillOpacity: 0.0
+                });
+                //mapc.fitBounds(trackCoords);
+                tP.setMap(map);
+                google.maps.event.addListener(tP, 'click', function (event) {
+                    placeMarker(event.latLng);
+                });
+                alltPs.push(tP);
             });
-            //mapc.fitBounds(trackCoords);
-            tP.setMap(map);
-            google.maps.event.addListener(tP, 'click', function (event) {
-                placeMarker(event.latLng);
-            });
-            alltPs.push(tP);
         });
-    });
+    }
 }
 function getSurvActivity(id) {
     var arr = ActivityData.activities.filter(function (el) {
@@ -2736,39 +2738,41 @@ function getCurrentActivityTiles(str, zoom) {
     if (AppMode === 'AH') { AData = ActivityDataAH; }
     if (Number(str) === 99999) { return true; }
     curLats = []; curLngs = [];
-    var arr = AData.activities.filter(function (el) {
-        return (el.activityId === Number(str));
-    });
-    if (arr && arr.length > 0) {
-        $.each(arr[0].sites, function (key, val) {
-            var wkt = new Wkt.Wkt();
-            wkt.read(val.locationDatum.wkt);
-            wkt.toObject();
-            for (var k = 0; k < wkt.toJson().coordinates[0].length; k++) {
-                curLats.push(wkt.toJson().coordinates[0][k][1]);
-                curLngs.push(wkt.toJson().coordinates[0][k][0]);
-            }
+    if (AData.activities) {
+        var arr = AData.activities.filter(function (el) {
+            return (el.activityId === Number(str));
         });
-        if (curLats.length > 0 && curLngs.length > 0) {
-            var scale = 1 << zoom;
-            cX = curLats[0];
-            cY = curLngs[0];
-            curLats.sort();
-            curLngs.sort();
-            minX = curLats[0];
-            minY = curLngs[0];
-            maxX = curLats[curLats.length - 1];
-            maxY = curLngs[curLngs.length - 1];
-            var minLatLng = new google.maps.LatLng(minX, minY);
-            var maxLatLng = new google.maps.LatLng(maxX, maxY);
-            var wC1 = project(minLatLng);
-            var wC2 = project(maxLatLng);
-            var pC1x = Math.floor(wC1.x * scale / TILE_SIZE) - 1;
-            var pC1y = Math.floor(wC1.y * scale / TILE_SIZE) - 1;
-            var pC2x = Math.floor(wC2.x * scale / TILE_SIZE) + 1;
-            var pC2y = Math.floor(wC2.y * scale / TILE_SIZE) + 1;
-            tiles = 0;
-            fetchAndSaveTile(pC1x, pC1y, zoom, pC2x, pC1y, pC2y);
+        if (arr && arr.length > 0) {
+            $.each(arr[0].sites, function (key, val) {
+                var wkt = new Wkt.Wkt();
+                wkt.read(val.locationDatum.wkt);
+                wkt.toObject();
+                for (var k = 0; k < wkt.toJson().coordinates[0].length; k++) {
+                    curLats.push(wkt.toJson().coordinates[0][k][1]);
+                    curLngs.push(wkt.toJson().coordinates[0][k][0]);
+                }
+            });
+            if (curLats.length > 0 && curLngs.length > 0) {
+                var scale = 1 << zoom;
+                cX = curLats[0];
+                cY = curLngs[0];
+                curLats.sort();
+                curLngs.sort();
+                minX = curLats[0];
+                minY = curLngs[0];
+                maxX = curLats[curLats.length - 1];
+                maxY = curLngs[curLngs.length - 1];
+                var minLatLng = new google.maps.LatLng(minX, minY);
+                var maxLatLng = new google.maps.LatLng(maxX, maxY);
+                var wC1 = project(minLatLng);
+                var wC2 = project(maxLatLng);
+                var pC1x = Math.floor(wC1.x * scale / TILE_SIZE) - 1;
+                var pC1y = Math.floor(wC1.y * scale / TILE_SIZE) - 1;
+                var pC2x = Math.floor(wC2.x * scale / TILE_SIZE) + 1;
+                var pC2y = Math.floor(wC2.y * scale / TILE_SIZE) + 1;
+                tiles = 0;
+                fetchAndSaveTile(pC1x, pC1y, zoom, pC2x, pC1y, pC2y);
+            }
         }
     }
 }
