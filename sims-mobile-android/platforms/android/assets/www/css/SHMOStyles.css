@@ -189,6 +189,10 @@ html, body {
     background-color: #f5f5f5;
 }
 
+.expanded {
+    background-color: #fffcec;
+}
+
 .modal-dialog {
     width: 96%;
     margin: 0px auto;
@@ -1087,7 +1091,7 @@ div.dataTables_filter {
 
 .dynarow {
     border-radius: 3px;
-    border: 2px solid #eee;
+    border: 1px solid #ebebeb;
     margin: 0.05rem;
     padding-right: 7px;
     padding-left: 7px;
@@ -1336,6 +1340,11 @@ text-right {
         color: #ddd;
     }
 
+    #crosshair {
+        top: 45%;
+        left: 42%;
+    }
+
     #mb {
         padding: 0px;
         padding-top: 10px;
@@ -1419,4 +1428,19 @@ label.mapNotes, label.mapBNotes {
 
 #bsInfo {
     cursor: pointer;
+}
+
+.defSyndromeX, .syndromeX, .syndromeY {
+    background-color: #fff;
+}
+
+#crosshair {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 45%;
+    top:42%;
+    background: url('../images/crosshair.png');
+    background-repeat:no-repeat;
+    background-position:left center;
 }

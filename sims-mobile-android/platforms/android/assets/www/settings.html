@@ -11,9 +11,6 @@
                 <li class="ripple">
                     <a href="#tab_MS" data-toggle="tab"><i class="fa fa-map mxr-5"></i>Maps</a>
                 </li>
-                <!--<li class="ripple">
-                    <a href="#tab_SR" data-toggle="tab"><i class="fa fa-server mxr-5"></i>Server</a>
-                </li>-->
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_AS">
@@ -136,39 +133,42 @@
                 <div class="tab-pane" id="tab_MS">
                     <div class="row col-md-12 col-sm-12 col-xs-12 border-bottom obsForm">
                         <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                            <h5>Start Zoom</h5>
+                            <small>Set the start zoom for the maps.</small>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                            <input type="number" class="form-control pull-right" name="startZoom" value="6" min="6" max="18" step="1" />
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12 border-bottom obsForm">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                            <h5>End Zoom</h5>
+                            <small>Set the end zoom for the maps.</small>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                            <input type="number" class="form-control pull-right" name="endZoom" value="18" min="7" max="18" step="1" />
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12 border-bottom obsForm">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
                             Base Maps
                             <br />Last downloaded on:&nbsp;<label class="mapBNotes text-sm">09/09/1900</label>
                         </div>
                         <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                            <a href="#" class="btn btn-sm btn-default ripple downloadBaseMaps pull-right"><i class="fa fa-download"></i>&nbsp;Download</a><br /><br />
+                            <a href="#" class="btn btn-sm btn-default ripple downloadBaseMaps"><i class="fa fa-download"></i>&nbsp;Download</a><br /><br />
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12 border-bottom obsForm activityMaps">
                         <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                            Current Activity <br />
                             <select class="form-control" id="curActivities"></select><br />
                             Last downloaded on:&nbsp;<label class="mapNotes text-sm">09/09/1900</label>
                         </div>
                         <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                            <a href="#" class="btn btn-sm btn-default ripple downloadMaps pull-right"><i class="fa fa-download"></i>&nbsp;Download</a><br /><br />
+                            <a href="#" class="btn btn-sm btn-default ripple downloadMaps"><i class="fa fa-download"></i>&nbsp;Download</a><br /><br />
                         </div>
                     </div>
                 </div>
-                <!--<div class="tab-pane" id="tab_SR">
-                    <div class="row col-md-12 col-sm-12 col-xs-12 border-bottom obsForm">
-                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                            <h5>Server Mode</h5>
-                            <small>Point the app to one of these servers: DEV, SIT, UAT or PROD</small>
-                        </div>
-                        <div class="form-group col-md-6 col-sm-6 col-xs-6">
-                            <select class="form-control pull-right" id="serverMode">
-                                <option value=PROD>Production</option>
-                                <option value=UAT>UAT</option>
-                                <option value=SIT>SIT</option>
-                                <option value=DEV>Development</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>-->
             </div>
         </div>
     </div>
