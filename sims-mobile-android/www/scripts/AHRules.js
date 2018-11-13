@@ -15,8 +15,8 @@ var fieldTestsData;
 var species = '<div class="row col-md-12 dynarow"><div class="form-group col-xs-2"><input type="text" class="form-control speciesText"/></div><div class="form-group col-xs-2"><label>Taxon Name<span class="bold-red">*</span></label></div><div class="form-group col-xs-2"><input type="text" class="form-control taxonText" placeholder="Taxon Name" name="taxonName"></div><div class="form-group col-xs-3" ><label>Number in Group<span class="bold-red">*</span></label></div><div class="form-group col-xs-1"><input type="text" class="form-control" placeholder="#" name="Number"></div><div class="form-group col-xs-1"><button type="button" class="btn btn-danger btn-circle btn-xs pull-right removeSpecies"><i class="fa fa-times-circle fa-2x"></i></button></div></div>';
 var fieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*</span>Fieldtest ID</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control" placeholder="Field Test ID" readonly name="FieldTestID_M_N" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Name</label><input type="text" class="form-control" placeholder="Field Test Name" name="FieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test</label><select class="form-control fieldTest" name="FieldTests_M_S"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="InvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Diseases</label><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comments</label><textarea class="form-control" rows="5" name="FieldTestComment_O_S" data-name="FieldTest-Additional Comments" data-section="AnimalFieldTestTab"></textarea></div></div></div>';
 var preFieldtest = '<div class="row col-md-12 col-sm-12 col-xs-12 fieldtest collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*</span>Fieldtest ID</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreFieldTest"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="text" class="form-control" placeholder="Field Test ID" readonly name="PFieldTestID_M_N" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Name</label><input type="text" class="form-control" placeholder="Field Test Name" name="PFieldTestName_M_S" /></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test</label><select class="form-control fieldTest" name="PFieldTests_M_S"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="checkbox" name="PInvalidFlag_M_S" class="minimal">&nbsp;<label>Invalid</label></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Diseases</label><div class="row col-md-12 col-sm-12 col-xs-12 diseases"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Field Test Comments</label><textarea class="form-control" rows="5" name="PFieldTestComment_O_S" data-name="FieldTest-Additional Comments" data-section="AnimalFieldTestTab"></textarea></div></div></div>';
-var maggotSample = '<div class="row col-md-12 col-sm-12 col-xs-12 maggotSample collapsed "><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Maggot Sample FieldID</label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeMaggotSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="number" class="form-control nextid" placeholder="Sample Field ID" name="MSampleFieldLabelText_M_S_0_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control sampleType" name="MSampleType_M_S_0_S" data-name="Sample-Type" data-section="AnimalSampleTab"><option value="M" selected>Maggots</option></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"><input type="checkbox" class="form-control minimal" name="MTestFor_M_S_0_8" value="Y" checked>&nbsp;<label>SWF Exclusion</label></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="MAdditionalComments_O_S_0_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
-var animalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample collapsed"><div class="form-group col-md-6 col-sm-6 col-xs-7"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label></div><div class="form-group col-md-6 col-sm-6 col-xs-5"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeAnimalSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><input type="number" class="form-control" placeholder="Sample Field ID" name="SampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control sampleType" name="SampleType_M_S" data-name="Sample-Type" data-section="AnimalSampleTab"></select></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="AdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
+var maggotSample = '<div class="row col-md-12 col-sm-12 col-xs-12 maggotSample sample expanded"><div class="form-group col-md-3 col-sm-3 col-xs-3"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Maggot Sample FieldID</label><input type="number" class="form-control nextid" placeholder="Sample Field ID" name="MSampleFieldLabelText_M_S_0_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control sampleType" name="MSampleType_M_S_0_S" data-name="Sample-Type" data-section="AnimalSampleTab"><option value="M" selected>Maggots</option></select></div><div class="form-group col-md-3 col-sm-3 col-xs-3"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeMaggotSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"><input type="checkbox" class="form-control minimal" name="MTestFor_M_S_0_8" value="Y" checked>&nbsp;<label>SWF Exclusion</label></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="MAdditionalComments_O_S_0_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
+var animalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample expanded"><div class="form-group col-md-3 col-sm-3 col-xs-3"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label><input type="number" class="form-control" placeholder="Sample Field ID" name="SampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label><span class="bold-red">*&nbsp;</span>Sample Type</label><select class="form-control sampleType" name="SampleType_M_S" data-name="Sample-Type" data-section="AnimalSampleTab"></select></div><div class="form-group col-md-3 col-sm-3 col-xs-3"><a href="#" class="form-control btn btn-md btn-default text-arrows collapse hide" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removeAnimalSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="AdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
 var preAnimalSample = '<div class="row col-md-12 col-sm-12 col-xs-12 sample expanded"><div class="form-group col-md-3 col-sm-3 col-xs-3"><span data-toggle="tooltip" title="" class="badge bg-gray-blue mxr-5" data-original-title="1">1</span><label><span class="bold-red">*&nbsp;</span>Sample FieldID </label><input type="number" class="form-control nextid" placeholder="Sample Field ID" name="PSampleFieldLabelText_M_S" readonly data-name="Sample-Field Label" data-section="AnimalSampleTab"></div><div class="form-group col-md-6 col-sm-6 col-xs-6"><label><span class="bold-red">*&nbsp;</span>Sample Type </label><select class="form-control sampleType" name="PSampleType_M_S" data-name="Sample-Type" data-section="AnimalSampleTab"></select></div><div class="form-group col-md-3 col-sm-3 col-xs-3"><a href="#" class="form-control btn btn-md btn-default text-arrows collapsex" data-action="collapse"><i class="fa fa-arrow-up"></i></a><a href="#" class="form-control btn btn-md btn-default text-arrows expand hide" data-action="expand"><i class="fa fa-arrow-down"></i></a><a href="#" class="form-control btn btn-md btn-danger text-arrows-2 removePreSample"><i class="fa fa-remove"></i></a></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 col-sm-12 col-xs-12 testTypes"></div></div></div><div class="row col-md-12 col-sm-12 col-xs-12"><div class="form-group col-md-6 col-sm-6 col-xs-12"><label>Additional Comments</label><textarea class="form-control" rows="5" name="PAdditionalComments_O_S" data-name="Sample-Additional Comments" data-section="AnimalSampleTab"></textarea></div></div></div>';
 var animalAttachment = '<div class="row col-md-12 col-sm-12 col-xs-12 AnimalAttachment pl-0 pr-0 collapsed"><div class="form-group col-md-2 col-sm-2 col-xs-2"><img class="pp pull-right" src="images/plant.png" name="iAnimalAttachment_M_S"></div><div class="form-group col-md-7 col-sm-8 col-xs-8"><input type="text" class="form-control" name="AnimalAttachmentD_M_S" value=""><textarea class="form-control hide" name="AnimalAttachment_M_S" rows="5" cols="5"></textarea></div><div class="form-group col-md-2 col-sm-1 col-xs-1"><i class="fa fa-remove text-info fa-2x removeAnimalAttachment" style="cursor:pointer;"></i></div></div>';
 var samples = 0;
@@ -95,6 +95,10 @@ function loadActivityDataAH() {
     //    option.attr('value', val.id).text(val.name);
     //    $("#form1").find('select[name="SiteId_O_N"]').append(option);
     //});
+    if (resSettings.settings.mapSets[0].curActivity > 0) {
+        $("#SurvActivityIdAH").val(resSettings.settings.mapSets[0].curActivity);
+        $("#SurvActivityIdAH").trigger('change');
+    }
 }
 function syncAHRefCodes() {
     var settings = {
@@ -234,16 +238,36 @@ function refreshActivityDataAH(str) {
         });
     }
 }
+$(document).on('change', 'select[id="doTeam"]', function () {
+    var str = $("#doTeam option:selected").val();
+    if (str !== "0") {
+        $("#curActivities").find('option').remove().end().append($('<option value="0">- select -</option>'));
+        if (AppMode === 'PH') {
+            $.each(ActivityData.activities, function (key, val) {
+                if (val.programId === str) {
+                    var option = $('<option />');
+                    option.attr('value', val.activityId).text(val.activityName);
+                    $("#curActivities").append(option);
+                }
+            });
+        }
+        if (AppMode === 'AH') {
+            $.each(ActivityDataAH.activities, function (key, val) {
+                if (val.programId === str) {
+                    var option = $('<option />');
+                    option.attr('value', val.activityId).text(val.activityName);
+                    $("#curActivities").append(option);
+                }
+            });
+        }
+    }
+});
 $(document).on('change', 'select[id="commonName"]', function () {
-    var t0, t1;
     $.ajax({
         url: "",
         beforeSend: function (xhr) {
             $('#mb6 .progText').text("Loading ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
             $('#modalProgress').modal();
-            t0 = performance.now();
         }
     }).complete(function (e) {
         var str = $("#commonName option:selected").val();
@@ -405,19 +429,15 @@ $(document).on('change', 'select[id="commonName"]', function () {
     }).done(function () {
         $('#modalProgress').modal('hide');
         $('#mb6 .progText').text("");
-        t1 = performance.now();
-        $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
     });
 });
 $(document).on('change', 'select.sampleType', function () {
     var that = this;
     var str = $(that).val();
     var nxtTF = $(this).closest('.sample').find('.testTypes');
-    var t0, t1;
     $.ajax({
         url: "",
         beforeSend: function (xhr) {
-            t0 = performance.now();
             $('.overlay').removeClass('hide');
             $('.modal-body').addClass('hide');
             $('.modal-footer').addClass('hide');
@@ -447,8 +467,6 @@ $(document).on('change', 'select.sampleType', function () {
         $('.overlay').addClass('hide');
         $('.modal-body').removeClass('hide');
         $('.modal-footer').removeClass('hide');
-        t1 = performance.now();
-        $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
     });
 });
 function loadPathogens(e, f) {
@@ -477,11 +495,9 @@ function loadPathogens(e, f) {
 $(document).on('change', 'select.fieldTest', function () {
     var that = this;
     var nxtD = $(this).closest('.fieldtest').find('.diseases');
-    var t0, t1;
     $.ajax({
         url: "",
         beforeSend: function (xhr) {
-            t0 = performance.now();
             $('.overlay').removeClass('hide');
             $('.modal-body').addClass('hide');
             $('.modal-footer').addClass('hide');
@@ -508,8 +524,6 @@ $(document).on('change', 'select.fieldTest', function () {
         $('.overlay').addClass('hide');
         $('.modal-body').removeClass('hide');
         $('.modal-footer').removeClass('hide');
-        t1 = performance.now();
-        $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>" + Math.round((t1 - t0)) + " ms");
     });
 });
 function loadDiseases(e, f) {
@@ -1056,10 +1070,10 @@ $(document).on('click', '#bsInfo', function () {
                 cordova.plugins.fileOpener2.open(newFileEntry.nativeURL, 'application/pdf',
                     {
                         error: function (e) {
-                            console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                            $.growl.error({ title: "", message: e.status + ' - Error message: ' + e.message, location: "tc", size: "large" });
                         },
                         success: function () {
-                            console.log('file opened successfully');
+                            //console.log('file opened successfully');
                         }
                     }
                 );
@@ -1068,19 +1082,15 @@ $(document).on('click', '#bsInfo', function () {
     });
 });
 function loadModalAH(pagename) {
-    var t0, t1;
     $.ajax({
         url: "",
         beforeSend: function (xhr) {
             $('#modalProgress').modal();
             $('#mb6 .progText').text("Loading ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
             $('#mb').empty();
             $('#mt').empty();
             $(document).find('script[id="pageScript"]').remove();
             $('#mb').load(pagename + '.html');
-            t0 = performance.now();
             samples = 0;
             fieldTests = 0;
             numAttachments = 0;
@@ -1409,10 +1419,8 @@ function loadModalAH(pagename) {
         reAdjust();
         $('#numSamples').text(samples);
         $('#modalProgress').modal('hide');
-        $('#Save').addClass('hide');
-        $('#SaveExit').addClass('hide');
-        t1 = performance.now();
-        $('#perfTime').html("<i class='fa fa-clock-o text-info'></i>&nbsp;" + Math.round((t1 - t0)) + " ms");
+        //$('#Save').addClass('hide');
+        //$('#SaveExit').addClass('hide');
     });
 }
 $(document).on('ifChecked', 'input[type="checkbox"].minimal', function (event) {
@@ -1424,12 +1432,18 @@ $(document).on('ifChecked', 'input[type="checkbox"].minimal', function (event) {
         $(this).closest('.row').find('.diseases').empty();
         $(this).closest('.row').find('select').val("NONE");
     }
+    if ($(this).attr('name') === "debugMode") {
+        debugMode = 1;
+    }
     $(this).val('Y');
 });
 $(document).on('ifUnchecked', 'input[type="checkbox"].minimal', function (event) {
     //alert(event.type + ' callback');
     if ($(this).attr('name').startsWith('externalObserverFlag_O_S')) {
         $('input[name^="externalObserver_O_S"').addClass('hide');
+    }
+    if ($(this).attr('name') === "debugMode") {
+        debugMode = 0;
     }
     $(this).val('N');
 });
@@ -2445,7 +2459,7 @@ function IterateAH(data) {
                 }
             }
             if (fname === 'SampleFieldLabelText') {
-                if ($("input[name*='TestFor_M_S_" + fnum + "_']:checked").length === 0) {
+                if ($("input[name^='TestFor_M_S_" + fnum + "_']:checked").length === 0) {
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + "Minimum of one Pathogen/TestType should be selected per sample.");
                     vFailed = true;
@@ -2462,7 +2476,7 @@ function IterateAH(data) {
                 }
             }
             if (fname === 'PSampleFieldLabelText') {
-                if ($("input[name*='PTestFor_M_S_" + fnum + "_']:checked").length === 0) {
+                if ($("input[name^='PTestFor_M_S_" + fnum + "_']:checked").length === 0) {
                     vError = 1;
                     vErrDescription.push("<a href='#' class='btn btn-sm btn-default ripple btnErrorAH' data-j='" + index + "' data-k='" + ftype + "' data-l='" + fnum + "'>Go</a>" + "Minimum of one Pathogen/TestType should be selected per sample.");
                     vFailed = true;
@@ -2843,8 +2857,6 @@ function DisableFormAH() {
     $('#newObservationAH').addClass('disabled');
 
     $('#mb6 .progText').text("Sync in progress ...");
-    $('#mb6 .progress').addClass('hide');
-    $('#mb6 .fa-clock-o').addClass('hide');
     $('#modalProgress').modal();
     setTimeout(StartSyncAH, 1000);
 }
@@ -2963,7 +2975,7 @@ function StartSyncAH() {
         //else if (success === false) { $.growl.error({ title: "", message: rowsFailed.join(',') + "<br/>" + rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
         else if (success === false) { $.growl.error({ title: "Errors", message: rowsFailedErr.join('<br/>'), location: "tc", size: "large", fixed: "true" }); }
         syncActivityDataAH();
-        loadActivityDataAH();
+        //loadActivityDataAH();
         //loadAHDefaults();
         table.destroy();
         loadData();

@@ -66,10 +66,10 @@ html, body {
 
 #modalAHGrid .modal-body, #modalPHGrid .modal-body {
     height: 900px;
-    /*padding: 25px;*/
     overflow-x: auto;
     overflow-y: auto;
-    /*margin-right: 20px;*/
+    padding: 0;
+    margin-right: 0px;
 }
 
 #modalForm .modal-body, #modalMap .modal-body, #modalAHMenu .modal-body, #modalAHMenu .modal-body, #modalPHMenu .modal-body, #modalVerify .modal-body {
@@ -783,6 +783,7 @@ div .item {
 table.dataTable {
     margin-top: 0px !important;
     margin-bottom: 0px !important;
+    font-size: 1.3rem;
 }
 
     table.dataTable tbody tr {
@@ -1434,13 +1435,3 @@ label.mapNotes, label.mapBNotes {
     background-color: #fff;
 }
 
-#crosshair {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    left: 45%;
-    top:42%;
-    background: url('../images/crosshair.png');
-    background-repeat:no-repeat;
-    background-position:left center;
-}

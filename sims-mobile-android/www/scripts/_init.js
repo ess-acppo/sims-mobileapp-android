@@ -85,18 +85,8 @@ var myLatLng;
 var paths = [];
 var trackPath;
 var myPos;
+var downloadDone = 0;
 /* Framework Variables */
-
-/* AH Initialized variables */
-//var species = '<div class="row col-md-12 sims dynarow"><div class="form-group col-xs-2"><input type="text" class="form-control speciesText"/></div><div class="form-group col-xs-2"><label>Taxon Name<span class="bold-red">*</span></label></div><div class="form-group col-xs-2"><input type="text" class="form-control taxonText" placeholder="Taxon Name" name="taxonName"></div><div class="form-group col-xs-3" ><label>Number in Group<span class="bold-red">*</span></label></div><div class="form-group col-xs-1"><input type="text" class="form-control" placeholder="#" name="Number"></div><div class="form-group col-xs-1"><button type="button" class="btn btn-danger btn-circle btn-xs pull-right removeSpecies"><i class="fa fa-times-circle fa-2x"></i></button></div></div>';
-//var fieldtest = '<div class="row col-md-12 sims dynarow fieldtest"><div class="form-group col-xs-12"><label class="ftName">Field Test 1</label><i class="fa fa-times-circle fa-2x text-default removeFieldTest pull-right"></i></div><div class="form-group col-xs-6"><label>Fieldtest Name<span class="bold-red">*</span></label><input type="text" class="form-control hide" placeholder="Field Test ID" name="ftId"/><select class="form-control" name="fieldTest"></select></div><div class="form-group col-xs-6"><label>&nbsp;</label><br/><input type="checkbox" name="ftInvalid" class="minimal"><label>Invalid</label></div><div class="row col-xs-12 diseases indentLeft"></div><div class="form-group col-xs-11"><label>Field Test Comment</label><input type="text" class="form-control" name="ftComment"/></div></div>';
-//var preFieldtest = '<div class="row col-md-12 sims dynarow fieldtest"><div class="form-group col-xs-12"><label class="ftName">Field Test 1</label><i class="fa fa-times-circle fa-2x text-default removePreFieldTest pull-right"></i></div><div class="form-group col-xs-6"><label>Fieldtest Name<span class="bold-red">*</span></label><input type="text" class="form-control hide" placeholder="Field Test ID" name="ftId"/><select class="form-control" name="pFieldTest"></select></div><div class="form-group col-xs-6"><label>&nbsp;</label><br/><input type="checkbox" name="ftInvalid" class="minimal"><label>Invalid</label></div><div class="row col-xs-12 diseases indentLeft"></div><div class="form-group col-xs-11"><label>Field Test Comment</label><input type="text" class="form-control" name="ftComment"/></div></div>';
-///var maggotSample = '<div class="row col-md-12 sims dynarow maggotSample"><div class="form-group col-xs-12"><label class="sampleName">Maggot Sample 1</label><i class="fa fa-times-circle fa-2x text-default removeMaggotSample pull-right"></i></div><div class="form-group col-xs-12"><label>Sample Field Id<span class="bold-red">*</span></label><input type="text" class="form-control nextid" placeholder="Sample Field Id" name="msfieldID" value="1"></div><div class="form-group col-xs-12"><label>Sample Type<span class="bold-red">*</span></label><select class="form-control" name="msType"><option selected>Maggots</option></select></div><div class="form-group col-xs-12"><label>Pathogen/Test Type</label><br /><input type="checkbox" class="form-control minimal" name="swfExcl" value="swfExcl" checked><label>SWF Exclusion</label></div><div class="form-group col-xs-12"><label>Additional Comment</label><textarea class="form-control" rows="3" name="msNotes" placeholder="Notes ..."></textarea></div></div>';
-//var sample = '<div class="row col-md-12 sims dynarow sample"><div class="form-group col-xs-12"><label class="sampleName">Sample 1</label><i class="fa fa-times-circle fa-2x text-default removeSample pull-right"></i></div><div class="form-group col-xs-6"><label>Sample Field ID</label><input type="text" class="form-control nextid" readonly placeholder="Sample Field ID" value="1" name="sampleId"></div><div class="form-group col-xs-6"><label>Sample Type</label><select class="form-control" name="sampleType"></select></div><div class="form-group col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 sims testTypes indentLeft"></div></div><div class="form-group col-xs-12 border-bottom"><label>Additional Comments</label><textarea class="form-control" rows="6" name="sAddlComments"></textarea></div></div>';
-//var preSample = '<div class="row col-md-12 sims dynarow sample"><div class="form-group col-xs-12"><label class="sampleName">Sample 1</label><i class="fa fa-times-circle fa-2x text-default removePreSample pull-right"></i></div><div class="form-group col-xs-6"><label>Sample Field ID</label><input type="text" class="form-control nextid" readonly placeholder="Sample Field ID" value="" name="sampleId"></div><div class="form-group col-xs-6"><label>Sample Type</label><select class="form-control" name="sampleType"></select></div><div class="form-group col-xs-12"><label>Pathogen/Test Type</label><div class="row col-md-12 sims testTypes indentLeft"></div></div><div class="form-group col-xs-12 border-bottom"><label>Additional Comments</label><textarea class="form-control" rows="6" name="sAddlComments"></textarea></div></div>';
-//var samples = 0;
-//var fieldTests = 0;
-/* AH Initialized variables */
 
 /* Core Framework Code */
 if (!String.prototype.startsWith) {
@@ -555,8 +545,8 @@ function initSettings() {
             var mymap = new MyMapType();
             function MyMapType() { }
             MyMapType.prototype.tileSize = new google.maps.Size(256, 256);
-            MyMapType.prototype.maxZoom = resSettings.settings.mapSets[0].endZoom;
-            MyMapType.prototype.minZoom = resSettings.settings.mapSets[0].startZoom;
+            MyMapType.prototype.maxZoom = Number(resSettings.settings.mapSets[0].endZoom);
+            MyMapType.prototype.minZoom = Number(resSettings.settings.mapSets[0].startZoom);
             MyMapType.prototype.name = "Offline Map";
             MyMapType.prototype.getTile = function (coord, zoom, ownerDocument) {
                 zoomlevel.innerHTML = 'zoom: ' + zoom;
@@ -572,7 +562,7 @@ function initSettings() {
                 div.style.width = this.tileSize.width + 'px'; div.style.height = this.tileSize.height + 'px';
                 return div;
             };
-            var mapOptions = { zoom: resSettings.settings.mapSets[0].startZoom, center: myPos, streetViewControl: false, panControl: false, zoomControl: false, mapTypeControl: false, scaleControl: false, overviewMapControl: false, mapTypeControlOptions: { mapTypeIds: ["xx"] } };
+            var mapOptions = { zoom: Number(resSettings.settings.mapSets[0].startZoom), center: myPos, streetViewControl: false, panControl: false, zoomControl: false, mapTypeControl: false, scaleControl: false, overviewMapControl: false, mapTypeControlOptions: { mapTypeIds: ["xx"] } };
             map = new google.maps.Map(document.getElementById("map"), mapOptions); map.mapTypes.set('xx', mymap); map.setMapTypeId('xx');
             if (res.rows && res.rows.length > 0) {
                 clearMarkers();
@@ -717,7 +707,8 @@ function loadMapMarkers() {
                 position: myPos,
                 map: map,
                 draggable: false,
-                icon: icon
+                icon: icon,
+                animation: google.maps.Animation.DROP
             });
             locMarker.setMap(map);
         });
@@ -793,7 +784,8 @@ function loadMapMarkersAH() {
                 position: myPos,
                 map: map,
                 draggable: false,
-                icon: icon
+                icon: icon,
+                animation: google.maps.Animation.DROP
             });
             locMarker.setMap(map);
         });
@@ -913,6 +905,7 @@ function checkMapBoundsBySite(position, siteId) {
     }
 }
 function placeMarker(location) {
+    if (curIdx === -3) return;
     newMarker = new google.maps.Marker({
         position: location,
         map: map
@@ -1043,6 +1036,7 @@ function moveMarker(e) {
             tx.executeSql("UPDATE observations SET data = ? WHERE id = ?", [JSON.stringify(results), 1], function (tx, res) {
                 clearMarkers();
                 loadMapMarkersAH();
+                curIdx = -1;
             });
         }, function (err) {
             $.growl.error({ title: "", message: "An error occured while updating row to DB. " + err.message, location: "tc", size: "large" });
@@ -1050,7 +1044,9 @@ function moveMarker(e) {
     });
     google.maps.event.addListener(chmarker, 'click', function () {
         this.setMap(null);
+        curIdx = -1;
     });
+    curIdx = -3;
 }
 function launchModal(e, f) {
     curIdx = e;
@@ -1124,20 +1120,29 @@ function loadData() {
                         }
                     },
                     { "data": "ObservationWhereWktClob_M_S_0_1" },
-                    { "data": "ObservWhereGpsDatumId_M_S_0_1" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            if (data["additionalObservations_O_S_0_2"])
+                            { return data["additionalObservations_O_S_0_2"].substring(0, 39); }
+                            else { return "-"; }
+                        }
+                    },
                     {
                         "data": "status_M_N",
                         "render": function (data, type, row, meta) {
-                            if (data === 0) return "Saved";
-                            if (data === 1) return "Submitted";
+                            if (data === 0) return "<i class='fa fa-save text-info'/>";
+                            if (data === 1) return "<i class='fa fa-check text-success'/>";
                         }
                     }
                 ],
                 "paging": true,
-                "lengthChange": false,
+                "lengthChange": true,
                 "searching": true,
                 "ordering": true,
-                "info": false
+                "info": false,
+                "pageLength": 200,
+                "lengthMenu": [[12, 24, 48, 96, 200, -1], [12, 24, 48, 96, 200, "All"]]
             });
             break;
         case "PH":
@@ -1180,16 +1185,18 @@ function loadData() {
                     {
                         "data": "status_M_N",
                         "render": function (data, type, row, meta) {
-                            if (data === 0) return "Saved";
-                            if (data === 1) return "Submitted";
+                            if (data === 0) return "<i class='fa fa-save text-info'/>";
+                            if (data === 1) return "<i class='fa fa-check text-success'/>";
                         }
                     }
                 ],
                 "paging": true,
-                "lengthChange": false,
+                "lengthChange": true,
                 "searching": true,
                 "ordering": true,
-                "info": false
+                "info": false,
+                "pageLength": 200,
+                "lengthMenu": [[12, 24, 48, 96, 200, -1], [12, 24, 48, 96, 200, "All"]]
             });
             break;
         default:
@@ -1460,7 +1467,7 @@ $(document).on('click', '#Submit2', function (e) {
             break;
         case "AH":
             obj = objectifyAHFormforSave(form1);
-            console.log(JSON.stringify(obj));
+            //console.log(JSON.stringify(obj));
             preVal = preValidateAH();
             if (preVal.vError !== 0) {
                 rowsFailedErr.push(preVal.vErrDescription);
@@ -1520,8 +1527,6 @@ $(document).on('click', '#settings', function (e) {
         beforeSend: function (xhr) {
             $('#modalProgress').modal();
             $('#mb6 .progText').text("Loading ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
             $('#mb5').empty();
             $('#mt5').empty();
             $(document).find('script[id="pageScript"]').remove();
@@ -1582,6 +1587,8 @@ $(document).on('click', '#settings', function (e) {
         $('#form3').find('input[name="samplePrefix"]').val(resSettings.settings.device.samplePrefix);
         $('#form3').find('input[name="sampleCurrNum"]').val(resSettings.settings.device.currentSampleNumber);
         $('#form3').find('input[name="AnimalCurrNum"]').val(resSettings.settings.device.currentAnimalNumber);
+        $('#form3').find('select[name="startZoom"]').val(Number(resSettings.settings.mapSets[0].startZoom));
+        $('#form3').find('select[name="endZoom"]').val(Number(resSettings.settings.mapSets[0].endZoom));
     }).done(function () {
         $('#modalProgress').modal('hide');
         if (statusElem.innerHTML === 'online') {
@@ -1593,14 +1600,7 @@ $(document).on('click', '#settings', function (e) {
     });
     $('#modalSettings').modal();
 });
-$(document).on('click', '#SaveSettingsExit', function (e) {
-    var v_appMode = $('#form3').find('#appMode').val();
-    if (!v_appMode) {
-        $.growl.warning({ title: "", message: "Provide a valid mode: PH!", location: "tc", size: "large" });
-        return false;
-    }
-    /* Set AppMode */
-    resSettings.settings.app.appMode = v_appMode;
+$(document).on('click', '#SaveSettings', function (e) {
     resSettings.settings.mapSets[0].curActivity = $('#form3').find('select[id="curActivities"]').val();
     if (Number($('#form3').find('select[id="curActivities"]').val()) > 0) { getCurrentActivityBounds($('#form3').find('select[id="curActivities"]').val()); }
     /* Set Device Owner */
@@ -1622,6 +1622,50 @@ $(document).on('click', '#SaveSettingsExit', function (e) {
     resSettings.settings.mapSets[0].lastDownloadDate = $('#form3').find('label.mapNotes').text();
     resSettings.settings.mapSets[0].lastDownloadBDate = $('#form3').find('label.mapBNotes').text();
     resSettings.settings.mapSets[0].curActivity = $('#form3').find('select[id="curActivities"]').val();
+    resSettings.settings.mapSets[0].startZoom = Number($('#form3').find('select[name="startZoom"]').val());
+    resSettings.settings.mapSets[0].endZoom = Number($('#form3').find('select[name="endZoom"]').val());
+    if (Number(resSettings.settings.mapSets[0].startZoom) > Number(resSettings.settings.mapSets[0].endZoom)) {
+        $.growl.error({ title: "", message: "Start Zoom must be less than End Zoom.", location: "tc", size: "large" });
+        return false;
+    }
+    /* Save to DB */
+    db.transaction(function (tx) {
+        tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
+            $.when(fetchSettings()).done(initSettings());
+            $.growl({ title: "", message: "Your changes have been saved!", location: "bc", size: "small" });
+        });
+    }, function (err) {
+        $.growl.error({ title: "", message: "An error occured while updating settings. " + err.message, location: "tc", size: "large" });
+    });
+});
+$(document).on('click', '#SaveSettingsExit', function (e) {
+    resSettings.settings.mapSets[0].curActivity = $('#form3').find('select[id="curActivities"]').val();
+    if (Number($('#form3').find('select[id="curActivities"]').val()) > 0) { getCurrentActivityBounds($('#form3').find('select[id="curActivities"]').val()); }
+    /* Set Device Owner */
+    resSettings.settings.device.ownerId = $('#form3').find('select[id="deviceOwner"]').val();
+    resSettings.settings.device.ownerTeam = $('#form3').find('select[id="doTeam"]').val();
+    resSettings.settings.device.ownerName = $('#form3').find('select[id="deviceOwner"]').text();
+    if ($('#form3').find('input[id="debugMode"]').val() === 'Y') {
+        resSettings.settings.device.debugMode = 1;
+        debugMode = 1;
+    }
+    if ($('#form3').find('input[id="debugMode"]').val() === 'N') {
+        resSettings.settings.device.debugMode = 0;
+        debugMode = 0;
+    }
+    resSettings.settings.device.samplePrefix = $('#form3').find('input[name="samplePrefix"]').val();
+    resSettings.settings.device.sampleStartNumber = $('#form3').find('input[name="sampleStartNum"]').val();
+    resSettings.settings.device.currentSampleNumber = $('#form3').find('input[name="sampleCurrNum"]').val();
+    resSettings.settings.device.currentAnimalNumber = $('#form3').find('input[name="AnimalCurrNum"]').val();
+    resSettings.settings.mapSets[0].lastDownloadDate = $('#form3').find('label.mapNotes').text();
+    resSettings.settings.mapSets[0].lastDownloadBDate = $('#form3').find('label.mapBNotes').text();
+    resSettings.settings.mapSets[0].curActivity = $('#form3').find('select[id="curActivities"]').val();
+    resSettings.settings.mapSets[0].startZoom = $('#form3').find('select[name="startZoom"]').val();
+    resSettings.settings.mapSets[0].endZoom = $('#form3').find('select[name="endZoom"]').val();
+    if (Number(resSettings.settings.mapSets[0].startZoom) > Number(resSettings.settings.mapSets[0].endZoom)) {
+        $.growl.error({ title: "", message: "Start Zoom must be less than End Zoom.", location: "tc", size: "large" });
+        return false;
+    }
     /* Save to DB */
     db.transaction(function (tx) {
         tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
@@ -1684,8 +1728,6 @@ $(document).on('click', '#srchPHTable tbody tr', function () {
         beforeSend: function (xhr) {
             $('#modalProgress').modal();
             $('#mb6 .progText').text("Loading ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
         }
     })
         .complete(function (data) {
@@ -1735,8 +1777,6 @@ $(document).on('click', '#srchAHTable tbody tr', function () {
         beforeSend: function (xhr) {
             $('#modalProgress').modal();
             $('#mb6 .progText').text("Loading ...");
-            $('#mb6 .progress').addClass('hide');
-            $('#mb6 .fa-clock-o').addClass('hide');
         }
 
     }).complete(function (data) {
@@ -1763,9 +1803,9 @@ $(document).on('click', '#SyncAH', function (event) {
     $.when(setTimeout(DisableFormAH(), 1000));
 });
 $(document).on('shown.bs.modal', '#modalPHGrid', function () {
-    loadPHRefCodes();
-    loadActivityData();
-    loadstaffData();
+    //loadPHRefCodes();
+    //loadActivityData();
+    //loadstaffData();
     loadData();
     if (statusElem.innerHTML === 'online') {
         $('#SyncPH').removeClass('hide');
@@ -1775,8 +1815,6 @@ $(document).on('shown.bs.modal', '#modalPHGrid', function () {
     }
 });
 $(document).on('shown.bs.modal', '#modalAHGrid', function () {
-    loadActivityDataAH();
-    //loadAHDefaults();
     loadData();
     if (statusElem.innerHTML === 'online') {
         $('#SyncAH').removeClass('hide');
@@ -2092,6 +2130,12 @@ $(document).on('click', 'a.btnBackupData', function (e) {
 $(document).on('click', 'a.btnRestoreData', function (e) {
     restoreDatabase();
 });
+$(document).on('click', '#closeProgress', function (e) {
+    $('#modalProgress').modal('hide');
+});
+$(document).on('click', '#closeDownload', function (e) {
+    $('#modalDownload').modal('hide');
+});
 function getMapTiles(zoom) {
     if (allLats.length > 0 && allLngs.length > 0) {
         var scale = 1 << zoom;
@@ -2109,9 +2153,8 @@ function getMapTiles(zoom) {
         var pC1y = Math.floor(wC1.y * scale / TILE_SIZE);
         var pC2x = Math.floor(wC2.x * scale / TILE_SIZE);
         var pC2y = Math.floor(wC2.y * scale / TILE_SIZE);
-        $('#modalProgress').modal();
-        $('#mb6 .progText').text("Download in progress ...");
-        $('#mb6 .progress').removeClass('hide');
+        $('#modalDownload').modal();
+        $('#mb8 .progText').text("Download in progress ...");
         tiles = 0;
         fetchAndSaveTile(pC1x, pC1y, zoom, pC2x, pC1y, pC2y);
     }
@@ -2480,7 +2523,10 @@ function getCommonName(id) {
     if (arr && arr.length > 0) { return arr[0].speciesName; } else { return ""; }
 }
 function getSite(ActivityId, id) {
-    var arr = ActivityData.activities.filter(function (el) {
+    var AData;
+    if (AppMode === 'PH') AData = ActivityData;
+    if (AppMode === 'AH') AData = ActivityDataAH;
+    var arr = AData.activities.filter(function (el) {
         return (el.activityId === ActivityId);
     });
     if (arr && arr.length > 0) {
@@ -2787,18 +2833,18 @@ function getCurrentActivityTiles(str, zoom) {
                 cY = curLngs[0];
                 curLats.sort();
                 curLngs.sort();
-                minX = curLats[0];
-                minY = curLngs[0];
-                maxX = curLats[curLats.length - 1];
-                maxY = curLngs[curLngs.length - 1];
+                minX = curLats[0] - 0.01;
+                minY = curLngs[0] - 0.01;
+                maxX = curLats[curLats.length - 1] + 0.01;
+                maxY = curLngs[curLngs.length - 1] + 0.01;
                 var minLatLng = new google.maps.LatLng(minX, minY);
                 var maxLatLng = new google.maps.LatLng(maxX, maxY);
                 var wC1 = project(minLatLng);
                 var wC2 = project(maxLatLng);
-                var pC1x = Math.floor(wC1.x * scale / TILE_SIZE) - 1;
-                var pC1y = Math.floor(wC1.y * scale / TILE_SIZE) - 1;
-                var pC2x = Math.floor(wC2.x * scale / TILE_SIZE) + 1;
-                var pC2y = Math.floor(wC2.y * scale / TILE_SIZE) + 1;
+                var pC1x = Math.floor(wC1.x * scale / TILE_SIZE);
+                var pC1y = Math.floor(wC1.y * scale / TILE_SIZE);
+                var pC2x = Math.floor(wC2.x * scale / TILE_SIZE);
+                var pC2y = Math.floor(wC2.y * scale / TILE_SIZE);
                 tiles = 0;
                 fetchAndSaveTile(pC1x, pC1y, zoom, pC2x, pC1y, pC2y);
             }
@@ -2950,10 +2996,10 @@ $(document).on('click', '.btnDownloadLogs', function (event) {
                     cordova.plugins.fileOpener2.open(cpfileEntry.nativeURL, 'text/plain',
                         {
                             error: function (e) {
-                                console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                                $.growl.error({ title: "", message: e.status + ' - Error message: ' + e.message, location: "tc", size: "large" });
                             },
                             success: function () {
-                                console.log('file opened successfully');
+                                //console.log('file opened successfully');
                             }
                         }
                     );
@@ -3143,24 +3189,31 @@ $(document).on('click', 'a.downloadBaseMaps', function (e) {
     var url = resSettings.settings.mapSets[0].downloadPath;
     var numfiles = resSettings.settings.mapSets[0].numfiles;
     var mapset = "BASE";
-    var filename;
-    var filenum = 0;
-    t0 = performance.now();
-    $('#modalDownload').modal();
     $('#mb8 .progText').text("Download in progress ...");
-    $('#mb8 .progress').removeClass('hide');
-    $('#mb8 .progTime').text(new Date().toString());
+    $('#mb8 .fa-spin').removeClass('hide');
+    $('#mb8 .fa-check-circle-o').addClass('hide');
+    $('#mb8 .closeDownload').addClass('hide');
+    $('#modalDownload').modal();
     getFileandExtractAND(url, mapset, 2, numfiles);
 });
 $(document).on('click', 'a.downloadMaps', function (e) {
     var str = $('#curActivities').val();
     if (str === "0") { return true; }
-    $('#modalDownload').modal();
+    downloadDone = 0;
     $('#mb8 .progText').text("Download in progress ...");
-    $('#mb8 .progress').removeClass('hide');
-    $.when(getCurrentActivityTiles(str, 10)).then(getCurrentActivityTiles(str, 11)).then(getCurrentActivityTiles(str, 12))
-        .then(getCurrentActivityTiles(str, 13)).then(getCurrentActivityTiles(str, 14))
-        .then(getCurrentActivityTiles(str, 15)).then(getCurrentActivityTiles(str, 16)).done(function () {
+    $('#mb8 .fa-spin').removeClass('hide');
+    $('#mb8 .fa-check-circle-o').addClass('hide');
+    $('#mb8 .closeDownload').addClass('hide');
+    $('#modalDownload').modal();
+    $.when(getCurrentActivityTiles(str, 11))
+        .then(getCurrentActivityTiles(str, 12))
+        .then(getCurrentActivityTiles(str, 13))
+        .then(getCurrentActivityTiles(str, 14))
+        .then(getCurrentActivityTiles(str, 15))
+        .then(getCurrentActivityTiles(str, 16))
+        .then(getCurrentActivityTiles(str, 17))
+        .then(getCurrentActivityTiles(str, 18))
+        .done(function () {
             resSettings.settings.mapSets[0].lastDownloadDate = new Date().toString();
             db.transaction(function (tx) {
                 tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
@@ -3180,11 +3233,16 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
         xhr.responseType = 'blob';
         xhr.onloadstart = function () {
             tiles++;
-            $('#mb8 .progText').text("File " + tiles + ": Download in progress ...");
-            $('#mb8 .progress-bar').css('width', Math.round(tiles % 100) + '%').attr('aria-valuenow', Math.round(tiles % 100)).text(Math.round(tiles % 100) + '%');
-            $('#mb8 .progress').removeClass('hide');
+            $('#mb8 .progText').text("Download in progress ...");
         };
         xhr.onloadend = function () {
+            if (downloadDone === 1) {
+                $('#mb8 .progText').text("Download Complete");
+                $('#mb8 .fa-spin').addClass('hide');
+                $('#mb8 .fa-check-circle-o').removeClass('hide');
+                $('#mb8 .closeDownload').removeClass('hide');
+                return false;
+            }
             if (this.status === 200) {
                 var blob = new Blob([this.response], { type: "image/jpeg" });
                 fs.getDirectory("maps", { create: true, exclusive: false }, function (dir0Entry) {
@@ -3193,11 +3251,6 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                             dir4Entry.getFile(j + ".jpg", { create: true, exclusive: false }, function (fileEntry) {
                                 fileEntry.createWriter(function (fileWriter) {
                                     fileWriter.onwriteend = function () {
-                                        if (i > xlimit) {
-                                            $('#modalDownload').modal('hide');
-                                            $('#mb8 .progText').text("");
-                                            return false;
-                                        }
                                         if (i <= xlimit) {
                                             if (j <= ylimit) {
                                                 j++;
@@ -3207,6 +3260,8 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
                                                 j = ystart;
                                                 fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit);
                                             }
+                                        } else {
+                                            downloadDone = 1;
                                         }
                                     };
                                     fileWriter.onerror = function (e) {
@@ -3225,46 +3280,30 @@ function fetchAndSaveTile(i, j, zoom, xlimit, ystart, ylimit) {
     });
 }
 function getFileandExtractAND(url, mapset, i, n) {
-    t1 = performance.now();
-    t3 = t3 + Math.round(t1 - t0);
     $('#mb8 .progText').text("Downloading Base maps ...");
-    $('#mb8 .progress-bar').css('width', '70%').attr('aria-valuenow', 100).text('70%');
-    $('#mb8 .progress').removeClass('hide');
-    //$('#mb6 .fa-clock-o').removeClass('hide');
     url2 = url + mapset + pad(i, 2) + ".zip";
-    filename = mapset + pad(i, 2) + ".zip";
+    var filename = mapset + pad(i, 2) + ".zip";
     var fileURL = cordova.file.externalRootDirectory + "maps/" + filename;
     var fileTransfer = new FileTransfer();
     fileTransfer.download(
         url2,
         fileURL,
         function (entry) {
-            $('#mb8 .progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
             setTimeout(processZipAND(fileURL, cordova.file.externalRootDirectory + "maps", url, mapset, i, n), 30000);
         },
         function (error) {
             $('#mb8 .progText').text(error.source);
-            $('#mb8 .progress').addClass('hide');
-            $('#mb8 .fa-clock-o').addClass('hide');
         },
         null, {}
     );
 }
 function processZipAND(zipSource, destination, url, mapset, i, n) {
     // Handle the progress event
-    t1 = performance.now();
-    t3 = t3 + Math.round(t1 - t0);
     $('#mb8 .progText').text("Extracting files. This might take a while ...");
-    $('#mb8 .progress').removeClass('hide');
-    //$('#mb6 .fa-clock-o').removeClass('hide');
-    //$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0).text('0%');  
 
     var progressHandler = function (progressEvent) {
         var percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
         $('#mb8 .progText').text("Extracting files. This might take a while ...");
-        $('#mb8 .progress').removeClass('hide');
-        //$('#mb6 .fa-clock-o').removeClass('hide');
-        $('#mb8 .progress-bar').css('width', percent + '%').attr('aria-valuenow', percent).text(percent + '%');
     };
     // Proceed to unzip the file
     window.zip.unzip(zipSource, destination, (status) => {
@@ -3284,29 +3323,24 @@ function processZipAND(zipSource, destination, url, mapset, i, n) {
                     });
                 });
             }), 20000);
-            $('#mb8 .progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
             i++;
             if (i > n) {
-                //resSettings.settings.mapSets[ActiveMapSet].downloaded = 1;
                 resSettings.settings.mapSets[0].lastDownloadDate = new Date().toString();
                 db.transaction(function (tx) {
                     tx.executeSql("UPDATE settings SET settingsval = ? WHERE id = ?", [JSON.stringify(resSettings), 1], function (tx, res) {
                         //alert("Row inserted.");
-                        //return e + pad(nextID.toString(), 4);
                     });
                 }, function (err) {
                     $.growl.error({ title: "", message: "An error occured while updating mapsets. " + err.message, location: "tc", size: "large" });
-                });
-                $('#modalDownload').modal('hide');
+                    });
                 $('#form3').find('label.mapBNotes').text(new Date().toString());
-                //initSettings();
-                //$('#mb6 .progTime').text("");
-                $.growl.notice({ title: "", message: "Download complete", location: "bc", size: "small" });
+                $('#mb8 .progText').text("Download Complete");
+                $('#mb8 .fa-spin').addClass('hide');
+                $('#mb8 .fa-check-circle-o').removeClass('hide');
+                $('#mb8 .closeDownload').removeClass('hide');
                 return false;
             }
             else {
-                //$('.progress-bar').css('width', '100%').attr('aria-valuenow', 100).text('100%');
-                //$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0).text('0%');  
                 setTimeout(getFileandExtractAND(url, mapset, i, n), 10000);
             }
         }
@@ -3319,14 +3353,8 @@ function processZipAND(zipSource, destination, url, mapset, i, n) {
 //    var url = $('#form3').find("input[name='optMaps']:checked").data("url");
 //    var numfiles = $('#form3').find("input[name='optMaps']:checked").data("files");
 //    var mapset = $('#form3').find("input[name='optMaps']:checked").val();
-//    var filename;
-//    var filenum = 0;
-//    t0 = performance.now();
 //    $('#modalProgress').modal();
 //    $('#mb6 .progText').text("Download in progress ...");
-//    $('#mb6 .progress').removeClass('hide');
-//    //$('#mb6 .fa-clock-o').removeClass('hide');
-//    $('#mb6 .progTime').text(new Date().toString());
 //    getFileandExtractAND(url, mapset, 1, numfiles);
 //});
 /*Android Only*/
