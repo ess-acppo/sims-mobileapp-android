@@ -1193,33 +1193,10 @@ function loadModalAH(pagename) {
                     }
                     if (key.startsWith("PSampleType_M_S") && value !== "") {
                         $('#form1').find("select[name='" + key + "'] :not(option[value='" + value + "'])").remove();
-                        $(sampleTypes).find("option[value='" + value + "']").remove();
                     }
                     if (key.startsWith("SampleType_M_S") && value !== "") {
                         $('#form1').find("select[name='" + key + "'] :not(option[value='" + value + "'])").remove();
-                        $(sampleTypes).find("option[value='" + value + "']").remove();
                     }
-                    //if (key.startsWith("FieldTestID") && value > 0) {
-                    //    $.ajax({
-                    //        url: "",
-                    //        beforeSend: function (xhr) {
-                    //            $('#addFieldTest').trigger("click");
-                    //        }
-                    //    }).complete(function (e) {
-                    //        $('#form1').find("input[type='text'][name='" + key + "']").val(value);
-                    //    });
-                    //}
-                    //if (key.startsWith("FieldTests") && value !== "") {
-                    //    $.ajax({
-                    //        url: "",
-                    //        beforeSend: function (xhr) {
-                    //            $('#form1').find("select[name='" + key + "']").val(value);
-                    //            loadDiseases(value, fieldTests);
-                    //        }
-                    //    }).complete(function (e) {
-                    //        $('#form1').find("select[name='" + key + "']").val(value);
-                    //    });
-                    //}
                     if (key.startsWith("externalObserverFlag_O_S") && value === "Y") {
                         $('#form1').find("input[name='externalObserver_O_S']").removeClass('hide');
                         $('#form1').find("input[type='checkbox'][name^='externalObserverFlag_O_S']").iCheck('check');
