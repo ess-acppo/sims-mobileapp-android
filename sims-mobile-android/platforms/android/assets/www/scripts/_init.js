@@ -1089,10 +1089,15 @@ function loadData() {
                 "columns": [
                     { "data": "id_M_N" },
                     {
-                        "data": "AnimalDisciplineCode_M_S",
+                        "data": null,
                         "render": function (data, type, row, meta) {
-                            if (data === 'SF') return "Single Feral";
-                            if (data === 'G') return "Group";
+                            var returnStr = "&nbsp;";
+                            if (data["AnimalAttachmentD_M_S_0_A"] && data["AnimalAttachmentD_M_S_0_A"] !== "") {
+                                returnStr = "<i class='fa fa-paperclip text-info'/>&nbsp;";
+                            }
+                            if (data["AnimalDisciplineCode_M_S"] === 'SF') returnStr = returnStr + "Single Feral";
+                            if (data["AnimalDisciplineCode_M_S"] === 'G') returnStr = returnStr + "Group";
+                            return returnStr;
                         }
                     },
                     {
@@ -1131,10 +1136,12 @@ function loadData() {
                         }
                     },
                     {
-                        "data": "status_M_N",
+                        "data": null,
                         "render": function (data, type, row, meta) {
-                            if (data === 0) return "<i class='fa fa-save text-info'/>";
-                            if (data === 1) return "<i class='fa fa-check text-success'/>";
+                            var returnStr;
+                            if (data["status_M_N"] === 0) returnStr = "<i class='fa fa-save text-info'/>";
+                            if (data["status_M_N"] === 1) returnStr = "<i class='fa fa-check text-success'/>";
+                            return returnStr;
                         }
                     }
                 ],
@@ -2138,29 +2145,6 @@ $(document).on('click', '#closeProgress', function (e) {
 $(document).on('click', '#closeDownload', function (e) {
     $('#modalDownload').modal('hide');
 });
-function getMapTiles(zoom) {
-    if (allLats.length > 0 && allLngs.length > 0) {
-        var scale = 1 << zoom;
-        allLats.sort();
-        allLngs.sort();
-        minX = allLats[0];
-        minY = allLngs[0];
-        maxX = allLats[allLats.length - 1];
-        maxY = allLngs[allLngs.length - 1];
-        var minLatLng = new google.maps.LatLng(minX, minY);
-        var maxLatLng = new google.maps.LatLng(maxX, maxY);
-        var wC1 = project(minLatLng);
-        var wC2 = project(maxLatLng);
-        var pC1x = Math.floor(wC1.x * scale / TILE_SIZE);
-        var pC1y = Math.floor(wC1.y * scale / TILE_SIZE);
-        var pC2x = Math.floor(wC2.x * scale / TILE_SIZE);
-        var pC2y = Math.floor(wC2.y * scale / TILE_SIZE);
-        $('#modalDownload').modal();
-        $('#mb8 .progText').text("Download in progress ...");
-        tiles = 0;
-        fetchAndSaveTile(pC1x, pC1y, zoom, pC2x, pC1y, pC2y);
-    }
-}
 /* SprinQ Framework Code */
 
 /* SIMS Framework */
@@ -3183,10 +3167,10 @@ $(document).on('click', 'a.downloadMaps', function (e) {
                 cY = curLngs[0];
                 curLats.sort(sortNumber);
                 curLngs.sort(sortNumber);
-                minX = curLats[0] + 0.004;
-                minY = curLngs[0] - 0.004;
-                maxX = curLats[curLats.length - 1] - 0.004;
-                maxY = curLngs[curLngs.length - 1] + 0.004;
+                minX = curLats[0] + 0.005;
+                minY = curLngs[0] - 0.005;
+                maxX = curLats[curLats.length - 1] - 0.005;
+                maxY = curLngs[curLngs.length - 1] + 0.005;
                 var minLatLng = new google.maps.LatLng(minX, minY);
                 var maxLatLng = new google.maps.LatLng(maxX, maxY);
                 var wC1 = project(minLatLng);
