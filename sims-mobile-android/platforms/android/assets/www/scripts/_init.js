@@ -3171,6 +3171,11 @@ $(document).on('click', 'a.downloadMaps', function (e) {
                 minY = curLngs[0] - 0.005;
                 maxX = curLats[curLats.length - 1] - 0.005;
                 maxY = curLngs[curLngs.length - 1] + 0.005;
+                if (minX < maxX) {
+                    var xchange = minX;
+                    minX = maxX;
+                    maxX = xchange;
+                }
                 var minLatLng = new google.maps.LatLng(minX, minY);
                 var maxLatLng = new google.maps.LatLng(maxX, maxY);
                 var wC1 = project(minLatLng);
@@ -3181,7 +3186,7 @@ $(document).on('click', 'a.downloadMaps', function (e) {
                 $('#mb8 .fa-check-circle-o').addClass('hide');
                 $('#mb8 .closeDownload').addClass('hide');
                 $('#modalDownload').modal();
-                $.when(getCurrentActivityTiles(str, wC1, wC2, 11, 18))
+                $.when(getCurrentActivityTiles(str, wC1, wC2, 12, 18))
                     .done(function () {
                         resSettings.settings.mapSets[0].lastDownloadDate = new Date().toString();
                         db.transaction(function (tx) {
