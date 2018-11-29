@@ -3069,7 +3069,7 @@ function backupDatabase() {
 function restoreDatabase() {
     $.confirm({
         title: 'Confirm Data Restore!',
-        content: 'Do you want to restore from backup? You may lose few observations that were recorded after the last backup!',
+        content: 'Do you want to restore from backup? You may lose the observations that were recorded after the last backup!',
         buttons: {
             Ok: function () {
                 var fileName = cordova.file.externalRootDirectory + 'Backup/sims.db';
