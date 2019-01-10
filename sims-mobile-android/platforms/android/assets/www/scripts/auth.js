@@ -5,6 +5,8 @@ var s;
 var authCode;
 var authURL;
 var curUser;
+var curUserId;
+var curUserName;
 var ServMode;
 var AppMode2;
 /* Auth variables */
@@ -48,6 +50,7 @@ function authenticate2(x, y, authURL) {
             $('.auth-send').attr('disabled', false);
             $('.auth-send').removeClass('disabled');
             $('#modalAuth').modal('hide');
+            curUserName = x;
         },
         error: function (xhr, textStatus, errorThrown) {
             $('.auth-username').attr('disabled', false);
@@ -112,6 +115,7 @@ function authenticate3(x, y) {
             text.innerHTML = 'Login success!';
             initSettings();
             $('#modalAuth').modal('hide');
+            curUserName = x;
             return;
         }
     };
