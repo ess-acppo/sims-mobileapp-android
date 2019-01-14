@@ -2598,7 +2598,10 @@ function fetchServerDetails(serverMode, appMode) {
     devServerAddress = resSettings.settings.app.devServerAddress;
     sitServerAddress = resSettings.settings.app.sitServerAddress;
     uatServerAddress = resSettings.settings.app.uatServerAddress;
-    preProdServerAddress = (!resSettings.settings.app.preProdServerAddress ? "https://online-ppr.agriculture.gov.au/" : resSettings.settings.app.preProdServerAddress);
+    if (!resSettings.settings.app.preProdServerAddress) {
+        preProdServerAddress = "https://online-ppr.agriculture.gov.au/";
+        resSettings.settings.app.preProdServerAddress = "https://online-ppr.agriculture.gov.au/";
+    } else { preProdServerAddress = resSettings.settings.app.preProdServerAddress;}   
     prodServerAddress = resSettings.settings.app.prodServerAddress;
     switch (appMode) {
         case "PH":
